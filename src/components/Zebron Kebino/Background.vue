@@ -9,7 +9,7 @@
 				</div>
 			</div>
 			<div class="content">
-				<span v-html="member.content"></span>
+				<span v-html="sanitizeHtml(member.content)"></span>
 			</div>
 		</div>
 	</div>
@@ -17,10 +17,13 @@
 
 <script>
 import { family } from "@/assets/zebron_kebino.js";
+import { sanitizeHtml } from "@/utils/html";
+
 export default {
 	setup () {
 		return {
-			family
+			family,
+			sanitizeHtml
 		}
 	}
 }

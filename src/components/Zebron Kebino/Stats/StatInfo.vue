@@ -9,12 +9,15 @@
 			</div>
 			<span class="root" v-if="getRoot()">{{ getRoot() }}</span>
 		</div>
-		<span class="description" v-html="getDescription()"></span>
+		<span class="description" v-html="sanitizeHtml(getDescription())"></span>
 	</div>
 </template>
 
 <script>
 import Stats from "@/assets/skills.js";
+import { copyToClipboard } from "@/utils/clipboard";
+import { formatDice, getRollCommand } from "@/utils/dice";
+import { sanitizeHtml } from "@/utils/html";
 
 export default {
 	props: {
@@ -35,7 +38,6 @@ export default {
 		}
 
 		function getRoot() {
-			console.log(props.skill.root);
 			return props.skill.root;
 		}
 
@@ -50,53 +52,11 @@ export default {
 		}
 
 		function getDice(stat, skill = {}) {
-			const diceStat = stat.dice ? stat.dice : 0;
-			const pipsStat = stat.pips ? stat.pips : 0;
-			const diceSkill = skill.dice ? skill.dice : 0;
-			const pipsSkill = skill.pips ? skill.pips : 0;
-			if (skill.adv) return `${diceSkill}D+${pipsSkill}`;
-			return `${diceSkill + diceStat}D+${pipsSkill + pipsStat}`;
+			return formatDice(stat, skill);
 		}
 
 		const copyRoll = (stat, skill) => {
-			copyToClipboard(getRollCmd(stat, skill));
-		};
-
-		function copyToClipboard(str) {
-			const el = document.createElement("textarea");
-			el.value = str;
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand("copy");
-			document.body.removeChild(el);
-		}
-
-		function getRollCmd(stat, skill = {}) {
-			const diceStat = stat.dice ? stat.dice : 0;
-			const pipsStat = stat.pips ? stat.pips : 0;
-			const diceSkill = skill.dice ? skill.dice : 0;
-			const pipsSkill = skill.pips ? skill.pips : 0;
-
-			const name = skill.name ? skill.name : stat.name;
-
-			var dice = diceSkill;
-			var pips = pipsSkill;
-			if (!skill.adv) {
-				dice += diceStat;
-				pips += pipsStat;
-			}
-			if (dice > 0) dice -= 1;
-
-			var str = "";
-			if (dice > 0) str += `${dice}d6+`;
-			str += `1d6ie6#PIPS# !${name} (${dice + 1}D+${pips})`;
-
-			str =
-				pips > 0
-					? str.replace("#PIPS#", `+${pips}`)
-					: str.replace("#PIPS#", "");
-
-			return str;
+			copyToClipboard(getRollCommand(stat, skill));
 		}
 
 		return {
@@ -105,6 +65,7 @@ export default {
 			getDice,
 			getRoot,
 			copyRoll,
+			sanitizeHtml,
 		};
 	},
 };

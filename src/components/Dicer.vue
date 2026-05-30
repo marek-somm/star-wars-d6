@@ -11,7 +11,7 @@
 				placeholder="1"
 				@keyup.enter="generateRoll()"
 				min="1"
-				oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+				step="1"
 			/>D+
 			<input
 				class="pips"
@@ -23,7 +23,7 @@
 				@keyup.enter="generateRoll()"
 				min="0"
 				max="2"
-				oninput="this.value = this.value.replace(/[^0-2.]/g, '').replace(/(\..*)\./g, '$1');"
+				step="1"
 			/>
 			<input
 				class="comment"
@@ -40,6 +40,9 @@
 
 <script>
 import { reactive } from 'vue';
+import { copyToClipboard } from "@/utils/clipboard";
+import { getRollCommandFromDice } from "@/utils/dice";
+
 export default {
 	setup() {
 		const generate = reactive({
@@ -49,31 +52,11 @@ export default {
 		});
 
 		function generateRoll() {
-			const comment = generate.comment;
-			var dice = Number(generate.dice);
-			var pips = Number(generate.pips);
-
-			if (dice > 0) dice -= 1;
-
-			var str = "";
-			if (dice > 0) str += `${dice}d6+`;
-			str += `1d6ie6#PIPS# !${comment} (${dice + 1}D+${pips})`;
-
-			str =
-				pips > 0
-					? str.replace("#PIPS#", `+${pips}`)
-					: str.replace("#PIPS#", "");
-
-			copyToClipboard(str);
-		}
-
-		function copyToClipboard(str) {
-			const el = document.createElement("textarea");
-			el.value = str;
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand("copy");
-			document.body.removeChild(el);
+			copyToClipboard(getRollCommandFromDice(
+				generate.dice,
+				generate.pips,
+				generate.comment
+			));
 		}
 
 		return {

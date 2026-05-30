@@ -3,10 +3,10 @@
 		<div class="nav">
 			<div class="filler">
 				<div>
-					<p>{{ powersOld.stats.control.name }} {{ powersOld.stats.control.dice }}D+{{ powersOld.stats.control.pips }}
+					<p>{{ forceStats.control.name }} {{ forceStats.control.dice }}D+{{ forceStats.control.pips }}
 					</p>
-					<p>{{ powersOld.stats.sense.name }} {{ powersOld.stats.sense.dice }}D+{{ powersOld.stats.sense.pips }}</p>
-					<p>{{ powersOld.stats.alter.name }} {{ powersOld.stats.alter.dice }}D+{{ powersOld.stats.alter.pips }}</p>
+					<p>{{ forceStats.sense.name }} {{ forceStats.sense.dice }}D+{{ forceStats.sense.pips }}</p>
+					<p>{{ forceStats.alter.name }} {{ forceStats.alter.dice }}D+{{ forceStats.alter.pips }}</p>
 				</div>
 				<div class="right-align">
 					<p>{{ points.force }} Force Points</p>
@@ -21,9 +21,9 @@
 			<div class="main">
 				<h1>{{ data.name }}</h1>
 				<ul class="nav-list">
-					<a class="item" @click="showStats()">Stats</a>
-					<a class="item" @click="showPowers()">Powers</a>
-					<a class="item" @click="showBackground()">Background</a>
+					<button class="item" type="button" @click="showStats">Stats</button>
+					<button class="item" type="button" @click="showPowers">Powers</button>
+					<button class="item" type="button" @click="showBackground">Background</button>
 				</ul>
 			</div>
 			<div class="filler">
@@ -46,7 +46,7 @@ import Background from "./Zebron Kebino/Background";
 import Powers from "./Zebron Kebino/Powers/Powers";
 
 import { points } from "@/assets/zebron_kebino.js";
-import { powersOld } from "@/assets/zebron_kebino.js";
+import { forceStats } from "@/assets/powers";
 
 export default {
 	components: {
@@ -58,6 +58,7 @@ export default {
 		const data = reactive({
 			name: "Zebron Kebino",
 			stats: true,
+			powers: false,
 			background: false,
 		});
 
@@ -86,7 +87,7 @@ export default {
 		return {
 			data,
 			points,
-			powersOld,
+			forceStats,
 			showStats,
 			showPowers,
 			showBackground,
@@ -122,6 +123,9 @@ export default {
 
 				.item {
 					margin: 0 1rem 0 1rem;
+					border: 0;
+					background: transparent;
+					font: inherit;
 					transition: text-shadow 0.2s;
 
 					&:hover {

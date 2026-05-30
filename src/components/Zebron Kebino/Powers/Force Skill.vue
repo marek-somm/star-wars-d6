@@ -24,11 +24,11 @@
 				</ul> -->
 				<div v-if="skill.effect">
 					<h3>Effect</h3>
-					<p class="long" v-html="skill.effect"></p>
+					<p class="long" v-html="sanitizeHtml(skill.effect)"></p>
 				</div>
 				<div class="example" v-if="skill.example">
 					<h3>Example</h3>
-					<p class="content" v-html="skill.example"></p>
+					<p class="content" v-html="sanitizeHtml(skill.example)"></p>
 				</div>
 			</div>
 			<div class="details">
@@ -43,6 +43,7 @@
 // import Zebron from "@/assets/zebron_kebino.js";
 import Difficulty from "./Difficulty.vue";
 import { Skill } from '../../../assets/powers';
+import { sanitizeHtml } from "@/utils/html";
 
 export default {
 	components: {
@@ -53,6 +54,9 @@ export default {
 			required: true,
 			type: Skill
 		},
+	},
+	methods: {
+		sanitizeHtml
 	}
 };
 </script>

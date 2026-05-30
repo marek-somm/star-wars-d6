@@ -45,6 +45,8 @@
 import * as zebron from "@/assets/zebron_kebino.js";
 import { reactive } from "vue";
 import StatInfo from "./StatInfo";
+import { copyToClipboard } from "@/utils/clipboard";
+import { formatDice, getRollCommand } from "@/utils/dice";
 
 export default {
 	components: {
@@ -57,12 +59,7 @@ export default {
 		});
 
 		function getDice(stat, skill = {}) {
-			const diceStat = stat.dice ? stat.dice : 0;
-			const pipsStat = stat.pips ? stat.pips : 0;
-			const diceSkill = skill.dice ? skill.dice : 0;
-			const pipsSkill = skill.pips ? skill.pips : 0;
-			if (skill.adv) return `${diceSkill}D+${pipsSkill}`;
-			return `${diceSkill + diceStat}D+${pipsSkill + pipsStat}`;
+			return formatDice(stat, skill);
 		}
 
 		function getSuffix(skill) {
@@ -75,50 +72,8 @@ export default {
 			return `${skill.name} ${getSuffix(skill)}`;
 		}
 
-		function getRoot() {
-			console.log(data.currentSkill.root);
-			return data.currentSkill.root;
-		}
-
 		const copyRoll = (stat, skill) => {
-			copyToClipboard(getRollCmd(stat, skill));
-		};
-
-		function copyToClipboard(str) {
-			const el = document.createElement("textarea");
-			el.value = str;
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand("copy");
-			document.body.removeChild(el);
-		}
-
-		function getRollCmd(stat, skill = {}) {
-			const diceStat = stat.dice ? stat.dice : 0;
-			const pipsStat = stat.pips ? stat.pips : 0;
-			const diceSkill = skill.dice ? skill.dice : 0;
-			const pipsSkill = skill.pips ? skill.pips : 0;
-
-			const name = skill.name ? skill.name : stat.name;
-
-			var dice = diceSkill;
-			var pips = pipsSkill;
-			if (!skill.adv) {
-				dice += diceStat;
-				pips += pipsStat;
-			}
-			if (dice > 0) dice -= 1;
-
-			var str = "";
-			if (dice > 0) str += `${dice}d6+`;
-			str += `1d6ie6#PIPS# !${name} (${dice + 1}D+${pips})`;
-
-			str =
-				pips > 0
-					? str.replace("#PIPS#", `+${pips}`)
-					: str.replace("#PIPS#", "");
-
-			return str;
+			copyToClipboard(getRollCommand(stat, skill));
 		}
 
 		return {
@@ -126,7 +81,6 @@ export default {
 			data,
 			getName,
 			getDice,
-			getRoot,
 			getSuffix,
 			copyRoll,
 		};

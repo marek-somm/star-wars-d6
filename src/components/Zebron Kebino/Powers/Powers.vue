@@ -1,17 +1,16 @@
 <template>
 	<div class="powers--container">
 		<div class="list">
-			<input class="list-item" placeholder="Search" :v-bind="data.search">
-			<div class="label" v-for="(powerLabel, index) in zebron.getPowerLabels()" :key="index">
-				<li class="list-item label">{{ powerLabel.getName() }}</li>
-				<li class="list-item hover" v-for="(forceSkill, index) in filterSkills(powerLabel)" :key="index"
+			<input class="list-item" placeholder="Search" type="search" v-model.trim="data.search">
+			<div class="label" v-for="powerLabel in filteredPowerLabels" :key="powerLabel.name">
+				<div class="list-item label">{{ powerLabel.name }}</div>
+				<button class="list-item hover" type="button" v-for="forceSkill in powerLabel.skills" :key="forceSkill.name"
 					@click="showSkill(forceSkill)">
 					{{ forceSkill.name }}
-				</li>
+				</button>
 			</div>
 		</div>
-		<ForceSkill v-if="data.currentSkill !== null" :skill="data.currentSkill"
-			:class="{ hidden: data.currentSkill === '', shown: data.currentSkill !== '' }" />
+		<ForceSkill v-if="data.currentSkill" :skill="data.currentSkill" class="shown" />
 	</div>
 </template>
 
@@ -32,17 +31,31 @@ export default {
 			zebron: new Zebron()
 		};
 	},
+	computed: {
+		filteredPowerLabels() {
+			const search = this.data.search.toLowerCase();
+
+			return this.zebron.getPowerLabels()
+				.map((powerLabel) => ({
+					name: powerLabel.getName(),
+					skills: this.filterSkills(powerLabel, search),
+				}))
+				.filter((powerLabel) => powerLabel.skills.length > 0);
+		}
+	},
 	methods: {
 		showSkill(skill) {
 			this.data.currentSkill = skill;
 		},
 
-		filterSkills(powerLabel) {
-			if (this.data.search == "") {
+		filterSkills(powerLabel, search) {
+			if (search === "") {
 				return powerLabel.getSkills();
-			} else {
-				return;
 			}
+
+			return powerLabel.getSkills().filter((skill) =>
+				skill.name.toLowerCase().includes(search)
+			);
 		}
 	}
 };
@@ -81,10 +94,17 @@ export default {
 			padding: 1rem;
 			font-weight: normal;
 			font-size: 1rem;
+			box-sizing: border-box;
 		}
 
 		input {
 			border: 0;
+		}
+
+		button {
+			border: 0;
+			background: transparent;
+			text-align: left;
 		}
 
 		.hover {

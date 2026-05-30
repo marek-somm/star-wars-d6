@@ -3,37 +3,38 @@
 		<div class="power" v-for="(power, index) in skill.powers" :key="index">
 			<div class="title">
 				<span class="name">{{ PowerName[power] }}</span>
-				<!-- <span class="dice" @click="copyRoll(power)"> -->
-				<!-- {{ getDice(power) }} -->
-				<!-- </span> -->
 			</div>
 			<div class="details--container">
 				<!-- Base Difficulty -->
 				<ul class="level--container">
 					<li class="level-item" v-for="(item, index) in getDifficulty(power).level" :key="index">
-						<div class="level hover" v-html="getDifficultyLevel(item)"></div>
-						<div class="text" v-html="item.text"></div>
+						<div class="level hover">
+							<span :title="getDifficultyLevel(item).hover">{{ getDifficultyLevel(item).title }}</span>
+						</div>
+						<div class="text" v-html="sanitizeHtml(item.text)"></div>
 					</li>
 				</ul>
 				<!-- Increased Difficulty -->
 				<ul class="add--container" v-if="skill.hasIncreasedDifficulty(power)">
 					<li class="add-item" v-for="(item, index) in getDifficulty(power).increased" :key="index">
-						<div class="level" v-html="item.add"></div>
-						<div class="text" v-html="item.text"></div>
+						<div class="level" v-html="sanitizeHtml(item.add)"></div>
+						<div class="text" v-html="sanitizeHtml(item.text)"></div>
 					</li>
 				</ul>
 				<!-- Modifiers -->
 				<ul class="modifiers--container" v-if="skill.hasModifiedDifficulty(power)">
 					<li class="modifiers-item" v-for="(item, index) in getDifficulty(power).modifiers" :key="index">
-						<div class="level hover" v-html="getModifier(item)"></div>
+						<div class="level hover">
+							<span :title="item.hover">{{ item.text }}</span>
+						</div>
 					</li>
 				</ul>
 			</div>
 		</div>
 		<!-- Extra -->
-		<ul class="extra" v-if="getExtra()">
+		<ul class="extra" v-if="getExtra().length">
 			<li class="list-item" v-for="(item, index) in getExtra()" :key="index">
-				<div v-html="item"></div>
+				<div v-html="sanitizeHtml(item)"></div>
 			</li>
 		</ul>
 		<!-- Time to Use -->
@@ -45,8 +46,8 @@
 </template>
 
 <script>
-import { data as zebronData } from "@/assets/zebron_kebino.js";
-import { Skill, PowerName } from '../../../assets/powers';
+import { Skill, PowerName, TimeToUse } from '../../../assets/powers';
+import { sanitizeHtml } from "@/utils/html";
 
 export default {
 	props: {
@@ -61,8 +62,10 @@ export default {
 		};
 	},
 	methods: {
+		sanitizeHtml,
+
 		getDifficulty(power) {
-			return this.skill.difficulty[power];
+			return this.skill.difficulty[power] || { level: [] };
 		},
 
 		getDifficultyLevel(item) {
@@ -104,11 +107,10 @@ export default {
 				levelHover = levelHover.replace(" or", "+ or") + "+";
 			}
 
-			return `<span title="${levelHover}">${levelTitle}</span>`;
-		},
-
-		getModifier(item) {
-			return `<span title="${item.hover}">${item.text}</span>`;
+			return {
+				title: levelTitle,
+				hover: levelHover,
+			};
 		},
 
 		getExtra() {
@@ -122,44 +124,10 @@ export default {
 			if (this.skill.timeToUse != null) {
 				return this.skill.timeToUse;
 			}
-			return zebronData.time.default;
+			return TimeToUse.default;
 		}
 	}
 };
-
-// function copyRoll(power) {
-// 	const el = document.createElement("textarea");
-// 	el.value = getRollCmd(power);
-// 	document.body.appendChild(el);
-// 	el.select();
-// 	document.execCommand("copy");
-// 	document.body.removeChild(el);
-// }
-
-// function getDice(power) {
-// 	power = powersOld.stats[power];
-// 	return `${power.dice}D+${power.pips}`;
-// }
-
-// function getRollCmd(power) {
-// 	power = powersOld.stats[power];
-// 	const name = power.name;
-// 	var dice = power.dice ? power.dice : 0;
-// 	var pips = power.pips ? power.pips : 0;
-
-// 	if (dice > 0) dice -= 1;
-
-// 	var str = "";
-// 	if (dice > 0) str += `${dice}d6+`;
-// 	str += `1d6ie6#PIPS# !${name} (${dice + 1}D+${pips})`;
-
-// 	str =
-// 		pips > 0
-// 			? str.replace("#PIPS#", `+${pips}`)
-// 			: str.replace("#PIPS#", "");
-
-// 	return str;
-// }
 </script>
 
 <style lang="scss" scoped>
