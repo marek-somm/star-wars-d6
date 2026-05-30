@@ -38,19 +38,23 @@
 	</div>
 </template>
 
-<script setup>
-import { defineProps } from 'vue';
+<script>
 // import Powers from "@/assets/powers.js";
 // import Zebron from "@/assets/zebron_kebino.js";
 import Difficulty from "./Difficulty.vue";
 import { Skill } from '../../../assets/powers';
 
-defineProps({
-	skill: {
-		required: true,
-		type: Skill
+export default {
+	components: {
+		Difficulty
 	},
-});
+	props: {
+		skill: {
+			required: true,
+			type: Skill
+		},
+	}
+};
 </script>
 
 <style lang="scss" scoped>

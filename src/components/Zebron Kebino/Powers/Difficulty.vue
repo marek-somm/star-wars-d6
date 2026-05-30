@@ -44,81 +44,88 @@
 	</div>
 </template>
 
-<script setup>
-import { defineProps } from 'vue';
-import { data } from "@/assets/zebron_kebino.js";
+<script>
+import { data as zebronData } from "@/assets/zebron_kebino.js";
 import { Skill, PowerName } from '../../../assets/powers';
 
-const props = defineProps({
-	skill: {
-		required: true,
-		type: Skill
+export default {
+	props: {
+		skill: {
+			required: true,
+			type: Skill
+		},
 	},
-});
+	data() {
+		return {
+			PowerName
+		};
+	},
+	methods: {
+		getDifficulty(power) {
+			return this.skill.difficulty[power];
+		},
 
-function getDifficulty(power) {
-	return props.skill.difficulty[power];
-}
+		getDifficultyLevel(item) {
+			let levelTitle = "";
+			let levelHover = "";
+			let level = item.level;
+			let thisAndMore = false;
 
-function getDifficultyLevel(item) {
-	let levelTitle = "";
-	let levelHover = "";
-	let level = item.level;
-	let thisAndMore = false;
+			if (level > 10) {
+				level -= 10;
+				thisAndMore = true;
+			}
 
-	if (level > 10) {
-		level -= 10;
-		thisAndMore = true;
+			if (level === 1) {
+				levelTitle = "Very Easy";
+				levelHover = item.hover ? item.hover : "1-5 or 1D";
+			} else if (level === 2) {
+				levelTitle = "Easy";
+				levelHover = item.hover ? item.hover : "6-10 or 2D";
+			} else if (level === 3) {
+				levelTitle = "Moderate";
+				levelHover = item.hover ? item.hover : "11-15 or 3D-4D";
+			} else if (level === 4) {
+				levelTitle = "Difficult";
+				levelHover = item.hover ? item.hover : "16-20 or 5D-6D";
+			} else if (level === 5) {
+				levelTitle = "Very Difficult";
+				levelHover = item.hover ? item.hover : "21-30 or 7D-8D";
+			} else if (level === 6) {
+				levelTitle = "Heroic";
+				levelHover = item.hover ? item.hover : "31+ or 9D+";
+			} else {
+				levelTitle = item.level;
+				levelHover = item.hover;
+			}
+
+			if (thisAndMore) {
+				levelTitle += "+";
+				levelHover = levelHover.replace(" or", "+ or") + "+";
+			}
+
+			return `<span title="${levelHover}">${levelTitle}</span>`;
+		},
+
+		getModifier(item) {
+			return `<span title="${item.hover}">${item.text}</span>`;
+		},
+
+		getExtra() {
+			if (this.skill != null) {
+				return this.skill.extra;
+			}
+			return [];
+		},
+
+		getTimeToUse() {
+			if (this.skill.timeToUse != null) {
+				return this.skill.timeToUse;
+			}
+			return zebronData.time.default;
+		}
 	}
-
-	if (level === 1) {
-		levelTitle = "Very Easy";
-		levelHover = item.hover ? item.hover : "1-5 or 1D";
-	} else if (level === 2) {
-		levelTitle = "Easy";
-		levelHover = item.hover ? item.hover : "6-10 or 2D";
-	} else if (level === 3) {
-		levelTitle = "Moderate";
-		levelHover = item.hover ? item.hover : "11-15 or 3D-4D";
-	} else if (level === 4) {
-		levelTitle = "Difficult";
-		levelHover = item.hover ? item.hover : "16-20 or 5D-6D";
-	} else if (level === 5) {
-		levelTitle = "Very Difficult";
-		levelHover = item.hover ? item.hover : "21-30 or 7D-8D";
-	} else if (level === 6) {
-		levelTitle = "Heroic";
-		levelHover = item.hover ? item.hover : "31+ or 9D+";
-	} else {
-		levelTitle = item.level;
-		levelHover = item.hover;
-	}
-
-	if (thisAndMore) {
-		levelTitle += "+";
-		levelHover = levelHover.replace(" or", "+ or") + "+";
-	}
-
-	return `<span title="${levelHover}">${levelTitle}</span>`;
-}
-
-function getModifier(item) {
-	return `<span title="${item.hover}">${item.text}</span>`;
-}
-
-function getExtra() {
-	if (props.skill != null) {
-		return props.skill.extra;
-	}
-	return [];
-}
-
-function getTimeToUse() {
-	if (props.skill.timeToUse != null) {
-		return props.skill.timeToUse;
-	}
-	return data.time.default;
-}
+};
 
 // function copyRoll(power) {
 // 	const el = document.createElement("textarea");

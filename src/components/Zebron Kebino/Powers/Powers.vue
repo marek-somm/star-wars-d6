@@ -15,30 +15,37 @@
 	</div>
 </template>
 
-<script setup>
-import { reactive } from 'vue';
-
+<script>
 import Zebron from "@/assets/zebron_kebino.js";
 import ForceSkill from "./Force Skill";
 
-const data = reactive({
-	currentSkill: null,
-	search: ""
-});
+export default {
+	components: {
+		ForceSkill
+	},
+	data() {
+		return {
+			data: {
+				currentSkill: null,
+				search: ""
+			},
+			zebron: new Zebron()
+		};
+	},
+	methods: {
+		showSkill(skill) {
+			this.data.currentSkill = skill;
+		},
 
-const zebron = new Zebron();
-
-function showSkill(skill) {
-	data.currentSkill = skill;
-}
-
-function filterSkills(powerLabel) {
-	if (data.search == "") {
-		return powerLabel.getSkills();
-	} else {
-		return;
+		filterSkills(powerLabel) {
+			if (this.data.search == "") {
+				return powerLabel.getSkills();
+			} else {
+				return;
+			}
+		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>
