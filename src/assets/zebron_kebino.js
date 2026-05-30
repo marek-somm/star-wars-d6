@@ -10,35 +10,34 @@ export const points = {
 };
 
 export default class Zebron {
-	#labels = [];
-
 	constructor() {
+		this.labels = [];
 		this.initPowers();
 	}
 
 	initPowers() {
-		const combat = this.#addLabel("Combat");
+		const combat = this.addLabel("Combat");
 		combat.addSkill(power.lightsaber_combat);
 		combat.addSkill(power.kinetic_combat);
 		combat.addSkill(power.force_push);
 		combat.addSkill(power.absorb_dissipate_energy);
 		combat.addSkill(power.lesser_force_shield);
 
-		const utils = this.#addLabel("Utils");
+		const utils = this.addLabel("Utils");
 		utils.addSkill(power.telekinesis);
 		utils.addSkill(power.contort_escape);
 
-		const buffs = this.#addLabel("Buffs");
+		const buffs = this.addLabel("Buffs");
 		buffs.addSkill(power.concentration);
 	}
 
-	#addLabel(labelName) {
+	addLabel(labelName) {
 		const label = new PowerLabel(labelName);
-		this.#labels.push(label);
+		this.labels.push(label);
 		return label;
 	}
 
-	getPowerLabels() { return this.#labels; }
+	getPowerLabels() { return this.labels; }
 }
 
 export const stats = [

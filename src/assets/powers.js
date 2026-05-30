@@ -93,19 +93,17 @@ export class Skill {
 }
 
 export default class PowerLabel {
-	#name = "";
-	#skills = [];
-
 	constructor(labelName) {
-		this.#name = labelName;
+		this.name = labelName;
+		this.skills = [];
 	}
 
 	addSkill(skill) {
-		this.#skills.push(skill);
+		this.skills.push(skill);
 	}
 
-	getName() { return this.#name; }
-	getSkills() { return this.#skills; }
+	getName() { return this.name; }
+	getSkills() { return this.skills; }
 }
 
 export class PowersOld {
