@@ -2,16 +2,18 @@
 	<div class="skill--container">
 		<div class="title">
 			<h1 class="text">{{ skill.name }}</h1>
-			<span class="required" v-if="skill.required">{{ getRequired() }}</span>
+			<span class="required" v-if="skill.hasRequiredSkills()">
+				Required:
+				<span v-for="(requiredSkill, index) in skill.required" :key="index">
+					{{ index > 0 ? ", " : "" }}
+					{{ requiredSkill.name }}
+				</span>
+			</span>
 		</div>
 		<div class="content">
 			<div class="effect">
-				<ul class="short list">
-					<li
-						class="list-item"
-						v-for="(item, index) in getEffectShort()"
-						:key="index"
-					>
+				<!-- <ul class="short list">
+					<li class="list-item" v-for="(item, index) in getEffectShort()" :key="index">
 						{{ typeof item === "string" ? item : item[0] }}
 						<ul v-if="(typeof item !== 'string')">
 							<li v-for="i in item.length - 1" :key="i">
@@ -19,12 +21,14 @@
 							</li>
 						</ul>
 					</li>
-				</ul>
-				<h3>Effect</h3>
-				<p class="long" v-html="getEffectComplete()"></p>
+				</ul> -->
+				<div v-if="skill.effect">
+					<h3>Effect</h3>
+					<p class="long" v-html="skill.effect"></p>
+				</div>
 				<div class="example" v-if="skill.example">
 					<h3>Example</h3>
-					<p class="content" v-html="skill.example.long"></p>
+					<p class="content" v-html="skill.example"></p>
 				</div>
 			</div>
 			<div class="details">
@@ -34,55 +38,19 @@
 	</div>
 </template>
 
-<script>
-import { powers } from "@/assets/zebron_kebino.js";
+<script setup>
+import { defineProps } from 'vue';
+// import Powers from "@/assets/powers.js";
+// import Zebron from "@/assets/zebron_kebino.js";
 import Difficulty from "./Difficulty.vue";
+import { Skill } from '../../../assets/powers';
 
-export default {
-	components: { Difficulty },
-	props: {
-		skill: {
-			required: true,
-		},
+defineProps({
+	skill: {
+		required: true,
+		type: Skill
 	},
-	setup(props) {
-		function getRequired() {
-			var required = props.skill.required;
-			var result = "Required: ";
-			if (required != null) {
-				result += required[0];
-				for (var i = 1; i < required.length; i++) {
-					result += `, ${required[i]}`;
-				}
-			}
-			return result;
-		}
-
-		function getEffectShort() {
-			if (props.skill.effect != null) {
-				if (props.skill.effect.short != null)
-					return props.skill.effect.short;
-			}
-			return [];
-		}
-
-		function getEffectComplete() {
-			if (props.skill.effect != null) {
-				if (props.skill.effect.long != null) {
-					return props.skill.effect.long;
-				}
-			}
-			return "";
-		}
-
-		return {
-			getRequired,
-			powers,
-			getEffectShort,
-			getEffectComplete,
-		};
-	},
-};
+});
 </script>
 
 <style lang="scss" scoped>
@@ -92,7 +60,7 @@ export default {
 	padding: 1rem 3rem 2.5rem 3rem;
 
 	.title {
-		margin-bottom: 1rem; 
+		margin-bottom: 1rem;
 		text-align: left;
 
 		.text {
@@ -100,7 +68,7 @@ export default {
 			text-align: left;
 			margin-bottom: 0;
 		}
-		
+
 		.required {
 			font-style: italic;
 			font-size: .8rem;

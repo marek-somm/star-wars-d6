@@ -1,59 +1,44 @@
 <template>
 	<div class="powers--container">
-		<ul class="list">
+		<div class="list">
 			<input class="list-item" placeholder="Search" :v-bind="data.search">
-			<li class="list-item" :class="{ hover: skill.type != 'label', label: skill.type == 'label' }" v-for="(skill, index) in filterSkills()" :key="index" @click="showSkill(skill)">
-				{{ skill.name }}
-			</li>
-		</ul>
-		<Skill :skill="data.currentSkill" :class="{hidden: data.currentSkill === '', shown: data.currentSkill !== ''}"/>
+			<div class="label" v-for="(powerLabel, index) in zebron.getPowerLabels()" :key="index">
+				<li class="list-item label">{{ powerLabel.getName() }}</li>
+				<li class="list-item hover" v-for="(forceSkill, index) in filterSkills(powerLabel)" :key="index"
+					@click="showSkill(forceSkill)">
+					{{ forceSkill.name }}
+				</li>
+			</div>
+		</div>
+		<ForceSkill v-if="data.currentSkill !== null" :skill="data.currentSkill"
+			:class="{ hidden: data.currentSkill === '', shown: data.currentSkill !== '' }" />
 	</div>
 </template>
 
-<script>
+<script setup>
 import { reactive } from 'vue';
 
-import { powers } from "@/assets/zebron_kebino.js";
-import Skill from "./Force Skill"
+import Zebron from "@/assets/zebron_kebino.js";
+import ForceSkill from "./Force Skill";
 
-export default {
-	components: {
-		Skill
-	},
-	setup() {
-		const data = reactive({
-			currentSkill: "",
-			search: ""
-		})
-		function getPowers(skill) {
-			var str = "Powers: ";
-			skill.powers.forEach(power => {
-				str += powers.stats[power].name + " ";
-			})
-			return str;
-		}
+const data = reactive({
+	currentSkill: null,
+	search: ""
+});
 
-		function showSkill(skill) {
-			if(skill.type != 'label')
-				data.currentSkill = skill;
-		}
+const zebron = new Zebron();
 
-		function filterSkills() {
-			if(data.search == "") {
-				return powers.skills
-			} else {
-				return 
-			}
-		}
-		return {
-			data,
-			powers,
-			getPowers,
-			showSkill,
-			filterSkills
-		};
-	},
-};
+function showSkill(skill) {
+	data.currentSkill = skill;
+}
+
+function filterSkills(powerLabel) {
+	if (data.search == "") {
+		return powerLabel.getSkills();
+	} else {
+		return;
+	}
+}
 </script>
 
 <style lang="scss" scoped>
@@ -61,6 +46,7 @@ export default {
 	color: transparent;
 	width: 80%;
 }
+
 .shown {
 	display: flex;
 	width: 100%;
@@ -86,6 +72,8 @@ export default {
 		.list-item {
 			width: 100%;
 			padding: 1rem;
+			font-weight: normal;
+			font-size: 1rem;
 		}
 
 		input {

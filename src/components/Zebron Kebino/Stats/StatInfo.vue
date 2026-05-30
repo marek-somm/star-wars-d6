@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Stats from "@/assets/stats.js";
+import Stats from "@/assets/skills.js";
 
 export default {
 	props: {

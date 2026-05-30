@@ -3,9 +3,10 @@
 		<div class="nav">
 			<div class="filler">
 				<div>
-					<p>{{ powers.stats.control.name }} {{ powers.stats.control.dice }}D+{{ powers.stats.control.pips }}</p>
-					<p>{{ powers.stats.sense.name }} {{ powers.stats.sense.dice }}D+{{ powers.stats.sense.pips }}</p>
-					<p>{{ powers.stats.alter.name }} {{ powers.stats.alter.dice }}D+{{ powers.stats.alter.pips }}</p>
+					<p>{{ powersOld.stats.control.name }} {{ powersOld.stats.control.dice }}D+{{ powersOld.stats.control.pips }}
+					</p>
+					<p>{{ powersOld.stats.sense.name }} {{ powersOld.stats.sense.dice }}D+{{ powersOld.stats.sense.pips }}</p>
+					<p>{{ powersOld.stats.alter.name }} {{ powersOld.stats.alter.dice }}D+{{ powersOld.stats.alter.pips }}</p>
 				</div>
 				<div class="right-align">
 					<p>{{ points.force }} Force Points</p>
@@ -45,7 +46,7 @@ import Background from "./Zebron Kebino/Background";
 import Powers from "./Zebron Kebino/Powers/Powers";
 
 import { points } from "@/assets/zebron_kebino.js";
-import { powers } from "@/assets/zebron_kebino.js";
+import { powersOld } from "@/assets/zebron_kebino.js";
 
 export default {
 	components: {
@@ -85,7 +86,7 @@ export default {
 		return {
 			data,
 			points,
-			powers,
+			powersOld,
 			showStats,
 			showPowers,
 			showBackground,

@@ -2,54 +2,30 @@
 	<div class="difficulty--container">
 		<div class="power" v-for="(power, index) in skill.powers" :key="index">
 			<div class="title">
-				<span class="name">{{ powers.stats[power].name }}</span>
-				<span class="dice" @click="copyRoll(power)">
-					{{ getDice(power) }}
-				</span>
+				<span class="name">{{ PowerName[power] }}</span>
+				<!-- <span class="dice" @click="copyRoll(power)"> -->
+				<!-- {{ getDice(power) }} -->
+				<!-- </span> -->
 			</div>
-			<div class="details--container" v-if="skill.difficulty[power]">
+			<div class="details--container">
 				<!-- Base Difficulty -->
 				<ul class="level--container">
-					<li
-						class="level-item"
-						v-for="(item, index) in getDifficulty(power).level"
-						:key="index"
-					>
-						<div
-							class="level hover"
-							v-html="getDifficultyLevel(item)"
-						></div>
-						<div class="text">
-							{{ item.text }}
-						</div>
+					<li class="level-item" v-for="(item, index) in getDifficulty(power).level" :key="index">
+						<div class="level hover" v-html="getDifficultyLevel(item)"></div>
+						<div class="text" v-html="item.text"></div>
 					</li>
 				</ul>
 				<!-- Increased Difficulty -->
-				<ul class="add--container" v-if="hasIncreasedDifficulty(power)">
-					<li
-						class="add-item"
-						v-for="(item, index) in getDifficulty(power).increased"
-						:key="index"
-					>
-						<div class="level">
-							{{ item.add }}
-						</div>
-						<div class="text">
-							{{ item.text }}
-						</div>
+				<ul class="add--container" v-if="skill.hasIncreasedDifficulty(power)">
+					<li class="add-item" v-for="(item, index) in getDifficulty(power).increased" :key="index">
+						<div class="level" v-html="item.add"></div>
+						<div class="text" v-html="item.text"></div>
 					</li>
 				</ul>
 				<!-- Modifiers -->
-				<ul class="modifiers--container" v-if="hasModifiers(power)">
-					<li
-						class="modifiers-item"
-						v-for="(item, index) in getDifficulty(power).modifiers"
-						:key="index"
-					>
-						<div
-							class="level hover"
-							v-html="getModifier(item)"
-						></div>
+				<ul class="modifiers--container" v-if="skill.hasModifiedDifficulty(power)">
+					<li class="modifiers-item" v-for="(item, index) in getDifficulty(power).modifiers" :key="index">
+						<div class="level hover" v-html="getModifier(item)"></div>
 					</li>
 				</ul>
 			</div>
@@ -57,7 +33,7 @@
 		<!-- Extra -->
 		<ul class="extra" v-if="getExtra()">
 			<li class="list-item" v-for="(item, index) in getExtra()" :key="index">
-				{{ item }}
+				<div v-html="item"></div>
 			</li>
 		</ul>
 		<!-- Time to Use -->
@@ -68,142 +44,115 @@
 	</div>
 </template>
 
-<script>
-import { powers, data } from "@/assets/zebron_kebino.js";
+<script setup>
+import { defineProps } from 'vue';
+import { data } from "@/assets/zebron_kebino.js";
+import { Skill, PowerName } from '../../../assets/powers';
 
-export default {
-	props: {
-		skill: {
-			required: true,
-		},
+const props = defineProps({
+	skill: {
+		required: true,
+		type: Skill
 	},
-	setup(props) {
-		function getDifficulty(power) {
-			if (props.skill.difficulty != null) {
-				return props.skill.difficulty[power];
-			}
-			return [];
-		}
+});
 
-		function getDifficultyLevel(item) {
-			var levelTitle = "";
-			var levelHover = "";
-			switch (item.level) {
-				case 1:
-					levelTitle = "Very Easy";
-					levelHover = item.hover ? item.hover : "1-5 or 1D";
-					break;
-				case 2:
-					levelTitle = "Easy";
-					levelHover = item.hover ? item.hover : "6-10 or 2D";
-					break;
-				case 3:
-					levelTitle = "Moderate";
-					levelHover = item.hover ? item.hover : "11-15 or 3D-4D";
-					break;
-				case 4:
-					levelTitle = "Difficult";
-					levelHover = item.hover ? item.hover : "16-20 or 5D-6D";
-					break;
-				case 5:
-					levelTitle = "Very Difficult";
-					levelHover = item.hover ? item.hover : "21-30 or 7D-8D";
-					break;
-				case 6:
-					levelTitle = "Heroic";
-					levelHover = item.hover ? item.hover : "31+ or 9D+";
-					break;
-				default:
-					levelTitle = item.level;
-					levelHover = item.hover;
-					break;
-			}
-			return `<span title="${levelHover}">${levelTitle}</span>`;
-		}
+function getDifficulty(power) {
+	return props.skill.difficulty[power];
+}
 
-		function getModifier(item) {
-			return `<span title="${item.hover}">${item.text}</span>`;
-		}
+function getDifficultyLevel(item) {
+	let levelTitle = "";
+	let levelHover = "";
+	let level = item.level;
+	let thisAndMore = false;
 
-		function hasIncreasedDifficulty(power) {
-			if (getDifficulty(power).increased) return true;
-			return false;
-		}
+	if (level > 10) {
+		level -= 10;
+		thisAndMore = true;
+	}
 
-		function hasModifiers(power) {
-			if (getDifficulty(power).modifiers) return true;
-			return false;
-		}
+	if (level === 1) {
+		levelTitle = "Very Easy";
+		levelHover = item.hover ? item.hover : "1-5 or 1D";
+	} else if (level === 2) {
+		levelTitle = "Easy";
+		levelHover = item.hover ? item.hover : "6-10 or 2D";
+	} else if (level === 3) {
+		levelTitle = "Moderate";
+		levelHover = item.hover ? item.hover : "11-15 or 3D-4D";
+	} else if (level === 4) {
+		levelTitle = "Difficult";
+		levelHover = item.hover ? item.hover : "16-20 or 5D-6D";
+	} else if (level === 5) {
+		levelTitle = "Very Difficult";
+		levelHover = item.hover ? item.hover : "21-30 or 7D-8D";
+	} else if (level === 6) {
+		levelTitle = "Heroic";
+		levelHover = item.hover ? item.hover : "31+ or 9D+";
+	} else {
+		levelTitle = item.level;
+		levelHover = item.hover;
+	}
 
-		function hasExtra() {
-			if (props.skill.extra) return true;
-			return false;
-		}
+	if (thisAndMore) {
+		levelTitle += "+";
+		levelHover = levelHover.replace(" or", "+ or") + "+";
+	}
 
-		function getExtra() {
-			if (props.skill != null) {
-				return props.skill.extra;
-			}
-			return [];
-		}
+	return `<span title="${levelHover}">${levelTitle}</span>`;
+}
 
-		function getTimeToUse() {
-			if (props.skill.timeToUse != null) {
-				return props.skill.timeToUse;
-			}
-			return data.time.default;
-		}
+function getModifier(item) {
+	return `<span title="${item.hover}">${item.text}</span>`;
+}
 
-		function copyRoll(power) {
-			const el = document.createElement("textarea");
-			el.value = getRollCmd(power);
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand("copy");
-			document.body.removeChild(el);
-		}
+function getExtra() {
+	if (props.skill != null) {
+		return props.skill.extra;
+	}
+	return [];
+}
 
-		function getDice(power) {
-			power = powers.stats[power];
-			return `${power.dice}D+${power.pips}`;
-		}
+function getTimeToUse() {
+	if (props.skill.timeToUse != null) {
+		return props.skill.timeToUse;
+	}
+	return data.time.default;
+}
 
-		function getRollCmd(power) {
-			power = powers.stats[power];
-			const name = power.name;
-			var dice = power.dice ? power.dice : 0;
-			var pips = power.pips ? power.pips : 0;
+// function copyRoll(power) {
+// 	const el = document.createElement("textarea");
+// 	el.value = getRollCmd(power);
+// 	document.body.appendChild(el);
+// 	el.select();
+// 	document.execCommand("copy");
+// 	document.body.removeChild(el);
+// }
 
-			if (dice > 0) dice -= 1;
+// function getDice(power) {
+// 	power = powersOld.stats[power];
+// 	return `${power.dice}D+${power.pips}`;
+// }
 
-			var str = "";
-			if (dice > 0) str += `${dice}d6+`;
-			str += `1d6ie6#PIPS# !${name} (${dice + 1}D+${pips})`;
+// function getRollCmd(power) {
+// 	power = powersOld.stats[power];
+// 	const name = power.name;
+// 	var dice = power.dice ? power.dice : 0;
+// 	var pips = power.pips ? power.pips : 0;
 
-			str =
-				pips > 0
-					? str.replace("#PIPS#", `+${pips}`)
-					: str.replace("#PIPS#", "");
+// 	if (dice > 0) dice -= 1;
 
-			return str;
-		}
+// 	var str = "";
+// 	if (dice > 0) str += `${dice}d6+`;
+// 	str += `1d6ie6#PIPS# !${name} (${dice + 1}D+${pips})`;
 
-		return {
-			powers,
-			data,
-			getDifficulty,
-			getDifficultyLevel,
-			getModifier,
-			getDice,
-			copyRoll,
-			getExtra,
-			getTimeToUse,
-			hasIncreasedDifficulty,
-			hasModifiers,
-			hasExtra,
-		};
-	},
-};
+// 	str =
+// 		pips > 0
+// 			? str.replace("#PIPS#", `+${pips}`)
+// 			: str.replace("#PIPS#", "");
+
+// 	return str;
+// }
 </script>
 
 <style lang="scss" scoped>
@@ -235,6 +184,7 @@ export default {
 		}
 
 		.details--container {
+
 			.level--container,
 			.add--container,
 			.modifiers--container {
