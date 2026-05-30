@@ -8,12 +8,12 @@ jobs:
     name: Deploying to Github Pages
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
           with:
-            node-version: '12'
+            node-version: '20'
         - name: Install packages
-          run: npm i
+          run: npm ci
         - name: Set Creds
           run: git config user.name "darafsa" && git config user.email "marek1999@online.de"
         - name: Deploy
