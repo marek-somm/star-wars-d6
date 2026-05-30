@@ -1,5 +1,4 @@
-import PowerLabel from "./powers.js";
-import { power } from "./data.js";
+import { createPowerLabels } from "./data.js";
 
 export const points = {
 	force: 4,
@@ -11,30 +10,7 @@ export const points = {
 
 export default class Zebron {
 	constructor() {
-		this.labels = [];
-		this.initPowers();
-	}
-
-	initPowers() {
-		const combat = this.addLabel("Combat");
-		combat.addSkill(power.lightsaber_combat);
-		combat.addSkill(power.kinetic_combat);
-		combat.addSkill(power.force_push);
-		combat.addSkill(power.absorb_dissipate_energy);
-		combat.addSkill(power.lesser_force_shield);
-
-		const utils = this.addLabel("Utils");
-		utils.addSkill(power.telekinesis);
-		utils.addSkill(power.contort_escape);
-
-		const buffs = this.addLabel("Buffs");
-		buffs.addSkill(power.concentration);
-	}
-
-	addLabel(labelName) {
-		const label = new PowerLabel(labelName);
-		this.labels.push(label);
-		return label;
+		this.labels = createPowerLabels();
 	}
 
 	getPowerLabels() { return this.labels; }

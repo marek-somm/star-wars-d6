@@ -74,6 +74,10 @@ export default {
 			let level = item.level;
 			let thisAndMore = false;
 
+			if (item.and_more) {
+				thisAndMore = true;
+			}
+
 			if (level > 10) {
 				level -= 10;
 				thisAndMore = true;
