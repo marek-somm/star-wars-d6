@@ -21,4 +21,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+	width: min(1440px, 100%);
+	min-height: 100vh;
+	margin: 0 auto;
+	padding: 1.25rem var(--page-gutter) 3rem;
+}
 </style>

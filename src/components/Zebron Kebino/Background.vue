@@ -1,6 +1,6 @@
 <template>
 	<div class="background--container">
-		<div class="member" v-for="member in family" :key="member">
+		<div class="member" v-for="member in family" :key="member.title">
 			<div class="title">
 				<span class="name">{{ member.title }}</span>
 				<span class="info">{{ member.info }}</span>
@@ -31,43 +31,68 @@ export default {
 
 <style lang="scss" scoped>
 .background--container {
-	width: 80%;
-	border: 1px solid black;
-	padding: 1.5rem 5% 1.5rem 5%;
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+	gap: 1rem;
 
 	.member {
-		margin-bottom: 2rem;
+		min-width: 0;
+		padding: 1.25rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-panel);
+		box-shadow: var(--shadow-panel);
 
 		.title {
 			text-align: left;
-			margin-bottom: 0.5rem;
+			margin-bottom: 0.85rem;
+			padding-bottom: 0.85rem;
+			border-bottom: 1px solid rgba(244, 239, 229, 0.1);
 
 			.name {
 				margin-right: 0.4rem;
+				color: var(--color-text);
 				font-size: 1.8rem;
-				font-weight: bold;
+				font-weight: 900;
 			}
 
 			.info {
-				font-size: 1.3rem;
+				font-size: 1rem;
 				font-weight: normal;
 				font-style: italic;
-                color: rgb(114, 114, 114);
+				color: var(--color-muted);
 			}
 
 			.label {
-                margin-right: 1rem;
+				margin-top: 0.35rem;
+				margin-right: 1rem;
 				font-weight: normal;
 				font-style: italic;
-				font-size: 1rem;
-				color: rgba(51, 51, 51, 0.637);
+				font-size: 0.95rem;
+				color: var(--color-subtle);
 			}
 		}
 
 		.content {
 			text-align: left;
-			margin-left: 0.5rem;
-			font-size: 1.1rem;
+			color: var(--color-muted);
+			font-size: 1rem;
+			line-height: 1.65;
+		}
+	}
+}
+
+@media (max-width: 560px) {
+	.background--container {
+		grid-template-columns: 1fr;
+
+		.member {
+			.title {
+				.name {
+					font-size: 1.45rem;
+				}
+			}
 		}
 	}
 }

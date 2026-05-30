@@ -3,9 +3,9 @@
 		<div class="flex-item">
 			<div class="title">
 				<div class="name">{{ getName(skill) }}</div>
-				<a class="dice copy hover" @click="copyRoll(stat, skill)">
+				<button class="dice copy hover" type="button" @click="copyRoll(stat, skill)">
 					{{ getDice(stat, skill) }}
-				</a>
+				</button>
 			</div>
 			<span class="root" v-if="getRoot()">{{ getRoot() }}</span>
 		</div>
@@ -76,24 +76,35 @@ export default {
 	display: flex;
 	flex-direction: column;
 	text-align: left;
-	margin: 0 1rem 0 1rem;
+	margin: 0;
 	width: 100%;
+	padding: 1.25rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-panel);
+	box-shadow: var(--shadow-panel);
 
 	.flex-item {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		width: max-content;
-		margin: auto;
-		margin-bottom: 0.5rem;
+		width: 100%;
+		margin-bottom: 0.75rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid rgba(244, 239, 229, 0.1);
 
 		.title {
 			display: flex;
 			flex-direction: row;
-			align-items: flex-end;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			width: 100%;
 
 			.name {
-				font-size: 1.6rem;
+				color: var(--color-text);
+				font-size: 1.8rem;
+				font-weight: 900;
 			}
 
 			.dice {
@@ -101,28 +112,62 @@ export default {
 			}
 
 			.copy {
-				padding-left: 1rem;
+				width: max-content;
+				border: 1px solid rgba(103, 213, 200, 0.28);
+				border-radius: var(--radius-sm);
+				background: rgba(103, 213, 200, 0.09);
+				color: var(--color-cyan);
+				font-weight: 900;
+				padding: 0.25rem 0.55rem;
 			}
 
 			.hover {
-				transition: text-shadow 0.3s;
+				cursor: pointer;
+				transition:
+					color 0.2s ease,
+					border-color 0.2s ease,
+					background 0.2s ease;
 
 				&:hover {
-					cursor: pointer;
-					text-shadow: 1px 1px 2px gray;
+					border-color: var(--color-accent);
+					color: var(--color-accent);
 				}
+			}
+
+			button {
+				font: inherit;
 			}
 		}
 
 		.root {
-			font-size: 1rem;
+			color: var(--color-muted);
+			font-size: 0.95rem;
 			font-style: italic;
-			margin-left: 0.5rem;
+			margin-top: 0.35rem;
 		}
 	}
 
 	.description {
-		margin: 1rem 35% 1rem 35%;
+		width: min(56rem, 100%);
+		color: var(--color-muted);
+		font-size: 1rem;
+		line-height: 1.65;
+	}
+}
+
+@media (max-width: 560px) {
+	.stat-info--container {
+		.flex-item {
+			.title {
+				align-items: flex-start;
+				flex-direction: column;
+				gap: 0.5rem;
+
+				.name {
+					font-size: 1.45rem;
+				}
+			}
+		}
 	}
 }
 </style>

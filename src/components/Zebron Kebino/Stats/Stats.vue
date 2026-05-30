@@ -3,9 +3,9 @@
 		<div class="stats" v-for="(stat, index) in zebron" :key="index">
 			<div class="flex-item">
 				<div class="name main">{{ getName(stat) }}</div>
-				<a class="copy main hover" @click="copyRoll(stat)">
+				<button class="copy main hover" type="button" @click="copyRoll(stat)">
 					{{ getDice(stat) }}
-				</a>
+				</button>
 			</div>
 			<div class="skills">
 				<ul class="list">
@@ -14,14 +14,16 @@
 						v-for="(skill, index) in stat.skills"
 						:key="index"
 					>
-						<a
+						<button
 							class="name hover"
+							type="button"
 							@click="
 								data.currentSkill = skill;
 								data.currentStat = stat;
 							"
-							>{{ getName(skill) }}</a
 						>
+							{{ getName(skill) }}
+						</button>
 					</li>
 				</ul>
 				<ul class="list">
@@ -30,14 +32,14 @@
 						v-for="(skill, index) in stat.skills"
 						:key="index"
 					>
-						<a class="copy hover" @click="copyRoll(stat, skill)">
+						<button class="copy hover" type="button" @click="copyRoll(stat, skill)">
 							{{ getDice(stat, skill) }}
-						</a>
+						</button>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<StatInfo :stat="data.currentStat" :skill="data.currentSkill" v-if="data.currentSkill !== ''"/>
+		<StatInfo class="selected-stat" :stat="data.currentStat" :skill="data.currentSkill" v-if="data.currentSkill !== ''"/>
 	</div>
 </template>
 
@@ -90,66 +92,100 @@ export default {
 
 <style lang="scss" scoped>
 .stats--container {
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-	width: 80%;
-	border: 1px solid black;
-	padding: 1.5rem 5% 1.5rem 5%;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: 1rem;
+	width: 100%;
 
-	.stats,
-	.stat-info {
+	.stats {
 		display: flex;
 		flex-direction: column;
 		text-align: left;
-		margin: 0 1rem 0 1rem;
+		min-width: 0;
+		padding: 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-panel);
+		box-shadow: var(--shadow-panel);
 
 		.flex-item {
 			display: flex;
 			flex-direction: row;
-			margin-bottom: 0.5rem;
+			justify-content: space-between;
+			gap: 0.75rem;
+			margin-bottom: 0.8rem;
 			align-items: center;
-			width: max-content;
+			padding-bottom: 0.75rem;
+			border-bottom: 1px solid rgba(244, 239, 229, 0.1);
 		}
 
 		.name {
-			width: max-content;
+			min-width: 0;
 		}
 
 		.main {
+			color: var(--color-text);
 			font-size: 1.1rem;
-			font-weight: bold;
+			font-weight: 900;
+		}
+
+		button {
+			border: 0;
+			background: transparent;
+			text-align: left;
+			font: inherit;
 		}
 
 		.copy {
-			padding-left: 1rem;
+			width: max-content;
+			border: 1px solid rgba(103, 213, 200, 0.28);
+			border-radius: var(--radius-sm);
+			background: rgba(103, 213, 200, 0.09);
+			color: var(--color-cyan);
+			font-weight: 900;
+			padding: 0.18rem 0.45rem;
 		}
 
 		.hover {
-			transition: text-shadow 0.3s;
+			cursor: pointer;
+			transition:
+				color 0.2s ease,
+				border-color 0.2s ease,
+				background 0.2s ease;
 
 			&:hover {
-				cursor: pointer;
-				text-shadow: 1px 1px 2px gray;
+				border-color: var(--color-accent);
+				color: var(--color-accent);
 			}
 		}
 
 		.skills {
-			display: flex;
-			flex-direction: row;
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: 0.75rem;
 
 			.list {
 				list-style: none;
 				text-align: left;
-				margin-top: 0;
-				padding-left: 1rem;
-				width: max-content;
+				margin: 0;
+				padding: 0;
+				min-width: 0;
 
 				.list-item {
-					padding: 0.2rem 0 0.2rem 0;
+					min-height: 1.75rem;
+					padding: 0.18rem 0;
+
+					.name {
+						color: var(--color-muted);
+						line-height: 1.3;
+					}
 				}
 			}
 		}
+	}
+
+	.selected-stat {
+		grid-column: 1 / -1;
 	}
 }
 </style>

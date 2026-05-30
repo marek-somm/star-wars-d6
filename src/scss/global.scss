@@ -1,3 +1,60 @@
+:root {
+	--color-page: #11100f;
+	--color-panel: #1d1b18;
+	--color-panel-soft: #26231f;
+	--color-panel-muted: #302b25;
+	--color-border: rgba(242, 193, 78, 0.22);
+	--color-border-strong: rgba(242, 193, 78, 0.42);
+	--color-text: #f4efe5;
+	--color-muted: #b8afa1;
+	--color-subtle: #8f877c;
+	--color-accent: #f2c14e;
+	--color-accent-dark: #8b6421;
+	--color-cyan: #67d5c8;
+	--color-danger: #d95f43;
+	--shadow-panel: 0 18px 48px rgba(0, 0, 0, 0.34);
+	--radius-sm: 6px;
+	--radius-md: 8px;
+	--page-gutter: clamp(1rem, 3vw, 2.5rem);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	min-height: 100%;
+	background: var(--color-page);
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	background:
+		linear-gradient(180deg, rgba(217, 95, 67, 0.06), transparent 18rem),
+		var(--color-page);
+	color: var(--color-text);
+	font-family:
+		Inter,
+		Avenir,
+		Helvetica,
+		Arial,
+		sans-serif;
+}
+
+button,
+input {
+	font: inherit;
+}
+
+button {
+	color: inherit;
+}
+
+a {
+	color: inherit;
+}
+
 th,
 td {
 	padding: 0 1rem;

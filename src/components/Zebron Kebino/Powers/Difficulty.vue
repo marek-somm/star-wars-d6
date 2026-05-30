@@ -1,43 +1,47 @@
 <template>
 	<div class="difficulty--container">
-		<div class="power" v-for="(power, index) in skill.powers" :key="index">
-			<div class="title">
+		<article class="power" v-for="(power, index) in skill.powers" :key="index">
+			<header class="title">
 				<span class="name">{{ PowerName[power] }}</span>
-			</div>
+			</header>
 			<div class="details--container">
-				<!-- Base Difficulty -->
-				<ul class="level--container">
-					<li class="level-item" v-for="(item, index) in getDifficulty(power).level" :key="index">
-						<div class="level hover">
-							<span :title="getDifficultyLevel(item).hover">{{ getDifficultyLevel(item).title }}</span>
-						</div>
-						<div class="text" v-html="sanitizeHtml(item.text)"></div>
-					</li>
-				</ul>
-				<!-- Increased Difficulty -->
-				<ul class="add--container" v-if="skill.hasIncreasedDifficulty(power)">
-					<li class="add-item" v-for="(item, index) in getDifficulty(power).increased" :key="index">
-						<div class="level" v-html="sanitizeHtml(item.add)"></div>
-						<div class="text" v-html="sanitizeHtml(item.text)"></div>
-					</li>
-				</ul>
-				<!-- Modifiers -->
-				<ul class="modifiers--container" v-if="skill.hasModifiedDifficulty(power)">
-					<li class="modifiers-item" v-for="(item, index) in getDifficulty(power).modifiers" :key="index">
-						<div class="level hover">
-							<span :title="item.hover">{{ item.text }}</span>
-						</div>
-					</li>
-				</ul>
+				<section class="details-section" v-if="getDifficulty(power).level.length">
+					<h3>Base Difficulty</h3>
+					<ul class="level--container">
+						<li class="level-item" v-for="(item, index) in getDifficulty(power).level" :key="index">
+							<div class="level hover">
+								<span class="level-badge" :title="getDifficultyLevel(item).hover">{{ getDifficultyLevel(item).title }}</span>
+							</div>
+							<div class="text" v-html="sanitizeHtml(item.text)"></div>
+						</li>
+					</ul>
+				</section>
+				<section class="details-section" v-if="skill.hasIncreasedDifficulty(power)">
+					<h3>Increased Difficulty</h3>
+					<ul class="add--container">
+						<li class="add-item" v-for="(item, index) in getDifficulty(power).increased" :key="index">
+							<div class="level" v-html="sanitizeHtml(item.add)"></div>
+							<div class="text" v-html="sanitizeHtml(item.text)"></div>
+						</li>
+					</ul>
+				</section>
+				<section class="details-section" v-if="skill.hasModifiedDifficulty(power)">
+					<h3>Modifiers</h3>
+					<ul class="modifiers--container">
+						<li class="modifiers-item" v-for="(item, index) in getDifficulty(power).modifiers" :key="index">
+							<div class="level hover">
+								<span class="level-badge modifier" :title="item.hover">{{ item.text }}</span>
+							</div>
+						</li>
+					</ul>
+				</section>
 			</div>
-		</div>
-		<!-- Extra -->
+		</article>
 		<ul class="extra" v-if="getExtra().length">
 			<li class="list-item" v-for="(item, index) in getExtra()" :key="index">
 				<div v-html="sanitizeHtml(item)"></div>
 			</li>
 		</ul>
-		<!-- Time to Use -->
 		<div class="timeToUse">
 			<span class="title">Time to Use: </span>
 			<span class="content">{{ getTimeToUse() }}</span>
@@ -65,7 +69,12 @@ export default {
 		sanitizeHtml,
 
 		getDifficulty(power) {
-			return this.skill.difficulty[power] || { level: [] };
+			const difficulty = this.skill.difficulty[power] || { level: [] };
+
+			return {
+				...difficulty,
+				level: difficulty.level || [],
+			};
 		},
 
 		getDifficultyLevel(item) {
@@ -108,7 +117,7 @@ export default {
 
 			if (thisAndMore) {
 				levelTitle += "+";
-				levelHover = levelHover.replace(" or", "+ or") + "+";
+				levelHover = String(levelHover || "").replace(" or", "+ or") + "+";
 			}
 
 			return {
@@ -136,51 +145,63 @@ export default {
 
 <style lang="scss" scoped>
 .difficulty--container {
+	display: flex;
+	flex-direction: column;
+	gap: 1.1rem;
+
 	.power {
 		width: 100%;
+		padding-bottom: 1.1rem;
+		border-bottom: 1px solid rgba(244, 239, 229, 0.1);
 
 		.title {
-			margin-bottom: 1rem;
+			margin-bottom: 0.8rem;
 
 			.name {
 				width: 100%;
-				font-size: 1.2rem;
+				color: var(--color-text);
+				font-size: 1.25rem;
 				font-weight: bold;
 				margin-right: 0.4rem;
-			}
-
-			.dice {
-				font-size: 0.8rem;
-				font-weight: bold;
-				cursor: pointer;
-				transition: text-shadow 0.3s;
-
-				&:hover {
-					cursor: pointer;
-					text-shadow: 1px 1px 2px gray;
-				}
 			}
 		}
 
 		.details--container {
+			display: flex;
+			flex-direction: column;
+			gap: 0.85rem;
+
+			.details-section {
+				h3 {
+					margin: 0 0 0.5rem;
+					color: var(--color-muted);
+					font-size: 0.72rem;
+					font-weight: 900;
+					letter-spacing: 0;
+					text-transform: uppercase;
+				}
+			}
 
 			.level--container,
 			.add--container,
 			.modifiers--container {
 				margin: 0;
 				padding: 0;
-				margin-bottom: 1rem;
-				//list-style: none;
+				list-style: none;
 
 				.level-item,
 				.add-item,
 				.modifiers-item {
-					display: flex;
+					display: grid;
+					grid-template-columns: minmax(8rem, 0.8fr) minmax(0, 1.2fr);
+					gap: 0.8rem;
+					align-items: start;
 					width: 100%;
-					padding: 0.2rem 0 0.2rem 1.2rem;
+					padding: 0.45rem 0;
 
 					.level {
-						width: 30%;
+						color: var(--color-text);
+						font-weight: 800;
 					}
 
 					.hover {
@@ -188,12 +209,32 @@ export default {
 					}
 
 					.text {
-						width: 70%;
+						color: var(--color-muted);
+						line-height: 1.55;
+					}
+				}
+
+				.level-badge {
+					display: inline-flex;
+					align-items: center;
+					min-height: 1.7rem;
+					padding: 0.2rem 0.55rem;
+					border: 1px solid rgba(242, 193, 78, 0.36);
+					border-radius: var(--radius-sm);
+					background: rgba(242, 193, 78, 0.1);
+					color: var(--color-accent);
+					font-size: 0.82rem;
+					font-weight: 900;
+
+					&.modifier {
+						border-color: rgba(103, 213, 200, 0.3);
+						background: rgba(103, 213, 200, 0.09);
+						color: var(--color-cyan);
 					}
 				}
 
 				.modifiers-item {
-					font-style: italic;
+					grid-template-columns: 1fr;
 				}
 			}
 		}
@@ -202,13 +243,44 @@ export default {
 	.extra {
 		list-style: none;
 		padding: 0;
-		font-style: italic;
 		margin-top: 0;
+		margin-bottom: 0;
+		color: var(--color-muted);
+		line-height: 1.55;
+
+		.list-item {
+			padding: 0.4rem 0 0.4rem 1rem;
+			border-left: 3px solid rgba(103, 213, 200, 0.36);
+		}
 	}
 
 	.timeToUse {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+		align-items: center;
+		color: var(--color-muted);
+
 		.title {
+			color: var(--color-text);
 			font-weight: bold;
+		}
+	}
+}
+
+@media (max-width: 560px) {
+	.difficulty--container {
+		.power {
+			.details--container {
+				.level--container,
+				.add--container {
+					.level-item,
+					.add-item {
+						grid-template-columns: 1fr;
+						gap: 0.35rem;
+					}
+				}
+			}
 		}
 	}
 }
