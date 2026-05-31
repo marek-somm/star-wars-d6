@@ -205,4 +205,41 @@ export default {
 		grid-column: 1 / -1;
 	}
 }
+
+@media (max-width: 560px) {
+	.stats--container {
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+
+		.stats {
+			padding: 0.85rem;
+
+			.flex-item {
+				align-items: flex-start;
+				flex-direction: column;
+				gap: 0.45rem;
+			}
+
+			.copy {
+				min-height: 2.35rem;
+			}
+
+			.skills {
+				gap: 0.45rem;
+
+				.list {
+					.list-item {
+						min-height: 2.45rem;
+						padding: 0.2rem 0;
+
+						button {
+							min-height: 2.2rem;
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+	}
+}
 </style>

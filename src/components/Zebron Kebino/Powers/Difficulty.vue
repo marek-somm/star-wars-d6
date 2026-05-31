@@ -167,6 +167,7 @@ export default {
 			align-items: center;
 			justify-content: space-between;
 			gap: 1rem;
+			min-height: 2.7rem;
 			margin-bottom: 0.8rem;
 			cursor: pointer;
 			list-style: none;
@@ -346,7 +347,8 @@ export default {
 				}
 
 				&::before {
-					order: initial;
+					order: 3;
+					min-height: 2rem;
 				}
 			}
 

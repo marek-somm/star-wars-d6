@@ -159,6 +159,8 @@ export default {
 
 @media (max-width: 560px) {
 	.stat-info--container {
+		padding: 1rem;
+
 		.flex-item {
 			.title {
 				align-items: flex-start;
@@ -168,7 +170,16 @@ export default {
 				.name {
 					font-size: 1.45rem;
 				}
+
+				.copy {
+					min-height: 2.5rem;
+				}
 			}
+		}
+
+		.description {
+			max-height: 18rem;
+			overflow: auto;
 		}
 	}
 }

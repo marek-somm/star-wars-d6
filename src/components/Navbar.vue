@@ -282,22 +282,75 @@ export default {
 
 @media (max-width: 760px) {
 	.navbar--container {
+		gap: 0.85rem;
+
 		.nav {
 			grid-template-columns: 1fr;
+			gap: 0.75rem;
 
 			.main {
+				min-height: auto;
+				padding: 1rem;
+
 				h1 {
 					font-size: 2.25rem;
+				}
+
+				.nav-list {
+					display: grid;
+					grid-template-columns: repeat(3, minmax(0, 1fr));
+					width: 100%;
+
+					.item {
+						min-height: 2.75rem;
+						margin: 0;
+						padding: 0.45rem 0.35rem;
+					}
 				}
 			}
 
 			.filler {
 				flex-direction: column;
 				align-items: flex-start;
+				gap: 0.75rem;
+				padding: 1rem;
 
 				.right-align {
 					align-items: flex-start !important;
 				}
+			}
+		}
+	}
+}
+
+@media (max-width: 430px) {
+	.navbar--container {
+		.nav {
+			.main {
+				h1 {
+					font-size: 1.9rem;
+				}
+			}
+
+			.filler {
+				div {
+					width: 100%;
+
+					p {
+						justify-content: space-between;
+						width: 100%;
+					}
+				}
+			}
+
+			.temporary-force {
+				grid-template-columns: 1fr 2rem 2rem auto !important;
+				width: 100%;
+			}
+
+			.number-button {
+				width: 2rem;
+				height: 2rem;
 			}
 		}
 	}

@@ -52,14 +52,14 @@
 		</header>
 		<div class="content">
 			<div class="effect">
-				<section class="text-section" v-if="skill.effect">
-					<h2>Effect</h2>
-					<p class="long" v-html="sanitizeHtml(skill.effect)"></p>
-				</section>
-				<section class="text-section example" v-if="skill.example">
-					<h2>Example</h2>
-					<p class="content" v-html="sanitizeHtml(skill.example)"></p>
-				</section>
+				<details class="text-section" v-if="skill.effect" open>
+					<summary>Effect</summary>
+					<div class="long" v-html="sanitizeHtml(skill.effect)"></div>
+				</details>
+				<details class="text-section example" v-if="skill.example" open>
+					<summary>Example</summary>
+					<div class="long" v-html="sanitizeHtml(skill.example)"></div>
+				</details>
 			</div>
 			<div class="details">
 				<Difficulty :skill="skill" />
@@ -90,7 +90,7 @@ export default {
 		keptUpActive: {
 			default: false,
 			type: Boolean
-		},
+		}
 	},
 	data() {
 		return {
@@ -167,6 +167,9 @@ export default {
 		}
 
 		.action-button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 			min-height: 2.2rem;
 			padding: 0.35rem 0.7rem;
 			border: 1px solid rgba(244, 239, 229, 0.12);
@@ -290,13 +293,42 @@ export default {
 				border-top: 1px solid rgba(244, 239, 229, 0.1);
 			}
 
-			h2 {
+			summary {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 0.75rem;
 				margin: 0 0 0.65rem;
 				color: var(--color-accent);
 				font-size: 0.86rem;
 				font-weight: 900;
 				letter-spacing: 0;
 				text-transform: uppercase;
+				cursor: pointer;
+				list-style: none;
+
+				&::-webkit-details-marker {
+					display: none;
+				}
+
+				&::after {
+					content: "Hide";
+					padding: 0.14rem 0.45rem;
+					border: 1px solid rgba(244, 239, 229, 0.12);
+					border-radius: var(--radius-sm);
+					color: var(--color-muted);
+					font-size: 0.72rem;
+					font-weight: 900;
+					text-transform: none;
+				}
+			}
+
+			.text-section:not([open]) {
+				summary {
+					&::after {
+						content: "Show";
+					}
+				}
 			}
 
 			.long {
@@ -304,16 +336,7 @@ export default {
 				font-size: 1rem;
 				line-height: 1.65;
 				margin-bottom: 0;
-			}
-
-			.example {
-				.content {
-					display: block;
-					color: var(--color-muted);
-					font-size: 1rem;
-					line-height: 1.65;
-					margin-bottom: 0;
-				}
+				overflow-wrap: anywhere;
 			}
 		}
 
@@ -354,9 +377,46 @@ export default {
 
 @media (max-width: 560px) {
 	.skill--container {
+		padding: 1rem;
+
 		.title {
+			margin-bottom: 1rem;
+			padding-bottom: 1rem;
+
 			.text {
 				font-size: 2rem;
+			}
+
+			.title-actions {
+				display: grid;
+				grid-template-columns: 1fr;
+				width: 100%;
+			}
+
+			.action-button {
+				width: 100%;
+				min-height: 2.75rem;
+				justify-content: center;
+			}
+
+			.meta-pill,
+			.required-pill {
+				min-height: 2.35rem;
+			}
+		}
+
+		.content {
+			.effect {
+				.long {
+					max-height: 18rem;
+					overflow: auto;
+					padding-right: 0.35rem;
+				}
+
+				summary {
+					min-height: 2.6rem;
+					margin-bottom: 0.45rem;
+				}
 			}
 		}
 	}

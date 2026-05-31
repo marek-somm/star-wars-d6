@@ -27,4 +27,10 @@ export default {
 	margin: 0 auto;
 	padding: 1.25rem var(--page-gutter) 3rem;
 }
+
+@media (max-width: 560px) {
+	.container {
+		padding: 0.75rem 0.7rem 2rem;
+	}
+}
 </style>

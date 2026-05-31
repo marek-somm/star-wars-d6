@@ -172,6 +172,32 @@ export default {
 
 		.generator {
 			justify-content: flex-start;
+			width: 100%;
+
+			input,
+			.generate {
+				min-height: 2.75rem;
+			}
+		}
+	}
+}
+
+@media (max-width: 430px) {
+	.dicer--container {
+		padding: 0.8rem;
+
+		.generator {
+			align-items: stretch;
+
+			.dice,
+			.pips {
+				width: 3.4rem;
+			}
+
+			.comment,
+			.generate {
+				width: 100%;
+			}
 		}
 	}
 }

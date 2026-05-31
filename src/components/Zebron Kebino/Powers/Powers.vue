@@ -1,12 +1,32 @@
 <template>
-	<section class="powers--container">
-		<aside class="list">
+	<section class="powers--container" @keyup.esc="closeMobileList">
+		<button
+			class="mobile-list-toggle"
+			type="button"
+			:aria-expanded="data.mobileListOpen"
+			aria-controls="power-list-panel"
+			@click="openMobileList"
+		>
+			<span>{{ data.currentSkill ? data.currentSkill.name : "Select a power" }}</span>
+			<strong>Browse {{ filteredPowerCount }}</strong>
+		</button>
+		<button
+			class="mobile-backdrop"
+			type="button"
+			aria-label="Close power list"
+			v-if="data.mobileListOpen"
+			@click="closeMobileList"
+		></button>
+		<aside id="power-list-panel" class="list" :class="{ 'mobile-open': data.mobileListOpen }">
 			<div class="list-header">
 				<div>
 					<p class="eyebrow">Force Powers</p>
 					<h2>Powers</h2>
 				</div>
-				<span class="power-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
+				<div class="header-actions">
+					<span class="power-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
+					<button class="list-close" type="button" @click="closeMobileList">Close</button>
+				</div>
 			</div>
 			<input
 				class="search"
@@ -135,6 +155,7 @@ export default {
 				currentSkill: null,
 				search: "",
 				powerFilter: "all",
+				mobileListOpen: false,
 				favorites: [],
 				recent: [],
 				keptUp: []
@@ -208,10 +229,19 @@ export default {
 			if (!resolvedSkill) return;
 
 			this.data.currentSkill = resolvedSkill;
+			this.closeMobileList();
 
 			if (options.trackRecent !== false) {
 				this.trackRecentSkill(resolvedSkill);
 			}
+		},
+
+		openMobileList() {
+			this.data.mobileListOpen = true;
+		},
+
+		closeMobileList() {
+			this.data.mobileListOpen = false;
 		},
 
 		isCurrentSkill(skill) {
@@ -324,7 +354,23 @@ export default {
 		saveList(key, value) {
 			if (typeof window === "undefined") return;
 
-			window.localStorage.setItem(key, JSON.stringify(value));
+			try {
+				window.localStorage.setItem(key, JSON.stringify(value));
+			} catch {
+				// Ignore storage quota or private-mode errors; the in-memory state is still updated.
+			}
+		}
+	},
+	watch: {
+		"data.mobileListOpen"(isOpen) {
+			if (typeof document === "undefined") return;
+
+			document.body.classList.toggle("mobile-drawer-open", isOpen);
+		}
+	},
+	beforeUnmount() {
+		if (typeof document !== "undefined") {
+			document.body.classList.remove("mobile-drawer-open");
 		}
 	}
 };
@@ -337,6 +383,11 @@ export default {
 	grid-template-columns: minmax(16rem, 23rem) minmax(0, 1fr);
 	gap: 1rem;
 	align-items: start;
+
+	.mobile-list-toggle,
+	.mobile-backdrop {
+		display: none;
+	}
 
 	.list {
 		display: flex;
@@ -385,6 +436,16 @@ export default {
 				color: var(--color-cyan);
 				font-weight: 900;
 				text-align: center;
+			}
+
+			.header-actions {
+				display: flex;
+				align-items: center;
+				gap: 0.45rem;
+			}
+
+			.list-close {
+				display: none;
 			}
 		}
 
@@ -602,19 +663,131 @@ export default {
 @media (max-width: 940px) {
 	.powers--container {
 		grid-template-columns: 1fr;
+		gap: 0.8rem;
+
+		.mobile-list-toggle {
+			position: sticky;
+			top: 0.65rem;
+			z-index: 7;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.8rem;
+			width: 100%;
+			min-height: 3.1rem;
+			padding: 0.65rem 0.8rem;
+			border: 1px solid var(--color-border-strong);
+			border-radius: var(--radius-md);
+			background: var(--color-panel-soft);
+			box-shadow: var(--shadow-panel);
+			color: var(--color-text);
+			font-weight: 900;
+			text-align: left;
+			cursor: pointer;
+
+			span {
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			strong {
+				flex: 0 0 auto;
+				padding: 0.25rem 0.5rem;
+				border-radius: var(--radius-sm);
+				background: rgba(242, 193, 78, 0.16);
+				color: var(--color-accent);
+				font-size: 0.82rem;
+			}
+		}
+
+		.mobile-backdrop {
+			position: fixed;
+			inset: 0;
+			z-index: 10;
+			display: block;
+			border: 0;
+			background: rgba(0, 0, 0, 0.58);
+			cursor: pointer;
+		}
 
 		.list {
-			position: static;
-			max-height: none;
+			position: fixed;
+			inset: auto 0 0;
+			z-index: 11;
+			width: 100%;
+			max-height: 86vh;
+			padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+			border-radius: var(--radius-md) var(--radius-md) 0 0;
+			transform: translateY(105%);
+			transition: transform 0.22s ease;
+
+			&.mobile-open {
+				transform: translateY(0);
+			}
+
+			.list-header {
+				position: sticky;
+				top: -1rem;
+				z-index: 2;
+				margin: -1rem -1rem 0.9rem;
+				padding: 1rem;
+				background: var(--color-panel);
+				border-bottom: 1px solid rgba(244, 239, 229, 0.1);
+
+				.header-actions {
+					align-items: flex-start;
+				}
+
+				.list-close {
+					display: inline-flex;
+					align-items: center;
+					min-height: 2.25rem;
+					padding: 0.3rem 0.6rem;
+					border: 1px solid rgba(244, 239, 229, 0.14);
+					border-radius: var(--radius-sm);
+					background: var(--color-panel-soft);
+					color: var(--color-muted);
+					font-size: 0.82rem;
+					font-weight: 900;
+					cursor: pointer;
+				}
+			}
+		}
+
+		.skill-panel {
+			border-radius: var(--radius-md);
 		}
 	}
 }
 
 @media (max-width: 520px) {
 	.powers--container {
+		.mobile-list-toggle {
+			top: 0.5rem;
+			min-height: 3.3rem;
+		}
+
 		.list {
+			max-height: 90vh;
+
 			.filter-tabs {
 				grid-template-columns: repeat(2, minmax(0, 1fr));
+
+				.filter-tab {
+					min-height: 2.55rem;
+				}
+			}
+
+			.quick-sections {
+				.quick-item {
+					min-height: 2.65rem;
+				}
+			}
+
+			.list-item {
+				min-height: 3.25rem;
 			}
 		}
 	}

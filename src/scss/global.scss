@@ -42,6 +42,10 @@ body {
 		sans-serif;
 }
 
+body.mobile-drawer-open {
+	overflow: hidden;
+}
+
 button,
 input {
 	font: inherit;
@@ -49,10 +53,16 @@ input {
 
 button {
 	color: inherit;
+	touch-action: manipulation;
 }
 
 a {
 	color: inherit;
+}
+
+:focus-visible {
+	outline: 2px solid rgba(242, 193, 78, 0.78);
+	outline-offset: 3px;
 }
 
 th,
