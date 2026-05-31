@@ -7,7 +7,7 @@
 				id="dice"
 				name="dice"
 				type="number"
-				v-model="generate.dice"
+				v-model.number="generate.dice"
 				placeholder="1"
 				@keyup.enter="generateRoll()"
 				min="1"
@@ -19,7 +19,7 @@
 				id="pips"
 				name="pips"
 				type="number"
-				v-model="generate.pips"
+				v-model.number="generate.pips"
 				placeholder="0"
 				@keyup.enter="generateRoll()"
 				min="0"
@@ -36,13 +36,15 @@
 				@keyup.enter="generateRoll()"
 				aria-label="Roll reason"
 			/>
-			<button class="generate" type="button" @click="generateRoll()">Generate</button>
+			<button class="generate" type="button" @click="generateRoll()">
+				{{ copyStatus || "Generate" }}
+			</button>
 		</div>
 	</div>
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { onBeforeUnmount, reactive, ref } from "vue";
 import { copyToClipboard } from "@/utils/clipboard";
 import { getRollCommandFromDice } from "@/utils/dice";
 
@@ -53,18 +55,36 @@ export default {
 			pips: "",
 			comment: "",
 		});
+		const copyStatus = ref("");
+		let statusTimeout = null;
 
-		function generateRoll() {
-			copyToClipboard(getRollCommandFromDice(
+		function clearStatusLater() {
+			if (statusTimeout) window.clearTimeout(statusTimeout);
+
+			statusTimeout = window.setTimeout(() => {
+				copyStatus.value = "";
+			}, 1600);
+		}
+
+		onBeforeUnmount(() => {
+			if (statusTimeout) window.clearTimeout(statusTimeout);
+		});
+
+		async function generateRoll() {
+			const copied = await copyToClipboard(getRollCommandFromDice(
 				generate.dice,
 				generate.pips,
 				generate.comment
 			));
+
+			copyStatus.value = copied ? "Copied" : "Copy failed";
+			clearStatusLater();
 		}
 
 		return {
 			generate,
-			generateRoll
+			generateRoll,
+			copyStatus
 		};
 	},
 };
@@ -129,6 +149,7 @@ export default {
 		}
 
 		.generate {
+			min-width: 6.2rem;
 			min-height: 2.25rem;
 			border: 1px solid rgba(242, 193, 78, 0.55);
 			border-radius: var(--radius-sm);

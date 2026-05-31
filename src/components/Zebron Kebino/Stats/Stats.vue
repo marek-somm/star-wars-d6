@@ -1,26 +1,23 @@
 <template>
 	<div class="stats--container">
-		<div class="stats" v-for="(stat, index) in zebron" :key="index">
+		<div class="stats" v-for="stat in zebron" :key="stat.name">
 			<div class="flex-item">
 				<div class="name main">{{ getName(stat) }}</div>
 				<button class="copy main hover" type="button" @click="copyRoll(stat)">
 					{{ getDice(stat) }}
 				</button>
 			</div>
-			<div class="skills">
+			<div class="skills" v-if="getSkills(stat).length">
 				<ul class="list">
 					<li
 						class="list-item"
-						v-for="(skill, index) in stat.skills"
-						:key="index"
+						v-for="skill in getSkills(stat)"
+						:key="getName(skill)"
 					>
 						<button
 							class="name hover"
 							type="button"
-							@click="
-								data.currentSkill = skill;
-								data.currentStat = stat;
-							"
+							@click="selectSkill(stat, skill)"
 						>
 							{{ getName(skill) }}
 						</button>
@@ -29,8 +26,8 @@
 				<ul class="list">
 					<li
 						class="list-item"
-						v-for="(skill, index) in stat.skills"
-						:key="index"
+						v-for="skill in getSkills(stat)"
+						:key="getName(skill)"
 					>
 						<button class="copy hover" type="button" @click="copyRoll(stat, skill)">
 							{{ getDice(stat, skill) }}
@@ -38,6 +35,7 @@
 					</li>
 				</ul>
 			</div>
+			<p class="empty-skills" v-else>No trained skills</p>
 		</div>
 		<StatInfo class="selected-stat" :stat="data.currentStat" :skill="data.currentSkill" v-if="data.currentSkill !== ''"/>
 	</div>
@@ -64,6 +62,11 @@ export default {
 			return formatDice(stat, skill);
 		}
 
+		function getSkills(stat) {
+			if (!stat.skills) return [];
+			return Array.isArray(stat.skills) ? stat.skills : Object.values(stat.skills);
+		}
+
 		function getSuffix(skill) {
 			if (skill.spez) return "(s)";
 			if (skill.adv) return "(A)";
@@ -74,16 +77,23 @@ export default {
 			return `${skill.name} ${getSuffix(skill)}`;
 		}
 
+		function selectSkill(stat, skill) {
+			data.currentSkill = skill;
+			data.currentStat = stat;
+		}
+
 		const copyRoll = (stat, skill) => {
 			copyToClipboard(getRollCommand(stat, skill));
-		}
+		};
 
 		return {
 			zebron: zebron.stats,
 			data,
 			getName,
 			getDice,
+			getSkills,
 			getSuffix,
+			selectSkill,
 			copyRoll,
 		};
 	},
@@ -181,6 +191,13 @@ export default {
 					}
 				}
 			}
+		}
+
+		.empty-skills {
+			margin: 0;
+			color: var(--color-subtle);
+			font-size: 0.92rem;
+			font-style: italic;
 		}
 	}
 

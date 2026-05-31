@@ -2,7 +2,7 @@ const data = {
 	modifiers: {
 		proximity: {
 			text: 'Modified by Proximity',
-			hover: 'Touching +0\nLine of sight (not touching) +2\nNot line of site, at 1-100 meters +5\n101 meters, to 10 kilometers +7\n11 to 1,000 kilometers +10\nSame planet more than 1,000 kilometers +15\nSame star system, different planet +20\nNot in same star system +20'
+			hover: 'Touching +0\nLine of sight (not touching) +2\nNot line of sight, at 1-100 meters +5\n101 meters, to 10 kilometers +7\n11 to 1,000 kilometers +10\nSame planet more than 1,000 kilometers +15\nSame star system, different planet +20\nNot in same star system +20'
 		},
 		relationship: {
 			text: 'Modified by Relationship',
@@ -384,7 +384,7 @@ export const rawPowerItems = [
 			},
 			example: {
 				long: `Luke is flying down the trench of the Death Star. With Ben’s urging, he clears his mind of negative thoughts, and feels the Force flowing through him. Using the Force, he concentrates on the task at hand of firing a proton torpedo into the unshielded exhausst port. Since he has cleared his mind, the control difficulty is Easy.<br>
-				Luke’s player declares that Luke is also spending a Force Point to accomplish the task this round. Luke’s starship gunnery skill is 6D. he looses -1D for doing one other thing in the round (using the Force counts as an action), reducing his starship gunnery skill to 5D. Because he rolls successfully for his control, he receives the bonus of +4D, making his effective skill for that round 9D. Because he is spending a Force Point, his skill level is doubled to 18D!<br>
+				Luke’s player declares that Luke is also spending a Force Point to accomplish the task this round. Luke’s starship gunnery skill is 6D. He loses -1D for doing one other thing in the round (using the Force counts as an action), reducing his starship gunnery skill to 5D. Because he rolls successfully for his control, he receives the bonus of +4D, making his effective skill for that round 9D. Because he is spending a Force Point, his skill level is doubled to 18D!<br>
 				If Luke attempted any other action in that round, including firing another proton torpedo or blaster, or dodging enemy shots, he would receive no bonus.`,
 			},
 		},
@@ -546,7 +546,7 @@ export const rawPowerItems = [
 			},
 			effect: {
 				short: [],
-				long: `A Jedi can use this power to enhance his Move rating, increasing his running and walking speeds dramatically for a short period of time. Both the duration and Move increase are determined by the amount the Jedi’s control roll exceeds the difficulty. The duration can be increased by spending characterpoints — for each character point spent, the duration is increased by one round. These points can be spent at any time before the power fades.<br>
+				long: `A Jedi can use this power to enhance his Move rating, increasing his running and walking speeds dramatically for a short period of time. Both the duration and Move increase are determined by the amount the Jedi’s control roll exceeds the difficulty. The duration can be increased by spending character points — for each character point spent, the duration is increased by one round. These points can be spent at any time before the power fades.<br>
 				<table>
 					<tr>
 						<th><i>Control Roll ≥ Difficulty By</i></th>
@@ -604,7 +604,7 @@ export const rawPowerItems = [
 			},
 			effect: {
 				short: [],
-				long: `An injured character who uses control pain can act as if he has not been wounded the next round after he uses the skill. The wound is not healed, but the character doesn’t suffer the penalties of being wounded: a wounded Jedi doesn’t loose 1D from all actions; an incapacitated character can still act normally, as can a mortally wounded character. This power can also be used to shrug off any stun results.<br>
+				long: `An injured character who uses control pain can act as if he has not been wounded the next round after he uses the skill. The wound is not healed, but the character doesn’t suffer the penalties of being wounded: a wounded Jedi doesn’t lose 1D from all actions; an incapacitated character can still act normally, as can a mortally wounded character. This power can also be used to shrug off any stun results.<br>
 				However, the injury can still grow worse even if the character doesn’t feel the pain. For example, a character who’s been wounded twice and is wounded again would still become incapacitated. Mortally wounded users make the same rolls as other mortally wounded characters, even if they aren’t feeling any pain.`,
 			},
 		},
@@ -633,7 +633,7 @@ export const rawPowerItems = [
 			effect: {
 				short: [],
 				long: `Remain conscious allows a Jedi to remain conscious even when he has suffered injuries which would knock him unconscious. In game terms, when a character with this power suffers this kind of injury, they lose all of their actions for the rest of the round, but they are still conscious (normal characters automatically pass out). On the next round, the character may attempt to activate the power – this must be the first action of that round; the Jedi cannot even dodge or parry.<br>
-				If the role is unsuccessful, the Jedi passes out. If successful, the Jedi can do any one other action declared for that round – often characters will attempt to control pain so that he will be able to remain conscious. Once this action is completed, the Jedi will lapse into unconsciousness, unless control pain or something else is done to keep the character conscious.`,
+				If the roll is unsuccessful, the Jedi passes out. If successful, the Jedi can do any one other action declared for that round – often characters will attempt to control pain so that he will be able to remain conscious. Once this action is completed, the Jedi will lapse into unconsciousness, unless control pain or something else is done to keep the character conscious.`,
 			},
 			example: {
 				long: `Ana suffers several stuns and should be knocked unconscious ... but she has remain conscious. Ana loses her remaining actions for that round, but she is still awake.<br>

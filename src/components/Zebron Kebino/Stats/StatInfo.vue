@@ -32,13 +32,15 @@ export default {
 		const stats = new Stats();
 
 		function getDescription() {
-			var stat = props.stat.name;
-			var skill = getRoot() ? getRoot() : props.skill.name;
-			return stats.getDescription(stat, skill).main;
+			const stat = props.stat?.name;
+			const skill = getRoot() || props.skill?.name;
+			const description = stats.getDescription(stat, skill);
+
+			return typeof description === "string" ? description : description?.main || "";
 		}
 
 		function getRoot() {
-			return props.skill.root;
+			return props.skill?.root || "";
 		}
 
 		function getSuffix(skill) {
@@ -57,7 +59,7 @@ export default {
 
 		const copyRoll = (stat, skill) => {
 			copyToClipboard(getRollCommand(stat, skill));
-		}
+		};
 
 		return {
 			getDescription,

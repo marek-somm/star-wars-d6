@@ -27,7 +27,7 @@ function createEmptyDifficulty() {
 function normalizeDifficulty(rawDifficulty = {}) {
 	const difficulty = createEmptyDifficulty();
 
-	Object.entries(rawDifficulty).forEach(([power, value]) => {
+	Object.entries(rawDifficulty || {}).forEach(([power, value]) => {
 		difficulty[power] = {
 			...clone(value),
 			level: Array.isArray(value?.level) ? clone(value.level) : [],

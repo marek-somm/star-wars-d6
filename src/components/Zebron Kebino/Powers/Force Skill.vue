@@ -69,10 +69,8 @@
 </template>
 
 <script>
-// import Powers from "@/assets/powers.js";
-// import Zebron from "@/assets/zebron_kebino.js";
 import Difficulty from "./Difficulty.vue";
-import { PowerName, Skill } from '../../../assets/powers';
+import { PowerName, Skill } from "@/assets/powers";
 import { sanitizeHtml } from "@/utils/html";
 
 export default {

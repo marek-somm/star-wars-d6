@@ -1,22 +1,22 @@
 export default class Stats {
 	getSkill(stat, skill) {
-		return this.stats[stat].skills[skill]
+		return this.stats[stat]?.skills?.[skill] || null
 	}
 
 	getDescription(stat, skill) {
 		skill = this.getSkill(stat, skill)
-		if (skill) {
+		if (skill && typeof skill === "object") {
 			const description = skill.description
 			if (description) {
 				return description
 			}
 		}
-		return ''
+		return { main: '' }
 	}
 
 	getRoot(stat, skill) {
 		skill = this.getSkill(stat, skill)
-		return skill.root
+		return skill?.root || ''
 	}
 
 	stats = {
@@ -163,8 +163,8 @@ export default class Stats {
 					},
 					description: {
 						main: `Characters use this skill when repairing, modifying, or building a lightsaber, the weapon of the Jedi. This skill is generally restricted to Jedi Knights who learned it from their master. Lightsaber repair/engineering combines the repair and design skills into one, due to the special nature of the skill. The cost and difficulty to repair equipment depends upon how badly it is damaged — see "Weapons" in "Using Repair Skills" above.`,
-						extra: `Lightsaber Construction: To construct a Iightsaber from its basic components parts takes a minimum of one month and requires a successful lightsaber repair roll against a Very Difficult difficulty.<br>
-						Decrease the difficulty by one level for each extra month spent building the saber, to a minimum of Easy. Jedi characters may adjust a Iightsaber’s base damage die code through modifications (as indicated in the "Improving Vehicles, Vessels, and Weapons" section). Characters rely on their lightsaber repair/engineering skill to make such improvements.<br>
+						extra: `Lightsaber Construction: To construct a lightsaber from its basic components parts takes a minimum of one month and requires a successful lightsaber repair roll against a Very Difficult difficulty.<br>
+						Decrease the difficulty by one level for each extra month spent building the saber, to a minimum of Easy. Jedi characters may adjust a lightsaber’s base damage die code through modifications (as indicated in the "Improving Vehicles, Vessels, and Weapons" section). Characters rely on their lightsaber repair/engineering skill to make such improvements.<br>
 						Note that lightsaber repair/engineering is not an advanced skill, however it should be judiciously governed by the gamemaster and generally used only by Jedi characters.`
 					},
 				},
