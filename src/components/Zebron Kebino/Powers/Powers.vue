@@ -250,7 +250,7 @@ export default {
 
 		filterSkills(powerLabel, search) {
 			return powerLabel.getSkills().filter((skill) =>
-				this.matchesPowerFilter(skill) && this.matchesSearch(skill, powerLabel, search)
+				this.matchesPowerFilter(skill) && this.matchesSearch(skill, search)
 			);
 		},
 
@@ -258,17 +258,10 @@ export default {
 			return this.data.powerFilter === "all" || skill.powers.includes(this.data.powerFilter);
 		},
 
-		matchesSearch(skill, powerLabel, search) {
+		matchesSearch(skill, search) {
 			if (search === "") return true;
 
-			return [
-				skill.name,
-				skill.effect,
-				skill.example,
-				powerLabel.getName(),
-				...skill.powers.map((power) => PowerName[power] || power),
-				...skill.extra,
-			].some((value) => String(value || "").toLowerCase().includes(search));
+			return String(skill.name || "").toLowerCase().includes(search);
 		},
 
 		toggleFavorite(skill) {
