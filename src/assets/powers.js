@@ -67,6 +67,7 @@ export class Skill {
 	};
 	effect;
 	example;
+	summary;
 	contentBlocks = [];
 
 	constructor(skillName) {

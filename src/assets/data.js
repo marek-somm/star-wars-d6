@@ -148,6 +148,7 @@ function createSkill(rawSkill) {
 	skill.setExtra(normalizeExtra(rawSkill.extra));
 	skill.difficulty = normalizeDifficulty(rawSkill.difficulty);
 	skill.contentBlocks = normalizeContentBlocks(rawSkill);
+	skill.summary = normalizeLongText(rawSkill.summary);
 	skill.effect = skill.contentBlocks
 		.filter((block) => block.type === "effect")
 		.map((block) => block.text)

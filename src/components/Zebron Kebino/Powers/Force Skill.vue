@@ -52,6 +52,7 @@
 		</header>
 		<div class="content">
 			<div class="effect">
+				<div class="summary" v-if="skill.summary" v-html="sanitizeHtml(skill.summary)"></div>
 				<template v-for="(block, index) in getContentBlocks()" :key="index">
 					<details
 						v-if="block.type === 'example'"
@@ -116,6 +117,7 @@ export default {
 				skill
 				&& (
 					(Array.isArray(skill.powers) && skill.powers.length > 0)
+					|| skill.summary
 					|| (Array.isArray(skill.contentBlocks) && skill.contentBlocks.length > 0)
 					|| skill.effect
 					|| skill.example
@@ -307,6 +309,14 @@ export default {
 
 		.effect {
 			text-align: left;
+
+			.summary {
+				margin: 0 0 1rem;
+				color: var(--color-text);
+				font-size: 1rem;
+				line-height: 1.6;
+				font-weight: 700;
+			}
 
 			.text-section + .text-section {
 				margin-top: 1.4rem;

@@ -71,6 +71,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows a Jedi to wield a lightsaber more effectively through the Force. Sense improves attack and parry rolls, while Control can increase or reduce damage. The power can be kept up and also enables parrying and redirecting blaster bolts.",
 		"content": [
 			{
 				"type": "effect",
@@ -121,6 +122,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Lets the Jedi wield a melee weapon or lightsaber telekinetically from up to 10 meters away. The weapon is used as if held normally, with standard multiple-action penalties.",
 		"content": [
 			{
 				"type": "effect",
@@ -157,6 +159,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to push one or more adjacent targets backward with the Force. Targets may be knocked prone or slammed into objects, taking damage. Using it lethally against living beings grants a Dark Side Point.",
 		"content": [
 			{
 				"type": "effect",
@@ -241,6 +244,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to absorb or dissipate energy such as heat, radiation, blaster bolts, or Force lightning. On success, the energy is negated; on failure, the character takes full damage. It can also be used as a reaction against attacks.",
 		"content": [
 			{
 				"type": "effect",
@@ -286,6 +290,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Creates a weak Force-generated shield around the Jedi's body. It protects against energy, physical attacks, and area effects such as gas clouds or explosions, acting as STR+1D armor.",
 		"content": [
 			{
 				"type": "effect",
@@ -357,6 +362,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to lift and move objects or beings with the Force. Difficulty depends on weight, distance, and maneuver complexity. Objects can be used offensively, but attacking living beings this way grants a Dark Side Point.",
 		"content": [
 			{
 				"type": "effect",
@@ -401,6 +407,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to escape restraints through extreme body control, painful movement, and joint manipulation. Difficulty depends on how restrictive or secure the bindings are.",
 		"content": [
 			{
 				"type": "effect",
@@ -434,6 +441,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Lets the Jedi clear their mind and focus entirely on a single task. On success, they gain +4D to one action that round, but performing any other action cancels the bonus.",
 		"content": [
 			{
 				"type": "effect",
@@ -464,6 +472,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Temporarily increases one attribute and all related skills. The amount and duration of the boost depend on how much the Control roll exceeds the difficulty. Only one attribute can be enhanced at a time.",
 		"content": [
 			{
 				"type": "effect",
@@ -519,6 +528,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Enhances the Jedi's jumping ability for unusually high or long jumps. Both Control and Alter rolls must succeed, after which the character uses Climbing/Jumping with special bonuses and adjusted difficulties.",
 		"content": [
 			{
 				"type": "effect",
@@ -615,6 +625,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Places the character in deep meditation, making them motionless and difficult to sense or affect through the Force. After leaving the state, they gain a temporary bonus to Force skill rolls, but must successfully return from the trance.",
 		"content": [
 			{
 				"type": "effect",
@@ -647,6 +658,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Temporarily increases the Jedi's Move rating, allowing much faster walking or running. The speed increase and duration depend on the success of the Control roll and can be extended with Character Points.",
 		"content": [
 			{
 				"type": "effect",
@@ -707,6 +719,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows an injured Jedi to ignore pain and wound penalties. The injury is not healed and can still worsen, but the character can continue acting despite wounds, stuns, or severe conditions.",
 		"content": [
 			{
 				"type": "effect",
@@ -740,6 +753,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows a Jedi to stay conscious after injuries that would normally knock them out. The character loses remaining actions at first, then may attempt to remain awake and possibly use Control Pain on the next round.",
 		"content": [
 			{
 				"type": "effect",
@@ -773,6 +787,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Places the Jedi into a deep trance that greatly slows bodily functions. The character appears nearly dead, uses far less air, food, and water, and can survive extreme conditions or pretend to be dead.",
 		"content": [
 			{
 				"type": "effect",
@@ -808,6 +823,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Speeds up the Jedi's natural healing. On success, the character may make two healing rolls in the same day and receives a bonus to Strength. The power can only be attempted once per day.",
 		"content": [
 			{
 				"type": "effect",
@@ -853,6 +869,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to control oxygen intake from the surrounding environment, making it possible to breathe underwater or in unusual atmospheres. It is not useful in vacuum or deep space where no usable oxygen is available.",
 		"content": [
 			{
 				"type": "effect",
@@ -886,6 +903,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Links the Force user's senses with those of a simple creature. They can see, hear, smell, and feel through the creature, but do not directly control it. Their own body remains motionless and vulnerable during the link.",
 		"content": [
 			{
 				"type": "effect",
@@ -911,6 +929,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Enhances the Jedi's natural senses. They can hear faint or distant sounds, see visible things at great distances, and identify scents that would normally be too weak to notice.",
 		"content": [
 			{
 				"type": "effect",
@@ -941,6 +960,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to sense the presence and identity of a specific person. It can also reveal whether the target is wounded, diseased, or physically disturbed. The target may try to hide their identity with Control.",
 		"content": [
 			{
 				"type": "effect",
@@ -973,6 +993,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to detect nearby sentient living beings, even when hidden. With a strong success, the Jedi may also learn whether a being is Force-sensitive, has Force skills, or is someone they have met before.",
 		"content": [
 			{
 				"type": "effect",
@@ -1014,6 +1035,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Extends the Jedi's awareness into an early warning system for attacks. The Jedi detects planned attacks one round before they happen, giving time to react. Force-using attackers may increase the difficulty.",
 		"content": [
 			{
 				"type": "effect",
@@ -1047,6 +1069,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Focuses the Jedi's awareness entirely on combat. The Jedi may choose when to act in the round and gains bonuses to attack and defense rolls. The power lasts ten combat rounds and does not count as a skill use for multiple-action penalties.",
 		"content": [
 			{
 				"type": "effect",
@@ -1073,6 +1096,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Guides the Jedi toward a chosen object, place, or destination through the Force. It does not detect life forms, but can help with navigation. Strong success can reveal exact direction and distance.",
 		"content": [
 			{
 				"type": "effect",
@@ -1126,6 +1150,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to perceive a person, place, past event, present situation, or possible future through visions. It requires calm and time, and future visions are less reliable because the future remains changeable.",
 		"content": [
 			{
 				"type": "effect",
@@ -1225,6 +1250,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Alters a target's perceptions, memories, or conclusions. The Jedi must clearly define the intended effect. Illusions may feel real to the target but cause no true injury, and the power does not affect droids or recording devices.",
 		"content": [
 			{
 				"type": "effect",
@@ -1271,6 +1297,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to understand and speak another language while the power is active. The language must first be heard or seen in written form. The Jedi does not permanently learn the language.",
 		"content": [
 			{
 				"type": "effect",
@@ -1308,6 +1335,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to read surface thoughts and emotions from a target. With a strong success, they can search memories from the last 24 hours. Multiple targets require separate rolls, and the power does not work on droids.",
 		"content": [
 			{
 				"type": "effect",
@@ -1362,6 +1390,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to send feelings, emotions, or very short thoughts to another mind. The target understands that the thoughts are not their own. The power is for communication, not control or full conversations.",
 		"content": [
 			{
 				"type": "effect",
@@ -1409,6 +1438,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to help another touched character ignore pain using the same basic rules as Control Pain. The relationship to the target affects the difficulty.",
 		"content": [
 			{
 				"type": "effect",
@@ -1444,6 +1474,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Speeds up another character's natural healing in the same way as Accelerate Healing. The Jedi must touch the target while activating the power, allowing the target to make extra healing rolls.",
 		"content": [
 			{
 				"type": "effect",
@@ -1479,6 +1510,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to transfer life force to a willing mortally wounded target, preventing death. The target remains badly injured and enters hibernation for up to six weeks. The Jedi must spend a Force Point to use it.",
 		"content": [
 			{
 				"type": "effect",
