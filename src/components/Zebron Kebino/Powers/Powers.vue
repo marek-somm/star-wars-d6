@@ -166,7 +166,8 @@ export default {
 	created() {
 		this.data.favorites = this.loadList(FAVORITES_STORAGE_KEY);
 		this.data.recent = this.loadList(RECENT_STORAGE_KEY);
-		this.data.keptUp = this.loadList(KEPT_UP_STORAGE_KEY);
+		this.data.keptUp = this.normalizeKeptUpList(this.loadList(KEPT_UP_STORAGE_KEY));
+		this.saveList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
 
 		const firstLabel = this.zebron.getPowerLabels().find((powerLabel) => powerLabel.getSkills().length > 0);
 
@@ -277,7 +278,8 @@ export default {
 		toggleKeptUp(skill) {
 			if (!this.isKeptUpPower(skill)) return;
 
-			this.data.keptUp = this.toggleName(this.data.keptUp, skill.name);
+			const isAlreadyActive = this.isKeptUpActive(skill);
+			this.data.keptUp = isAlreadyActive ? [] : [skill.name];
 			this.saveList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
 		},
 
@@ -331,6 +333,17 @@ export default {
 
 		getPowerShortName(power) {
 			return (PowerName[power] || power).charAt(0);
+		},
+
+		normalizeKeptUpList(list) {
+			const names = Array.isArray(list) ? list : [];
+			for (const name of names) {
+				const skill = this.findSkillByName(name);
+				if (skill && this.isKeptUpPower(skill)) {
+					return [skill.name];
+				}
+			}
+			return [];
 		},
 
 		loadList(key) {
