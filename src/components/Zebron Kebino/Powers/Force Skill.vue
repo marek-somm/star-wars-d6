@@ -1,19 +1,53 @@
 <template>
 	<div class="skill--container">
 		<header class="title">
-			<div>
-				<p class="eyebrow">Selected Power</p>
-				<h1 class="text">{{ skill.name }}</h1>
+			<div class="title-top">
+				<div>
+					<p class="eyebrow">Selected Power</p>
+					<h1 class="text">{{ skill.name }}</h1>
+				</div>
+				<div class="title-actions">
+					<button
+						class="action-button"
+						:class="{ active: isFavorite }"
+						type="button"
+						:aria-pressed="isFavorite"
+						@click="$emit('toggle-favorite', skill)"
+					>
+						{{ isFavorite ? "Saved" : "Favorite" }}
+					</button>
+					<button
+						class="action-button keep-up"
+						:class="{ active: keptUpActive }"
+						type="button"
+						v-if="canKeepUp"
+						:aria-pressed="keptUpActive"
+						@click="$emit('toggle-kept-up', skill)"
+					>
+						{{ keptUpActive ? "Kept up" : "Keep up" }}
+					</button>
+				</div>
 			</div>
 			<div class="meta-row">
 				<span class="meta-pill" v-for="power in skill.powers" :key="power">{{ PowerName[power] }}</span>
 				<span class="meta-pill source" v-if="skill.source">{{ skill.source }}</span>
+				<span class="meta-pill kept-up" :class="{ active: keptUpActive }" v-if="canKeepUp">
+					{{ keptUpActive ? "Kept up active" : "Can be kept up" }}
+				</span>
 			</div>
 			<div class="required" v-if="skill.hasRequiredSkills()">
 				<span class="required-label">Required</span>
-				<span class="required-pill" v-for="(requiredSkill, index) in skill.required" :key="index">
+				<button
+					class="required-pill"
+					:class="{ disabled: !canSelectSkill(requiredSkill) }"
+					type="button"
+					v-for="(requiredSkill, index) in skill.required"
+					:key="index"
+					:disabled="!canSelectSkill(requiredSkill)"
+					@click="$emit('select-skill', requiredSkill)"
+				>
 					{{ requiredSkill.name }}
-				</span>
+				</button>
 			</div>
 		</header>
 		<div class="content">
@@ -45,10 +79,19 @@ export default {
 	components: {
 		Difficulty
 	},
+	emits: ["select-skill", "toggle-favorite", "toggle-kept-up"],
 	props: {
 		skill: {
 			required: true,
 			type: Skill
+		},
+		isFavorite: {
+			default: false,
+			type: Boolean
+		},
+		keptUpActive: {
+			default: false,
+			type: Boolean
 		},
 	},
 	data() {
@@ -56,8 +99,25 @@ export default {
 			PowerName
 		};
 	},
+	computed: {
+		canKeepUp() {
+			return Array.isArray(this.skill.extra)
+				&& this.skill.extra.some((item) => String(item || "").toLowerCase().includes("kept up"));
+		}
+	},
 	methods: {
-		sanitizeHtml
+		sanitizeHtml,
+
+		canSelectSkill(skill) {
+			return Boolean(
+				skill
+				&& (
+					(Array.isArray(skill.powers) && skill.powers.length > 0)
+					|| skill.effect
+					|| skill.example
+				)
+			);
+		}
 	}
 };
 </script>
@@ -76,6 +136,13 @@ export default {
 		padding-bottom: 1.25rem;
 		border-bottom: 1px solid rgba(244, 239, 229, 0.1);
 
+		.title-top {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 1rem;
+		}
+
 		.eyebrow {
 			margin: 0 0 0.4rem;
 			color: var(--color-cyan);
@@ -91,6 +158,46 @@ export default {
 			margin: 0;
 			font-size: 2.65rem;
 			line-height: 1.05;
+		}
+
+		.title-actions {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			gap: 0.45rem;
+			min-width: 10rem;
+		}
+
+		.action-button {
+			min-height: 2.2rem;
+			padding: 0.35rem 0.7rem;
+			border: 1px solid rgba(244, 239, 229, 0.12);
+			border-radius: var(--radius-sm);
+			background: var(--color-panel-soft);
+			color: var(--color-muted);
+			font-weight: 900;
+			cursor: pointer;
+			transition:
+				background 0.2s ease,
+				border-color 0.2s ease,
+				color 0.2s ease;
+
+			&:hover {
+				border-color: var(--color-border-strong);
+				color: var(--color-text);
+			}
+
+			&.active {
+				border-color: rgba(242, 193, 78, 0.7);
+				background: rgba(242, 193, 78, 0.16);
+				color: var(--color-accent);
+			}
+
+			&.keep-up.active {
+				border-color: rgba(103, 213, 200, 0.44);
+				background: rgba(103, 213, 200, 0.13);
+				color: var(--color-cyan);
+			}
 		}
 
 		.meta-row,
@@ -125,6 +232,17 @@ export default {
 			color: var(--color-cyan);
 		}
 
+		.kept-up {
+			border-color: rgba(103, 213, 200, 0.3);
+			background: rgba(103, 213, 200, 0.09);
+			color: var(--color-cyan);
+
+			&.active {
+				border-color: rgba(103, 213, 200, 0.56);
+				background: rgba(103, 213, 200, 0.16);
+			}
+		}
+
 		.required-label {
 			color: var(--color-muted);
 			font-size: 0.75rem;
@@ -137,6 +255,24 @@ export default {
 			border: 1px solid rgba(244, 239, 229, 0.12);
 			background: var(--color-panel-soft);
 			color: var(--color-text);
+		}
+
+		button.required-pill {
+			cursor: pointer;
+			transition:
+				border-color 0.2s ease,
+				color 0.2s ease,
+				background 0.2s ease;
+
+			&:hover {
+				border-color: var(--color-accent);
+				color: var(--color-accent);
+			}
+
+			&.disabled {
+				cursor: not-allowed;
+				opacity: 0.56;
+			}
 		}
 	}
 
@@ -194,6 +330,17 @@ export default {
 
 @media (max-width: 980px) {
 	.skill--container {
+		.title {
+			.title-top {
+				flex-direction: column;
+			}
+
+			.title-actions {
+				justify-content: flex-start;
+				min-width: 0;
+			}
+		}
+
 		.content {
 			grid-template-columns: 1fr;
 

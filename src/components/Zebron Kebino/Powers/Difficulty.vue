@@ -1,9 +1,17 @@
 <template>
 	<div class="difficulty--container">
-		<article class="power" v-for="(power, index) in skill.powers" :key="index">
-			<header class="title">
+		<details class="power" v-for="(power, index) in skill.powers" :key="index" open>
+			<summary class="title">
 				<span class="name">{{ PowerName[power] }}</span>
-			</header>
+				<span class="summary-badges">
+					<span class="summary-badge" v-for="(item, itemIndex) in getDifficulty(power).level" :key="itemIndex">
+						{{ getDifficultyLevel(item).title }}
+					</span>
+					<span class="summary-badge muted" v-if="skill.hasIncreasedDifficulty(power)">Increases</span>
+					<span class="summary-badge muted" v-if="skill.hasModifiedDifficulty(power)">Modifiers</span>
+					<span class="summary-badge muted" v-if="!getDifficulty(power).level.length">No base difficulty</span>
+				</span>
+			</summary>
 			<div class="details--container">
 				<section class="details-section" v-if="getDifficulty(power).level.length">
 					<h3>Base Difficulty</h3>
@@ -36,7 +44,7 @@
 					</ul>
 				</section>
 			</div>
-		</article>
+		</details>
 		<ul class="extra" v-if="getExtra().length">
 			<li class="list-item" v-for="(item, index) in getExtra()" :key="index">
 				<div v-html="sanitizeHtml(item)"></div>
@@ -155,14 +163,71 @@ export default {
 		border-bottom: 1px solid rgba(244, 239, 229, 0.1);
 
 		.title {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
 			margin-bottom: 0.8rem;
+			cursor: pointer;
+			list-style: none;
+
+			&::-webkit-details-marker {
+				display: none;
+			}
+
+			&::before {
+				content: "Show";
+				min-width: 3.3rem;
+				order: 3;
+				padding: 0.16rem 0.4rem;
+				border: 1px solid rgba(244, 239, 229, 0.12);
+				border-radius: var(--radius-sm);
+				color: var(--color-muted);
+				font-size: 0.72rem;
+				font-weight: 900;
+				text-align: center;
+			}
 
 			.name {
-				width: 100%;
 				color: var(--color-text);
 				font-size: 1.25rem;
 				font-weight: bold;
 				margin-right: 0.4rem;
+			}
+
+			.summary-badges {
+				display: flex;
+				flex: 1;
+				flex-wrap: wrap;
+				justify-content: flex-end;
+				gap: 0.35rem;
+			}
+
+			.summary-badge {
+				display: inline-flex;
+				align-items: center;
+				min-height: 1.5rem;
+				padding: 0.14rem 0.45rem;
+				border: 1px solid rgba(242, 193, 78, 0.3);
+				border-radius: var(--radius-sm);
+				background: rgba(242, 193, 78, 0.09);
+				color: var(--color-accent);
+				font-size: 0.74rem;
+				font-weight: 900;
+
+				&.muted {
+					border-color: rgba(244, 239, 229, 0.12);
+					background: rgba(255, 255, 255, 0.035);
+					color: var(--color-muted);
+				}
+			}
+		}
+
+		&[open] {
+			.title {
+				&::before {
+					content: "Hide";
+				}
 			}
 		}
 
@@ -271,6 +336,20 @@ export default {
 @media (max-width: 560px) {
 	.difficulty--container {
 		.power {
+			.title {
+				align-items: flex-start;
+				flex-direction: column;
+				gap: 0.55rem;
+
+				.summary-badges {
+					justify-content: flex-start;
+				}
+
+				&::before {
+					order: initial;
+				}
+			}
+
 			.details--container {
 				.level--container,
 				.add--container {
