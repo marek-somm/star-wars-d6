@@ -67,6 +67,7 @@ export class Skill {
 	};
 	effect;
 	example;
+	contentBlocks = [];
 
 	constructor(skillName) {
 		this.name = skillName;
@@ -136,4 +137,3 @@ export default class PowerLabel {
 	getName() { return this.name; }
 	getSkills() { return this.skills; }
 }
-

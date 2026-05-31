@@ -52,14 +52,19 @@
 		</header>
 		<div class="content">
 			<div class="effect">
-				<details class="text-section" v-if="skill.effect" open>
-					<summary>Effect</summary>
-					<div class="long" v-html="sanitizeHtml(skill.effect)"></div>
-				</details>
-				<details class="text-section example" v-if="skill.example" open>
-					<summary>Example</summary>
-					<div class="long" v-html="sanitizeHtml(skill.example)"></div>
-				</details>
+				<template v-for="(block, index) in getContentBlocks()" :key="index">
+					<details
+						v-if="block.type === 'example'"
+						class="text-section example"
+						open
+					>
+						<summary>Example</summary>
+						<div class="long" v-html="sanitizeHtml(block.text)"></div>
+					</details>
+					<div v-else class="text-section">
+						<div class="long" v-html="sanitizeHtml(block.text)"></div>
+					</div>
+				</template>
 			</div>
 			<div class="details">
 				<Difficulty :skill="skill" />
@@ -111,10 +116,26 @@ export default {
 				skill
 				&& (
 					(Array.isArray(skill.powers) && skill.powers.length > 0)
+					|| (Array.isArray(skill.contentBlocks) && skill.contentBlocks.length > 0)
 					|| skill.effect
 					|| skill.example
 				)
 			);
+		},
+
+		getContentBlocks() {
+			if (Array.isArray(this.skill?.contentBlocks) && this.skill.contentBlocks.length > 0) {
+				return this.skill.contentBlocks;
+			}
+
+			const fallback = [];
+			if (this.skill?.effect) {
+				fallback.push({ type: "effect", text: this.skill.effect });
+			}
+			if (this.skill?.example) {
+				fallback.push({ type: "example", text: this.skill.example });
+			}
+			return fallback;
 		}
 	}
 };

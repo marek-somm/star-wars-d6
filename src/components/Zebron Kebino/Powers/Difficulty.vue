@@ -17,8 +17,13 @@
 					<h3>Base Difficulty</h3>
 					<ul class="level--container">
 						<li class="level-item" v-for="(item, index) in getDifficulty(power).level" :key="index">
-							<div class="level hover">
-								<span class="level-badge" :title="getDifficultyLevel(item).hover">{{ getDifficultyLevel(item).title }}</span>
+							<div class="level hover-wrap">
+								<span class="level-badge">{{ getDifficultyLevel(item).title }}</span>
+								<ul class="hover-tooltip" v-if="normalizeHoverList(getDifficultyLevel(item).hover).length">
+									<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(getDifficultyLevel(item).hover)" :key="hoverIndex">
+										{{ hoverItem }}
+									</li>
+								</ul>
 							</div>
 							<div class="text" v-html="sanitizeHtml(item.text)"></div>
 						</li>
@@ -37,8 +42,13 @@
 					<h3>Modifiers</h3>
 					<ul class="modifiers--container">
 						<li class="modifiers-item" v-for="(item, index) in getDifficulty(power).modifiers" :key="index">
-							<div class="level hover">
-								<span class="level-badge modifier" :title="item.hover">{{ item.text }}</span>
+							<div class="level hover-wrap">
+								<span class="level-badge modifier">{{ item.text }}</span>
+								<ul class="hover-tooltip" v-if="normalizeHoverList(item.hover).length">
+									<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(item.hover)" :key="hoverIndex">
+										{{ hoverItem }}
+									</li>
+								</ul>
 							</div>
 						</li>
 					</ul>
@@ -132,6 +142,16 @@ export default {
 				title: levelTitle,
 				hover: levelHover,
 			};
+		},
+
+		normalizeHoverList(hover) {
+			if (Array.isArray(hover)) {
+				return hover.map((entry) => String(entry ?? ""));
+			}
+			if (hover == null) {
+				return [];
+			}
+			return [String(hover)];
 		},
 
 		getExtra() {
@@ -270,8 +290,41 @@ export default {
 						font-weight: 800;
 					}
 
-					.hover {
+					.hover-wrap {
+						position: relative;
+						display: inline-flex;
+						flex-direction: column;
+						align-items: flex-start;
+						gap: 0.25rem;
 						cursor: help;
+
+						.hover-tooltip {
+							position: absolute;
+							left: 0;
+							top: calc(100% + 0.3rem);
+							z-index: 6;
+							width: min(22rem, 80vw);
+							margin: 0;
+							padding: 0.5rem 0.7rem;
+							list-style: none;
+							border: 1px solid rgba(244, 239, 229, 0.14);
+							border-radius: var(--radius-sm);
+							background: #151311;
+							color: var(--color-muted);
+							font-size: 0.82rem;
+							line-height: 1.4;
+							box-shadow: var(--shadow-panel);
+							display: none;
+
+							li + li {
+								margin-top: 0.3rem;
+							}
+						}
+
+						&:hover .hover-tooltip,
+						&:focus-within .hover-tooltip {
+							display: block;
+						}
 					}
 
 					.text {

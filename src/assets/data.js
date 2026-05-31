@@ -28,19 +28,88 @@ function normalizeDifficulty(rawDifficulty = {}) {
 	const difficulty = createEmptyDifficulty();
 
 	Object.entries(rawDifficulty || {}).forEach(([power, value]) => {
+		const normalizedModifiers = Array.isArray(value?.modifiers)
+			? value.modifiers.map((modifier) => normalizeModifier(modifier))
+			: value?.modifiers;
+
 		difficulty[power] = {
 			...clone(value),
 			level: Array.isArray(value?.level) ? clone(value.level) : [],
+			modifiers: normalizedModifiers,
 		};
 	});
 
 	return difficulty;
 }
 
+function normalizeModifier(modifier) {
+	if (!modifier || typeof modifier !== "object") return modifier;
+
+	if (typeof modifier.hover === "string") {
+		return {
+			...clone(modifier),
+			hover: [modifier.hover],
+		};
+	}
+
+	return clone(modifier);
+}
+
+function getPowersFromDifficulty(rawDifficulty) {
+	return Object.keys(rawDifficulty || {}).filter((power) =>
+		Object.values(Power).includes(power)
+	);
+}
+
+function normalizeExtra(extra) {
+	return asArray(extra);
+}
+
 function normalizeLongText(value) {
+	const cleanText = (input) =>
+		String(input || "")
+			.replace(/\t+/g, " ")
+			.trim();
+
 	if (value == null) return null;
-	if (typeof value === "string") return value;
-	return value.long || null;
+	if (Array.isArray(value)) {
+		return value
+			.map((entry) => cleanText(entry))
+			.filter(Boolean)
+			.join("<br>");
+	}
+	if (typeof value === "string") return cleanText(value);
+	return value.long ? cleanText(value.long) : null;
+}
+
+function normalizeContentBlocks(rawSkill = {}) {
+	if (Array.isArray(rawSkill.content)) {
+		return rawSkill.content
+			.map((block) => {
+				if (typeof block === "string") {
+					return { type: "effect", text: normalizeLongText(block) };
+				}
+				if (!block || typeof block !== "object") return null;
+
+				const type = block.type === "example" ? "example" : "effect";
+				const blockTextSource = Array.isArray(block.text)
+					? block.text
+					: (block.text ?? block.content ?? block.value ?? null);
+				const text = normalizeLongText(blockTextSource);
+
+				return text ? { type, text } : null;
+			})
+			.filter(Boolean);
+	}
+
+	const blocks = [];
+	const effectText = normalizeLongText(rawSkill.effect);
+	const exampleText = normalizeLongText(rawSkill.example);
+
+	if (effectText) blocks.push({ type: "effect", text: effectText });
+	if (exampleText) blocks.push({ type: "example", text: exampleText });
+
+	return blocks;
 }
 
 function normalizeSkillKey(name) {
@@ -75,12 +144,19 @@ function hydrateRequiredSkills(rawSkill, skill, skillsByName) {
 
 function createSkill(rawSkill) {
 	const skill = new Skill(rawSkill.name);
-	skill.setPowers(rawSkill.powers || []);
-	skill.setExtra(rawSkill.extra || []);
+	skill.setPowers(getPowersFromDifficulty(rawSkill.difficulty));
+	skill.setExtra(normalizeExtra(rawSkill.extra));
 	skill.difficulty = normalizeDifficulty(rawSkill.difficulty);
-	skill.effect = normalizeLongText(rawSkill.effect);
-	skill.effectShort = rawSkill.effect?.short || [];
-	skill.example = normalizeLongText(rawSkill.example);
+	skill.contentBlocks = normalizeContentBlocks(rawSkill);
+	skill.effect = skill.contentBlocks
+		.filter((block) => block.type === "effect")
+		.map((block) => block.text)
+		.join("<br>");
+	skill.effectShort = [];
+	skill.example = skill.contentBlocks
+		.filter((block) => block.type === "example")
+		.map((block) => block.text)
+		.join("<br>");
 	skill.source = rawSkill.source;
 	skill.timeToUse = rawSkill.timeToUse;
 	return skill;
