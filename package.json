@@ -11,6 +11,10 @@
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.1",
+    "jspdf": "^4.2.1",
+    "pdfmake": "^0.3.9",
     "vue": "3.5.35"
   },
   "devDependencies": {

@@ -1,16 +1,19 @@
 <template>
 	<div class="container">
 		<Dicer />
+		<CharacterPdfExport character-name="Zebron Kebino" />
 		<Navbar />
 	</div>
 </template>
 
 <script>
+import CharacterPdfExport from "./CharacterPdfExport.vue";
 import Dicer from "./Dicer.vue";
 import Navbar from "./Navbar.vue";
 
 export default {
 	components: {
+		CharacterPdfExport,
 		Dicer,
 		Navbar,
 	},
