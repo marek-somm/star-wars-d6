@@ -124,6 +124,7 @@
 			<ForceSkill
 				v-if="data.currentSkill"
 				:skill="data.currentSkill"
+				:search-term="data.search"
 				:is-favorite="isFavorite(data.currentSkill)"
 				:kept-up-active="isKeptUpActive(data.currentSkill)"
 				class="shown"
@@ -136,7 +137,6 @@
 </template>
 
 <script>
-import Zebron from "@/assets/zebron_kebino.js";
 import { Power, PowerName } from "@/assets/powers";
 import ForceSkill from "./Force Skill";
 
@@ -149,6 +149,12 @@ export default {
 	components: {
 		ForceSkill
 	},
+	props: {
+		powerLabels: {
+			type: Array,
+			default: () => []
+		}
+	},
 	data() {
 		return {
 			data: {
@@ -159,8 +165,7 @@ export default {
 				favorites: [],
 				recent: [],
 				keptUp: []
-			},
-			zebron: new Zebron()
+			}
 		};
 	},
 	created() {
@@ -169,15 +174,19 @@ export default {
 		this.data.keptUp = this.normalizeKeptUpList(this.loadList(KEPT_UP_STORAGE_KEY));
 		this.saveList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
 
-		const firstLabel = this.zebron.getPowerLabels().find((powerLabel) => powerLabel.getSkills().length > 0);
+		const firstLabel = this.resolvedPowerLabels.find((powerLabel) => powerLabel.getSkills().length > 0);
 
 		if (firstLabel) {
 			this.showSkill(firstLabel.getSkills()[0], { trackRecent: false });
 		}
 	},
 	computed: {
+		resolvedPowerLabels() {
+			return Array.isArray(this.powerLabels) ? this.powerLabels : [];
+		},
+
 		allSkills() {
-			return this.zebron.getPowerLabels().flatMap((powerLabel) => powerLabel.getSkills());
+			return this.resolvedPowerLabels.flatMap((powerLabel) => powerLabel.getSkills());
 		},
 
 		powerFilters() {
@@ -201,7 +210,7 @@ export default {
 		filteredPowerLabels() {
 			const search = this.data.search.toLowerCase();
 
-			return this.zebron.getPowerLabels()
+			return this.resolvedPowerLabels
 				.map((powerLabel) => ({
 					name: powerLabel.getName(),
 					skills: this.filterSkills(powerLabel, search),
@@ -262,7 +271,9 @@ export default {
 		matchesSearch(skill, search) {
 			if (search === "") return true;
 
-			return String(skill.name || "").toLowerCase().includes(search);
+			const name = String(skill.name || "").toLowerCase();
+			const summary = String(skill.summary || "").toLowerCase();
+			return name.includes(search) || summary.includes(search);
 		},
 
 		toggleFavorite(skill) {

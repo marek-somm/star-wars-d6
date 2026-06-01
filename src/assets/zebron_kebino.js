@@ -1,4 +1,4 @@
-import { createPowerLabels } from "./data.js";
+import { createPowerLabelsFromGroups } from "./data.js";
 
 export const points = {
 	force: 4,
@@ -10,11 +10,78 @@ export const points = {
 
 export default class Zebron {
 	constructor() {
-		this.labels = createPowerLabels();
+		this.labels = createPowerLabelsFromGroups(learnedPowerGroups, learnedPowerIds);
 	}
 
 	getPowerLabels() { return this.labels; }
 }
+
+export const learnedPowerGroups = [
+	{
+		name: "Combat",
+		powerIds: [
+			"lightsaber_combat",
+			"kinetic_combat",
+			"force_push",
+			"absorb_dissipate_energy",
+			"lesser_force_shield",
+		],
+	},
+	{
+		name: "Utils",
+		powerIds: [
+			"telekinesis",
+			"contort_escape",
+		],
+	},
+	{
+		name: "Buffs",
+		powerIds: [
+			"concentration",
+			"enhance_attribute",
+			"emptiness",
+		],
+	},
+	{
+		name: "Self-Control",
+		powerIds: [
+			"control_pain",
+			"remain_conscious",
+			"hibernation_trance",
+			"accelerate_healing",
+		],
+	},
+	{
+		name: "Enhance Senses",
+		powerIds: [
+			"life_sense",
+			"life_detection",
+			"danger_sense",
+			"combat_sense",
+		],
+	},
+	{
+		name: "Communication",
+		powerIds: [
+			"affect_mind",
+			"translation",
+			"receptive_telepathy",
+			"projective_telepathy",
+		],
+	},
+	{
+		name: "Party",
+		powerIds: [
+			"control_another_s_pain",
+			"accelerate_another_s_healing",
+			"transfer_force",
+		],
+	},
+];
+
+export const learnedPowerIds = [
+	...new Set(learnedPowerGroups.flatMap((group) => group.powerIds || [])),
+];
 
 export const stats = [
 	{

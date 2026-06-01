@@ -55,6 +55,7 @@ export const forceStats = {
 };
 
 export class Skill {
+	id;
 	name;
 	powers = [];
 	source;

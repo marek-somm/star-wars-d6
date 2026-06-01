@@ -112,11 +112,15 @@ function normalizeContentBlocks(rawSkill = {}) {
 	return blocks;
 }
 
-function normalizeSkillKey(name) {
+export function normalizeSkillKey(name) {
 	return name
 		.toLowerCase()
 		.replace(/[^a-z0-9]+/g, "_")
 		.replace(/^_+|_+$/g, "");
+}
+
+function getRawSkillId(rawSkill) {
+	return rawSkill.id || normalizeSkillKey(rawSkill.name || "");
 }
 
 function getOrCreateSkill(skillsByName, name) {
@@ -144,6 +148,7 @@ function hydrateRequiredSkills(rawSkill, skill, skillsByName) {
 
 function createSkill(rawSkill) {
 	const skill = new Skill(rawSkill.name);
+	skill.id = getRawSkillId(rawSkill);
 	skill.setPowers(getPowersFromDifficulty(rawSkill.difficulty));
 	skill.setExtra(normalizeExtra(rawSkill.extra));
 	skill.difficulty = normalizeDifficulty(rawSkill.difficulty);
@@ -163,31 +168,97 @@ function createSkill(rawSkill) {
 	return skill;
 }
 
-export function createPowerLabels() {
-	const labels = [];
+let powerCatalog = null;
+
+function getPowerCatalog() {
+	if (powerCatalog) return powerCatalog;
+
+	const skills = [];
 	const skillsByName = new Map();
+	const skillsById = new Map();
 	const entries = [];
-	let currentLabel = null;
 
 	rawPowerItems.forEach((item) => {
-		if (item.type === "label") {
-			currentLabel = item.name ? new PowerLabel(item.name) : null;
-			if (currentLabel) labels.push(currentLabel);
-			return;
-		}
-
 		const skill = createSkill(item);
+		skills.push(skill);
 		skillsByName.set(skill.name, skill);
+		skillsById.set(skill.id, skill);
 		entries.push({ rawSkill: item, skill });
-
-		if (currentLabel) {
-			currentLabel.addSkill(skill);
-		}
 	});
 
 	entries.forEach(({ rawSkill, skill }) => {
 		hydrateRequiredSkills(rawSkill, skill, skillsByName);
 	});
+
+	powerCatalog = { skills, skillsById };
+	return powerCatalog;
+}
+
+export function getAllPowerIds() {
+	return getPowerCatalog().skills.map((skill) => skill.id);
+}
+
+export function createPowerSkills(powerIds = null) {
+	const catalog = getPowerCatalog();
+	const allSkills = catalog.skills;
+
+	if (powerIds == null) return allSkills;
+
+	const normalizedIds = new Set(
+		asArray(powerIds)
+			.map((powerId) => String(powerId || "").trim())
+			.filter(Boolean)
+	);
+
+	return allSkills.filter((skill) => normalizedIds.has(skill.id));
+}
+
+function createLabel(name, skills = []) {
+	const label = new PowerLabel(name);
+	for (const skill of skills) {
+		label.addSkill(skill);
+	}
+	return label;
+}
+
+export function createPowerLabels() {
+	return [createLabel("Powers", createPowerSkills())];
+}
+
+export function createPowerLabelsFromIds(powerIds = []) {
+	return [createLabel("Powers", createPowerSkills(powerIds))];
+}
+
+export function createPowerLabelsFromGroups(groups = [], powerIds = null) {
+	const catalog = getPowerCatalog();
+	const allowedSkills = createPowerSkills(powerIds);
+	const allowedIds = new Set(allowedSkills.map((skill) => skill.id));
+	const assignedIds = new Set();
+	const labels = [];
+
+	for (const group of asArray(groups)) {
+		const groupName = String(group?.name || "").trim();
+		if (!groupName) continue;
+
+		const groupPowerIds = asArray(group?.powerIds)
+			.map((powerId) => String(powerId || "").trim())
+			.filter(Boolean);
+
+		const skills = [];
+		for (const powerId of groupPowerIds) {
+			const skill = catalog.skillsById.get(powerId);
+			if (!skill) continue;
+			if (!allowedIds.has(skill.id)) continue;
+			if (assignedIds.has(skill.id)) continue;
+
+			assignedIds.add(skill.id);
+			skills.push(skill);
+		}
+
+		if (skills.length > 0) {
+			labels.push(createLabel(groupName, skills));
+		}
+	}
 
 	return labels;
 }
@@ -195,7 +266,8 @@ export function createPowerLabels() {
 export const powerLabels = createPowerLabels();
 
 export const power = Object.fromEntries(
-	powerLabels.flatMap((label) =>
-		label.getSkills().map((skill) => [normalizeSkillKey(skill.name), skill])
-	)
+	createPowerSkills().flatMap((skill) => {
+		const aliases = [skill.id, normalizeSkillKey(skill.name)].filter(Boolean);
+		return aliases.map((alias) => [alias, skill]);
+	})
 );

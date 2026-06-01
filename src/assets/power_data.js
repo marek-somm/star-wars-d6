@@ -47,10 +47,6 @@ export const forcePowerData = data;
 
 export const rawPowerItems = [
 	{
-		"type": "label",
-		"name": "Combat"
-	},
-	{
 		"name": "Lightsaber Combat",
 		"extra": [
 			data.extra.keptUp
@@ -302,10 +298,6 @@ export const rawPowerItems = [
 		]
 	},
 	{
-		"type": "label",
-		"name": "Utils"
-	},
-	{
 		"name": "Telekinesis",
 		"extra": [
 			data.extra.inSight,
@@ -416,10 +408,6 @@ export const rawPowerItems = [
 				]
 			}
 		]
-	},
-	{
-		"type": "label",
-		"name": "Buffs"
 	},
 	{
 		"name": "Concentration",
@@ -691,10 +679,6 @@ export const rawPowerItems = [
 		]
 	},
 	{
-		"type": "label",
-		"name": "Self-Control"
-	},
-	{
 		"name": "Control Pain",
 		"extra": [
 			data.extra.keptUp,
@@ -880,10 +864,6 @@ export const rawPowerItems = [
 				]
 			}
 		]
-	},
-	{
-		"type": "label",
-		"name": "Enhance Senses"
 	},
 	{
 		"name": "Merge Senses",
@@ -1192,10 +1172,6 @@ export const rawPowerItems = [
 		]
 	},
 	{
-		"type": "label",
-		"name": "Communication"
-	},
-	{
 		"name": "Affect Mind",
 		"difficulty": {
 			"control": {
@@ -1400,10 +1376,6 @@ export const rawPowerItems = [
 				]
 			}
 		]
-	},
-	{
-		"type": "label",
-		"name": "Party"
 	},
 	{
 		"name": "Control Another's Pain",
