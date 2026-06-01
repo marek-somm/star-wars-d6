@@ -90,6 +90,11 @@ function normalizeSkillName(name) {
 		.trim();
 }
 
+function normalizeSearchTerm(value) {
+	const normalized = String(value || "").toLowerCase().trim();
+	return normalized === "altar" ? "alter" : normalized;
+}
+
 function getSkillIdFromHash() {
 	if (typeof window === "undefined") return "";
 	const hash = String(window.location.hash || "");
@@ -139,13 +144,20 @@ export default {
 	},
 	computed: {
 		filteredSkills() {
-			const search = this.data.search.toLowerCase();
+			const search = normalizeSearchTerm(this.data.search);
 			if (!search) return this.allSkills;
 
 			return this.allSkills.filter((skill) => {
 				const name = String(skill.name || "").toLowerCase();
 				const summary = String(skill.summary || "").toLowerCase();
-				return name.includes(search) || summary.includes(search);
+				const powers = Array.isArray(skill.powers) ? skill.powers : [];
+				const powerMatches = powers.some((power) => {
+					const key = String(power || "").toLowerCase();
+					const label = String(this.PowerName[power] || "").toLowerCase();
+					return key.includes(search) || label.includes(search);
+				});
+
+				return name.includes(search) || summary.includes(search) || powerMatches;
 			});
 		},
 
