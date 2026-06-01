@@ -5,6 +5,7 @@ const ALLOWED_TAGS = new Set([
 	"em",
 	"i",
 	"li",
+	"mark",
 	"ol",
 	"p",
 	"span",

@@ -52,7 +52,7 @@
 		</header>
 		<div class="content">
 			<div class="effect">
-				<div class="summary" v-if="skill.summary" v-html="sanitizeHtml(skill.summary)"></div>
+				<div class="summary" v-if="skill.summary" v-html="getSummaryHtml()"></div>
 				<template v-for="(block, index) in getContentBlocks()" :key="index">
 					<details
 						v-if="block.type === 'example'"
@@ -89,6 +89,10 @@ export default {
 			required: true,
 			type: Skill
 		},
+		searchTerm: {
+			default: "",
+			type: String
+		},
 		isFavorite: {
 			default: false,
 			type: Boolean
@@ -111,6 +115,16 @@ export default {
 	},
 	methods: {
 		sanitizeHtml,
+
+		getSummaryHtml() {
+			const summary = String(this.skill?.summary || "");
+			const search = String(this.searchTerm || "").trim();
+			if (!search) return sanitizeHtml(summary);
+
+			const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+			const pattern = new RegExp(`(${escaped})`, "ig");
+			return sanitizeHtml(summary.replace(pattern, "<mark>$1</mark>"));
+		},
 
 		canSelectSkill(skill) {
 			return Boolean(
@@ -378,6 +392,13 @@ export default {
 			text-align: left;
 		}
 	}
+}
+
+:deep(mark) {
+	background: rgba(103, 213, 200, 0.28);
+	color: var(--color-text);
+	padding: 0 0.15rem;
+	border-radius: 2px;
 }
 
 @media (max-width: 980px) {

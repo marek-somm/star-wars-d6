@@ -45,7 +45,7 @@
 					</div>
 				</header>
 
-				<p class="summary" v-if="data.currentSkill.summary" v-html="sanitizeHtml(data.currentSkill.summary)"></p>
+				<p class="summary" v-if="data.currentSkill.summary" v-html="getSummaryHtml()"></p>
 
 				<div class="required" v-if="data.currentSkill.hasRequiredSkills()">
 					<span class="required-label">Voraussetzungen</span>
@@ -165,6 +165,16 @@ export default {
 	},
 	methods: {
 		sanitizeHtml,
+
+		getSummaryHtml() {
+			const summary = String(this.data.currentSkill?.summary || "");
+			const search = String(this.data.search || "").trim();
+			if (!search) return sanitizeHtml(summary);
+
+			const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+			const pattern = new RegExp(`(${escaped})`, "ig");
+			return sanitizeHtml(summary.replace(pattern, "<mark>$1</mark>"));
+		},
 
 		showSkill(skill, updateHash = true) {
 			const target = this.allSkills.find((entry) => entry.id === skill.id)
@@ -385,6 +395,13 @@ export default {
 	font-size: 1rem;
 	line-height: 1.6;
 	font-weight: 800;
+}
+
+:deep(mark) {
+	background: rgba(103, 213, 200, 0.28);
+	color: var(--color-text);
+	padding: 0 0.15rem;
+	border-radius: 2px;
 }
 
 .required {
