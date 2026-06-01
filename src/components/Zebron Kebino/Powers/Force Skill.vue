@@ -53,24 +53,37 @@
 		<div class="content">
 			<div class="effect">
 				<div class="summary" v-if="skill.summary" v-html="getSummaryHtml()"></div>
-				<template v-for="(block, index) in getContentBlocks()" :key="index">
+				<template v-for="(block, index) in contentBlocks" :key="index">
 					<details
 						v-if="block.type === 'example'"
 						class="text-section example"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
 						open
 					>
 						<summary>Example</summary>
 						<div class="long" v-html="sanitizeHtml(block.text)"></div>
 					</details>
-					<div v-else-if="block.type === 'note'" class="text-section note">
+					<div
+						v-else-if="block.type === 'note'"
+						class="text-section note"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+					>
 						<p class="note-label">Note</p>
 						<div class="long" v-html="sanitizeHtml(block.text)"></div>
 					</div>
-					<div v-else-if="block.type === 'warning'" class="text-section warning">
+					<div
+						v-else-if="block.type === 'warning'"
+						class="text-section warning"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+					>
 						<p class="warning-label">Warning</p>
 						<div class="long" v-html="sanitizeHtml(block.text)"></div>
 					</div>
-					<div v-else class="text-section">
+					<div
+						v-else
+						class="text-section"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+					>
 						<div class="long" v-html="sanitizeHtml(block.text)"></div>
 					</div>
 				</template>
@@ -119,6 +132,21 @@ export default {
 		canKeepUp() {
 			return Array.isArray(this.skill.extra)
 				&& this.skill.extra.some((item) => String(item || "").toLowerCase().includes("kept up"));
+		},
+
+		contentBlocks() {
+			if (Array.isArray(this.skill?.contentBlocks) && this.skill.contentBlocks.length > 0) {
+				return this.skill.contentBlocks;
+			}
+
+			const fallback = [];
+			if (this.skill?.effect) {
+				fallback.push({ type: "effect", text: this.skill.effect });
+			}
+			if (this.skill?.example) {
+				fallback.push({ type: "example", text: this.skill.example });
+			}
+			return fallback;
 		}
 	},
 	methods: {
@@ -134,6 +162,21 @@ export default {
 			return sanitizeHtml(summary.replace(pattern, "<mark>$1</mark>"));
 		},
 
+		shouldRenderDivider(index, blocks) {
+			if (!Array.isArray(blocks) || index <= 0) return false;
+
+			const currentType = String(blocks[index]?.type || "").toLowerCase();
+			if (currentType === "note" || currentType === "warning") return false;
+
+			const previousType = String(blocks[index - 1]?.type || "").toLowerCase();
+			const previousIsSpecial = previousType === "note" || previousType === "warning";
+			if (previousIsSpecial) {
+				return index - 1 > 0;
+			}
+
+			return true;
+		},
+
 		canSelectSkill(skill) {
 			return Boolean(
 				skill
@@ -147,20 +190,6 @@ export default {
 			);
 		},
 
-		getContentBlocks() {
-			if (Array.isArray(this.skill?.contentBlocks) && this.skill.contentBlocks.length > 0) {
-				return this.skill.contentBlocks;
-			}
-
-			const fallback = [];
-			if (this.skill?.effect) {
-				fallback.push({ type: "effect", text: this.skill.effect });
-			}
-			if (this.skill?.example) {
-				fallback.push({ type: "example", text: this.skill.example });
-			}
-			return fallback;
-		}
 	}
 };
 </script>
@@ -340,7 +369,7 @@ export default {
 				font-weight: 700;
 			}
 
-			.text-section + .text-section {
+			.text-section.with-divider {
 				margin-top: 1.4rem;
 				padding-top: 1.4rem;
 				border-top: 1px solid rgba(244, 239, 229, 0.1);
@@ -351,6 +380,8 @@ export default {
 				border: 1px solid rgba(103, 213, 200, 0.34);
 				border-radius: var(--radius-sm);
 				background: rgba(103, 213, 200, 0.08);
+				margin-top: 1.4rem;
+				margin-inline: 0.45rem;
 
 				.note-label {
 					margin: 0 0 0.35rem;
@@ -366,6 +397,8 @@ export default {
 				border: 1px solid rgba(217, 95, 67, 0.48);
 				border-radius: var(--radius-sm);
 				background: rgba(217, 95, 67, 0.11);
+				margin-top: 1.4rem;
+				margin-inline: 0.45rem;
 
 				.warning-label {
 					margin: 0 0 0.35rem;
@@ -374,6 +407,16 @@ export default {
 					font-weight: 900;
 					text-transform: uppercase;
 				}
+			}
+
+			.text-section.note:first-child,
+			.text-section.warning:first-child {
+				margin-top: 0;
+			}
+
+			.text-section.note + .text-section:not(.with-divider),
+			.text-section.warning + .text-section:not(.with-divider) {
+				margin-top: 0.95rem;
 			}
 
 			summary {

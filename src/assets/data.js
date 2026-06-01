@@ -29,8 +29,10 @@ function normalizeDifficulty(rawDifficulty = {}) {
 
 	Object.entries(rawDifficulty || {}).forEach(([power, value]) => {
 		const normalizedModifiers = Array.isArray(value?.modifiers)
-			? value.modifiers.map((modifier) => normalizeModifier(modifier))
-			: value?.modifiers;
+			? value.modifiers
+				.map((modifier) => normalizeModifier(modifier))
+				.filter((modifier) => modifier && typeof modifier === "object")
+			: [];
 
 		difficulty[power] = {
 			...clone(value),

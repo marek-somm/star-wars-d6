@@ -6,13 +6,8 @@
 				<h1>Reference</h1>
 			</div>
 			<div class="header-meta">
-				<input
-					v-model.trim="data.search"
-					class="search"
-					type="search"
-					placeholder="Search powers"
-					aria-label="Search powers"
-				>
+				<input v-model.trim="data.search" class="search" type="search" placeholder="Search powers"
+					aria-label="Search powers">
 				<p class="count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
 			</div>
 		</header>
@@ -21,14 +16,8 @@
 			<aside class="wiki-index">
 				<div class="index-group" v-for="group in groupedSkills" :key="group.letter">
 					<h2>{{ group.letter }}</h2>
-					<button
-						v-for="skill in group.skills"
-						:key="skill.id || skill.name"
-						class="index-item"
-						:class="{ active: isCurrentSkill(skill) }"
-						type="button"
-						@click="showSkill(skill)"
-					>
+					<button v-for="skill in group.skills" :key="skill.id || skill.name" class="index-item"
+						:class="{ active: isCurrentSkill(skill) }" type="button" @click="showSkill(skill)">
 						{{ skill.name }}
 					</button>
 				</div>
@@ -50,27 +39,45 @@
 				<div class="required" v-if="data.currentSkill.hasRequiredSkills()">
 					<span class="required-label">Requirements</span>
 					<ul>
-						<li v-for="requiredSkill in data.currentSkill.required" :key="requiredSkill.id || requiredSkill.name">
+						<li v-for="requiredSkill in data.currentSkill.required"
+							:key="requiredSkill.id || requiredSkill.name">
 							<button type="button" @click="showSkill(requiredSkill)">{{ requiredSkill.name }}</button>
 						</li>
 					</ul>
 				</div>
 
-				<section class="content" v-if="getContentBlocks().length > 0">
-					<template v-for="(block, index) in getContentBlocks()" :key="index">
-						<details v-if="block.type === 'example'" class="block example">
+				<section class="content" v-if="contentBlocks.length > 0">
+					<template v-for="(block, index) in contentBlocks" :key="index">
+						<details
+							v-if="block.type === 'example'"
+							class="block example"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+						>
 							<summary>Example</summary>
-							<div v-html="sanitizeHtml(block.text)"></div>
+							<div v-html="formatBlockHtml(block.text)"></div>
 						</details>
-						<div v-else-if="block.type === 'note'" class="block note">
+						<div
+							v-else-if="block.type === 'note'"
+							class="block note"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+						>
 							<p class="note-label">Note</p>
-							<div v-html="sanitizeHtml(block.text)"></div>
+							<div v-html="formatBlockHtml(block.text)"></div>
 						</div>
-						<div v-else-if="block.type === 'warning'" class="block warning">
+						<div
+							v-else-if="block.type === 'warning'"
+							class="block warning"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+						>
 							<p class="warning-label">Warning</p>
-							<div v-html="sanitizeHtml(block.text)"></div>
+							<div v-html="formatBlockHtml(block.text)"></div>
 						</div>
-						<div v-else class="block" v-html="sanitizeHtml(block.text)"></div>
+						<div
+							v-else
+							class="block"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+							v-html="formatBlockHtml(block.text)"
+						></div>
 					</template>
 				</section>
 
@@ -115,6 +122,24 @@ function getSkillIdFromHash() {
 		return match[1];
 	}
 }
+
+const BLOCK_TAGS = new Set([
+	"article",
+	"blockquote",
+	"details",
+	"div",
+	"h1",
+	"h2",
+	"h3",
+	"h4",
+	"h5",
+	"h6",
+	"ol",
+	"p",
+	"section",
+	"table",
+	"ul",
+]);
 
 export default {
 	components: {
@@ -181,6 +206,13 @@ export default {
 			}
 
 			return [...groups.entries()].map(([letter, skills]) => ({ letter, skills }));
+		},
+
+		contentBlocks() {
+			if (Array.isArray(this.data.currentSkill?.contentBlocks)) {
+				return this.data.currentSkill.contentBlocks;
+			}
+			return [];
 		}
 	},
 	methods: {
@@ -189,11 +221,81 @@ export default {
 		getSummaryHtml() {
 			const summary = String(this.data.currentSkill?.summary || "");
 			const search = String(this.data.search || "").trim();
-			if (!search) return sanitizeHtml(summary);
+			if (!search) return this.toParagraphHtml(summary);
 
 			const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 			const pattern = new RegExp(`(${escaped})`, "ig");
-			return sanitizeHtml(summary.replace(pattern, "<mark>$1</mark>"));
+			return this.toParagraphHtml(summary.replace(pattern, "<mark>$1</mark>"));
+		},
+
+		formatBlockHtml(text) {
+			return this.toParagraphHtml(String(text || ""));
+		},
+
+		toParagraphHtml(content) {
+			const raw = String(content || "").trim();
+			if (!raw) return "";
+			const sanitized = sanitizeHtml(raw);
+
+			if (typeof document === "undefined") return sanitized;
+
+			const template = document.createElement("template");
+			template.innerHTML = sanitized;
+			const container = document.createElement("div");
+			let paragraphNodes = [];
+
+			const flushParagraph = () => {
+				const hasMeaningfulContent = paragraphNodes.some((node) =>
+					node.nodeType !== 3 || String(node.textContent || "").trim() !== ""
+				);
+				if (!hasMeaningfulContent) {
+					paragraphNodes = [];
+					return;
+				}
+
+				const paragraph = document.createElement("p");
+				for (const node of paragraphNodes) {
+					paragraph.appendChild(node);
+				}
+				container.appendChild(paragraph);
+				paragraphNodes = [];
+			};
+
+			for (const node of Array.from(template.content.childNodes)) {
+				if (node.nodeType === 1) {
+					const tagName = node.tagName.toLowerCase();
+					if (tagName === "br") {
+						flushParagraph();
+						continue;
+					}
+
+					if (BLOCK_TAGS.has(tagName)) {
+						flushParagraph();
+						container.appendChild(node.cloneNode(true));
+						continue;
+					}
+				}
+
+				paragraphNodes.push(node.cloneNode(true));
+			}
+
+			flushParagraph();
+			return container.innerHTML;
+		},
+
+		shouldRenderDivider(index, blocks) {
+			if (!Array.isArray(blocks) || index <= 0) return false;
+
+			const currentType = String(blocks[index]?.type || "").toLowerCase();
+			if (currentType === "note" || currentType === "warning") return false;
+
+			const previousType = String(blocks[index - 1]?.type || "").toLowerCase();
+			const previousIsSpecial = previousType === "note" || previousType === "warning";
+			if (previousIsSpecial) {
+				return index - 1 > 0;
+			}
+
+			return true;
 		},
 
 		showSkill(skill, updateHash = true) {
@@ -231,12 +333,6 @@ export default {
 			return normalizeSkillName(this.data.currentSkill.name) === normalizeSkillName(skill.name);
 		},
 
-		getContentBlocks() {
-			if (Array.isArray(this.data.currentSkill?.contentBlocks)) {
-				return this.data.currentSkill.contentBlocks;
-			}
-			return [];
-		}
 	},
 	watch: {
 		filteredSkills(list) {
@@ -333,7 +429,7 @@ export default {
 	overflow: auto;
 	padding: 0.9rem;
 
-	.index-group + .index-group {
+	.index-group+.index-group {
 		margin-top: 0.9rem;
 	}
 
@@ -454,7 +550,7 @@ export default {
 }
 
 .content {
-	.block + .block {
+	.block.with-divider {
 		margin-top: 0.95rem;
 		padding-top: 0.95rem;
 		border-top: 1px solid rgba(244, 239, 229, 0.1);
@@ -463,6 +559,15 @@ export default {
 	.block {
 		line-height: 1.6;
 		color: var(--color-muted);
+
+		:deep(p) {
+			margin: 0;
+		}
+
+		:deep(p + p) {
+			margin-top: 0.5rem;
+		}
+
 	}
 
 	.note {
@@ -470,6 +575,8 @@ export default {
 		border: 1px solid rgba(103, 213, 200, 0.34);
 		border-radius: var(--radius-sm);
 		background: rgba(103, 213, 200, 0.08);
+		margin-top: 0.95rem;
+		margin-inline: 0.45rem;
 
 		.note-label {
 			margin: 0 0 0.35rem;
@@ -485,6 +592,8 @@ export default {
 		border: 1px solid rgba(217, 95, 67, 0.48);
 		border-radius: var(--radius-sm);
 		background: rgba(217, 95, 67, 0.11);
+		margin-top: 0.95rem;
+		margin-inline: 0.45rem;
 
 		.warning-label {
 			margin: 0 0 0.35rem;
@@ -493,6 +602,16 @@ export default {
 			font-weight: 900;
 			text-transform: uppercase;
 		}
+	}
+
+	.note:first-child,
+	.warning:first-child {
+		margin-top: 0;
+	}
+
+	.note + .block:not(.with-divider),
+	.warning + .block:not(.with-divider) {
+		margin-top: 0.85rem;
 	}
 
 	.example summary {
