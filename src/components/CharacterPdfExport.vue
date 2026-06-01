@@ -92,6 +92,8 @@
 
 <script>
 import { nextTick, ref } from "vue";
+import pdfMakeModule from "pdfmake/build/pdfmake";
+import pdfFontsModule from "pdfmake/build/vfs_fonts";
 import Zebron, { points, stats as characterStats } from "@/assets/zebron_kebino.js";
 import { forceStats, PowerName, TimeToUse } from "@/assets/powers";
 
@@ -104,6 +106,33 @@ const ATTRIBUTE_SHORTCODE = {
 	Mechanical: "MEC",
 	Technical: "TEC",
 };
+
+const pdfMake = pdfMakeModule?.default || pdfMakeModule;
+
+function registerPdfFonts() {
+	const vfsCandidates = [
+		pdfFontsModule?.default?.pdfMake?.vfs,
+		pdfFontsModule?.pdfMake?.vfs,
+		pdfFontsModule?.default?.vfs,
+		pdfFontsModule?.vfs,
+		pdfFontsModule?.default,
+		pdfFontsModule,
+	].filter((candidate) => candidate && typeof candidate === "object");
+
+	for (const vfs of vfsCandidates) {
+		if (typeof pdfMake.addVirtualFileSystem === "function") {
+			pdfMake.addVirtualFileSystem(vfs);
+			return true;
+		}
+
+		pdfMake.vfs = vfs;
+		return true;
+	}
+
+	return false;
+}
+
+registerPdfFonts();
 
 function normalizeSkillName(name) {
 	return String(name || "")
@@ -417,41 +446,8 @@ export default {
 		async function createPdfNative(filenameDate) {
 			try {
 				console.log("Starting PDF creation...");
-				const pdfMakeModule = await import("pdfmake/build/pdfmake.js");
-				const pdfMake = pdfMakeModule.default || pdfMakeModule;
-
-				const registerVirtualFileSystem = (vfsSource) => {
-					const vfs = vfsSource?.vfs && typeof vfsSource.vfs === "object"
-						? vfsSource.vfs
-						: vfsSource;
-					if (!vfs || typeof vfs !== "object") return false;
-
-					if (typeof pdfMake.addVirtualFileSystem === "function") {
-						pdfMake.addVirtualFileSystem(vfs);
-						return true;
-					}
-
-					pdfMake.vfs = vfs;
-					return true;
-				};
-
-				let vfsLoaded = false;
-				// Load vfs fonts - REQUIRED for font rendering
-				try {
-					const vfsFontsModule = await import("pdfmake/build/vfs_fonts.js");
-					const vfsFonts = vfsFontsModule.default || vfsFontsModule;
-					vfsLoaded = registerVirtualFileSystem(vfsFonts)
-						|| registerVirtualFileSystem(vfsFonts?.pdfMake)
-						|| registerVirtualFileSystem(vfsFontsModule);
-					if (vfsLoaded) {
-						console.log("VFS fonts loaded successfully");
-					}
-				} catch (e) {
-					console.warn("Could not load vfs fonts:", e.message);
-				}
-				if (!vfsLoaded) {
-					console.warn("VFS fonts could not be registered. PDF generation may fail.");
-				}
+				const vfsLoaded = Boolean(pdfMake?.vfs) || registerPdfFonts();
+				if (!vfsLoaded) console.warn("VFS fonts could not be registered. PDF generation may fail.");
 
 				console.log("pdfMake object ready:", !!pdfMake);
 
