@@ -1,5 +1,5 @@
 import PowerLabel, { Power, Skill } from "./powers.js";
-import { rawPowerItems } from "./power_data.js";
+import { forcePowerData, rawPowerItems } from "./power_data.js";
 
 function asArray(value) {
 	if (value == null) return [];
@@ -24,6 +24,14 @@ function createEmptyDifficulty() {
 	};
 }
 
+const defaultDarkSidePointWarningText = "Using this power grants the user one Dark Side Point.";
+const darkSidePointWarningText = String(forcePowerData?.warnings?.darkSidePointOnUseWarning || "").trim()
+	|| defaultDarkSidePointWarningText;
+
+function normalizeDifficultyLevels(levels) {
+	return asArray(levels).map((item) => clone(item));
+}
+
 function normalizeDifficulty(rawDifficulty = {}) {
 	const difficulty = createEmptyDifficulty();
 
@@ -36,7 +44,7 @@ function normalizeDifficulty(rawDifficulty = {}) {
 
 		difficulty[power] = {
 			...clone(value),
-			level: Array.isArray(value?.level) ? clone(value.level) : [],
+			level: normalizeDifficultyLevels(value?.level),
 			modifiers: normalizedModifiers,
 		};
 	});
@@ -84,9 +92,42 @@ function normalizeLongText(value) {
 	return value.long ? cleanText(value.long) : null;
 }
 
+function hasDarkSidePointOnUse(rawSkill = {}) {
+	return Boolean(
+		rawSkill.grantsDarkSidePointOnUse
+		|| rawSkill.darkSidePointOnUse
+		|| rawSkill.awardsDarkSidePointOnUse
+	);
+}
+
+function isDarkSidePointOnUseWarning(text) {
+	const value = String(text || "").toLowerCase();
+	if (!value.includes("dark side point")) return false;
+
+	return value.includes("uses this")
+		|| value.includes("uses this power")
+		|| value.includes("activates this power")
+		|| value.includes("activates this");
+}
+
+function withDarkSidePointWarning(blocks = [], rawSkill = {}) {
+	if (!hasDarkSidePointOnUse(rawSkill)) {
+		return blocks;
+	}
+
+	const filteredBlocks = blocks.filter((block) =>
+		!(block?.type === "warning" && isDarkSidePointOnUseWarning(block.text))
+	);
+
+	return [
+		{ type: "warning", text: darkSidePointWarningText },
+		...filteredBlocks,
+	];
+}
+
 function normalizeContentBlocks(rawSkill = {}) {
 	if (Array.isArray(rawSkill.content)) {
-		return rawSkill.content
+		const blocks = rawSkill.content
 			.map((block) => {
 				if (typeof block === "string") {
 					return { type: "effect", text: normalizeLongText(block) };
@@ -106,6 +147,8 @@ function normalizeContentBlocks(rawSkill = {}) {
 				return text ? { type, text } : null;
 			})
 			.filter(Boolean);
+
+		return withDarkSidePointWarning(blocks, rawSkill);
 	}
 
 	const blocks = [];
@@ -115,7 +158,7 @@ function normalizeContentBlocks(rawSkill = {}) {
 	if (effectText) blocks.push({ type: "effect", text: effectText });
 	if (exampleText) blocks.push({ type: "example", text: exampleText });
 
-	return blocks;
+	return withDarkSidePointWarning(blocks, rawSkill);
 }
 
 export function normalizeSkillKey(name) {
