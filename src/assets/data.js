@@ -91,7 +91,11 @@ function normalizeContentBlocks(rawSkill = {}) {
 				}
 				if (!block || typeof block !== "object") return null;
 
-				const type = block.type === "example" ? "example" : "effect";
+				const type = block.type === "example"
+					? "example"
+					: (block.type === "note"
+						? "note"
+						: (block.type === "warning" ? "warning" : "effect"));
 				const blockTextSource = Array.isArray(block.text)
 					? block.text
 					: (block.text ?? block.content ?? block.value ?? null);

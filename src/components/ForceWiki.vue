@@ -62,6 +62,14 @@
 							<summary>Example</summary>
 							<div v-html="sanitizeHtml(block.text)"></div>
 						</details>
+						<div v-else-if="block.type === 'note'" class="block note">
+							<p class="note-label">Note</p>
+							<div v-html="sanitizeHtml(block.text)"></div>
+						</div>
+						<div v-else-if="block.type === 'warning'" class="block warning">
+							<p class="warning-label">Warning</p>
+							<div v-html="sanitizeHtml(block.text)"></div>
+						</div>
 						<div v-else class="block" v-html="sanitizeHtml(block.text)"></div>
 					</template>
 				</section>
@@ -455,6 +463,36 @@ export default {
 	.block {
 		line-height: 1.6;
 		color: var(--color-muted);
+	}
+
+	.note {
+		padding: 0.75rem 0.85rem;
+		border: 1px solid rgba(103, 213, 200, 0.34);
+		border-radius: var(--radius-sm);
+		background: rgba(103, 213, 200, 0.08);
+
+		.note-label {
+			margin: 0 0 0.35rem;
+			color: var(--color-cyan);
+			font-size: 0.76rem;
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+	}
+
+	.warning {
+		padding: 0.75rem 0.85rem;
+		border: 1px solid rgba(217, 95, 67, 0.48);
+		border-radius: var(--radius-sm);
+		background: rgba(217, 95, 67, 0.11);
+
+		.warning-label {
+			margin: 0 0 0.35rem;
+			color: var(--color-danger);
+			font-size: 0.76rem;
+			font-weight: 900;
+			text-transform: uppercase;
+		}
 	}
 
 	.example summary {

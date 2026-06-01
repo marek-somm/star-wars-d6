@@ -62,6 +62,14 @@
 						<summary>Example</summary>
 						<div class="long" v-html="sanitizeHtml(block.text)"></div>
 					</details>
+					<div v-else-if="block.type === 'note'" class="text-section note">
+						<p class="note-label">Note</p>
+						<div class="long" v-html="sanitizeHtml(block.text)"></div>
+					</div>
+					<div v-else-if="block.type === 'warning'" class="text-section warning">
+						<p class="warning-label">Warning</p>
+						<div class="long" v-html="sanitizeHtml(block.text)"></div>
+					</div>
 					<div v-else class="text-section">
 						<div class="long" v-html="sanitizeHtml(block.text)"></div>
 					</div>
@@ -336,6 +344,36 @@ export default {
 				margin-top: 1.4rem;
 				padding-top: 1.4rem;
 				border-top: 1px solid rgba(244, 239, 229, 0.1);
+			}
+
+			.text-section.note {
+				padding: 0.75rem 0.85rem;
+				border: 1px solid rgba(103, 213, 200, 0.34);
+				border-radius: var(--radius-sm);
+				background: rgba(103, 213, 200, 0.08);
+
+				.note-label {
+					margin: 0 0 0.35rem;
+					color: var(--color-cyan);
+					font-size: 0.76rem;
+					font-weight: 900;
+					text-transform: uppercase;
+				}
+			}
+
+			.text-section.warning {
+				padding: 0.75rem 0.85rem;
+				border: 1px solid rgba(217, 95, 67, 0.48);
+				border-radius: var(--radius-sm);
+				background: rgba(217, 95, 67, 0.11);
+
+				.warning-label {
+					margin: 0 0 0.35rem;
+					color: var(--color-danger);
+					font-size: 0.76rem;
+					font-weight: 900;
+					text-transform: uppercase;
+				}
 			}
 
 			summary {
