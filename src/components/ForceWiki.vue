@@ -3,15 +3,15 @@
 		<header class="wiki-header">
 			<div>
 				<p class="eyebrow">Force Powers</p>
-				<h1>Nachschlagewerk</h1>
+				<h1>Reference</h1>
 			</div>
 			<div class="header-meta">
 				<input
 					v-model.trim="data.search"
 					class="search"
 					type="search"
-					placeholder="Power suchen"
-					aria-label="Power suchen"
+					placeholder="Search powers"
+					aria-label="Search powers"
 				>
 				<p class="count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
 			</div>
@@ -32,7 +32,7 @@
 						{{ skill.name }}
 					</button>
 				</div>
-				<p class="empty" v-if="groupedSkills.length === 0">Keine Powers gefunden.</p>
+				<p class="empty" v-if="groupedSkills.length === 0">No powers found.</p>
 			</aside>
 
 			<article class="wiki-entry" v-if="data.currentSkill">
@@ -48,7 +48,7 @@
 				<p class="summary" v-if="data.currentSkill.summary" v-html="getSummaryHtml()"></p>
 
 				<div class="required" v-if="data.currentSkill.hasRequiredSkills()">
-					<span class="required-label">Voraussetzungen</span>
+					<span class="required-label">Requirements</span>
 					<ul>
 						<li v-for="requiredSkill in data.currentSkill.required" :key="requiredSkill.id || requiredSkill.name">
 							<button type="button" @click="showSkill(requiredSkill)">{{ requiredSkill.name }}</button>
@@ -59,7 +59,7 @@
 				<section class="content" v-if="getContentBlocks().length > 0">
 					<template v-for="(block, index) in getContentBlocks()" :key="index">
 						<details v-if="block.type === 'example'" class="block example">
-							<summary>Beispiel</summary>
+							<summary>Example</summary>
 							<div v-html="sanitizeHtml(block.text)"></div>
 						</details>
 						<div v-else class="block" v-html="sanitizeHtml(block.text)"></div>
@@ -67,7 +67,7 @@
 				</section>
 
 				<section class="difficulty">
-					<h3>Regeln</h3>
+					<h3>Rules</h3>
 					<Difficulty :skill="data.currentSkill" />
 				</section>
 			</article>
