@@ -420,16 +420,37 @@ export default {
 				const pdfMakeModule = await import("pdfmake/build/pdfmake.js");
 				const pdfMake = pdfMakeModule.default || pdfMakeModule;
 
+				const registerVirtualFileSystem = (vfsSource) => {
+					const vfs = vfsSource?.vfs && typeof vfsSource.vfs === "object"
+						? vfsSource.vfs
+						: vfsSource;
+					if (!vfs || typeof vfs !== "object") return false;
+
+					if (typeof pdfMake.addVirtualFileSystem === "function") {
+						pdfMake.addVirtualFileSystem(vfs);
+						return true;
+					}
+
+					pdfMake.vfs = vfs;
+					return true;
+				};
+
+				let vfsLoaded = false;
 				// Load vfs fonts - REQUIRED for font rendering
 				try {
 					const vfsFontsModule = await import("pdfmake/build/vfs_fonts.js");
 					const vfsFonts = vfsFontsModule.default || vfsFontsModule;
-					if (vfsFonts && vfsFonts.pdfMake && vfsFonts.pdfMake.vfs) {
-						pdfMake.vfs = vfsFonts.pdfMake.vfs;
+					vfsLoaded = registerVirtualFileSystem(vfsFonts)
+						|| registerVirtualFileSystem(vfsFonts?.pdfMake)
+						|| registerVirtualFileSystem(vfsFontsModule);
+					if (vfsLoaded) {
 						console.log("VFS fonts loaded successfully");
 					}
 				} catch (e) {
 					console.warn("Could not load vfs fonts:", e.message);
+				}
+				if (!vfsLoaded) {
+					console.warn("VFS fonts could not be registered. PDF generation may fail.");
 				}
 
 				console.log("pdfMake object ready:", !!pdfMake);
@@ -532,7 +553,9 @@ export default {
 									],
 									margin: [0, 0, 0, 2],
 								},
-								row.summary ? { text: row.summary, fontSize: 8, color: "#374151", margin: [0, 0, 0, 5] } : {},
+								...(row.summary
+									? [{ text: row.summary, fontSize: 8, color: "#374151", margin: [0, 0, 0, 5] }]
+									: []),
 								{
 									columns: [
 										{
@@ -554,10 +577,12 @@ export default {
 									],
 									columnGap: 14,
 								},
-								index < pdfExportData.value.powerRows.length - 1 ? {
-									canvas: [{ type: "line", x1: 0, y1: 0, x2: 539, y2: 0, lineWidth: 0.35, lineColor: "#d1d5db" }],
-									margin: [0, 6, 0, 0],
-								} : {},
+								...(index < pdfExportData.value.powerRows.length - 1
+									? [{
+										canvas: [{ type: "line", x1: 0, y1: 0, x2: 539, y2: 0, lineWidth: 0.35, lineColor: "#d1d5db" }],
+										margin: [0, 6, 0, 0],
+									}]
+									: []),
 							],
 							margin: [0, 0, 0, 7],
 						},
@@ -620,12 +645,14 @@ export default {
 							columnGap: 10,
 							margin: [0, 0, 0, 3]
 						},
-						pdfExportData.value.skillOmitted > 0 ? {
-							text: `${pdfExportData.value.skillOmitted} additional skills omitted.`,
-							fontSize: 8,
-							color: "#666666",
-							margin: [0, 0, 0, 8]
-						} : {},
+						...(pdfExportData.value.skillOmitted > 0
+							? [{
+								text: `${pdfExportData.value.skillOmitted} additional skills omitted.`,
+								fontSize: 8,
+								color: "#666666",
+								margin: [0, 0, 0, 8]
+							}]
+							: []),
 						sectionTitle("Force Powers (Names)", [0, 6, 0, 2]),
 						{
 							columns: pdfExportData.value.powerNameColumns.map((column) => ({
