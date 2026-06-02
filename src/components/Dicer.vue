@@ -1,9 +1,9 @@
 <template>
-	<div class="dicer--container">
+	<div class="dicer--container ui-panel">
 		<span class="title">Nicer Dicer</span>
 		<div class="generator">
 			<input
-				class="dice"
+				class="dice ui-control"
 				id="dice"
 				name="dice"
 				type="number"
@@ -15,7 +15,7 @@
 				aria-label="Dice"
 			/>D+
 			<input
-				class="pips"
+				class="pips ui-control"
 				id="pips"
 				name="pips"
 				type="number"
@@ -28,7 +28,7 @@
 				aria-label="Pips"
 			/>
 			<input
-				class="comment"
+				class="comment ui-control"
 				id="comment"
 				name="comment"
 				v-model="generate.comment"
@@ -36,7 +36,7 @@
 				@keyup.enter="generateRoll()"
 				aria-label="Roll reason"
 			/>
-			<button class="generate" type="button" @click="generateRoll()">
+			<button class="generate ui-button" type="button" @click="generateRoll()">
 				{{ copyStatus || "Generate" }}
 			</button>
 		</div>
@@ -101,8 +101,6 @@ export default {
 	gap: 0.8rem;
 	margin-bottom: 1.25rem;
 	padding: 0.8rem 1rem;
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
 	background: rgba(29, 27, 24, 0.72);
 
 	.title {
@@ -132,10 +130,6 @@ export default {
 
 		input {
 			min-height: 2.25rem;
-			border: 1px solid rgba(244, 239, 229, 0.12);
-			border-radius: var(--radius-sm);
-			background: var(--color-panel-soft);
-			color: var(--color-text);
 			padding: 0.35rem 0.55rem;
 
 			&:focus {
@@ -152,12 +146,9 @@ export default {
 			min-width: 6.2rem;
 			min-height: 2.25rem;
 			border: 1px solid rgba(242, 193, 78, 0.55);
-			border-radius: var(--radius-sm);
 			background: var(--color-accent);
 			color: #1a1712;
-			font-weight: 800;
 			padding: 0.35rem 0.85rem;
-			cursor: pointer;
 
 			&:hover {
 				background: #ffd56a;
@@ -171,12 +162,19 @@ export default {
 		align-items: flex-start;
 
 		.generator {
-			justify-content: flex-start;
+			display: grid;
+			grid-template-columns: 3.4rem auto 3.4rem minmax(8rem, 1fr) auto;
+			align-items: center;
+			justify-content: stretch;
 			width: 100%;
 
 			input,
 			.generate {
 				min-height: 2.75rem;
+			}
+
+			.comment {
+				width: 100%;
 			}
 		}
 	}
@@ -188,6 +186,7 @@ export default {
 
 		.generator {
 			align-items: stretch;
+			grid-template-columns: 3.4rem auto 3.4rem;
 
 			.dice,
 			.pips {
@@ -196,6 +195,7 @@ export default {
 
 			.comment,
 			.generate {
+				grid-column: 1 / -1;
 				width: 100%;
 			}
 		}

@@ -1,6 +1,6 @@
 <template>
 	<div class="background--container">
-		<div class="member" v-for="member in family" :key="member.title">
+		<div class="member ui-panel" v-for="member in family" :key="member.title">
 			<div class="title">
 				<span class="name">{{ member.title }}</span>
 				<span class="info">{{ member.info }}</span>
@@ -39,10 +39,6 @@ export default {
 	.member {
 		min-width: 0;
 		padding: 1.25rem;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		background: var(--color-panel);
-		box-shadow: var(--shadow-panel);
 
 		.title {
 			text-align: left;

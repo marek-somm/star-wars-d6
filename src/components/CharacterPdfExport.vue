@@ -1,6 +1,6 @@
 <template>
 	<section class="character-pdf-export" aria-label="Character sheet export">
-		<button class="export-button" type="button" :disabled="isExporting" @click="exportCharacterSheet">
+		<button class="export-button ui-button is-cyan" type="button" :disabled="isExporting" @click="exportCharacterSheet">
 			{{ isExporting ? "Exporting..." : "Export PDF (A4)" }}
 		</button>
 	</section>
@@ -768,17 +768,7 @@ export default {
 .export-button {
 	min-height: 2.35rem;
 	padding: 0.4rem 0.95rem;
-	border: 1px solid rgba(103, 213, 200, 0.44);
-	border-radius: var(--radius-sm);
-	background: rgba(103, 213, 200, 0.15);
-	color: var(--color-cyan);
 	font-size: 0.9rem;
-	font-weight: 900;
-	cursor: pointer;
-	transition:
-		background 0.2s ease,
-		border-color 0.2s ease,
-		color 0.2s ease;
 
 	&:hover {
 		border-color: rgba(103, 213, 200, 0.72);

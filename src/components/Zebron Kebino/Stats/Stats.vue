@@ -1,6 +1,6 @@
 <template>
 	<div class="stats--container">
-		<div class="stats" v-for="stat in zebron" :key="stat.name">
+		<div class="stats ui-panel" v-for="stat in zebron" :key="stat.name">
 			<div class="flex-item">
 				<div class="name main">{{ getName(stat) }}</div>
 				<button class="copy main hover" type="button" @click="copyRoll(stat)">
@@ -113,10 +113,6 @@ export default {
 		text-align: left;
 		min-width: 0;
 		padding: 1rem;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		background: var(--color-panel);
-		box-shadow: var(--shadow-panel);
 
 		.flex-item {
 			display: flex;
@@ -148,6 +144,7 @@ export default {
 
 		.copy {
 			width: max-content;
+			min-height: 1.7rem;
 			border: 1px solid rgba(103, 213, 200, 0.28);
 			border-radius: var(--radius-sm);
 			background: rgba(103, 213, 200, 0.09);

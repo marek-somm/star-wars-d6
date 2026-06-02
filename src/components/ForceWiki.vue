@@ -1,13 +1,13 @@
 <template>
 	<section class="wiki">
-		<button class="mobile-list-toggle" type="button" :aria-expanded="data.mobileIndexOpen"
+		<button class="mobile-list-toggle ui-button" type="button" :aria-expanded="data.mobileIndexOpen"
 			aria-controls="wiki-index-panel" @click="openMobileIndex">
 			<span>{{ data.currentSkill ? data.currentSkill.name : 'Select a power' }}</span>
 			<strong>Browse {{ filteredSkills.length }}</strong>
 		</button>
 		<button class="mobile-backdrop" type="button" aria-label="Close index" v-if="data.mobileIndexOpen"
 			@click="closeMobileIndex"></button>
-		<header class="wiki-header">
+		<header class="wiki-header ui-panel">
 			<div>
 				<p class="eyebrow">Force Powers</p>
 				<h1>Reference</h1>
@@ -19,10 +19,10 @@
 			</div>
 		</header>
 
-		<section class="wiki-filters" aria-label="Force power filters">
+		<section class="wiki-filters ui-panel" aria-label="Force power filters">
 			<label class="filter-control">
 				<span>Force skills</span>
-				<select v-model="data.powerFilter">
+				<select class="ui-control" v-model="data.powerFilter">
 					<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">
 						{{ filter.label }}
 					</option>
@@ -30,7 +30,7 @@
 			</label>
 			<label class="filter-control">
 				<span>Properties</span>
-				<select v-model="data.traitFilter">
+				<select class="ui-control" v-model="data.traitFilter">
 					<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">
 						{{ filter.label }}
 					</option>
@@ -38,38 +38,38 @@
 			</label>
 			<label class="filter-control">
 				<span>Difficulty</span>
-				<select v-model="data.difficultyFilter">
+				<select class="ui-control" v-model="data.difficultyFilter">
 					<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">
 						{{ filter.label }}
 					</option>
 				</select>
 			</label>
-			<button class="clear-filters" type="button" :disabled="!hasActiveFilters" @click="clearFilters">
+			<button class="clear-filters ui-button" type="button" :disabled="!hasActiveFilters" @click="clearFilters">
 				Clear filters
 			</button>
 		</section>
 
 
 		<div class="wiki-layout">
-			<aside id="wiki-index-panel" class="wiki-index"
+			<aside id="wiki-index-panel" class="wiki-index ui-panel"
 				:class="{ collapsed: data.indexCollapsed, 'mobile-open': data.mobileIndexOpen }">
 				<div class="index-panel-header">
 					<div class="index-panel-title">
 						<span>Power index</span>
-						<button class="index-close" type="button" @click="closeMobileIndex">Close</button>
+						<button class="index-close ui-button" type="button" @click="closeMobileIndex">Close</button>
 					</div>
 					<input v-model.trim="data.search" class="search mobile-search" type="search"
 						placeholder="Search powers" aria-label="Search powers">
 					<div class="mobile-filters">
-						<select v-model="data.powerFilter">
+						<select class="ui-control" v-model="data.powerFilter">
 							<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">{{
 								filter.label }}</option>
 						</select>
-						<select v-model="data.traitFilter">
+						<select class="ui-control" v-model="data.traitFilter">
 							<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">{{
 								filter.label }}</option>
 						</select>
-						<select v-model="data.difficultyFilter">
+						<select class="ui-control" v-model="data.difficultyFilter">
 							<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">{{
 								filter.label }}</option>
 						</select>
@@ -79,7 +79,7 @@
 					<span>Power index</span>
 					<strong>{{ filteredSkills.length }}</strong>
 				</div>
-				<button class="index-toggle" type="button" :aria-expanded="!data.indexCollapsed"
+				<button class="index-toggle ui-button" type="button" :aria-expanded="!data.indexCollapsed"
 					:aria-label="data.indexCollapsed ? 'Show powers' : 'Hide powers'"
 					:title="data.indexCollapsed ? 'Show powers' : 'Hide powers'"
 					@click="data.indexCollapsed = !data.indexCollapsed">
@@ -88,7 +88,7 @@
 				<div class="index-scroll" v-show="!data.indexCollapsed">
 					<div class="index-group" v-for="group in groupedSkills" :key="group.letter">
 						<h2>{{ group.letter }}</h2>
-						<button v-for="skill in group.skills" :key="skill.id || skill.name" class="index-item"
+						<button v-for="skill in group.skills" :key="skill.id || skill.name" class="index-item ui-button"
 							:class="{ active: isCurrentSkill(skill) }" type="button" @click="showSkillFromIndex(skill)">
 							{{ skill.name }}
 						</button>
@@ -97,7 +97,7 @@
 				</div>
 			</aside>
 
-			<article class="wiki-entry" v-if="data.currentSkill">
+			<article class="wiki-entry ui-panel" v-if="data.currentSkill">
 				<header class="entry-header">
 					<h2>{{ data.currentSkill.name }}</h2>
 					<div class="meta">
@@ -110,7 +110,7 @@
 						<span class="required-label">Requirements</span>
 						<div class="required-pills">
 							<button type="button" v-for="requiredSkill in data.currentSkill.required"
-								:key="requiredSkill.id || requiredSkill.name" class="required-pill"
+								:key="requiredSkill.id || requiredSkill.name" class="required-pill ui-button"
 								@click="showSkill(requiredSkill)">
 								{{ requiredSkill.name }}
 							</button>
@@ -929,10 +929,6 @@ export default {
 	justify-content: space-between;
 	gap: 1rem;
 	padding: 1rem 1.2rem;
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
-	background: var(--color-panel);
-	box-shadow: var(--shadow-panel);
 
 	.eyebrow {
 		margin: 0 0 0.35rem;
@@ -961,6 +957,15 @@ export default {
 		border-radius: var(--radius-sm);
 		background: var(--color-panel-soft);
 		color: var(--color-text);
+
+		&::placeholder {
+			color: var(--color-subtle);
+		}
+
+		&:focus {
+			outline: 2px solid rgba(242, 193, 78, 0.42);
+			outline-offset: 2px;
+		}
 	}
 
 	.count {
@@ -1002,11 +1007,6 @@ export default {
 
 	select,
 	.clear-filters {
-		min-height: 2.35rem;
-		border: 1px solid rgba(244, 239, 229, 0.12);
-		border-radius: var(--radius-sm);
-		background: var(--color-panel-soft);
-		color: var(--color-text);
 		font-weight: 800;
 	}
 
@@ -1017,7 +1017,6 @@ export default {
 
 	.clear-filters {
 		padding: 0.45rem 0.75rem;
-		cursor: pointer;
 
 		&:hover:not(:disabled) {
 			border-color: rgba(103, 213, 200, 0.38);
@@ -1040,14 +1039,6 @@ export default {
 	&:has(.wiki-index.collapsed) {
 		grid-template-columns: 2.75rem minmax(0, 1fr);
 	}
-}
-
-.wiki-index,
-.wiki-entry {
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
-	background: var(--color-panel);
-	box-shadow: var(--shadow-panel);
 }
 
 .wiki-index {
@@ -1103,13 +1094,12 @@ export default {
 		justify-content: center;
 		width: 2rem;
 		height: 2rem;
+		min-height: 0;
 		padding: 0;
 		border: 1px solid rgba(242, 193, 78, 0.28);
-		border-radius: var(--radius-sm);
 		background: rgba(22, 20, 17, 0.9);
 		color: var(--color-accent);
-		cursor: pointer;
-		box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.22);
+		box-shadow: var(--shadow-control);
 
 		&:hover {
 			border-color: rgba(242, 193, 78, 0.48);
@@ -1182,12 +1172,11 @@ export default {
 		margin-top: 0.25rem;
 		padding: 0.35rem 0.55rem;
 		border: 1px solid transparent;
-		border-radius: var(--radius-sm);
 		background: transparent;
 		color: var(--color-muted);
 		font-weight: 700;
 		text-align: left;
-		cursor: pointer;
+		justify-content: flex-start;
 
 		&:focus-visible {
 			outline: none;
@@ -1350,17 +1339,10 @@ export default {
 		align-items: center;
 		min-height: 1.8rem;
 		padding: 0.25rem 0.6rem;
-		border-radius: var(--radius-sm);
 		font-size: 0.82rem;
 		font-weight: 800;
-		border: 1px solid rgba(244, 239, 229, 0.12);
-		background: var(--color-panel-soft);
 		color: var(--color-text);
-		cursor: pointer;
-		transition:
-			border-color 0.2s ease,
-			color 0.2s ease,
-			background 0.2s ease;
+		justify-content: flex-start;
 
 		&:hover {
 			border-color: var(--color-accent);
@@ -1630,12 +1612,16 @@ export default {
 	}
 
 	.example summary {
-		margin-bottom: 0.55rem;
+		margin-bottom: 0;
 		color: var(--color-accent);
 		font-size: 0.82rem;
 		font-weight: 800;
 		text-transform: uppercase;
 		cursor: pointer;
+	}
+
+	.example[open] summary {
+		margin-bottom: 0.55rem;
 	}
 }
 
@@ -1702,10 +1688,6 @@ export default {
 		}
 
 		.mobile-list-toggle {
-			display: none;
-		}
-
-		.mobile-list-toggle {
 			display: flex;
 			position: sticky;
 			top: 0.65rem;
@@ -1714,16 +1696,14 @@ export default {
 			justify-content: space-between;
 			gap: 0.8rem;
 			width: 100%;
+			min-width: 0;
 			min-height: 3.1rem;
 			padding: 0.65rem 0.8rem;
 			border: 1px solid var(--color-border-strong);
-			border-radius: var(--radius-md);
 			background: var(--color-panel-soft);
-			box-shadow: var(--shadow-panel);
 			color: var(--color-text);
 			font-weight: 900;
 			text-align: left;
-			cursor: pointer;
 
 			span {
 				min-width: 0;
@@ -1731,12 +1711,11 @@ export default {
 				text-overflow: ellipsis;
 				white-space: nowrap;
 			}
-
-			/* hide header search/filters in mobile; moved into the drawer - actual hide rules below */
 		}
 
 		.mobile-list-toggle strong {
 			flex: 0 0 auto;
+			max-width: 42%;
 			padding: 0.25rem 0.5rem;
 			border-radius: var(--radius-sm);
 			background: rgba(242, 193, 78, 0.16);
@@ -1751,7 +1730,7 @@ export default {
 		z-index: 10;
 		display: block;
 		border: 0;
-		background: rgba(0, 0, 0, 0.58);
+		background: var(--overlay-backdrop);
 		cursor: pointer;
 	}
 
@@ -1814,23 +1793,15 @@ export default {
 	.index-close {
 		min-height: 2.35rem;
 		padding: 0.35rem 0.7rem;
-		border: 1px solid rgba(244, 239, 229, 0.14);
-		border-radius: var(--radius-sm);
-		background: var(--color-panel-soft);
 		color: var(--color-muted);
 		font-size: 0.84rem;
 		font-weight: 900;
-		cursor: pointer;
 	}
 
 	.index-panel-header .mobile-search {
 		width: 100%;
 		min-height: 2.75rem;
 		padding: 0.65rem 0.75rem;
-		border: 1px solid rgba(244, 239, 229, 0.12);
-		border-radius: var(--radius-sm);
-		background: var(--color-panel-soft);
-		color: var(--color-text);
 		font-size: 1rem;
 	}
 
@@ -1856,10 +1827,6 @@ export default {
 	.index-panel-header select {
 		min-height: 2.35rem;
 		padding: 0.35rem 0.45rem;
-		border: 1px solid rgba(244, 239, 229, 0.12);
-		border-radius: var(--radius-sm);
-		background: var(--color-panel-soft);
-		color: var(--color-text);
 		width: 100%;
 	}
 

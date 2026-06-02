@@ -2,7 +2,7 @@
 	<div class="container">
 		<nav class="view-switch" aria-label="App navigation">
 			<button
-				class="view-button"
+				class="view-button ui-button"
 				:class="{ active: data.view === 'sheet' }"
 				type="button"
 				@click="setView('sheet')"
@@ -10,7 +10,7 @@
 				Charakter-Sheet
 			</button>
 			<button
-				class="view-button"
+				class="view-button ui-button"
 				:class="{ active: data.view === 'wiki' }"
 				type="button"
 				@click="setView('wiki')"
@@ -108,23 +108,16 @@ export default {
 }
 
 .view-button {
-	min-height: 2.35rem;
+	min-width: 0;
 	padding: 0.35rem 0.85rem;
-	border: 1px solid rgba(244, 239, 229, 0.14);
-	border-radius: var(--radius-sm);
-	background: var(--color-panel-soft);
 	color: var(--color-muted);
-	font-weight: 800;
-	cursor: pointer;
+	white-space: normal;
 
 	&:hover {
-		border-color: var(--color-border-strong);
 		color: var(--color-text);
 	}
 
 	&.active {
-		border-color: rgba(242, 193, 78, 0.68);
-		background: rgba(242, 193, 78, 0.16);
 		color: var(--color-accent);
 	}
 }
@@ -134,8 +127,14 @@ export default {
 		padding: 0.75rem 0.7rem 2rem;
 	}
 
+	.view-switch {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		width: 100%;
+	}
+
 	.view-button {
-		flex: 1 1 calc(50% - 0.55rem);
+		width: 100%;
 		min-height: 2.65rem;
 	}
 }

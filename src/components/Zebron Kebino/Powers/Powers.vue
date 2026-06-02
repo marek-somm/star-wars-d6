@@ -1,7 +1,7 @@
 <template>
 	<section class="powers--container" @keyup.esc="closeMobileList">
 		<button
-			class="mobile-list-toggle"
+			class="mobile-list-toggle ui-button"
 			type="button"
 			:aria-expanded="data.mobileListOpen"
 			aria-controls="power-list-panel"
@@ -19,11 +19,11 @@
 		></button>
 		<aside
 			id="power-list-panel"
-			class="list"
+			class="list ui-panel"
 			:class="{ 'mobile-open': data.mobileListOpen, collapsed: data.listCollapsed }"
 		>
 			<button
-				class="list-collapse-toggle"
+				class="list-collapse-toggle ui-button"
 				type="button"
 				:aria-expanded="!data.listCollapsed"
 				:aria-label="data.listCollapsed ? 'Show powers' : 'Hide powers'"
@@ -40,7 +40,7 @@
 					</div>
 					<div class="header-actions">
 						<span class="power-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
-						<button class="list-close" type="button" @click="closeMobileList">Close</button>
+						<button class="list-close ui-button" type="button" @click="closeMobileList">Close</button>
 					</div>
 				</div>
 				<div class="list-scroll">
@@ -53,7 +53,7 @@
 					>
 					<div class="filter-tabs" aria-label="Power type filter">
 						<button
-							class="filter-tab"
+							class="filter-tab ui-button"
 							:class="{ active: data.powerFilter === filter.value }"
 							type="button"
 							v-for="filter in powerFilters"
@@ -68,7 +68,7 @@
 						<div class="quick-section" v-if="favoriteSkills.length">
 							<h3>Favorites</h3>
 							<button
-								class="quick-item"
+							class="quick-item ui-button"
 								:class="{ active: isCurrentSkill(skill) }"
 								type="button"
 								v-for="skill in favoriteSkills"
@@ -81,7 +81,7 @@
 						<div class="quick-section" v-if="activeKeptUpSkills.length">
 							<h3>Kept Up</h3>
 							<button
-								class="quick-item kept"
+							class="quick-item kept ui-button"
 								:class="{ active: isCurrentSkill(skill) }"
 								type="button"
 								v-for="skill in activeKeptUpSkills"
@@ -94,7 +94,7 @@
 						<div class="quick-section" v-if="recentSkills.length">
 							<h3>Recent</h3>
 							<button
-								class="quick-item"
+							class="quick-item ui-button"
 								:class="{ active: isCurrentSkill(skill) }"
 								type="button"
 								v-for="skill in recentSkills"
@@ -111,7 +111,7 @@
 							<span class="label-count">{{ powerLabel.skills.length }}</span>
 						</div>
 						<button
-							class="list-item"
+							class="list-item ui-button"
 							:class="{ active: isCurrentSkill(forceSkill) }"
 							type="button"
 							v-for="forceSkill in powerLabel.skills"
@@ -139,7 +139,7 @@
 				</div>
 			</div>
 		</aside>
-		<section class="skill-panel">
+		<section class="skill-panel ui-panel">
 			<ForceSkill
 				v-if="data.currentSkill"
 				:skill="data.currentSkill"
@@ -465,10 +465,6 @@ export default {
 		text-align: left;
 		margin: 0;
 		padding: 1rem;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		background: var(--color-panel);
-		box-shadow: var(--shadow-panel);
 		position: relative;
 		min-height: 0;
 		overflow: visible;
@@ -492,13 +488,12 @@ export default {
 			justify-content: center;
 			width: 2rem;
 			height: 2rem;
+			min-height: 0;
 			padding: 0;
 			border: 1px solid rgba(242, 193, 78, 0.28);
-			border-radius: var(--radius-sm);
 			background: rgba(22, 20, 17, 0.9);
 			color: var(--color-accent);
-			cursor: pointer;
-			box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.22);
+			box-shadow: var(--shadow-control);
 
 			&:hover {
 				border-color: rgba(242, 193, 78, 0.48);
@@ -636,16 +631,12 @@ export default {
 			.filter-tab {
 				min-height: 2.15rem;
 				padding: 0.3rem 0.35rem;
-				border: 1px solid rgba(244, 239, 229, 0.12);
-				border-radius: var(--radius-sm);
-				background: rgba(255, 255, 255, 0.04);
+				background: var(--surface-control);
 				color: var(--color-muted);
 				font-size: 0.82rem;
 				font-weight: 800;
-				cursor: pointer;
 
 				&:hover {
-					border-color: var(--color-border-strong);
 					color: var(--color-text);
 				}
 
@@ -681,13 +672,12 @@ export default {
 				min-height: 2rem;
 				padding: 0.35rem 0.55rem;
 				border: 1px solid transparent;
-				border-radius: var(--radius-sm);
 				background: rgba(255, 255, 255, 0.035);
 				color: var(--color-muted);
 				font-size: 0.88rem;
 				font-weight: 700;
 				text-align: left;
-				cursor: pointer;
+				justify-content: flex-start;
 
 				&:hover,
 				&.active {
@@ -730,13 +720,12 @@ export default {
 			min-height: 2.8rem;
 			padding: 0.55rem 0.7rem;
 			border: 1px solid transparent;
-			border-radius: var(--radius-sm);
 			background: transparent;
 			color: var(--color-muted);
 			font-size: 0.95rem;
 			font-weight: 700;
 			text-align: left;
-			cursor: pointer;
+			justify-content: flex-start;
 			transition:
 				background 0.18s ease,
 				border-color 0.18s ease,
@@ -811,9 +800,6 @@ export default {
 		min-width: 0;
 		width: 100%;
 		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		background: var(--color-panel);
-		box-shadow: var(--shadow-panel);
 		overflow: hidden;
 	}
 }
@@ -841,16 +827,14 @@ export default {
 			justify-content: space-between;
 			gap: 0.8rem;
 			width: 100%;
+			min-width: 0;
 			min-height: 3.1rem;
 			padding: 0.65rem 0.8rem;
 			border: 1px solid var(--color-border-strong);
-			border-radius: var(--radius-md);
 			background: var(--color-panel-soft);
-			box-shadow: var(--shadow-panel);
 			color: var(--color-text);
 			font-weight: 900;
 			text-align: left;
-			cursor: pointer;
 
 			span {
 				min-width: 0;
@@ -861,6 +845,7 @@ export default {
 
 			strong {
 				flex: 0 0 auto;
+				max-width: 42%;
 				padding: 0.25rem 0.5rem;
 				border-radius: var(--radius-sm);
 				background: rgba(242, 193, 78, 0.16);
@@ -875,7 +860,7 @@ export default {
 			z-index: 10;
 			display: block;
 			border: 0;
-			background: rgba(0, 0, 0, 0.58);
+			background: var(--overlay-backdrop);
 			cursor: pointer;
 		}
 
@@ -927,13 +912,9 @@ export default {
 					align-items: center;
 					min-height: 2.25rem;
 					padding: 0.3rem 0.6rem;
-					border: 1px solid rgba(244, 239, 229, 0.14);
-					border-radius: var(--radius-sm);
-					background: var(--color-panel-soft);
 					color: var(--color-muted);
 					font-size: 0.82rem;
 					font-weight: 900;
-					cursor: pointer;
 				}
 			}
 

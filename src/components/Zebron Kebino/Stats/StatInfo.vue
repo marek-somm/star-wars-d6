@@ -1,5 +1,5 @@
 <template>
-	<div class="stat-info--container">
+	<div class="stat-info--container ui-panel">
 		<div class="flex-item">
 			<div class="title">
 				<div class="name">{{ getName(skill) }}</div>
@@ -81,10 +81,6 @@ export default {
 	margin: 0;
 	width: 100%;
 	padding: 1.25rem;
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
-	background: var(--color-panel);
-	box-shadow: var(--shadow-panel);
 
 	.flex-item {
 		display: flex;

@@ -7,11 +7,11 @@
 					<h1 class="text">{{ skill.name }}</h1>
 				</div>
 				<div class="title-actions">
-					<button class="action-button" :class="{ active: isFavorite }" type="button"
+					<button class="action-button ui-button" :class="{ active: isFavorite }" type="button"
 						:aria-pressed="isFavorite" @click="$emit('toggle-favorite', skill)">
 						{{ isFavorite ? "Saved" : "Favorite" }}
 					</button>
-					<button class="action-button keep-up" :class="{ active: keptUpActive }" type="button"
+					<button class="action-button keep-up ui-button" :class="{ active: keptUpActive }" type="button"
 						v-if="canKeepUp" :aria-pressed="keptUpActive" @click="$emit('toggle-kept-up', skill)">
 						{{ keptUpActive ? "Kept up" : "Keep up" }}
 					</button>
@@ -27,11 +27,13 @@
 			</div>
 			<div class="required" v-if="skill.hasRequiredSkills()">
 				<span class="required-label">Required</span>
-				<button class="required-pill" :class="{ disabled: !canSelectSkill(requiredSkill) }" type="button"
-					v-for="(requiredSkill, index) in skill.required" :key="index"
-					:disabled="!canSelectSkill(requiredSkill)" @click="$emit('select-skill', requiredSkill)">
-					{{ requiredSkill.name }}
-				</button>
+				<div class="required-pills">
+					<button class="required-pill ui-button" :class="{ disabled: !canSelectSkill(requiredSkill) }" type="button"
+						v-for="(requiredSkill, index) in skill.required" :key="index"
+						:disabled="!canSelectSkill(requiredSkill)" @click="$emit('select-skill', requiredSkill)">
+						{{ requiredSkill.name }}
+					</button>
+				</div>
 			</div>
 		</header>
 		<div class="content">
@@ -39,7 +41,7 @@
 				<div class="summary" v-if="skill.summary" v-html="getSummaryHtml()"></div>
 				<template v-for="(block, index) in contentBlocks" :key="index">
 					<details v-if="block.type === 'example'" class="text-section example"
-						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }" open>
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 						<summary>Example</summary>
 						<div class="long" v-html="formatRichText(block.text)"></div>
 					</details>
@@ -404,19 +406,9 @@ export default {
 			justify-content: center;
 			min-height: 2.2rem;
 			padding: 0.35rem 0.7rem;
-			border: 1px solid rgba(244, 239, 229, 0.12);
-			border-radius: var(--radius-sm);
-			background: var(--color-panel-soft);
 			color: var(--color-muted);
-			font-weight: 900;
-			cursor: pointer;
-			transition:
-				background 0.2s ease,
-				border-color 0.2s ease,
-				color 0.2s ease;
 
 			&:hover {
-				border-color: var(--color-border-strong);
 				color: var(--color-text);
 			}
 
@@ -490,6 +482,12 @@ export default {
 			text-transform: uppercase;
 		}
 
+		.required-pills {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.45rem;
+		}
+
 		.required-pill {
 			border: 1px solid rgba(244, 239, 229, 0.12);
 			background: var(--color-panel-soft);
@@ -497,7 +495,6 @@ export default {
 		}
 
 		button.required-pill {
-			cursor: pointer;
 			transition:
 				border-color 0.2s ease,
 				color 0.2s ease,
@@ -720,42 +717,17 @@ export default {
 				margin-top: 0.95rem;
 			}
 
-			summary {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				gap: 0.75rem;
-				margin: 0 0 0.65rem;
+			.example summary {
+				margin-bottom: 0;
 				color: var(--color-accent);
-				font-size: 0.86rem;
-				font-weight: 900;
-				letter-spacing: 0;
+				font-size: 0.82rem;
+				font-weight: 800;
 				text-transform: uppercase;
 				cursor: pointer;
-				list-style: none;
-
-				&::-webkit-details-marker {
-					display: none;
-				}
-
-				&::after {
-					content: "Hide";
-					padding: 0.14rem 0.45rem;
-					border: 1px solid rgba(244, 239, 229, 0.12);
-					border-radius: var(--radius-sm);
-					color: var(--color-muted);
-					font-size: 0.72rem;
-					font-weight: 900;
-					text-transform: none;
-				}
 			}
 
-			.text-section:not([open]) {
-				summary {
-					&::after {
-						content: "Show";
-					}
-				}
+			.example[open] summary {
+				margin-bottom: 0.55rem;
 			}
 
 			.long {

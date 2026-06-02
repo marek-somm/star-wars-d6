@@ -1,7 +1,7 @@
 <template>
 	<div class="navbar--container">
 		<header class="nav">
-			<section class="filler force-panel" aria-label="Force skills and points">
+			<section class="filler force-panel ui-panel" aria-label="Force skills and points">
 				<div class="force-stats">
 					<p><span>Control</span>{{ forceStats.control.dice }}D+{{ forceStats.control.pips }}</p>
 					<p><span>Sense</span>{{ forceStats.sense.dice }}D+{{ forceStats.sense.pips }}</p>
@@ -11,23 +11,23 @@
 					<p><span>Force</span>{{ points.force }}</p>
 					<p class="temporary-force">
 						<span>Temporary</span>
-						<button class="number-button" type="button" @click="addTemporaryForce">+</button>
-						<button class="number-button" type="button" @click="removeTemporaryForce">-</button>
+						<button class="number-button ui-button" type="button" @click="addTemporaryForce">+</button>
+						<button class="number-button ui-button" type="button" @click="removeTemporaryForce">-</button>
 						<strong>{{ force_temp }}</strong>
 					</p>
 					<p><span>Darkside</span>{{ points.darkside }}</p>
 				</div>
 			</section>
-			<section class="main" aria-label="Character navigation">
+			<section class="main ui-panel" aria-label="Character navigation">
 				<p class="eyebrow">Star Wars D6</p>
 				<h1>{{ data.name }}</h1>
 				<div class="nav-list">
-					<button class="item" :class="{ active: data.stats }" type="button" @click="showStats">Stats</button>
-					<button class="item" :class="{ active: data.powers }" type="button" @click="showPowers">Powers</button>
-					<button class="item" :class="{ active: data.background }" type="button" @click="showBackground">Background</button>
+					<button class="item ui-button" :class="{ active: data.stats }" type="button" @click="showStats">Stats</button>
+					<button class="item ui-button" :class="{ active: data.powers }" type="button" @click="showPowers">Powers</button>
+					<button class="item ui-button" :class="{ active: data.background }" type="button" @click="showBackground">Background</button>
 				</div>
 			</section>
-			<section class="filler character-panel" aria-label="Character points">
+			<section class="filler character-panel ui-panel" aria-label="Character points">
 				<div>
 					<p><span>Character Points</span>{{ points.character }}</p>
 					<p><span>Spent Points</span>{{ points.spent }}</p>
@@ -163,12 +163,10 @@ export default {
 			justify-content: center;
 			min-height: 12rem;
 			padding: 1.5rem;
-			border: 1px solid var(--color-border-strong);
-			border-radius: var(--radius-md);
+			border-color: var(--color-border-strong);
 			background:
 				linear-gradient(135deg, rgba(242, 193, 78, 0.14), rgba(103, 213, 200, 0.05)),
 				var(--color-panel);
-			box-shadow: var(--shadow-panel);
 
 			.eyebrow {
 				margin: 0 0 0.5rem;
@@ -196,13 +194,12 @@ export default {
 				margin: 0;
 
 				.item {
+					min-width: 0;
 					min-height: 2.4rem;
 					padding: 0.45rem 0.9rem;
-					border: 1px solid rgba(244, 239, 229, 0.12);
-					border-radius: var(--radius-sm);
-					background: rgba(255, 255, 255, 0.04);
+					background: var(--surface-control);
 					color: var(--color-muted);
-					font-weight: 700;
+					font-weight: 800;
 					transition:
 						background 0.2s ease,
 						border-color 0.2s ease,
@@ -210,8 +207,6 @@ export default {
 						transform 0.2s ease;
 
 					&:hover {
-						cursor: pointer;
-						border-color: var(--color-border-strong);
 						color: var(--color-text);
 						transform: translateY(-1px);
 					}
@@ -232,10 +227,6 @@ export default {
 			justify-content: space-between;
 			gap: 1rem;
 			padding: 1.25rem;
-			border: 1px solid var(--color-border);
-			border-radius: var(--radius-md);
-			background: var(--color-panel);
-			box-shadow: var(--shadow-panel);
 
 			div {
 				display: flex;
@@ -277,13 +268,10 @@ export default {
 		.number-button {
 			width: 1.7rem;
 			height: 1.7rem;
-			border: 1px solid rgba(244, 239, 229, 0.14);
-			border-radius: var(--radius-sm);
-			background: var(--color-panel-soft);
-			color: var(--color-text);
+			min-height: 0;
+			padding: 0;
 			font-weight: 800;
 			line-height: 1;
-			cursor: pointer;
 
 			&:hover {
 				border-color: var(--color-accent);
@@ -337,6 +325,7 @@ export default {
 						min-height: 2.75rem;
 						margin: 0;
 						padding: 0.45rem 0.35rem;
+						font-size: 0.95rem;
 					}
 				}
 			}
