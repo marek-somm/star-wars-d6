@@ -104,6 +104,7 @@
 				>
 					<span class="skill-name">{{ forceSkill.name }}</span>
 					<span class="skill-meta">
+						<span class="skill-flag fan-made" v-if="forceSkill.fanMade">Fan-made</span>
 						<span class="skill-flag favorite" v-if="isFavorite(forceSkill)">Fav</span>
 						<span
 							class="skill-flag kept"
@@ -195,6 +196,7 @@ export default {
 				{ value: Power.control, label: PowerName[Power.control] },
 				{ value: Power.sense, label: PowerName[Power.sense] },
 				{ value: Power.alter, label: PowerName[Power.alter] },
+				{ value: "fan-made", label: "Fan-made" },
 			];
 		},
 
@@ -265,7 +267,9 @@ export default {
 		},
 
 		matchesPowerFilter(skill) {
-			return this.data.powerFilter === "all" || skill.powers.includes(this.data.powerFilter);
+			if (this.data.powerFilter === "all") return true;
+			if (this.data.powerFilter === "fan-made") return Boolean(skill.fanMade);
+			return skill.powers.includes(this.data.powerFilter);
 		},
 
 		matchesSearch(skill, search) {
@@ -632,6 +636,12 @@ export default {
 				border-color: rgba(242, 193, 78, 0.3);
 				background: rgba(242, 193, 78, 0.11);
 				color: var(--color-accent);
+			}
+
+			.skill-flag.fan-made {
+				border-color: rgba(103, 213, 200, 0.3);
+				background: rgba(103, 213, 200, 0.1);
+				color: var(--color-cyan);
 			}
 
 			.skill-flag.kept.active {

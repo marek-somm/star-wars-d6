@@ -30,6 +30,7 @@
 			</div>
 			<div class="meta-row">
 				<span class="meta-pill" v-for="power in skill.powers" :key="power">{{ PowerName[power] }}</span>
+				<span class="meta-pill fan-made" v-if="skill.fanMade">Fan-made</span>
 				<span class="meta-pill source" v-if="skill.source">{{ skill.source }}</span>
 				<span class="meta-pill kept-up" :class="{ active: keptUpActive }" v-if="canKeepUp">
 					{{ keptUpActive ? "Kept up active" : "Can be kept up" }}
@@ -497,6 +498,12 @@ export default {
 		}
 
 		.source {
+			border-color: rgba(103, 213, 200, 0.3);
+			background: rgba(103, 213, 200, 0.09);
+			color: var(--color-cyan);
+		}
+
+		.fan-made {
 			border-color: rgba(103, 213, 200, 0.3);
 			background: rgba(103, 213, 200, 0.09);
 			color: var(--color-cyan);

@@ -41,6 +41,36 @@ function normalizeDifficultyLevels(levels) {
 		.filter(Boolean);
 }
 
+function normalizeConditionalTables(tables) {
+	return asArray(tables)
+		.map((table) => {
+			if (!table || typeof table !== "object") return null;
+
+			const columns = normalizeTableColumns(table.columns);
+			return {
+				title: normalizeLongText(table.title) || null,
+				subnote: normalizeLongText(table.subnote) || null,
+				columns,
+				rows: normalizeTableRows(table.rows, columns),
+			};
+		})
+		.filter(Boolean);
+}
+
+function normalizeConditionalDifficulty(conditional) {
+	if (!conditional || typeof conditional !== "object") return null;
+
+	const description = normalizeLongText(conditional.description) || null;
+	const tables = normalizeConditionalTables(conditional.tables);
+
+	if (!description && tables.length === 0) return null;
+
+	return {
+		description,
+		tables,
+	};
+}
+
 function normalizeDifficulty(rawDifficulty = {}) {
 	const difficulty = createEmptyDifficulty();
 
@@ -52,6 +82,7 @@ function normalizeDifficulty(rawDifficulty = {}) {
 		difficulty[power] = {
 			...clone(value),
 			level: normalizeDifficultyLevels(value?.level),
+			conditional: normalizeConditionalDifficulty(value?.conditional),
 			modifiers: normalizedModifiers,
 		};
 	});
@@ -145,6 +176,14 @@ function hasDarkSidePointOnUse(rawSkill = {}) {
 	);
 }
 
+function isFanMade(rawSkill = {}) {
+	return Boolean(
+		rawSkill.fanMade
+		|| rawSkill.isFanMade
+		|| rawSkill.homebrew
+	);
+}
+
 function isDarkSidePointOnUseWarning(text) {
 	const value = String(text || "").toLowerCase();
 	if (!value.includes("dark side point")) return false;
@@ -201,7 +240,9 @@ function normalizeContentBlocks(rawSkill = {}) {
 					? "example"
 					: (block.type === "note"
 						? "note"
-						: (block.type === "warning" ? "warning" : "effect"));
+						: (block.type === "warning"
+							? "warning"
+							: (block.type === "special" ? "special" : "effect")));
 				const blockTextSource = Array.isArray(block.text)
 					? block.text
 					: (block.text ?? block.content ?? block.value ?? null);
@@ -277,6 +318,7 @@ function createSkill(rawSkill) {
 		.join("<br>");
 	skill.source = rawSkill.source;
 	skill.timeToUse = rawSkill.timeToUse;
+	skill.fanMade = isFanMade(rawSkill);
 	return skill;
 }
 

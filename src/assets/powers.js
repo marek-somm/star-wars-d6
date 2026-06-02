@@ -70,6 +70,7 @@ export class Skill {
 	example;
 	summary;
 	contentBlocks = [];
+	fanMade = false;
 
 	constructor(skillName) {
 		this.name = skillName;

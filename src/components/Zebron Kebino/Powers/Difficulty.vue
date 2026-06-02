@@ -101,6 +101,7 @@
 								</tbody>
 							</table>
 						</div>
+						<p class="conditional-subnote" v-if="table.subnote" v-html="sanitizeHtml(table.subnote)"></p>
 					</div>
 				</section>
 				<section class="details-section" v-if="hasUpkeepDifficulty(group.difficulty)">
@@ -273,30 +274,37 @@ export default {
 		},
 
 		shouldParseConditionalDifficultyCell(table, column) {
-			const columnTypes = table?.columnTypes && typeof table.columnTypes === "object"
-				? table.columnTypes
-				: null;
-			if (columnTypes) {
-				const columnType = String(columnTypes[column] || "").trim().toLowerCase();
-				if (columnType === "difficulty") return true;
-				if (columnType === "text" || columnType === "plain") return false;
-			}
-
 			const rowValues = Array.isArray(table?.rows)
 				? table.rows.map((row) => row?.[column]).filter((value) => value != null)
 				: [];
-			const hasExplicitDifficultyObject = rowValues.some((value) =>
-				value && typeof value === "object" && value.level != null
-			);
-			if (hasExplicitDifficultyObject) return true;
+			if (rowValues.length === 0) return false;
 
-			const hasDifficultyLabel = rowValues.some((value) =>
-				typeof value === "string"
-				&& /very easy|easy|moderate|difficult|very difficult|heroic/i.test(value)
-			);
-			if (hasDifficultyLabel) return true;
+			let hasDifficultyValue = false;
+			for (const value of rowValues) {
+				if (value && typeof value === "object" && value.level != null) {
+					hasDifficultyValue = true;
+					continue;
+				}
 
-			return false;
+				if (typeof value === "number") {
+					if (value >= 1 && value <= 6) {
+						hasDifficultyValue = true;
+						continue;
+					}
+				}
+
+				if (
+					typeof value === "string"
+					&& /very easy|easy|moderate|difficult|very difficult|heroic/i.test(value)
+				) {
+					hasDifficultyValue = true;
+					continue;
+				}
+
+				return false;
+			}
+
+			return hasDifficultyValue;
 		},
 
 		getConditionalCellValue(table, row, column) {
@@ -314,8 +322,8 @@ export default {
 			const cell = row[column];
 			if (cell == null) return null;
 
-			if (typeof cell === "number" || (typeof cell === "string" && /^\d+$/.test(cell))) {
-				return this.getDifficultyLevel({ level: Number(cell) });
+			if (typeof cell === "number") {
+				return this.getDifficultyLevel({ level: cell });
 			}
 
 			if (cell && typeof cell === "object" && cell.level != null) {
@@ -324,6 +332,18 @@ export default {
 					hover: cell.hover,
 					and_more: cell.and_more,
 				});
+			}
+
+			if (typeof cell === "string") {
+				const normalized = cell.trim();
+				if (/^very\s+easy$/i.test(normalized)) return this.getDifficultyLevel({ level: 1 });
+				if (/^easy$/i.test(normalized)) return this.getDifficultyLevel({ level: 2 });
+				if (/^moderate$/i.test(normalized)) return this.getDifficultyLevel({ level: 3 });
+				if (/^difficult$/i.test(normalized)) return this.getDifficultyLevel({ level: 4 });
+				if (/^very\s+difficult$/i.test(normalized)) return this.getDifficultyLevel({ level: 5 });
+				if (/^heroic(?:\s*\(\s*31\+\s*\))?$/i.test(normalized)) {
+					return this.getDifficultyLevel({ level: 6 });
+				}
 			}
 
 			return {
@@ -594,6 +614,13 @@ export default {
 					margin: 0 0 0.35rem;
 					color: var(--color-text);
 					font-weight: 800;
+				}
+
+				.conditional-subnote {
+					margin: 0.4rem 0 0;
+					color: var(--color-muted);
+					font-size: 0.82rem;
+					line-height: 1.45;
 				}
 
 				.conditional-table-wrap {
