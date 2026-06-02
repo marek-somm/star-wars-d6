@@ -12,6 +12,36 @@
 			</div>
 		</header>
 
+		<section class="wiki-filters" aria-label="Force power filters">
+			<label class="filter-control">
+				<span>Force skills</span>
+				<select v-model="data.powerFilter">
+					<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">
+						{{ filter.label }}
+					</option>
+				</select>
+			</label>
+			<label class="filter-control">
+				<span>Properties</span>
+				<select v-model="data.traitFilter">
+					<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">
+						{{ filter.label }}
+					</option>
+				</select>
+			</label>
+			<label class="filter-control">
+				<span>Difficulty</span>
+				<select v-model="data.difficultyFilter">
+					<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">
+						{{ filter.label }}
+					</option>
+				</select>
+			</label>
+			<button class="clear-filters" type="button" :disabled="!hasActiveFilters" @click="clearFilters">
+				Clear filters
+			</button>
+		</section>
+
 		<div class="wiki-layout">
 			<aside class="wiki-index">
 				<div class="index-group" v-for="group in groupedSkills" :key="group.letter">
@@ -157,7 +187,7 @@
 
 <script>
 import { createPowerSkills } from "@/assets/data";
-import { PowerName } from "@/assets/powers";
+import { Power, PowerName } from "@/assets/powers";
 import Difficulty from "./Zebron Kebino/Powers/Difficulty.vue";
 import { sanitizeHtml } from "@/utils/html";
 import { injectDifficultyPills } from "@/utils/difficultyInline";
@@ -217,6 +247,9 @@ export default {
 			allSkills: [],
 			data: {
 				search: "",
+				powerFilter: "all",
+				traitFilter: "all",
+				difficultyFilter: "all",
 				currentSkill: null
 			}
 		};
@@ -242,13 +275,71 @@ export default {
 		}
 	},
 	computed: {
+		powerFilters() {
+			return [
+				{ value: "all", label: "All force skills" },
+				{ value: `uses:${Power.control}`, label: "Uses Control" },
+				{ value: `uses:${Power.sense}`, label: "Uses Sense" },
+				{ value: `uses:${Power.alter}`, label: "Uses Alter" },
+				{ value: `exact:${Power.control}`, label: "Control only" },
+				{ value: `exact:${Power.sense}`, label: "Sense only" },
+				{ value: `exact:${Power.alter}`, label: "Alter only" },
+				{ value: `exact:${Power.control}+${Power.sense}`, label: "Control + Sense" },
+				{ value: `exact:${Power.control}+${Power.alter}`, label: "Control + Alter" },
+				{ value: `exact:${Power.sense}+${Power.alter}`, label: "Sense + Alter" },
+				{ value: `exact:${Power.control}+${Power.sense}+${Power.alter}`, label: "All three" },
+			];
+		},
+
+		traitFilters() {
+			return [
+				{ value: "all", label: "All properties" },
+				{ value: "kept-up", label: "Can be kept up" },
+				{ value: "requirements", label: "Has requirements" },
+				{ value: "no-requirements", label: "No requirements" },
+				{ value: "dark-side-point", label: "Dark Side Point risk" },
+				{ value: "light-side-only", label: "Light-side usable" },
+				{ value: "dark-side-only", label: "Dark-side only" },
+				{ value: "long-use", label: "Longer than one round" },
+				{ value: "fan-made", label: "Fan-made" },
+			];
+		},
+
+		difficultyFilters() {
+			return [
+				{ value: "all", label: "Any difficulty" },
+				{ value: "low", label: "Easy entry" },
+				{ value: "moderate", label: "Up to Moderate" },
+				{ value: "difficult", label: "Difficult or harder" },
+				{ value: "very-difficult", label: "Very Difficult or harder" },
+				{ value: "heroic", label: "Heroic" },
+			];
+		},
+
+		hasActiveFilters() {
+			return Boolean(
+				String(this.data.search || "").trim()
+				|| this.data.powerFilter !== "all"
+				|| this.data.traitFilter !== "all"
+				|| this.data.difficultyFilter !== "all"
+			);
+		},
+
 		filteredSkills() {
 			const search = normalizeSearchTerm(this.data.search);
-			if (!search) return this.allSkills;
 
 			return this.allSkills.filter((skill) => {
+				if (!this.matchesPowerFilter(skill)) return false;
+				if (!this.matchesTraitFilter(skill)) return false;
+				if (!this.matchesDifficultyFilter(skill)) return false;
+				if (!search) return true;
+
 				const name = String(skill.name || "").toLowerCase();
 				const summary = String(skill.summary || "").toLowerCase();
+				const extras = this.getSkillExtraText(skill).toLowerCase();
+				const requirements = Array.isArray(skill.required)
+					? skill.required.map((entry) => String(entry?.name || "")).join(" ").toLowerCase()
+					: "";
 				const powers = Array.isArray(skill.powers) ? skill.powers : [];
 				const powerMatches = powers.some((power) => {
 					const key = String(power || "").toLowerCase();
@@ -256,7 +347,11 @@ export default {
 					return key.includes(search) || label.includes(search);
 				});
 
-				return name.includes(search) || summary.includes(search) || powerMatches;
+				return name.includes(search)
+					|| summary.includes(search)
+					|| extras.includes(search)
+					|| requirements.includes(search)
+					|| powerMatches;
 			});
 		},
 
@@ -283,6 +378,111 @@ export default {
 	},
 	methods: {
 		sanitizeHtml,
+
+		clearFilters() {
+			this.data.search = "";
+			this.data.powerFilter = "all";
+			this.data.traitFilter = "all";
+			this.data.difficultyFilter = "all";
+		},
+
+		getSkillPowerKey(skill) {
+			const order = [Power.control, Power.sense, Power.alter];
+			const powers = Array.isArray(skill?.powers) ? skill.powers : [];
+			return order.filter((power) => powers.includes(power)).join("+");
+		},
+
+		matchesPowerFilter(skill) {
+			const filter = String(this.data.powerFilter || "all");
+			if (filter === "all") return true;
+
+			const powers = Array.isArray(skill?.powers) ? skill.powers : [];
+			if (filter.startsWith("uses:")) {
+				return powers.includes(filter.replace("uses:", ""));
+			}
+			if (filter.startsWith("exact:")) {
+				return this.getSkillPowerKey(skill) === filter.replace("exact:", "");
+			}
+			return true;
+		},
+
+		matchesTraitFilter(skill) {
+			const filter = String(this.data.traitFilter || "all");
+			if (filter === "all") return true;
+
+			if (filter === "kept-up") return this.isKeptUpPower(skill);
+			if (filter === "requirements") return skill?.hasRequiredSkills?.() === true;
+			if (filter === "no-requirements") return skill?.hasRequiredSkills?.() !== true;
+			if (filter === "fan-made") return Boolean(skill?.fanMade);
+			if (filter === "dark-side-point") return this.hasDarkSidePointRisk(skill);
+			if (filter === "light-side-only") return this.getSkillExtraText(skill).includes("consumed by the dark side");
+			if (filter === "dark-side-only") return this.getSkillExtraText(skill).includes("only be used by characters who have been consumed by the dark side");
+			if (filter === "long-use") return this.isLongUsePower(skill);
+			return true;
+		},
+
+		matchesDifficultyFilter(skill) {
+			const filter = String(this.data.difficultyFilter || "all");
+			if (filter === "all") return true;
+
+			const maxLevel = this.getMaxDifficultyLevel(skill);
+			if (maxLevel == null) return false;
+			if (filter === "low") return maxLevel <= 2;
+			if (filter === "moderate") return maxLevel <= 3;
+			if (filter === "difficult") return maxLevel >= 4;
+			if (filter === "very-difficult") return maxLevel >= 5;
+			if (filter === "heroic") return maxLevel >= 6;
+			return true;
+		},
+
+		getSkillExtraText(skill) {
+			return Array.isArray(skill?.extra)
+				? skill.extra.map((item) => String(item || "")).join(" ").toLowerCase()
+				: "";
+		},
+
+		getSkillContentText(skill) {
+			return Array.isArray(skill?.contentBlocks)
+				? skill.contentBlocks.map((block) => String(block?.text || "")).join(" ").toLowerCase()
+				: "";
+		},
+
+		isKeptUpPower(skill) {
+			return this.getSkillExtraText(skill).includes("kept up")
+				|| String(skill?.summary || "").toLowerCase().includes("kept up");
+		},
+
+		hasDarkSidePointRisk(skill) {
+			return this.getSkillContentText(skill).includes("dark side point")
+				|| String(skill?.summary || "").toLowerCase().includes("dark side point");
+		},
+
+		isLongUsePower(skill) {
+			const timeToUse = String(skill?.timeToUse || "").toLowerCase().trim();
+			if (!timeToUse) return false;
+			return !/^(one round|\[?1r\]?)/i.test(timeToUse);
+		},
+
+		getMaxDifficultyLevel(skill) {
+			const levels = [Power.control, Power.sense, Power.alter]
+				.flatMap((power) => this.getDifficultyLevels(skill?.difficulty?.[power]?.level));
+			if (levels.length === 0) return null;
+			return Math.max(...levels);
+		},
+
+		getDifficultyLevels(entries) {
+			if (!Array.isArray(entries)) return [];
+
+			return entries
+				.map((entry) => {
+					const rawLevel = entry && typeof entry === "object" ? entry.level : entry;
+					if (rawLevel == null || rawLevel === "") return null;
+					const parsedLevel = Number(rawLevel);
+					if (Number.isNaN(parsedLevel)) return null;
+					return parsedLevel > 10 ? parsedLevel - 10 : parsedLevel;
+				})
+				.filter((level) => level != null);
+		},
 
 		getSummaryHtml() {
 			const summary = String(this.data.currentSkill?.summary || "");
@@ -630,6 +830,62 @@ export default {
 		border-radius: var(--radius-sm);
 		color: var(--color-cyan);
 		font-weight: 800;
+	}
+}
+
+.wiki-filters {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(10rem, 1fr)) auto;
+	gap: 0.7rem;
+	align-items: end;
+	padding: 0.85rem 1rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-panel);
+	box-shadow: var(--shadow-panel);
+
+	.filter-control {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		min-width: 0;
+
+		span {
+			color: var(--color-muted);
+			font-size: 0.72rem;
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+	}
+
+	select,
+	.clear-filters {
+		min-height: 2.35rem;
+		border: 1px solid rgba(244, 239, 229, 0.12);
+		border-radius: var(--radius-sm);
+		background: var(--color-panel-soft);
+		color: var(--color-text);
+		font-weight: 800;
+	}
+
+	select {
+		width: 100%;
+		padding: 0.45rem 0.6rem;
+	}
+
+	.clear-filters {
+		padding: 0.45rem 0.75rem;
+		cursor: pointer;
+
+		&:hover:not(:disabled) {
+			border-color: rgba(103, 213, 200, 0.38);
+			color: var(--color-cyan);
+		}
+
+		&:disabled {
+			opacity: 0.45;
+			cursor: default;
+		}
 	}
 }
 
@@ -1147,6 +1403,10 @@ export default {
 			min-width: 0;
 			width: 100%;
 		}
+	}
+
+	.wiki-filters {
+		grid-template-columns: 1fr;
 	}
 
 	.wiki-layout {
