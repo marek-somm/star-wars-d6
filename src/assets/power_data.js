@@ -1488,6 +1488,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to understand and speak a creature's language by reading surface emotions, vocal cues, and body language. The power can be kept up to continue sensing the creature's emotional state and can reduce the orneriness of rideable beasts.",
 		"content": [
 			{
 				"type": "effect",
@@ -1534,6 +1535,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to direct their own healing resources to resist or overcome disease after meditation. Serious, long-standing, or life-threatening illnesses may require repeated successful rolls over weeks or months.",
 		"content": [
 			{
 				"type": "effect",
@@ -1574,6 +1576,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to neutralize or eject poisons from their own body. On a successful roll, the poison does not affect the Jedi; difficulty depends on the poison's strength.",
 		"content": [
 			{
 				"type": "effect",
@@ -1597,6 +1600,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to use Willpower to resist hostile Force powers that directly affect the mind or body. The added protection can stop or soften such powers, but repeated strain can batter the Jedi's will and it does not block physical manifestations like Force lightning or telekinetically hurled objects.",
 		"content": [
 			{
 				"type": "effect",
@@ -1640,6 +1644,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to sense a safe hyperspace route without a nav computer. Success greatly reduces the astrogation difficulty, while failure can force a dangerous or very difficult course.",
 		"content": [
 			{
 				"type": "effect",
@@ -1683,6 +1688,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to mentally calculate hyperspace routes instead of sensing them through the Force. Success still requires a simple astrogation roll to enter the route, while failure may overlook hazards and make the course dangerous.",
 		"content": [
 			{
 				"type": "effect",
@@ -1753,6 +1759,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to detect large populations of a specific intelligent species they have specialized in. It reveals the general direction, and sometimes rough distance, to populations of at least 100,000 individuals after extended concentration.",
 		"content": [
 			{
 				"type": "note",
@@ -1821,6 +1828,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to read Force imprints left on an object and perceive past events around it. The Jedi must handle the object, declare how far back to search, and receives clearer impressions with stronger success.",
 		"content": [
 			{
 				"type": "effect",
@@ -1875,6 +1883,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to sense local weather and geological patterns to predict imminent natural disasters. Familiarity with the area improves the roll, and the prediction normally covers the next 12 hours.",
 		"content": [
 			{
 				"type": "effect",
@@ -1902,6 +1911,7 @@ export const rawPowerItems = [
 			}
 		},
 		"grantsDarkSidePointOnUse": true,
+		"summary": "A dark side counterpart to Emptiness that places the user in a hateful trance. It grants a temporary Force skill bonus afterward, but gives a Dark Side Point, leaves the user vulnerable and dangerous to approach, and can cause damage after the trance ends.",
 		"content": [
 			{
 				"type": "effect",
@@ -1943,6 +1953,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to reduce a severe injury to wounded if used immediately after the injury is suffered. The power costs a Force Point and may leave a permanent injury if it prevents death.",
 		"content": [
 			{
 				"type": "effect",
@@ -1984,6 +1995,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to purge bodily toxins and endure strenuous exertion longer. While kept up, the character must still eat and drink normally, but must fail two stamina checks before becoming fatigued.",
 		"content": [
 			{
 				"type": "effect",
@@ -2008,6 +2020,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to prepare in advance to ignore stun results while the power is kept up. An unconscious result drops the power and leaves the Jedi stunned, while normal wounds are resolved as usual.",
 		"content": [
 			{
 				"type": "effect",
@@ -2039,6 +2052,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to replay recent memories and inspect details that were seen but not consciously noticed. The span of memory that can be reviewed depends on how well the Control roll succeeds.",
 		"content": [
 			{
 				"type": "effect",
@@ -2075,6 +2089,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to run along walls as part of their movement when combined with the running skill. The character must begin and end the move on the floor, or risk falling and taking damage.",
 		"content": [
 			{
 				"type": "effect",
@@ -2104,6 +2119,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to sense the ambient Force within an area or object. It can reveal the rough strength of the Force, the type and quantity of life present, light or dark side tendencies, and vague premonitions, but not specific sentient beings.",
 		"content": [
 			{
 				"type": "effect",
@@ -2142,6 +2158,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to probe a target's deeper mind to determine whether they have strong potential in the Force. Force-sensitive targets create an involuntary backlash whose strength indicates their connection or training.",
 		"content": [
 			{
 				"type": "effect",
@@ -2171,6 +2188,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Gives the Jedi allegorical visions about whether their current or possible future actions lead toward the light or dark side. The power can warn, encourage, foreshadow, or help judge progress toward atonement, but its visions remain indirect and open to interpretation.",
 		"content": [
 			{
 				"type": "effect",
@@ -2218,6 +2236,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to shift their senses to detect phenomena outside their normal range, such as infrared, unusual frequencies, heat, or specific scents. It can reveal that a signal or phenomenon exists, but not necessarily locate, decode, or interpret it fully.",
 		"content": [
 			{
 				"type": "effect",
@@ -2262,6 +2281,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to attune to local clouds, winds, tides, and other weather patterns to make limited forecasts. It works best after familiarity with the area and normally predicts conditions for four hours.",
 		"content": [
 			{
 				"type": "effect",
@@ -2287,6 +2307,7 @@ export const rawPowerItems = [
 			}
 		},
 		"grantsDarkSidePointOnUse": true,
+		"summary": "A dark side touch attack that channels the Force directly into a living target to injure or kill. The attacker must first touch the target, then compares Alter to the target's Control or Perception as though resolving damage.",
 		"content": [
 			{
 				"type": "effect",
@@ -2331,6 +2352,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Creates a permanent, willing mental bond with one close individual. The bonded characters can sense each other's location, emotions, senses, thoughts, and danger, but pain, dark side actions, and death can also affect the partner.",
 		"content": [
 			{
 				"type": "effect",
@@ -2378,6 +2400,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows a Jedi at the moment of death to become one with the Force while retaining identity. The body fades away, and the Jedi may later appear to close associates a limited number of times, but cannot affect the material world.",
 		"content": [
 			{
 				"type": "effect",
@@ -2416,6 +2439,7 @@ export const rawPowerItems = [
 				],
 			}
 		},
+		"summary": "Allows the Jedi to help another touched character resist or overcome disease using the same basic rules as Control Disease. The relationship to the target affects the Control difficulty.",
 		"content": [
 			{
 				"type": "effect",
@@ -2475,6 +2499,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to neutralize poison in another character while maintaining physical contact. The patient is immune to the poison while contact and the power are maintained, but failure or broken contact can wound the patient.",
 		"content": [
 			{
 				"type": "effect",
@@ -2515,6 +2540,7 @@ export const rawPowerItems = [
 			}
 		},
 		"grantsDarkSidePointOnUse": true,
+		"summary": "Allows a dark side user to draw power from nearby fear, hatred, and other negative emotions. When a light side Force-sensitive gains a Dark Side Point nearby, the user gains Dark Side power and temporary Force Points.",
 		"content": [
 			{
 				"type": "effect",
@@ -2556,6 +2582,7 @@ export const rawPowerItems = [
 			}
 		},
 		"grantsDarkSidePointOnUse": true,
+		"summary": "A dark side power that hurls damaging white or blue energy from the user's fingertips. Armor does not protect against it, damage is based on the user's Alter skill, and it can be repelled with Absorb/Dissipate Energy.",
 		"content": [
 			{
 				"type": "effect",
@@ -2590,6 +2617,7 @@ export const rawPowerItems = [
 			}
 		},
 		"grantsDarkSidePointOnUse": true,
+		"summary": "Causes a target to suffer intense agony and stun damage resisted by Control, Perception, or Willpower. Any damage leaves the target unable to act for the rest of the current round and the next round.",
 		"content": [
 			{
 				"type": "effect",
@@ -2624,6 +2652,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to place a willing touched character into hibernation trance. It cannot be used offensively, and it can also awaken someone from hibernation at increased difficulty.",
 		"content": [
 			{
 				"type": "effect",
@@ -2656,6 +2685,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to hold and redirect a Force energy attack after successfully absorbing it. A failed redirection sends the energy off target, and harming another sentient being with it can grant a Dark Side Point.",
 		"content": [
 			{
 				"type": "effect",
@@ -2693,6 +2723,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to remove fatigue penalties from another touched character after fatigue has occurred. It counteracts failed stamina-check effects as they arise rather than preventing fatigue in advance.",
 		"content": [
 			{
 				"type": "effect",
@@ -2732,6 +2763,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to return a touched incapacitated or mortally wounded character to consciousness. The target follows the same limits imposed by Remain Conscious after awakening.",
 		"content": [
 			{
 				"type": "effect",
@@ -2763,6 +2795,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Reduces a target's Perception and related skills while the power is kept up. Multiple targets can be affected by increasing the Sense difficulty, using the strongest resisting target for the group.",
 		"content": [
 			{
 				"type": "note",
@@ -2813,6 +2846,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Creates a strong Force shield around the Jedi that protects against energy and physical attacks. The shield adds a bonus to Strength based on the Alter roll, and a strong success can extend it to a touched character.",
 		"content": [
 			{
 				"type": "effect",
@@ -2915,6 +2949,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to influence an ongoing battle either by making enemies turn on each other or by strengthening allies while weakening foes. The power must be declared for one effect and maintained for its benefits to continue.",
 		"content": [
 			{
 				"type": "effect",
@@ -3007,6 +3042,7 @@ export const rawPowerItems = [
 				}
 			}
 		},
+		"summary": "A dark side power that turns one or more beings into puppets who obey the user's will. It can be kept up to maintain control, Force-sensitive targets can resist, and it does not affect droids or computers.",
 		"content": [
 			{
 				"type": "warning",
@@ -3105,6 +3141,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "One of the most destructive dark side powers, creating vast storms that warp space-time and can devastate ships or worlds. The user chooses the storm's size and damage, must control it each round, and risks being consumed if control fails.",
 		"content": [
 			{
 				"type": "warning",
@@ -3170,6 +3207,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Creates a realistic illusory duplicate of the Force-user that can be perceived by people and sensors. The user senses through the duplicate, which acts at reduced skill, and must maintain it or it fades away.",
 		"content": [
 			{
 				"type": "note",
@@ -3269,6 +3307,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "A dark side power that drains life energy from nearby victims and channels it to the user. Repeated use can grant Force Points and temporary Force skill bonuses based on the number of victims and duration of the draining.",
 		"content": [
 			{
 				"type": "effect",
@@ -3361,6 +3400,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Allows the Jedi to subconsciously coordinate a willing group so they perform selected tasks more efficiently. The Jedi chooses three eligible skills for the group, granting bonuses based on each individual's existing skill dice.",
 		"content": [
 			{
 				"type": "effect",
@@ -3408,6 +3448,7 @@ export const rawPowerItems = [
 				]
 			}
 		},
+		"summary": "Links several willing Jedi in the light side to resist dark side powers. The combined harmony grants large resistance bonuses and can interrupt a dark side user's maintained powers if the rolls are high enough.",
 		"content": [
 			{
 				"type": "effect",
@@ -3444,6 +3485,7 @@ export const rawPowerItems = [
 				"modifiers": data.modifiers.proximity
 			}
 		},
+		"summary": "Allows the Jedi to strike a target at a distance using the Force and a brawling roll. It is risky because using it for anything beyond protective stun damage, or causing serious harm, grants a Dark Side Point.",
 		"content": [
 			{
 				"type": "note",
@@ -3480,6 +3522,7 @@ export const rawPowerItems = [
 				"level": data.level.perception
 			}
 		},
+		"summary": "A dark side power used to injure or kill a target by crushing, choking, or otherwise damaging them telekinetically. The user's Alter roll is compared to the target's Control or Perception to determine damage.",
 		"content": [
 			{
 				"type": "effect",
@@ -3564,6 +3607,7 @@ export const rawPowerItems = [
 				],
 			}
 		},
+		"summary": "An extremely difficult and evil dark side power that transfers the user's life energy into another body or prepared clone host. Possessing an unwilling host grants additional Dark Side Points, and failure may disperse the user's life energy entirely.",
 		"content": [
 			{
 				"type": "warning",
@@ -3583,6 +3627,7 @@ export const rawPowerItems = [
 	},
 	{
 		"name": "Force Scream",
+		"summary": "An involuntary dark side shockwave released when a Dark Jedi loses control of their rage. It damages all beings within 50 meters, including the user, and leaves the Dark Jedi weakened afterward.",
 		"content": [
 			{
 				"type": "note",
@@ -3609,6 +3654,7 @@ export const rawPowerItems = [
 				"level": 3,
 			}
 		},
+		"summary": "A Sith discipline that creates a radiant sphere of pure hatred to throw at a visible target. On a hit, it deals heavy damage and causes the target to lose a Character Point.",
 		"content": [
 			{
 				"type": "effect",
