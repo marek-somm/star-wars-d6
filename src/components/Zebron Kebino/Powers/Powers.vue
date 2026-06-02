@@ -884,6 +884,7 @@ export default {
 			inset: auto 0 0;
 			z-index: 11;
 			width: 100%;
+			height: min(86svh, 46rem);
 			max-height: 86vh;
 			padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
 			border-radius: var(--radius-md) var(--radius-md) 0 0;
@@ -937,8 +938,10 @@ export default {
 			}
 
 			.list-scroll {
+				flex: 1 1 auto;
 				height: auto;
-				max-height: calc(86vh - 6.6rem);
+				min-height: 0;
+				max-height: none;
 				padding-right: 0.25rem;
 			}
 		}
@@ -957,10 +960,11 @@ export default {
 		}
 
 		.list {
+			height: min(90svh, 48rem);
 			max-height: 90vh;
 
 			.list-scroll {
-				max-height: calc(90vh - 6.6rem);
+				max-height: none;
 			}
 
 			.filter-tabs {

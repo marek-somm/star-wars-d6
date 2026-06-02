@@ -54,6 +54,10 @@
 			<aside id="wiki-index-panel" class="wiki-index"
 				:class="{ collapsed: data.indexCollapsed, 'mobile-open': data.mobileIndexOpen }">
 				<div class="index-panel-header">
+					<div class="index-panel-title">
+						<span>Power index</span>
+						<button class="index-close" type="button" @click="closeMobileIndex">Close</button>
+					</div>
 					<input v-model.trim="data.search" class="search mobile-search" type="search"
 						placeholder="Search powers" aria-label="Search powers">
 					<div class="mobile-filters">
@@ -1697,8 +1701,7 @@ export default {
 			display: none;
 		}
 
-		.mobile-list-toggle,
-		.mobile-backdrop {
+		.mobile-list-toggle {
 			display: none;
 		}
 
@@ -1732,7 +1735,7 @@ export default {
 			/* hide header search/filters in mobile; moved into the drawer - actual hide rules below */
 		}
 
-		strong {
+		.mobile-list-toggle strong {
 			flex: 0 0 auto;
 			padding: 0.25rem 0.5rem;
 			border-radius: var(--radius-sm);
@@ -1757,6 +1760,7 @@ export default {
 		inset: auto 0 0;
 		z-index: 11;
 		width: 100%;
+		height: min(86svh, 46rem);
 		max-height: 86vh;
 		padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
 		border-radius: var(--radius-md) var(--radius-md) 0 0;
@@ -1773,9 +1777,15 @@ export default {
 		}
 
 		.index-scroll {
+			flex: 1 1 auto;
 			height: auto;
-			max-height: calc(86vh - 6.6rem);
+			min-height: 0;
+			max-height: none;
 			padding-right: 0.25rem;
+		}
+
+		.index-heading {
+			display: none;
 		}
 	}
 
@@ -1784,6 +1794,33 @@ export default {
 		flex-direction: column;
 		gap: 0.6rem;
 		margin-bottom: 0.6rem;
+		flex: 0 0 auto;
+	}
+
+	.index-panel-title {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+
+		span {
+			color: var(--color-muted);
+			font-size: 0.72rem;
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+	}
+
+	.index-close {
+		min-height: 2.35rem;
+		padding: 0.35rem 0.7rem;
+		border: 1px solid rgba(244, 239, 229, 0.14);
+		border-radius: var(--radius-sm);
+		background: var(--color-panel-soft);
+		color: var(--color-muted);
+		font-size: 0.84rem;
+		font-weight: 900;
+		cursor: pointer;
 	}
 
 	.index-panel-header .mobile-search {
@@ -1962,10 +1999,11 @@ export default {
 	}
 
 	.wiki-index {
+		height: min(90svh, 48rem);
 		max-height: 90vh;
 
 		.index-scroll {
-			max-height: calc(90vh - 6.6rem);
+			max-height: none;
 		}
 	}
 

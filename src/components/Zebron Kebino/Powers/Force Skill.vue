@@ -919,15 +919,16 @@ export default {
 
 			.meta-pill,
 			.required-pill {
-				display: none;
-			}
-
-			.meta-pills {
-				display: none;
+				min-height: 1.95rem;
+				font-size: 0.78rem;
+				line-height: 1.25;
 			}
 
 			.required {
 				margin-top: 0.65rem;
+				align-items: flex-start;
+				flex-direction: column;
+				gap: 0.4rem;
 			}
 
 			.required-label {
@@ -955,9 +956,8 @@ export default {
 
 			.effect {
 				.long {
-					max-height: 20rem;
-					overflow: auto;
-					padding-right: 0.35rem;
+					overflow: visible;
+					padding-right: 0;
 				}
 
 				summary {

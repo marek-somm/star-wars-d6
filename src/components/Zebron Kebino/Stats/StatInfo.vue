@@ -178,8 +178,7 @@ export default {
 		}
 
 		.description {
-			max-height: 18rem;
-			overflow: auto;
+			overflow: visible;
 		}
 	}
 }
