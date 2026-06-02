@@ -60,8 +60,9 @@ const data = {
 		"keptUp": "Power can be kept up",
 		"ignorePain": "Character can ignore pain of injuries for a long period of time",
 		"newRollWhenInjured": "Whenever character is injured again, must make a new Control pain roll",
-		"usableWhenLightSide": "Characters who are consumed by the dark side of the Force may not use this power.",
-		"usableWhenDarkSide": "This power can only be used by characters who have been consumed by the dark side of the Force."
+		"usableWhenLightSide": "Characters who are consumed by the dark side of the Force may not use this power",
+		"usableWhenDarkSide": "This power can only be used by characters who have been consumed by the dark side of the Force",
+		"sithDiscipline": "This power is a Sith discipline"
 	},
 	"time": {
 		"3": "Three rounds [3R]",
@@ -3579,5 +3580,42 @@ export const rawPowerItems = [
 				]
 			}
 		]
-	}
+	},
+	{
+		"name": "Force Scream",
+		"content": [
+			{
+				"type": "note",
+				"text": "This is an involuntary power that may be activated when a Dark Jedi loses control of her temper"
+			},
+			{
+				"type": "effect",
+				"text": [
+					"The dark side of the Force is seductive, offering tremendous power to lure the weak-willed into its grip. Fear, anger, and jealousy are the ties that bind the servants of the dark side, and by tapping into such emotions, the Dark Jedi are capable of unleashing untold devastation.",
+					"The power to destroy, however, does little to improve control of these abilities. Dark Jedi who have become angered sometimes lose control of their emotions. This can trigger shock waves that ripple through the Force, devastating the Dark Jedi and those unfortunate enough to be in close proximity.",
+					"The <i>Force scream</i> has been called \"a wave of hatred amplified and fueled by the dark side, that is capable of smashing through mental and physical defenses with ease\". A number of references to Dark Jedi in Old Republic archives often mention the Dark Jedi losing control, violently, in the final moments of battle with the Jedi of the light side of the Force.",
+					"In game terms, a <i>Force scream</i> is a reflex, usually occurring when Dark Jedi are provoked into losing their tempers. A Dark Jedi must make a Difficult <b>willpower</b> roll whenever angered to the point of rage; if the roll fails, the Jedi releases the <i>Force scream</i>. All of the Dark Jedi's die codes are reduced by <b>2D</b> for one hour, and he must rest for one hour or suffer an additional <b>-2D</b> penalty until rested (penalties are cumulative).",
+					"The Force scream causes damage equal to the Dark Jedi's <i>alter</i> skill to all beings within 50 meters, including the Dark Jedi who unleashed this mental energy. Force-sensitive characters roll their <b>alter</b> dice to resist damage (those without the <i>alter</i> skill use <i>Strength</i>)."
+				]
+			}
+		]
+	},
+	{
+		"name": "Bolt of Hatred",
+		"extra": data.extra.sithDiscipline,
+		"grantsDarkSidePointOnUse": true,
+		"difficulty": {
+			"alter": {
+				"level": 3,
+			}
+		},
+		"content": [
+			{
+				"type": "effect",
+				"text": [
+					"The Force-user creates in his hand a radiant sphere of pure hatred which he can hurl at any target within his line of sight. After a successful <b>alter</b> roll to initiate the effect, the Force-wielder makes a <i>thrown weapons</i> roll with a <b>2D</b> bonus to launch the bolt of energy at his target. Characters hit by the sphere suffer <b>6D</b> damage and automatically <b>loose a Character Point</b>."
+				]
+			}
+		]
+	},
 ];
