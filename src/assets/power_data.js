@@ -152,12 +152,12 @@ export const rawPowerItems = [
 					{
 						"add": "+20",
 						"text": `Area of Effect:
-				<ul>
-					<li>Point blank to 1 meter: -4D energy damage</li>
-					<li>2 meters: -3D energy damage</li>
-					<li>3 meters: -2D energy damage</li>
-					<li>4 meters: -1D energy damage</li>
-				</ul>`
+							<ul>
+								<li>Point blank to 1 meter: -4D energy damage</li>
+								<li>2 meters: -3D energy damage</li>
+								<li>3 meters: -2D energy damage</li>
+								<li>4 meters: -1D energy damage</li>
+							</ul>`
 					}
 				]
 			}
@@ -451,11 +451,7 @@ export const rawPowerItems = [
 		"required": "Control Pain",
 		"difficulty": {
 			"control": {
-				"level": [
-					{
-						"level": 1,
-					}
-				],
+				"level": 1,
 				"modifiers": data.modifiers.relationship
 			},
 			"alter": {
@@ -542,8 +538,12 @@ export const rawPowerItems = [
 				"type": "effect",
 				"text": [
 					"A wounded Jedi who <i>controls pain</i> can act as if she has not been wounded, starting with the round after the power roll has been made. The wound is not healed, but the character doesn't suffer the penalties of being wounded: a <i>wounded</i> Jedi doesn't suffer any die code penalties; an <i>incapacitated</i> character can still act normally, as can a <i>mortally wounded</i> character. This power can also be used to shrug off any stun results.",
-					"However, the character is still injured, and thus is prone to getting worse, even if the Jedi doesn't feel the pain. For example, a character who's been <i>wounded twice</i> and is wounded again would still become <i>incapacitated</i>. <i>Mortally wounded</i> Jedi may still die from injuries, even if they don't feel any pain."
+					"However, the character is still injured, and thus is prone to getting worse, even if the Jedi doesn't feel the pain."
 				]
+			},
+			{
+				"type": "example",
+				"text": "A character who's been <i>wounded twice</i> and is wounded again would still become <i>incapacitated</i>. <i>Mortally wounded</i> Jedi may still die from injuries, even if they don't feel any pain."
 			}
 		]
 	},
@@ -638,7 +638,7 @@ export const rawPowerItems = [
 				"text": [
 					"A Jedi uses this power to increase a single attribute for a limited period. An increased attribute can help a Jedi jump higher, see better, and run faster. All skills governed by the enhanced attribute increase by the same amount for as long as the power remains in effect.",
 					"An attribute increased by this power remains enhanced for the duration listed below. Duration and attribute increase are determined by how much a character's <b>control</b> skill roll exceeds the difficulty number. Duration can be extended through use of Character Points — for each Character Point a Jedi spends, the duration is increased by one combat round. The points can be spent at any time before the power fades.",
-					"A Jedi can only increase one attribute at a time. If a character invokes the power to enhance a second attribute while the first attribute is still enhanced, then the first enhancement fades and the second attribute receives the increase.",
+					"A Jedi can only increase one attribute at a time. If a character invokes the power to enhance a second attribute while the first attribute is still enhanced, then the first enhancement fades and the second attribute receives the increase."
 				]
 			},
 			{
@@ -705,11 +705,15 @@ export const rawPowerItems = [
 			},
 			{
 				"type": "effect",
-				"text": [
-					"The past and present are set and it is merely a matter of the Jedi having correct perceptions. However, the future is always fluid, always in motion, never set until it becomes the present — therefore it is much harder to predict. The percentages on the chart are a rough measure of how much correct information the character receives in the vision.",
-					"For example, 10% means that the character will only be able to make out the most basic details of a situation, such as \"My friends are in danger\". 25% means that the Jedi gets a somewhat accurate vision of what will transpire, but most major details will be missing from the vision. 50% means that the character's vision was about half right. 75% means that the character has an understanding of the critical happenings, but the character still has missed a major detail or two, which, of course, can complicate things. 90% means that the character has a very accurate and very detailed vision of what has transpired or will transpire. 100% means that the character's vision is even more accurate and detailed, complete with minor, almost trivial details.",
-					"When a character farsees into the future, the gamemaster has to make an honest effort to correctly represent what will happen: if the characters get a 75% result, the gamemaster must try to predict what he thinks the characters will do and what the outcome will be. Of course, since the future is so fluid, things are always subject to change. <i>Farseeing</i> is a great mechanic for the gamemaster to reveal part of the story — enough to tantalize the players, without ruining the story."
-				]
+				"text": "The past and present are set and it is merely a matter of the Jedi having correct perceptions. However, the future is always fluid, always in motion, never set until it becomes the present — therefore it is much harder to predict. The percentages on the chart are a rough measure of how much correct information the character receives in the vision."
+			},
+			{
+				"type": "example",
+				"text": "10% means that the character will only be able to make out the most basic details of a situation, such as \"My friends are in danger\". 25% means that the Jedi gets a somewhat accurate vision of what will transpire, but most major details will be missing from the vision. 50% means that the character's vision was about half right. 75% means that the character has an understanding of the critical happenings, but the character still has missed a major detail or two, which, of course, can complicate things. 90% means that the character has a very accurate and very detailed vision of what has transpired or will transpire. 100% means that the character's vision is even more accurate and detailed, complete with minor, almost trivial details."
+			},
+			{
+				"type": "effect",
+				"text": "When a character farsees into the future, the gamemaster has to make an honest effort to correctly represent what will happen: if the characters get a 75% result, the gamemaster must try to predict what he thinks the characters will do and what the outcome will be. Of course, since the future is so fluid, things are always subject to change. <i>Farseeing</i> is a great mechanic for the gamemaster to reveal part of the story — enough to tantalize the players, without ruining the story."
 			}
 		]
 	},
@@ -739,7 +743,7 @@ export const rawPowerItems = [
 					["9-15", "<b>+3D</b>"],
 					["16-25", "<b>+4D</b>"],
 					["26-37", "<b>+5D</b>"],
-					["38+", "<b>+6D</b>"],
+					["38+", "<b>+6D</b>"]
 				]
 			},
 			{
@@ -758,7 +762,7 @@ export const rawPowerItems = [
 					["3-4 meter", 3],
 					["5-8 meter", 4],
 					["9-15 meter", 5],
-					["16-20 meter", 6],
+					["16-20 meter", 6]
 				],
 				"subnote": "Add <b>+5</b> to the difficulty for every additional 5 meters. If the character is simply jumping downwards, with no upwards movement, reduce jumping difficulty by one level. Add <b>+1</b> to the difficulty per meter of horizontal distance jumped."
 			},
@@ -832,7 +836,17 @@ export const rawPowerItems = [
 				"text": [
 					"This power allows a Jedi to place herself into a deep trance, remarkably slowing all body functions. The Jedi's heartbeat slows, her breathing drops to barely perceivable levels, and she falls <i>unconscious</i>. A Jedi can heal while in a <i>hibernation trance</i>, but can do nothing else.",
 					"Anyone who comes across a Jedi in <i>hibernation trance</i> assumes that the Jedi is dead unless she makes a point of testing him. Another Jedi with the <b>sense</b> skill or the <i>life detection</i> power will be able to detect the Force within the hibernating character and realize that she is alive.",
-					"When a Jedi enters a <i>hibernation trance</i>, the player must declare under what circumstances the character will awaken: after a specific amount of time, or what stimuli need to be present (noise or someone touching them, for example). Another Jedi can use the power <i>place another in hibernation trance</i> to bring the user out of the trance.",
+					"When a Jedi enters a <i>hibernation trance</i>, the player must declare under what circumstances the character will awaken: after a specific amount of time, or what stimuli need to be present."
+				]
+			},
+			{
+				"type": "example",
+				"text": "The awakening stimulus could be noise or someone touching the character."
+			},
+			{
+				"type": "effect",
+				"text": [
+					"Another Jedi can use the power <i>place another in hibernation trance</i> to bring the user out of the trance.",
 					"<i>Hibernation trance</i> serves two purposes. It allows a Jedi to \"play dead\" and it can be used to survive when food or air supplies are low.",
 					"A character in hibernation uses only about a tenth as much air as someone who is sleeping — she can hibernate for a week in a dry climate or for up to a month in a wet climate before dying from lack of water. It is possible to hook the character up to an intravenous water drip to survive indefinitely.",
 					"A character can hibernate for up to three months before dying of starvation. An intravenous sugar solution can extend that to one year."
@@ -1486,7 +1500,7 @@ export const rawPowerItems = [
 					["Moderate", "0"],
 					["Difficult", "<b>+5</b>"],
 					["Very Difficult", "<b>+10</b>"],
-					["Heroic", "<b>+15</b>"],
+					["Heroic", "<b>+15</b>"]
 				]
 			},
 			{
@@ -1520,7 +1534,7 @@ export const rawPowerItems = [
 					["Moderate", "<b>+10</b>"],
 					["Difficult", "<b>+15</b>"],
 					["Very Difficult", "<b>+20</b>"],
-					["Heroic", "<b>+30</b>"],
+					["Heroic", "<b>+30</b>"]
 				]
 			},
 			{
@@ -1566,7 +1580,7 @@ export const rawPowerItems = [
 					{
 						"level": 6,
 						"text": "Population in hundreds of thousands"
-					},
+					}
 				],
 				"modifiers": data.modifiers.proximity
 			}
@@ -1717,7 +1731,16 @@ export const rawPowerItems = [
 					"Like <i>emptiness</i>, <i>rage</i> makes characters oblivious to their surroundings; they are rendered immobile. Unlike <i>emptiness</i> the character will strongly exude the dark side. This internal focusing even provides some protection against others using the",
 					"Force to manipulate them in some way. Add the <i>rage</i> <b>control</b> roll to the difficulty of the Force power employed by the \"attacking\" character.",
 					"Characters also dehydrate and hunger twice as fast as normal in <i>rage</i> and are more susceptible to damage (<b>-1D</b> to Strength when resisting damage from physical and energy attacks while in this state). Characters who plan an extended trance require intravenous nourishment.",
-					"In <i>rage</i>, the character is less oblivious to his surroundings than a Jedi in <i>emptiness</i>. For example, any physical contact by a living being is made may revive the character in <i>rage</i> (for which the Jedi will need to make a Moderate <b>control</b> roll) and it will provoke an instant berserker-like attack, regardless of who the other character is. The character then must make a Difficult control to cease the attack before the \"offending\" character is <i>killed</i>.",
+					"In <i>rage</i>, the character is less oblivious to his surroundings than a Jedi in <i>emptiness</i>."
+				]
+			},
+			{
+				"type": "example",
+				"text": "Any physical contact by a living being may revive the character in <i>rage</i> (requiring a Moderate <b>control</b> roll) and provoke an instant berserker-like attack, regardless of who the other character is. The character then must make a Difficult <b>control</b> roll to cease the attack before the \"offending\" character is <i>killed</i>."
+			},
+			{
+				"type": "effect",
+				"text": [
 					"A character using <i>rage</i> can choose to anticipate the arrival of a foe, using a Difficult <b>sense</b> roll (modified by relationship) with the <i>life sense</i> power at the time they enter <i>rage</i>. This will allow them to instantly awaken (an Easy <b>control</b> roll) if the expected person comes within five meters of the person in <i>rage</i>.",
 					"This power may be used in a preparation ritual for the <i>transfer life</i> power. When a raged person uses <i>transfer life</i>, their original body is completely consumed by the dark side, often bursting into blue flames. For every three points by which the <b>control</b> roll exceeded the <i>rage</i> difficulty, the body does <b>1D</b> damage upon the explosion (three-meter blast radius)."
 				]
@@ -1836,7 +1859,7 @@ export const rawPowerItems = [
 				"rows": [
 					["1-8", "Through current <i>episode</i>"],
 					["9-20", "Through last <i>episode</i>"],
-					["21+", "Through last two <i>episode</i>"],
+					["21+", "Through last two <i>episode</i>"]
 				],
 				"subnote": "An <i>episode</i> is essentially one \"Act\" of an adventure you are currently running. This definition, however, is left to gamemaster discretion."
 			}
@@ -1887,8 +1910,16 @@ export const rawPowerItems = [
 				"type": "effect",
 				"text": [
 					"This power is used to sense the ambient Force within a place. It cannot be used to specifically detect sentient beings, but there are many forms of life and many areas of the galaxy intertwined with the Force which can be sensed with this power.",
-					"<i>Sense Force</i> will tell a character the rough magnitude of the Force in an area or object (rich, moderate or poor in the Force), the rough type and quantity of life-forms (\"many insects\", \"only microbes and bacteria\", \"teeming with plant and animal life, including higher predators\") and whether the area or object tends toward the dark side or the light (for example, the tree on Dagobah which Luke Skywalker entered is a \"dark side nexus\" rich in the negative energies of the dark side of the Force). An area rich in negative or positive energies may indicate past events or the activities of past inhabitants. The Jedi may also receive \"vague premonitions\" about the area, such as \"I sense something wrong\", or \"I sense a great impending tragedy\"."
+					"<i>Sense Force</i> will tell a character the rough magnitude of the Force in an area or object (rich, moderate or poor in the Force), the rough type and quantity of life-forms (\"many insects\", \"only microbes and bacteria\", \"teeming with plant and animal life, including higher predators\") and whether the area or object tends toward the dark side or the light."
 				]
+			},
+			{
+				"type": "example",
+				"text": "The tree on Dagobah which Luke Skywalker entered is a \"dark side nexus\" rich in the negative energies of the dark side of the Force."
+			},
+			{
+				"type": "effect",
+				"text": "An area rich in negative or positive energies may indicate past events or the activities of past inhabitants. The Jedi may also receive \"vague premonitions\" about the area, such as \"I sense something wrong\", or \"I sense a great impending tragedy\"."
 			}
 		]
 	},
@@ -1909,12 +1940,7 @@ export const rawPowerItems = [
 						"text": "for friendly, unresistant targets"
 					},
 					{
-						"levels": [
-							{
-								"level": 3,
-							},
-							data.level.perception
-						],
+						"levels": 3,
 						"text": "for unwilling subjects"
 					}
 				]
@@ -1994,8 +2020,12 @@ export const rawPowerItems = [
 				"type": "effect",
 				"text": [
 					"The character may shift his or her senses as to detect phenomena of a different type than normal. Shifting eyesight to the infrared spectrum, hearing frequencies above or below normal range for his or her species, etc. This power counts as a \"skill use\" for determining die code penalties.",
-					"Please note that this power is exceptionally useful in some aspects, but fairly limited in others. For example, a Jedi may detect comm frequencies, but that does not mean that the Jedi can listen in on the transmission. The Jedi will be able to detect that a transmission is present, but may not necessarily be able to locate the signal's source, and certainly will not be able to decode the information carried by the transmission."
+					"Please note that this power is exceptionally useful in some aspects, but fairly limited in others."
 				]
+			},
+			{
+				"type": "example",
+				"text": "A Jedi may detect comm frequencies, but that does not mean that the Jedi can listen in on the transmission. The Jedi will be able to detect that a transmission is present, but may not necessarily be able to locate the signal's source, and certainly will not be able to decode the information carried by the transmission."
 			}
 		]
 	},
@@ -2096,7 +2126,7 @@ export const rawPowerItems = [
 				"type": "effect",
 				"text": [
 					"A Jedi character may choose the <i>life bond</i> power to permanently form a mental link with one other individual, normally a mate (although sometimes siblings, parent and child, or even very close friends choose to <i>life bond</i>).",
-					"Detailed information can be learned by activating the power. If both characters have the <i>life bond</i> power, reduce all sense difficulties by one level (although both characters must still roll for <i>life bond</i> to achieve the benefits listed below). The following benefits are only in effect when the characters are actively using the <i>life bond</i> power.",
+					"Detailed information can be learned by activating the power. If both characters have the <i>life bond</i> power, reduce all sense difficulties by one level (although both characters must still roll for <i>life bond</i> to achieve the benefits listed below). The following benefits are only in effect when the characters are actively using the <i>life bond</i> power."
 				]
 			},
 			{
@@ -2105,13 +2135,21 @@ export const rawPowerItems = [
 					"On an [[diff:2]] sense roll, the Force-user is aware of the other's general location and general emotional state: whether the person is frightened, in pain, injured, happy, or experiencing some other strong emotion.",
 					"On a [[diff:3]] sense roll, the Force-user experiences the other's senses: he or she sees though the other's eyes, hears what the other hears, and smells, tastes, and feels what the other person is experiencing. However, at this level, the characters are affected by each other's experiences — both characters share pain, and if one character is injured, the other character suffers an injury one level lower.",
 					"On a [[diff:4]] sense roll, the Force-user is considered telepathically linked to the <i>life bond</i> partner and can read the surface thoughts of the other if the other is willing to share those thoughts.",
-					"On a [[diff:5]] sense roll, the Force-user can send thoughts to the <i>life bond</i> partner (as per the <i>projective telepathy</i> power), allowing the characters to carry on a telepathic conversation.",
+					"On a [[diff:5]] sense roll, the Force-user can send thoughts to the <i>life bond</i> partner (as per the <i>projective telepathy</i> power), allowing the characters to carry on a telepathic conversation."
 				]
 			},
 			{
 				"type": "effect",
+				"text": "As an added benefit, the two characters can have premonitions about each other."
+			},
+			{
+				"type": "example",
+				"text": "If one character is severely injured, his or her <i>life bond</i> partner will sense that something bad has happened."
+			},
+			{
+				"type": "effect",
 				"text": [
-					"As an added benefit, the two characters can have premonitions about each other: for example, if one character is severely injured, his or her <i>life bond</i> partner will sense that something bad has happened. This aspect of the <i>life bond</i> power is modified by proximity only, as outlined below. Sensing premonitions is automatic of within 11,000 kilometers of each other. If on the same planet but more than 1,000 kilometers from each other, a Very Easy <b>sense</b> roll is necessary to sense premonitions. If not on the same planet but in the same star system, and Easy <b>sense</b> roll is necessary to sense premonitions. If not in the same star system but within 10 light-years, a Moderate <b>sense</b> roll is required. If more than 10 light-years but less than 100 light-years away, a Difficult <b>sense</b> roll is necessary. If more than 100 light-years away from each other, a Very Difficult <b>sense</b> roll is necessary.",
+					"This aspect of the <i>life bond</i> power is modified by proximity only, as outlined below. Sensing premonitions is automatic of within 11,000 kilometers of each other. If on the same planet but more than 1,000 kilometers from each other, a Very Easy <b>sense</b> roll is necessary to sense premonitions. If not on the same planet but in the same star system, and Easy <b>sense</b> roll is necessary to sense premonitions. If not in the same star system but within 10 light-years, a Moderate <b>sense</b> roll is required. If more than 10 light-years but less than 100 light-years away, a Difficult <b>sense</b> roll is necessary. If more than 100 light-years away from each other, a Very Difficult <b>sense</b> roll is necessary.",
 					"Life-bonded characters may not share skills, attributes, Force Points, or Character Points. However, since the characters do have such a close bond, the actions of one can affect the other. If a life-bonded character commits an evil action, the Jedi partner receives a Dark Side Point even though these actions were not the Jedi's fault. Obviously, life bonding is an exceedingly serious commitment, and not to be taken lightly.",
 					"Both characters must agree to the <i>life bond</i> for the power to work and a character may only <i>life bond</i> with one other individual. Life bonding takes <b>1D</b> weeks to complete (as the Jedi becomes accustomed to the background Force presence of the <i>life bond</i> partner). During that time, the Jedi's control is <b>-1D</b>. The <i>life bond</i> power may not be activated until the bond is completely formed.",
 					"Death is the only means of severing the <i>life bond</i>. If one member of the life-bonded couple is <i>killed</i>, the surviving partner enters a near-catatonic state of shock for <b>1D</b> days. After reawakening, the partner grieves and readjusts to a solitary existence; all die codes are reduced by <b>-1D</b> for the same amount of time it took to forge the <i>life bond</i>.",
@@ -2156,7 +2194,7 @@ export const rawPowerItems = [
 				"modifiers": data.modifiers.relationship
 			},
 			"alter": {
-				"level": 1,
+				"level": 1
 			}
 		},
 		"summary": "Lets a Jedi help a touched character resist or overcome disease using the same basic rules as Control Disease. Relationship modifies the Control difficulty, while disease severity sets the Alter difficulty.",
@@ -2260,7 +2298,7 @@ export const rawPowerItems = [
 			{
 				"type": "warning",
 				"text": "Avoid overusing this power, since it can severely disrupt game balance if not used in moderation"
-			},
+			}
 		]
 	},
 	{
@@ -2303,7 +2341,7 @@ export const rawPowerItems = [
 			"alter": {
 				"level": [
 					data.level.perception
-				],
+				]
 			}
 		},
 		"grantsDarkSidePointOnUse": true,
@@ -2450,7 +2488,7 @@ export const rawPowerItems = [
 					["6-10", "<b>-2</b>"],
 					["11-15", "<b>-1D</b>"],
 					["16-20", "<b>-2D</b>"],
-					["21+", "<b>-3D</b>"],
+					["21+", "<b>-3D</b>"]
 				],
 				"subnote": "The power may be used on more than one target at a time, with an increase of <b>+3</b> to the sense difficulty for each additional target; the target with the highest <b>control</b> or <b>Perception</b> rolls for the entire group."
 			}
@@ -2478,10 +2516,15 @@ export const rawPowerItems = [
 		"content": [
 			{
 				"type": "effect",
-				"text": [
-					"When a Jedi successfully activates this power, he creates a protective shield around his body. This shield is effective against both energy and physical attacks. The strength of the shield is equal the character's <b>alter</b> roll divided by three, rounded down. For example, if the Jedi has <b>9D</b> in alter, he may add <b>3D</b>",
-					"to his <b>Strength</b> roll to resist damage. If the Jedi exceeds the alter difficulty by <b>+10</b>, he may extend the <i>greater force shield</i> to another character if he has direct contact with that character."
-				]
+				"text": "When a Jedi successfully activates this power, he creates a protective shield around his body. This shield is effective against both energy and physical attacks. The strength of the shield is equal the character's <b>alter</b> roll divided by three, rounded down."
+			},
+			{
+				"type": "example",
+				"text": "If the Jedi has <b>9D</b> in alter, he may add <b>3D</b> to his <b>Strength</b> roll to resist damage."
+			},
+			{
+				"type": "effect",
+				"text": "If the Jedi exceeds the alter difficulty by <b>+10</b>, he may extend the <i>greater force shield</i> to another character if he has direct contact with that character."
 			}
 		]
 	},
@@ -2851,7 +2894,7 @@ export const rawPowerItems = [
 					{
 						"level": 6,
 						"text": "1.000.001-10.000.000 Victims"
-					},
+					}
 				]
 			},
 			"alter": {
@@ -3144,7 +3187,7 @@ export const rawPowerItems = [
 						"text": "for victims that are Force sensitive and decide to use it",
 						"optional": true
 					}
-				],
+				]
 			}
 		},
 		"summary": "Transfers the user's life energy into another body or prepared clone host. It is an extremely difficult and evil dark-side power, and possessing an unwilling host grants additional Dark Side Points.",
@@ -3191,7 +3234,7 @@ export const rawPowerItems = [
 		"grantsDarkSidePointOnUse": true,
 		"difficulty": {
 			"alter": {
-				"level": 3,
+				"level": 3
 			}
 		},
 		"summary": "A Sith discipline that forms a radiant sphere of hatred and hurls it at a visible target. On a hit, it deals heavy damage and causes the target to lose a Character Point.",
@@ -3220,9 +3263,16 @@ export const rawPowerItems = [
 				"type": "effect",
 				"text": [
 					"When successfully initiated, this power summons strands of dark side power that wrap around the Force-user's target, ensnaring him in a mesh of brilliance. The lattice of energy severs the connection between the Force and the trapped individual and saps the strengths from his body.",
-					"In game terms, the target of the <i>dark side web</i> loses a number of Force skill dice up to the number of the Force-wielder's <b>alter</b> dice. For example, if King Ommin had <b>6D</b> in <b>alter</b>, he could lower any one of Master Arca's Force skills by six dice; or, he could break up those six dice across all three of Arca's Force skills (<b>control, sense,</b> and <b>alter</b>), lowering each skill each by <b>2D</b> (or in any combination as long as the total number of dice removed totals <b>6D</b>).",
-					"If the Force-user desires, he may include the <b>Strength</b> attribute in the reduction, thereby giving him the option of temporarily removing dice from <b>control, sense, alter</b>, and <b>Strength</b> in any combination of dice that adds up to his <b>alter</b> skill."
+					"In game terms, the target of the <i>dark side web</i> loses a number of Force skill dice up to the number of the Force-wielder's <b>alter</b> dice."
 				]
+			},
+			{
+				"type": "example",
+				"text": "If King Ommin had <b>6D</b> in <b>alter</b>, he could lower any one of Master Arca's Force skills by six dice; or, he could break up those six dice across all three of Arca's Force skills (<b>control, sense,</b> and <b>alter</b>), lowering each skill each by <b>2D</b> (or in any combination as long as the total number of dice removed totals <b>6D</b>)."
+			},
+			{
+				"type": "effect",
+				"text": "If the Force-user desires, he may include the <b>Strength</b> attribute in the reduction, thereby giving him the option of temporarily removing dice from <b>control, sense, alter</b>, and <b>Strength</b> in any combination of dice that adds up to his <b>alter</b> skill."
 			}
 		]
 	},
@@ -3607,10 +3657,19 @@ export const rawPowerItems = [
 		"content": [
 			{
 				"type": "effect",
-				"text": [
-					"All Force powers that have a variable effect based on a die roll (for example damage for <i>Force lightning</i>, or the benefits of <i>enhance attribute</i>) are increased by one-half (multiply by 1.5, rounded down). This power must be activated in the same round as the related power. Multiple action penalties apply. Once the damage or benefit has been rolled, the result is multiplied by 1.5 (rounded down) and then added to the total. If the Jedi wants to affect more than one power, he must make separate <i>empower Force</i> rolls.",
-					"For example, a Force-user wishes to attack a target with <i>Force lightning</i>. The Force-user's <b>alter</b> die code is <b>7D</b>. If he successfully activates <i>empower force</i> before making his attack, he will roll his <b>3D</b> for damage. He rolls a nine, but has a final result of 13."
-				]
+				"text": "All Force powers that have a variable effect based on a die roll are increased by one-half (multiply by 1.5, rounded down). "
+			},
+			{
+				"type": "example",
+				"text": "This can apply to damage for <i>Force lightning</i> or the benefits of <i>enhance attribute</i>."
+			},
+			{
+				"type": "effect",
+				"text": "This power must be activated in the same round as the related power. Multiple action penalties apply. Once the damage or benefit has been rolled, the result is multiplied by 1.5 (rounded down) and then added to the total. If the Jedi wants to affect more than one power, he must make separate <i>empower Force</i> rolls."
+			},
+			{
+				"type": "example",
+				"text": "A Force-user wishes to attack a target with <i>Force lightning</i>. The Force-user's <b>alter</b> die code is <b>7D</b>. If he successfully activates <i>empower force</i> before making his attack, he will roll his <b>3D</b> for damage. He rolls a nine, but has a final result of 13."
 			}
 		]
 	},
@@ -3625,7 +3684,15 @@ export const rawPowerItems = [
 		"content": [
 			{
 				"type": "effect",
-				"text": "This power allows a Jedi to double the range of those Force powers that are limited by distance (<i>life bond</i>, for example). The Jedi must successfully activate <i>enlarge Force</i> in the same round as the Force power it is meant to enlarge. Force powers without range limitations are not affected."
+				"text": "This power allows a Jedi to double the range of those Force powers that are limited by distance."
+			},
+			{
+				"type": "example",
+				"text": "<i>Life bond</i> is a Force power limited by distance."
+			},
+			{
+				"type": "effect",
+				"text": "The Jedi must successfully activate <i>enlarge Force</i> in the same round as the Force power it is meant to enlarge. Force powers without range limitations are not affected."
 			}
 		]
 	},
@@ -3640,7 +3707,15 @@ export const rawPowerItems = [
 		"content": [
 			{
 				"type": "effect",
-				"text": "This power allows a Jedi to double the duration of those Force powers that have an effect that expires after a certain time (<i>combat</i> <b>sense</b>, or <i>enhance attribute</i>, for example). The Jedi must successfully activate <i>extend Force</i> in the same round as the Force power it is meant to extend. Multiple action penalties apply. Force powers that are not affected by duration or an expiration time are not affected by this power."
+				"text": "This power allows a Jedi to double the duration of those Force powers that have an effect that expires after a certain time."
+			},
+			{
+				"type": "example",
+				"text": "<i>Combat sense</i> and <i>enhance attribute</i> are Force powers with effects that expire after a set time."
+			},
+			{
+				"type": "effect",
+				"text": "The Jedi must successfully activate <i>extend Force</i> in the same round as the Force power it is meant to extend. Multiple action penalties apply. Force powers that are not affected by duration or an expiration time are not affected by this power."
 			}
 		]
 	},
@@ -3694,7 +3769,7 @@ export const rawPowerItems = [
 					["0-10", 2, "<b>2D+2</b>", "No Effect"],
 					["11-20", 3, "<b>5D</b>", "No Effect"],
 					["21-35", 4, "<b>7D+2</b>", "No Effect"],
-					["36+", 5, "<b>10D</b>", "Reduce Site Power"],
+					["36+", 5, "<b>10D</b>", "Reduce Site Power"]
 				]
 			},
 			{
@@ -3730,7 +3805,7 @@ export const rawPowerItems = [
 					["0-5", "1-10"],
 					["6-10", "11-100"],
 					["11-15", "101-1.000"],
-					["16+", "1.001-10.000"],
+					["16+", "1.001-10.000"]
 				]
 			}
 		]
@@ -3782,7 +3857,15 @@ export const rawPowerItems = [
 		"content": [
 			{
 				"type": "effect",
-				"text": "This power allows the Jedi to add one additional target to his or her Force power during that round. For example, he or she may select one additional object for <i>telekinesis</i>, or one additional person for <i>return another to consciousness</i>. Powers that already target more than one person or object are not affected. Likewise, powers that only target only the user are not affected. <i>Split Force</i> must be activated in the same round as the power it is meant to split."
+				"text": "This power allows the Jedi to add one additional target to his or her Force power during that round."
+			},
+			{
+				"type": "example",
+				"text": "He or she may select one additional object for <i>telekinesis</i>, or one additional person for <i>return another to consciousness</i>."
+			},
+			{
+				"type": "effect",
+				"text": "Powers that already target more than one person or object are not affected. Likewise, powers that only target only the user are not affected. <i>Split Force</i> must be activated in the same round as the power it is meant to split."
 			}
 		]
 	},
@@ -3870,12 +3953,16 @@ export const rawPowerItems = [
 					["7-12", "<b>+1D</b>", "4 Rounds"],
 					["13-18", "<b>+1D+1</b>", "3 Rounds"],
 					["19-24", "<b>+1D+2</b>", "3 Rounds"],
-					["25+", "<b>+2D</b>", "2 Rounds"],
+					["25+", "<b>+2D</b>", "2 Rounds"]
 				]
 			},
 			{
 				"type": "effect",
-				"text": "Whenever <i>Sith sorcery</i> is used, in addition to receiving a Dark Side Point, the character opens himself up to possession by Sith spirits. He must immediately succeed in a [[diff:3]] <b>willpower</b> skill check, with the difficulty increased by the amount of the bonus received. For example, a Dark Jedi beats his <b>control</b> roll difficulty by 8 points, gaining a <b>+1D</b> bonus. When the power fades, he must make a <b>willpower</b> roll with a difficulty of [[diff:3]]<b>+1D</b>. If the skill roll succeeds, there are no complications. If it fails, however, the character is possessed by a dark side spirit."
+				"text": "Whenever <i>Sith sorcery</i> is used, in addition to receiving a Dark Side Point, the character opens himself up to possession by Sith spirits. He must immediately succeed in a [[diff:3]] <b>willpower</b> skill check, with the difficulty increased by the amount of the bonus received."
+			},
+			{
+				"type": "example",
+				"text": "A Dark Jedi beats his <b>control</b> roll difficulty by 8 points, gaining a <b>+1D</b> bonus. When the power fades, he must make a <b>willpower</b> roll with a difficulty of [[diff:3]]<b>+1D</b>. If the skill roll succeeds, there are no complications. If it fails, however, the character is possessed by a dark side spirit."
 			}
 		]
 	},
@@ -4043,7 +4130,7 @@ export const rawPowerItems = [
 					["0-8", "<b>+1</b>"],
 					["9-16", "<b>+2</b>"],
 					["17-24", "<b>+1D</b>"],
-					["25+", "<b>+1D+1</b>"],
+					["25+", "<b>+1D+1</b>"]
 				]
 			}
 		]
@@ -4197,7 +4284,7 @@ export const rawPowerItems = [
 					["6-10", "<b>+1D</b>"],
 					["11-15", "<b>+1D+1</b>"],
 					["16-20", "<b>+1D+2</b>"],
-					["21+", "<b>+2D</b>"],
+					["21+", "<b>+2D</b>"]
 				]
 			}
 		]
@@ -4377,7 +4464,7 @@ export const rawPowerItems = [
 					["11-20", 4],
 					["21-35", 5],
 					["36-50", 6],
-					["51+", { "level": 6, "increase": "+5" }],
+					["51+", { "level": 6, "increase": "+5" }]
 				]
 			},
 			{
@@ -4406,7 +4493,7 @@ export const rawPowerItems = [
 				"text": [
 					"When successfully activated, this power allows the Jedi a stricter control over her body temperature. By speeding or slowing her metabolism she is able to change her core temperature, thereby allowing her to be more resilient to environmental changes. Whether these changes are due to malfunctioning life support systems, or harsh wilderness temperatures, the Force user can withstand greater heat and cold than most beings.",
 					"Furthermore, the Jedi can also choose to control her surface body temperature to hide herself from heat-based sensors or hide from species that use heat detection as a primary sense.",
-					"In game terms <i>control temperature</i> allows the Jedi to add bonus dice to her <b>survival</b> or <b>stamina</b> skill rolls to live in much harsher environments than she would normally be able to. Alternatively, the Jedi may choose to control their skin temperature to add to their <b>sneak</b> skill roll to avoid being detected by heat sensors. In either usage, the amount of bonus dice depends on the Jedi's skill roll. Using the power for both purposes in the same round requires an additional action with a <b>+5</b> to the difficulty for each roll.",
+					"In game terms <i>control temperature</i> allows the Jedi to add bonus dice to her <b>survival</b> or <b>stamina</b> skill rolls to live in much harsher environments than she would normally be able to. Alternatively, the Jedi may choose to control their skin temperature to add to their <b>sneak</b> skill roll to avoid being detected by heat sensors. In either usage, the amount of bonus dice depends on the Jedi's skill roll. Using the power for both purposes in the same round requires an additional action with a <b>+5</b> to the difficulty for each roll."
 				]
 			},
 			{
@@ -4416,7 +4503,7 @@ export const rawPowerItems = [
 					["0-5", "<b>+3D</b>"],
 					["6-14", "<b>+4D</b>"],
 					["15-21", "<b>+5D</b>"],
-					["21+", "<b>+6D</b>"],
+					["21+", "<b>+6D</b>"]
 				]
 			}
 		]
@@ -4528,7 +4615,7 @@ export const rawPowerItems = [
 					["5-8", "Target is dizzy (<b>-1D</b> for all actions) for 1D rounds"],
 					["9-12", "Target is dazed (<b>-2D</b> for all actions) for 2D rounds"],
 					["13-16", "Target is lethargic (<b>-3D</b> for all actions) for 1D minutes"],
-					["17+", "Target falls unconscious for 2D minutes"],
+					["17+", "Target falls unconscious for 2D minutes"]
 				]
 			}
 		]
