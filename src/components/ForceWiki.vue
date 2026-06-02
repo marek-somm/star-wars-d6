@@ -1883,7 +1883,7 @@ export default {
 	}
 
 	.wiki-index {
-		padding: 0.7rem;
+		padding: 0.75rem 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
 	}
 
 	.wiki-entry {
@@ -1898,14 +1898,6 @@ export default {
 			font-size: 1.35rem;
 			margin-bottom: 0.5rem;
 			font-weight: 900;
-		}
-
-		.meta {
-			display: none;
-		}
-
-		.pill {
-			display: none;
 		}
 
 		.required {
