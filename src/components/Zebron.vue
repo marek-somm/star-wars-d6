@@ -17,6 +17,14 @@
 			>
 				Force-Wiki
 			</button>
+			<button
+				class="view-button ui-button"
+				:class="{ active: data.view === 'rules' }"
+				type="button"
+				@click="setView('rules')"
+			>
+				Regeln
+			</button>
 		</nav>
 
 		<template v-if="data.view === 'sheet'">
@@ -24,7 +32,8 @@
 			<CharacterPdfExport character-name="Zebron Kebino" />
 			<Navbar />
 		</template>
-		<ForceWiki v-else />
+		<ForceWiki v-else-if="data.view === 'wiki'" />
+		<Rulebook v-else />
 	</div>
 </template>
 
@@ -34,6 +43,7 @@ import CharacterPdfExport from "./CharacterPdfExport.vue";
 import Dicer from "./Dicer.vue";
 import ForceWiki from "./ForceWiki.vue";
 import Navbar from "./Navbar.vue";
+import Rulebook from "./Rulebook.vue";
 
 export default {
 	components: {
@@ -41,6 +51,7 @@ export default {
 		Dicer,
 		ForceWiki,
 		Navbar,
+		Rulebook,
 	},
 	setup() {
 		const data = reactive({
@@ -50,7 +61,9 @@ export default {
 		function parseViewFromHash() {
 			if (typeof window === "undefined") return "sheet";
 			const hash = String(window.location.hash || "");
-			return hash.startsWith("#/wiki") ? "wiki" : "sheet";
+			if (hash.startsWith("#/wiki")) return "wiki";
+			if (hash.startsWith("#/rules")) return "rules";
+			return "sheet";
 		}
 
 		function setView(view) {
@@ -61,6 +74,13 @@ export default {
 			if (view === "wiki") {
 				if (!currentHash.startsWith("#/wiki")) {
 					window.location.hash = "#/wiki";
+				}
+				return;
+			}
+
+			if (view === "rules") {
+				if (!currentHash.startsWith("#/rules")) {
+					window.location.hash = "#/rules";
 				}
 				return;
 			}
@@ -129,7 +149,7 @@ export default {
 
 	.view-switch {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		width: 100%;
 	}
 
