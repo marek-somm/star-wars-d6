@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pen-and-paper rulebook structured extraction",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "source",
+    "objects"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object"
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "title",
+          "source",
+          "content"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source": {
+            "type": "object"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "text",
+                "source"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "lines": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "fields": {
+                  "type": "object"
+                },
+                "field_order": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "source": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "related": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
