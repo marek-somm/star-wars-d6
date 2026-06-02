@@ -1689,7 +1689,7 @@ export default {
 	}
 }
 
-@media (max-width: 940px) {
+@media (max-width: 980px) {
 	.wiki {
 
 		/* hide header search & filter areas on small screens - keep only drawer controls */

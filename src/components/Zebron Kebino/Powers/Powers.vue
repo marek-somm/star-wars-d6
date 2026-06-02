@@ -823,7 +823,7 @@ export default {
 	width: 100%;
 }
 
-@media (max-width: 940px) {
+@media (max-width: 980px) {
 	.powers--container {
 		grid-template-columns: 1fr;
 		gap: 0.8rem;
