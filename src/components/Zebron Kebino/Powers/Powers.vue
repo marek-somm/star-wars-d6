@@ -17,109 +17,127 @@
 			v-if="data.mobileListOpen"
 			@click="closeMobileList"
 		></button>
-		<aside id="power-list-panel" class="list" :class="{ 'mobile-open': data.mobileListOpen }">
-			<div class="list-header">
-				<div>
-					<p class="eyebrow">Force Powers</p>
-					<h2>Powers</h2>
-				</div>
-				<div class="header-actions">
-					<span class="power-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
-					<button class="list-close" type="button" @click="closeMobileList">Close</button>
-				</div>
-			</div>
-			<input
-				class="search"
-				placeholder="Search powers"
-				type="search"
-				v-model.trim="data.search"
-				aria-label="Search powers"
+		<aside
+			id="power-list-panel"
+			class="list"
+			:class="{ 'mobile-open': data.mobileListOpen, collapsed: data.listCollapsed }"
+		>
+			<button
+				class="list-collapse-toggle"
+				type="button"
+				:aria-expanded="!data.listCollapsed"
+				:aria-label="data.listCollapsed ? 'Show powers' : 'Hide powers'"
+				:title="data.listCollapsed ? 'Show powers' : 'Hide powers'"
+				@click="toggleListCollapsed"
 			>
-			<div class="filter-tabs" aria-label="Power type filter">
-				<button
-					class="filter-tab"
-					:class="{ active: data.powerFilter === filter.value }"
-					type="button"
-					v-for="filter in powerFilters"
-					:key="filter.value"
-					:aria-pressed="data.powerFilter === filter.value"
-					@click="data.powerFilter = filter.value"
-				>
-					{{ filter.label }}
-				</button>
-			</div>
-			<div class="quick-sections" v-if="favoriteSkills.length || activeKeptUpSkills.length || recentSkills.length">
-				<div class="quick-section" v-if="favoriteSkills.length">
-					<h3>Favorites</h3>
-					<button
-						class="quick-item"
-						:class="{ active: isCurrentSkill(skill) }"
-						type="button"
-						v-for="skill in favoriteSkills"
-						:key="`favorite-${skill.name}`"
-						@click="showSkill(skill)"
+				<span class="list-collapse-icon" aria-hidden="true"></span>
+			</button>
+			<div class="list-content">
+				<div class="list-header">
+					<div>
+						<p class="eyebrow">Force Powers</p>
+						<h2>Powers</h2>
+					</div>
+					<div class="header-actions">
+						<span class="power-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
+						<button class="list-close" type="button" @click="closeMobileList">Close</button>
+					</div>
+				</div>
+				<div class="list-scroll">
+					<input
+						class="search"
+						placeholder="Search powers"
+						type="search"
+						v-model.trim="data.search"
+						aria-label="Search powers"
 					>
-						{{ skill.name }}
-					</button>
-				</div>
-				<div class="quick-section" v-if="activeKeptUpSkills.length">
-					<h3>Kept Up</h3>
-					<button
-						class="quick-item kept"
-						:class="{ active: isCurrentSkill(skill) }"
-						type="button"
-						v-for="skill in activeKeptUpSkills"
-						:key="`kept-${skill.name}`"
-						@click="showSkill(skill)"
-					>
-						{{ skill.name }}
-					</button>
-				</div>
-				<div class="quick-section" v-if="recentSkills.length">
-					<h3>Recent</h3>
-					<button
-						class="quick-item"
-						:class="{ active: isCurrentSkill(skill) }"
-						type="button"
-						v-for="skill in recentSkills"
-						:key="`recent-${skill.name}`"
-						@click="showSkill(skill)"
-					>
-						{{ skill.name }}
-					</button>
-				</div>
-			</div>
-			<div class="label-group" v-for="powerLabel in filteredPowerLabels" :key="powerLabel.name">
-				<div class="label-title">
-					<span>{{ powerLabel.name }}</span>
-					<span class="label-count">{{ powerLabel.skills.length }}</span>
-				</div>
-				<button
-					class="list-item"
-					:class="{ active: isCurrentSkill(forceSkill) }"
-					type="button"
-					v-for="forceSkill in powerLabel.skills"
-					:key="forceSkill.name"
-					@click="showSkill(forceSkill)"
-				>
-					<span class="skill-name">{{ forceSkill.name }}</span>
-					<span class="skill-meta">
-						<span class="skill-flag fan-made" v-if="forceSkill.fanMade">Fan-made</span>
-						<span class="skill-flag favorite" v-if="isFavorite(forceSkill)">Fav</span>
-						<span
-							class="skill-flag kept"
-							:class="{ active: isKeptUpActive(forceSkill) }"
-							v-if="isKeptUpPower(forceSkill)"
+					<div class="filter-tabs" aria-label="Power type filter">
+						<button
+							class="filter-tab"
+							:class="{ active: data.powerFilter === filter.value }"
+							type="button"
+							v-for="filter in powerFilters"
+							:key="filter.value"
+							:aria-pressed="data.powerFilter === filter.value"
+							@click="data.powerFilter = filter.value"
 						>
-							Kept
-						</span>
-						<span class="power-chip" v-for="power in forceSkill.powers" :key="power">
-							{{ getPowerShortName(power) }}
-						</span>
-					</span>
-				</button>
+							{{ filter.label }}
+						</button>
+					</div>
+					<div class="quick-sections" v-if="favoriteSkills.length || activeKeptUpSkills.length || recentSkills.length">
+						<div class="quick-section" v-if="favoriteSkills.length">
+							<h3>Favorites</h3>
+							<button
+								class="quick-item"
+								:class="{ active: isCurrentSkill(skill) }"
+								type="button"
+								v-for="skill in favoriteSkills"
+								:key="`favorite-${skill.name}`"
+								@click="showSkill(skill)"
+							>
+								{{ skill.name }}
+							</button>
+						</div>
+						<div class="quick-section" v-if="activeKeptUpSkills.length">
+							<h3>Kept Up</h3>
+							<button
+								class="quick-item kept"
+								:class="{ active: isCurrentSkill(skill) }"
+								type="button"
+								v-for="skill in activeKeptUpSkills"
+								:key="`kept-${skill.name}`"
+								@click="showSkill(skill)"
+							>
+								{{ skill.name }}
+							</button>
+						</div>
+						<div class="quick-section" v-if="recentSkills.length">
+							<h3>Recent</h3>
+							<button
+								class="quick-item"
+								:class="{ active: isCurrentSkill(skill) }"
+								type="button"
+								v-for="skill in recentSkills"
+								:key="`recent-${skill.name}`"
+								@click="showSkill(skill)"
+							>
+								{{ skill.name }}
+							</button>
+						</div>
+					</div>
+					<div class="label-group" v-for="powerLabel in filteredPowerLabels" :key="powerLabel.name">
+						<div class="label-title">
+							<span>{{ powerLabel.name }}</span>
+							<span class="label-count">{{ powerLabel.skills.length }}</span>
+						</div>
+						<button
+							class="list-item"
+							:class="{ active: isCurrentSkill(forceSkill) }"
+							type="button"
+							v-for="forceSkill in powerLabel.skills"
+							:key="forceSkill.name"
+							@click="showSkill(forceSkill)"
+						>
+							<span class="skill-name">{{ forceSkill.name }}</span>
+							<span class="skill-meta">
+								<span class="skill-flag fan-made" v-if="forceSkill.fanMade">Fan-made</span>
+								<span class="skill-flag favorite" v-if="isFavorite(forceSkill)">Fav</span>
+								<span
+									class="skill-flag kept"
+									:class="{ active: isKeptUpActive(forceSkill) }"
+									v-if="isKeptUpPower(forceSkill)"
+								>
+									Kept
+								</span>
+								<span class="power-chip" v-for="power in forceSkill.powers" :key="power">
+									{{ getPowerShortName(power) }}
+								</span>
+							</span>
+						</button>
+					</div>
+					<p class="empty-state" v-if="filteredPowerLabels.length === 0">No powers match the current filter.</p>
+				</div>
 			</div>
-			<p class="empty-state" v-if="filteredPowerLabels.length === 0">No powers match the current filter.</p>
 		</aside>
 		<section class="skill-panel">
 			<ForceSkill
@@ -144,6 +162,7 @@ import ForceSkill from "./Force Skill";
 const FAVORITES_STORAGE_KEY = "star-wars-d6:favorites";
 const RECENT_STORAGE_KEY = "star-wars-d6:recent-powers";
 const KEPT_UP_STORAGE_KEY = "star-wars-d6:kept-up-powers";
+const LIST_COLLAPSED_STORAGE_KEY = "star-wars-d6:character-powers-list-collapsed";
 const RECENT_LIMIT = 6;
 
 export default {
@@ -162,6 +181,7 @@ export default {
 				currentSkill: null,
 				search: "",
 				powerFilter: "all",
+				listCollapsed: this.loadBoolean(LIST_COLLAPSED_STORAGE_KEY),
 				mobileListOpen: false,
 				favorites: [],
 				recent: [],
@@ -254,6 +274,11 @@ export default {
 
 		closeMobileList() {
 			this.data.mobileListOpen = false;
+		},
+
+		toggleListCollapsed() {
+			this.data.listCollapsed = !this.data.listCollapsed;
+			this.saveBoolean(LIST_COLLAPSED_STORAGE_KEY, this.data.listCollapsed);
 		},
 
 		isCurrentSkill(skill) {
@@ -380,6 +405,26 @@ export default {
 			} catch {
 				// Ignore storage quota or private-mode errors; the in-memory state is still updated.
 			}
+		},
+
+		loadBoolean(key) {
+			if (typeof window === "undefined") return false;
+
+			try {
+				return window.localStorage.getItem(key) === "true";
+			} catch {
+				return false;
+			}
+		},
+
+		saveBoolean(key, value) {
+			if (typeof window === "undefined") return;
+
+			try {
+				window.localStorage.setItem(key, String(Boolean(value)));
+			} catch {
+				// Ignore storage quota or private-mode errors; the in-memory state is still updated.
+			}
 		}
 	},
 	watch: {
@@ -403,7 +448,11 @@ export default {
 	display: grid;
 	grid-template-columns: minmax(16rem, 23rem) minmax(0, 1fr);
 	gap: 1rem;
-	align-items: start;
+	align-items: stretch;
+
+	&:has(.list.collapsed) {
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+	}
 
 	.mobile-list-toggle,
 	.mobile-backdrop {
@@ -420,10 +469,67 @@ export default {
 		border-radius: var(--radius-md);
 		background: var(--color-panel);
 		box-shadow: var(--shadow-panel);
-		position: sticky;
-		top: 1rem;
-		max-height: calc(100vh - 2rem);
-		overflow: auto;
+		position: relative;
+		min-height: 0;
+		overflow: visible;
+
+		&.collapsed {
+			min-height: 4rem;
+			padding-inline: 0.5rem;
+
+			.list-content {
+				display: none;
+			}
+		}
+
+		.list-collapse-toggle {
+			position: absolute;
+			top: 0.75rem;
+			right: 0.65rem;
+			z-index: 2;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 2rem;
+			height: 2rem;
+			padding: 0;
+			border: 1px solid rgba(242, 193, 78, 0.28);
+			border-radius: var(--radius-sm);
+			background: rgba(22, 20, 17, 0.9);
+			color: var(--color-accent);
+			cursor: pointer;
+			box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.22);
+
+			&:hover {
+				border-color: rgba(242, 193, 78, 0.48);
+				background: rgba(242, 193, 78, 0.1);
+			}
+
+			.list-collapse-icon {
+				display: inline-flex;
+				width: 0.5rem;
+				height: 0.5rem;
+				border: solid currentColor;
+				border-width: 0 2px 2px 0;
+				transform: translateX(0.12rem) rotate(135deg);
+			}
+		}
+
+		&.collapsed .list-collapse-toggle {
+			right: 50%;
+			transform: translateX(50%);
+
+			.list-collapse-icon {
+				transform: translateX(-0.12rem) rotate(-45deg);
+			}
+		}
+
+		.list-content {
+			display: flex;
+			flex: 1 1 auto;
+			flex-direction: column;
+			min-height: 0;
+		}
 
 		.list-header {
 			display: flex;
@@ -431,6 +537,7 @@ export default {
 			justify-content: space-between;
 			gap: 1rem;
 			margin-bottom: 0.9rem;
+			padding-right: 2.65rem;
 
 			.eyebrow {
 				margin: 0 0 0.25rem;
@@ -467,6 +574,35 @@ export default {
 
 			.list-close {
 				display: none;
+			}
+		}
+
+		.list-scroll {
+			flex: 1 1 auto;
+			height: 0;
+			min-height: 0;
+			padding-right: 2.35rem;
+			overflow: auto;
+			scrollbar-color: rgba(242, 193, 78, 0.52) rgba(244, 239, 229, 0.06);
+			scrollbar-width: thin;
+
+			&::-webkit-scrollbar {
+				width: 0.55rem;
+			}
+
+			&::-webkit-scrollbar-track {
+				border-radius: 999px;
+				background: rgba(244, 239, 229, 0.06);
+			}
+
+			&::-webkit-scrollbar-thumb {
+				border: 2px solid rgba(24, 22, 18, 0.95);
+				border-radius: 999px;
+				background: rgba(242, 193, 78, 0.62);
+			}
+
+			&::-webkit-scrollbar-thumb:hover {
+				background: rgba(242, 193, 78, 0.84);
 			}
 		}
 
@@ -692,6 +828,10 @@ export default {
 		grid-template-columns: 1fr;
 		gap: 0.8rem;
 
+		&:has(.list.collapsed) {
+			grid-template-columns: 1fr;
+		}
+
 		.mobile-list-toggle {
 			position: sticky;
 			top: 0.65rem;
@@ -747,11 +887,25 @@ export default {
 			max-height: 86vh;
 			padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
 			border-radius: var(--radius-md) var(--radius-md) 0 0;
+			overflow: hidden;
 			transform: translateY(105%);
 			transition: transform 0.22s ease;
 
 			&.mobile-open {
 				transform: translateY(0);
+			}
+
+			&.collapsed {
+				min-height: 0;
+				padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+
+				.list-content {
+					display: flex;
+				}
+			}
+
+			.list-collapse-toggle {
+				display: none;
 			}
 
 			.list-header {
@@ -781,6 +935,12 @@ export default {
 					cursor: pointer;
 				}
 			}
+
+			.list-scroll {
+				height: auto;
+				max-height: calc(86vh - 6.6rem);
+				padding-right: 0.25rem;
+			}
 		}
 
 		.skill-panel {
@@ -798,6 +958,10 @@ export default {
 
 		.list {
 			max-height: 90vh;
+
+			.list-scroll {
+				max-height: calc(90vh - 6.6rem);
+			}
 
 			.filter-tabs {
 				grid-template-columns: repeat(2, minmax(0, 1fr));
