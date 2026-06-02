@@ -1,5 +1,12 @@
 <template>
 	<section class="wiki">
+		<button class="mobile-list-toggle" type="button" :aria-expanded="data.mobileIndexOpen"
+			aria-controls="wiki-index-panel" @click="openMobileIndex">
+			<span>{{ data.currentSkill ? data.currentSkill.name : 'Select a power' }}</span>
+			<strong>Browse {{ filteredSkills.length }}</strong>
+		</button>
+		<button class="mobile-backdrop" type="button" aria-label="Close index" v-if="data.mobileIndexOpen"
+			@click="closeMobileIndex"></button>
 		<header class="wiki-header">
 			<div>
 				<p class="eyebrow">Force Powers</p>
@@ -42,8 +49,28 @@
 			</button>
 		</section>
 
+
 		<div class="wiki-layout">
-			<aside class="wiki-index" :class="{ collapsed: data.indexCollapsed }">
+			<aside id="wiki-index-panel" class="wiki-index"
+				:class="{ collapsed: data.indexCollapsed, 'mobile-open': data.mobileIndexOpen }">
+				<div class="index-panel-header">
+					<input v-model.trim="data.search" class="search mobile-search" type="search"
+						placeholder="Search powers" aria-label="Search powers">
+					<div class="mobile-filters">
+						<select v-model="data.powerFilter">
+							<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">{{
+								filter.label }}</option>
+						</select>
+						<select v-model="data.traitFilter">
+							<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">{{
+								filter.label }}</option>
+						</select>
+						<select v-model="data.difficultyFilter">
+							<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">{{
+								filter.label }}</option>
+						</select>
+					</div>
+				</div>
 				<div class="index-heading" v-show="!data.indexCollapsed">
 					<span>Power index</span>
 					<strong>{{ filteredSkills.length }}</strong>
@@ -58,7 +85,7 @@
 					<div class="index-group" v-for="group in groupedSkills" :key="group.letter">
 						<h2>{{ group.letter }}</h2>
 						<button v-for="skill in group.skills" :key="skill.id || skill.name" class="index-item"
-							:class="{ active: isCurrentSkill(skill) }" type="button" @click="showSkill(skill)">
+							:class="{ active: isCurrentSkill(skill) }" type="button" @click="showSkillFromIndex(skill)">
 							{{ skill.name }}
 						</button>
 					</div>
@@ -298,6 +325,7 @@ export default {
 				traitFilter: savedFilters.traitFilter,
 				difficultyFilter: savedFilters.difficultyFilter,
 				indexCollapsed: loadWikiIndexCollapsed(),
+				mobileIndexOpen: false,
 				currentSkill: null
 			}
 		};
@@ -321,7 +349,12 @@ export default {
 		if (typeof window !== "undefined") {
 			window.removeEventListener("hashchange", this.selectSkillFromHash);
 		}
+
+		if (typeof document !== "undefined") {
+			document.body.classList.remove("mobile-drawer-open");
+		}
 	},
+
 	computed: {
 		powerFilters() {
 			return [
@@ -426,6 +459,19 @@ export default {
 	},
 	methods: {
 		sanitizeHtml,
+
+		openMobileIndex() {
+			this.data.mobileIndexOpen = true;
+		},
+
+		closeMobileIndex() {
+			this.data.mobileIndexOpen = false;
+		},
+
+		showSkillFromIndex(skill) {
+			this.showSkill(skill);
+			if (this.data.mobileIndexOpen) this.closeMobileIndex();
+		},
 
 		clearFilters() {
 			this.data.search = defaultWikiFilters.search;
@@ -839,6 +885,12 @@ export default {
 			saveWikiFilters(this.data);
 		},
 
+		"data.mobileIndexOpen"(isOpen) {
+			if (typeof document === "undefined") return;
+
+			document.body.classList.toggle("mobile-drawer-open", isOpen);
+		},
+
 		filteredSkills(list) {
 			if (list.length === 0) {
 				this.data.currentSkill = null;
@@ -858,6 +910,13 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+}
+
+/* mobile controls hidden by default */
+.mobile-list-toggle,
+.mobile-backdrop,
+.index-panel-header {
+	display: none;
 }
 
 .wiki-header {
@@ -1623,6 +1682,164 @@ export default {
 
 	.entry-header h2 {
 		font-size: 1.8rem;
+	}
+}
+
+@media (max-width: 940px) {
+	.wiki {
+
+		/* hide header search & filter areas on small screens - keep only drawer controls */
+		.wiki-header .header-meta {
+			display: none;
+		}
+
+		.wiki-filters {
+			display: none;
+		}
+
+		.mobile-list-toggle,
+		.mobile-backdrop {
+			display: none;
+		}
+
+		.mobile-list-toggle {
+			display: flex;
+			position: sticky;
+			top: 0.65rem;
+			z-index: 7;
+			align-items: center;
+			justify-content: space-between;
+			gap: 0.8rem;
+			width: 100%;
+			min-height: 3.1rem;
+			padding: 0.65rem 0.8rem;
+			border: 1px solid var(--color-border-strong);
+			border-radius: var(--radius-md);
+			background: var(--color-panel-soft);
+			box-shadow: var(--shadow-panel);
+			color: var(--color-text);
+			font-weight: 900;
+			text-align: left;
+			cursor: pointer;
+
+			span {
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			/* hide header search/filters in mobile; moved into the drawer - actual hide rules below */
+		}
+
+		strong {
+			flex: 0 0 auto;
+			padding: 0.25rem 0.5rem;
+			border-radius: var(--radius-sm);
+			background: rgba(242, 193, 78, 0.16);
+			color: var(--color-accent);
+			font-size: 0.82rem;
+		}
+	}
+
+	.mobile-backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 10;
+		display: block;
+		border: 0;
+		background: rgba(0, 0, 0, 0.58);
+		cursor: pointer;
+	}
+
+	.wiki-index {
+		position: fixed;
+		inset: auto 0 0;
+		z-index: 11;
+		width: 100%;
+		max-height: 86vh;
+		padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+		border-radius: var(--radius-md) var(--radius-md) 0 0;
+		overflow: hidden;
+		transform: translateY(105%);
+		transition: transform 0.22s ease;
+
+		&.mobile-open {
+			transform: translateY(0);
+		}
+
+		.index-toggle {
+			display: none;
+		}
+
+		.index-scroll {
+			height: auto;
+			max-height: calc(86vh - 6.6rem);
+			padding-right: 0.25rem;
+		}
+	}
+
+	.index-panel-header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		margin-bottom: 0.6rem;
+	}
+
+	.index-panel-header .mobile-search {
+		width: 100%;
+		min-height: 2.75rem;
+		padding: 0.65rem 0.75rem;
+		border: 1px solid rgba(244, 239, 229, 0.12);
+		border-radius: var(--radius-sm);
+		background: var(--color-panel-soft);
+		color: var(--color-text);
+		font-size: 1rem;
+	}
+
+	.index-panel-header .mobile-filters {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.45rem;
+		overflow-x: auto;
+	}
+
+	@media (max-width: 520px) {
+		.index-panel-header .mobile-filters {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 360px) {
+		.index-panel-header .mobile-filters {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.index-panel-header select {
+		min-height: 2.35rem;
+		padding: 0.35rem 0.45rem;
+		border: 1px solid rgba(244, 239, 229, 0.12);
+		border-radius: var(--radius-sm);
+		background: var(--color-panel-soft);
+		color: var(--color-text);
+		width: 100%;
+	}
+
+}
+
+@media (max-width: 520px) {
+	.wiki .mobile-list-toggle {
+		top: 0.5rem;
+		min-height: 3.3rem;
+	}
+
+	.wiki-index {
+		max-height: 90vh;
+
+		.index-scroll {
+			max-height: calc(90vh - 6.6rem);
+		}
 	}
 }
 </style>
