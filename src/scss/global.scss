@@ -178,3 +178,61 @@ table {
 	line-height: 1.4;
 	box-shadow: var(--shadow-panel);
 }
+
+mark {
+	background: rgba(103, 213, 200, 0.28);
+	color: var(--color-text);
+	padding: 0 0.15rem;
+	border-radius: 2px;
+}
+
+.inline-difficulty {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	cursor: help;
+}
+
+.inline-difficulty-pill {
+	display: inline-flex;
+	align-items: center;
+	min-height: 1.55rem;
+	padding: 0.12rem 0.48rem;
+	border: 1px solid rgba(242, 193, 78, 0.36);
+	border-radius: var(--radius-sm);
+	background: rgba(242, 193, 78, 0.1);
+	color: var(--color-accent);
+	font-size: 0.79rem;
+	font-weight: 900;
+	line-height: 1.2;
+	vertical-align: middle;
+}
+
+.inline-difficulty-tooltip {
+	position: absolute;
+	left: 0;
+	top: calc(100% + 0.3rem);
+	z-index: 6;
+	display: none;
+	flex-direction: column;
+	width: min(22rem, 80vw);
+	margin: 0;
+	padding: 0.5rem 0.7rem;
+	list-style: none;
+	border: 1px solid rgba(244, 239, 229, 0.14);
+	border-radius: var(--radius-sm);
+	background: var(--color-tooltip);
+	color: var(--color-muted);
+	font-size: 0.82rem;
+	line-height: 1.4;
+	box-shadow: var(--shadow-panel);
+}
+
+.inline-difficulty-tooltip-item + .inline-difficulty-tooltip-item {
+	margin-top: 0.3rem;
+}
+
+.inline-difficulty:hover .inline-difficulty-tooltip,
+.inline-difficulty:focus-within .inline-difficulty-tooltip {
+	display: flex;
+}

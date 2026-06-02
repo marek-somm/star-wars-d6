@@ -120,74 +120,7 @@
 
 				<p class="summary" v-if="data.currentSkill.summary" v-html="getSummaryHtml()"></p>
 
-				<section class="content" v-if="contentBlocks.length > 0">
-					<template v-for="(block, index) in contentBlocks" :key="index">
-						<details v-if="block.type === 'example'" class="block example"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
-							<summary>Example</summary>
-							<div v-html="formatBlockHtml(block.text)"></div>
-						</details>
-						<div v-else-if="block.type === 'note'" class="block note"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
-							<p class="note-label">Note</p>
-							<div v-html="formatBlockHtml(block.text)"></div>
-						</div>
-						<div v-else-if="block.type === 'warning'" class="block warning"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
-							<p class="warning-label">Warning</p>
-							<div v-html="formatBlockHtml(block.text)"></div>
-						</div>
-						<div v-else-if="block.type === 'special'" class="block special"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
-							<p class="special-label">Special</p>
-							<div v-html="formatBlockHtml(block.text)"></div>
-						</div>
-						<div v-else-if="block.type === 'table'" class="block table-block"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
-							<p class="table-title" v-if="block.title" v-html="formatRichText(block.title)"></p>
-							<p class="table-text" v-if="block.text" v-html="formatRichText(block.text)"></p>
-							<div class="table-wrap">
-								<table>
-									<thead>
-										<tr>
-											<th v-for="(column, columnIndex) in block.columns" :key="columnIndex"
-												v-html="sanitizeHtml(column)"></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr v-for="(row, rowIndex) in block.rows" :key="rowIndex">
-											<td v-for="(column, columnIndex) in block.columns" :key="columnIndex">
-												<template v-if="getTableDifficultyCell(block, row, column)">
-													<div class="table-difficulty">
-														<span class="table-difficulty-chip">{{
-															getTableDifficultyCell(block, row, column).title }}</span>
-														<span v-if="getTableDifficultyCell(block, row, column).increase"
-															class="table-difficulty-increase"
-															v-html="sanitizeHtml(getTableDifficultyCell(block, row, column).increase)"></span>
-														<ul class="table-tooltip"
-															v-if="normalizeHoverList(getTableDifficultyCell(block, row, column).hover).length">
-															<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(getTableDifficultyCell(block, row, column).hover)"
-																:key="hoverIndex">
-																{{ hoverItem }}
-															</li>
-														</ul>
-													</div>
-												</template>
-												<template v-else>
-													<span v-html="sanitizeHtml(getTableCellText(row?.[column]))"></span>
-												</template>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<p class="table-subtext" v-if="block.subtext" v-html="formatRichText(block.subtext)"></p>
-							<p class="table-subnote" v-if="block.subnote" v-html="formatRichText(block.subnote)"></p>
-						</div>
-						<div v-else class="block" :class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-							v-html="formatBlockHtml(block.text)"></div>
-					</template>
-				</section>
+				<PowerContentBlocks :blocks="contentBlocks" />
 
 				<section class="difficulty">
 					<h3>Rules</h3>
@@ -202,8 +135,9 @@
 import { createPowerSkills } from "@/assets/data";
 import { Power, PowerName } from "@/assets/powers";
 import Difficulty from "./Zebron Kebino/Powers/Difficulty.vue";
-import { sanitizeHtml } from "@/utils/html";
-import { injectDifficultyPills } from "@/utils/difficultyInline";
+import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
+import { toParagraphHtml } from "@/utils/powerContent";
+import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
 
 function normalizeSkillName(name) {
 	return String(name || "")
@@ -232,24 +166,6 @@ function getSkillIdFromHash() {
 	}
 }
 
-const BLOCK_TAGS = new Set([
-	"article",
-	"blockquote",
-	"details",
-	"div",
-	"h1",
-	"h2",
-	"h3",
-	"h4",
-	"h5",
-	"h6",
-	"ol",
-	"p",
-	"section",
-	"table",
-	"ul",
-]);
-
 const WIKI_INDEX_COLLAPSED_STORAGE_KEY = "star-wars-d6:wiki-index-collapsed";
 const WIKI_FILTERS_STORAGE_KEY = "star-wars-d6:wiki-filters";
 
@@ -261,61 +177,38 @@ const defaultWikiFilters = {
 };
 
 function loadWikiIndexCollapsed() {
-	if (typeof window === "undefined") return false;
-
-	try {
-		return window.localStorage.getItem(WIKI_INDEX_COLLAPSED_STORAGE_KEY) === "true";
-	} catch {
-		return false;
-	}
+	return readBoolean(WIKI_INDEX_COLLAPSED_STORAGE_KEY, false);
 }
 
 function saveWikiIndexCollapsed(value) {
-	if (typeof window === "undefined") return;
-
-	try {
-		window.localStorage.setItem(WIKI_INDEX_COLLAPSED_STORAGE_KEY, String(Boolean(value)));
-	} catch {
-		// Ignore storage quota or private-mode errors; the in-memory state is still updated.
-	}
+	writeBoolean(WIKI_INDEX_COLLAPSED_STORAGE_KEY, value);
 }
 
 function loadWikiFilters() {
-	if (typeof window === "undefined") return { ...defaultWikiFilters };
+	const value = readJson(WIKI_FILTERS_STORAGE_KEY, {});
+	if (!value || typeof value !== "object") return { ...defaultWikiFilters };
 
-	try {
-		const value = JSON.parse(window.localStorage.getItem(WIKI_FILTERS_STORAGE_KEY) || "{}");
-		if (!value || typeof value !== "object") return { ...defaultWikiFilters };
-
-		return {
-			search: typeof value.search === "string" ? value.search : defaultWikiFilters.search,
-			powerFilter: typeof value.powerFilter === "string" ? value.powerFilter : defaultWikiFilters.powerFilter,
-			traitFilter: typeof value.traitFilter === "string" ? value.traitFilter : defaultWikiFilters.traitFilter,
-			difficultyFilter: typeof value.difficultyFilter === "string" ? value.difficultyFilter : defaultWikiFilters.difficultyFilter,
-		};
-	} catch {
-		return { ...defaultWikiFilters };
-	}
+	return {
+		search: typeof value.search === "string" ? value.search : defaultWikiFilters.search,
+		powerFilter: typeof value.powerFilter === "string" ? value.powerFilter : defaultWikiFilters.powerFilter,
+		traitFilter: typeof value.traitFilter === "string" ? value.traitFilter : defaultWikiFilters.traitFilter,
+		difficultyFilter: typeof value.difficultyFilter === "string" ? value.difficultyFilter : defaultWikiFilters.difficultyFilter,
+	};
 }
 
 function saveWikiFilters(value) {
-	if (typeof window === "undefined") return;
-
-	try {
-		window.localStorage.setItem(WIKI_FILTERS_STORAGE_KEY, JSON.stringify({
-			search: String(value?.search || ""),
-			powerFilter: String(value?.powerFilter || defaultWikiFilters.powerFilter),
-			traitFilter: String(value?.traitFilter || defaultWikiFilters.traitFilter),
-			difficultyFilter: String(value?.difficultyFilter || defaultWikiFilters.difficultyFilter),
-		}));
-	} catch {
-		// Ignore storage quota or private-mode errors; the in-memory state is still updated.
-	}
+	writeJson(WIKI_FILTERS_STORAGE_KEY, {
+		search: String(value?.search || ""),
+		powerFilter: String(value?.powerFilter || defaultWikiFilters.powerFilter),
+		traitFilter: String(value?.traitFilter || defaultWikiFilters.traitFilter),
+		difficultyFilter: String(value?.difficultyFilter || defaultWikiFilters.difficultyFilter),
+	});
 }
 
 export default {
 	components: {
-		Difficulty
+		Difficulty,
+		PowerContentBlocks
 	},
 	data() {
 		const savedFilters = loadWikiFilters();
@@ -462,8 +355,6 @@ export default {
 		}
 	},
 	methods: {
-		sanitizeHtml,
-
 		openMobileIndex() {
 			this.data.mobileIndexOpen = true;
 		},
@@ -596,240 +487,11 @@ export default {
 		getSummaryHtml() {
 			const summary = String(this.data.currentSkill?.summary || "");
 			const search = String(this.data.search || "").trim();
-			if (!search) return this.toParagraphHtml(summary);
+			if (!search) return toParagraphHtml(summary);
 
 			const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 			const pattern = new RegExp(`(${escaped})`, "ig");
-			return this.toParagraphHtml(summary.replace(pattern, "<mark>$1</mark>"));
-		},
-
-		formatRichText(value) {
-			return sanitizeHtml(injectDifficultyPills(String(value || "")));
-		},
-
-		formatBlockHtml(text) {
-			return this.toParagraphHtml(String(text || ""));
-		},
-
-		toParagraphHtml(content) {
-			const raw = String(content || "").trim();
-			if (!raw) return "";
-			const sanitized = this.formatRichText(raw);
-
-			if (typeof document === "undefined") return sanitized;
-
-			const template = document.createElement("template");
-			template.innerHTML = sanitized;
-			const container = document.createElement("div");
-			let paragraphNodes = [];
-
-			const flushParagraph = () => {
-				const hasMeaningfulContent = paragraphNodes.some((node) =>
-					node.nodeType !== 3 || String(node.textContent || "").trim() !== ""
-				);
-				if (!hasMeaningfulContent) {
-					paragraphNodes = [];
-					return;
-				}
-
-				const paragraph = document.createElement("p");
-				for (const node of paragraphNodes) {
-					paragraph.appendChild(node);
-				}
-				container.appendChild(paragraph);
-				paragraphNodes = [];
-			};
-
-			for (const node of Array.from(template.content.childNodes)) {
-				if (node.nodeType === 1) {
-					const tagName = node.tagName.toLowerCase();
-					if (tagName === "br") {
-						flushParagraph();
-						continue;
-					}
-
-					if (BLOCK_TAGS.has(tagName)) {
-						flushParagraph();
-						container.appendChild(node.cloneNode(true));
-						continue;
-					}
-				}
-
-				paragraphNodes.push(node.cloneNode(true));
-			}
-
-			flushParagraph();
-			return container.innerHTML;
-		},
-
-		shouldRenderDivider(index, blocks) {
-			if (!Array.isArray(blocks)) return false;
-
-			const currentType = String(blocks[index]?.type || "").toLowerCase();
-			if (currentType === "note" || currentType === "warning" || currentType === "special") return false;
-
-			const firstRegularIndex = blocks.findIndex((block) => {
-				const type = String(block?.type || "").toLowerCase();
-				return type !== "note" && type !== "warning" && type !== "special";
-			});
-			if (index === firstRegularIndex) {
-				return true;
-			}
-			if (index <= 0) return false;
-
-			const previousType = String(blocks[index - 1]?.type || "").toLowerCase();
-			const previousIsSpecial = previousType === "note" || previousType === "warning" || previousType === "special";
-			if (previousIsSpecial) {
-				return currentType === "example";
-			}
-
-			return true;
-		},
-
-		getDifficultyMeta(level, hover = null, andMore = false) {
-			let levelTitle = "";
-			let levelHover = hover;
-			let parsedLevel = Number(level);
-			let thisAndMore = Boolean(andMore);
-
-			if (!Number.isNaN(parsedLevel) && parsedLevel > 10) {
-				parsedLevel -= 10;
-				thisAndMore = true;
-			}
-
-			if (parsedLevel === 1) {
-				levelTitle = "Very Easy";
-				levelHover = levelHover ?? "1-5 or 1D";
-			} else if (parsedLevel === 2) {
-				levelTitle = "Easy";
-				levelHover = levelHover ?? "6-10 or 2D";
-			} else if (parsedLevel === 3) {
-				levelTitle = "Moderate";
-				levelHover = levelHover ?? "11-15 or 3D-4D";
-			} else if (parsedLevel === 4) {
-				levelTitle = "Difficult";
-				levelHover = levelHover ?? "16-20 or 5D-6D";
-			} else if (parsedLevel === 5) {
-				levelTitle = "Very Difficult";
-				levelHover = levelHover ?? "21-30 or 7D-8D";
-			} else if (parsedLevel === 6) {
-				levelTitle = "Heroic";
-				levelHover = levelHover ?? "31+ or 9D+";
-			} else {
-				return null;
-			}
-
-			if (thisAndMore) {
-				levelTitle += "+";
-				levelHover = String(levelHover || "").replace(" or", "+ or") + "+";
-			}
-
-			return {
-				title: levelTitle,
-				hover: levelHover,
-			};
-		},
-
-		normalizeHoverList(hover) {
-			if (Array.isArray(hover)) return hover.map((entry) => String(entry ?? ""));
-			if (hover == null) return [];
-			return [String(hover)];
-		},
-
-		getDifficultyLabelMeta(value) {
-			if (typeof value !== "string") return null;
-			const normalized = value.trim();
-			if (!normalized) return null;
-
-			if (/^very\s+easy$/i.test(normalized)) return this.getDifficultyMeta(1);
-			if (/^easy$/i.test(normalized)) return this.getDifficultyMeta(2);
-			if (/^moderate$/i.test(normalized)) return this.getDifficultyMeta(3);
-			if (/^difficult$/i.test(normalized)) return this.getDifficultyMeta(4);
-			if (/^very\s+difficult$/i.test(normalized)) return this.getDifficultyMeta(5);
-			if (/^heroic(?:\s*\(\s*31\+\s*\))?$/i.test(normalized)) return this.getDifficultyMeta(6);
-			return null;
-		},
-
-		shouldParseTableDifficultyCell(table, column) {
-			const columnType = String(table?.columnTypes?.[column] || "").trim().toLowerCase();
-			if (columnType === "difficulty") return true;
-			if (columnType === "plain" || columnType === "text") return false;
-
-			const rows = Array.isArray(table?.rows) ? table.rows : [];
-			if (rows.length === 0) return false;
-
-			let hasDifficultyValue = false;
-			for (const row of rows) {
-				const cell = row?.[column];
-				if (cell == null || cell === "") continue;
-
-				if (cell && typeof cell === "object" && cell.level != null) {
-					hasDifficultyValue = true;
-					continue;
-				}
-
-				if (typeof cell === "number" || (typeof cell === "string" && /^\d+$/.test(cell))) {
-					const numeric = Number(cell);
-					if (numeric >= 1 && numeric <= 6) {
-						hasDifficultyValue = true;
-						continue;
-					}
-				}
-
-				return false;
-			}
-
-			return hasDifficultyValue;
-		},
-
-		getTableDifficultyCell(table, row, column) {
-			const cell = row?.[column];
-			if (cell == null) return null;
-			const parseByColumn = this.shouldParseTableDifficultyCell(table, column);
-
-			if (cell && typeof cell === "object" && cell.level != null && (parseByColumn || cell.difficulty === true)) {
-				return {
-					...this.getDifficultyMeta(cell.level, cell.hover ?? null, cell.and_more === true),
-					increase: cell.increase != null ? String(cell.increase) : null,
-				};
-			}
-
-			if (!parseByColumn) return null;
-			if (typeof cell === "number" || (typeof cell === "string" && /^\d+$/.test(cell))) {
-				return {
-					...this.getDifficultyMeta(Number(cell)),
-					increase: null,
-				};
-			}
-
-			const difficultyLabel = this.getDifficultyLabelMeta(String(cell));
-			if (difficultyLabel) {
-				return {
-					...difficultyLabel,
-					increase: null,
-				};
-			}
-
-			const columnType = String(table?.columnTypes?.[column] || "").trim().toLowerCase();
-			if (columnType === "difficulty" && typeof cell === "string") {
-				return {
-					title: cell.trim(),
-					hover: null,
-					increase: null,
-				};
-			}
-
-			return null;
-		},
-
-		getTableCellText(value) {
-			if (value == null) return "";
-			if (value && typeof value === "object") {
-				if (Object.prototype.hasOwnProperty.call(value, "text")) return value.text;
-				if (Object.prototype.hasOwnProperty.call(value, "label")) return value.label;
-				return "";
-			}
-			return String(value);
+			return toParagraphHtml(summary.replace(pattern, "<mark>$1</mark>"));
 		},
 
 		showSkill(skill, updateHash = true) {
@@ -1253,64 +915,6 @@ export default {
 	font-weight: 800;
 }
 
-:deep(mark) {
-	background: rgba(103, 213, 200, 0.28);
-	color: var(--color-text);
-	padding: 0 0.15rem;
-	border-radius: 2px;
-}
-
-:deep(.inline-difficulty-pill) {
-	display: inline-flex;
-	align-items: center;
-	min-height: 1.55rem;
-	padding: 0.12rem 0.48rem;
-	border: 1px solid rgba(242, 193, 78, 0.36);
-	border-radius: var(--radius-sm);
-	background: rgba(242, 193, 78, 0.1);
-	color: var(--color-accent);
-	font-size: 0.79rem;
-	font-weight: 900;
-	line-height: 1.2;
-	vertical-align: middle;
-}
-
-:deep(.inline-difficulty) {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	cursor: help;
-}
-
-:deep(.inline-difficulty-tooltip) {
-	position: absolute;
-	left: 0;
-	top: calc(100% + 0.3rem);
-	z-index: 6;
-	width: min(22rem, 80vw);
-	margin: 0;
-	padding: 0.5rem 0.7rem;
-	list-style: none;
-	border: 1px solid rgba(244, 239, 229, 0.14);
-	border-radius: var(--radius-sm);
-	background: #151311;
-	color: var(--color-muted);
-	font-size: 0.82rem;
-	line-height: 1.4;
-	box-shadow: var(--shadow-panel);
-	display: none;
-	flex-direction: column;
-}
-
-:deep(.inline-difficulty-tooltip-item + .inline-difficulty-tooltip-item) {
-	margin-top: 0.3rem;
-}
-
-:deep(.inline-difficulty:hover .inline-difficulty-tooltip),
-:deep(.inline-difficulty:focus-within .inline-difficulty-tooltip) {
-	display: flex;
-}
-
 .required {
 	display: flex;
 	flex-wrap: wrap;
@@ -1349,279 +953,6 @@ export default {
 			color: var(--color-accent);
 		}
 
-	}
-}
-
-.content {
-	.block.with-divider {
-		position: relative;
-		margin-top: 0.95rem;
-		padding-top: 0.95rem;
-		border-top: 0;
-
-		&::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0.45rem;
-			right: 0.45rem;
-			height: 1px;
-			background: linear-gradient(90deg,
-					transparent 0%,
-					rgba(244, 239, 229, 0.04) 12%,
-					rgba(244, 239, 229, 0.1) 50%,
-					rgba(244, 239, 229, 0.04) 88%,
-					transparent 100%);
-		}
-	}
-
-	.block {
-		line-height: 1.6;
-		color: var(--color-muted);
-
-		:deep(p) {
-			margin: 0;
-		}
-
-		:deep(p + p) {
-			margin-top: 0.5rem;
-		}
-
-		:deep(table) {
-			width: max-content;
-			margin: 0.7rem 0;
-			border-collapse: collapse;
-			border: 1px solid rgba(244, 239, 229, 0.12);
-			font-size: 0.86rem;
-			display: block;
-			overflow-x: auto;
-		}
-
-		:deep(th),
-		:deep(td) {
-			padding: 0.38rem 0.52rem;
-			border: 1px solid rgba(244, 239, 229, 0.1);
-			text-align: left;
-			vertical-align: top;
-			white-space: nowrap;
-		}
-
-		:deep(th) {
-			color: var(--color-text);
-			font-weight: 900;
-			background: rgba(242, 193, 78, 0.08);
-		}
-
-		:deep(td) {
-			color: var(--color-muted);
-		}
-	}
-
-	.table-block {
-		margin-top: 0.95rem;
-		margin-inline: 0;
-		padding-inline: 0.45rem;
-
-		.table-title {
-			margin: 0 0 0.45rem;
-			color: var(--color-text);
-			font-weight: 900;
-			line-height: 1.45;
-		}
-
-		.table-text {
-			margin: 0 0 0.45rem;
-			color: var(--color-muted);
-			font-size: 1rem;
-			font-weight: 500;
-			line-height: 1.5;
-			margin-inline: -0.45rem;
-		}
-
-		.table-wrap {
-			overflow-x: auto;
-		}
-
-		.table-subtext {
-			margin: 0.45rem 0 0;
-			color: var(--color-muted);
-			font-size: 1rem;
-			line-height: 1.6;
-			font-weight: 400;
-			margin-inline: -0.45rem;
-		}
-
-		.table-subnote {
-			margin: 0.45rem 0 0;
-			color: var(--color-muted);
-			font-size: 0.9rem;
-			line-height: 1.55;
-		}
-
-		table {
-			width: max-content;
-			min-width: 0;
-			display: table;
-			overflow: visible;
-			border-collapse: collapse;
-			border: 1px solid rgba(244, 239, 229, 0.12);
-			font-size: 0.86rem;
-			background: transparent;
-		}
-
-		th,
-		td {
-			padding: 0.38rem 0.52rem;
-			border: 1px solid rgba(244, 239, 229, 0.1);
-			text-align: left;
-			vertical-align: top;
-		}
-
-		th {
-			color: var(--color-text);
-			font-weight: 900;
-			background: rgba(242, 193, 78, 0.08);
-		}
-
-		td {
-			color: var(--color-muted);
-			white-space: nowrap;
-		}
-
-		.table-difficulty {
-			position: relative;
-			display: inline-flex;
-			align-items: center;
-			cursor: help;
-
-			.table-tooltip {
-				position: absolute;
-				left: 0;
-				bottom: calc(100% + 0.3rem);
-				z-index: 6;
-				width: min(22rem, 80vw);
-				margin: 0;
-				padding: 0.5rem 0.7rem;
-				list-style: none;
-				border: 1px solid rgba(244, 239, 229, 0.14);
-				border-radius: var(--radius-sm);
-				background: #151311;
-				color: var(--color-muted);
-				font-size: 0.82rem;
-				line-height: 1.4;
-				box-shadow: var(--shadow-panel);
-				display: none;
-
-				li+li {
-					margin-top: 0.3rem;
-				}
-			}
-
-			&:hover .table-tooltip,
-			&:focus-within .table-tooltip {
-				display: block;
-			}
-		}
-
-		.table-difficulty-chip {
-			display: inline-flex;
-			align-items: center;
-			min-height: 1.55rem;
-			padding: 0.12rem 0.48rem;
-			border: 1px solid rgba(242, 193, 78, 0.36);
-			border-radius: var(--radius-sm);
-			background: rgba(242, 193, 78, 0.1);
-			color: var(--color-accent);
-			font-size: 0.79rem;
-			font-weight: 900;
-			line-height: 1.2;
-		}
-
-		.table-difficulty-increase {
-			margin-left: 0.4rem;
-			color: var(--color-text);
-			font-weight: 800;
-			line-height: 1.2;
-		}
-	}
-
-	.note {
-		padding: 0.75rem 0.85rem;
-		border: 1px solid rgba(103, 213, 200, 0.34);
-		border-radius: var(--radius-sm);
-		background: rgba(103, 213, 200, 0.08);
-		margin-top: 0.95rem;
-		margin-inline: 0.45rem;
-
-		.note-label {
-			margin: 0 0 0.35rem;
-			color: var(--color-cyan);
-			font-size: 0.76rem;
-			font-weight: 900;
-			text-transform: uppercase;
-		}
-	}
-
-	.warning {
-		padding: 0.75rem 0.85rem;
-		border: 1px solid rgba(217, 95, 67, 0.48);
-		border-radius: var(--radius-sm);
-		background: rgba(217, 95, 67, 0.11);
-		margin-top: 0.95rem;
-		margin-inline: 0.45rem;
-
-		.warning-label {
-			margin: 0 0 0.35rem;
-			color: var(--color-danger);
-			font-size: 0.76rem;
-			font-weight: 900;
-			text-transform: uppercase;
-		}
-	}
-
-	.special {
-		padding: 0.8rem 0.9rem;
-		border: 1px solid rgba(153, 123, 255, 0.42);
-		border-radius: var(--radius-sm);
-		background:
-			linear-gradient(135deg, rgba(153, 123, 255, 0.14) 0%, rgba(111, 76, 205, 0.08) 100%);
-		box-shadow: inset 0 0 0 1px rgba(196, 181, 253, 0.12);
-		margin-top: 0.95rem;
-		margin-inline: 0.45rem;
-
-		.special-label {
-			margin: 0 0 0.35rem;
-			color: #c7b8ff;
-			font-size: 0.76rem;
-			font-weight: 900;
-			letter-spacing: 0.04em;
-			text-transform: uppercase;
-		}
-	}
-
-	.note:first-child,
-	.warning:first-child,
-	.special:first-child {
-		margin-top: 0;
-	}
-
-	.note+.block:not(.with-divider),
-	.warning+.block:not(.with-divider),
-	.special+.block:not(.with-divider) {
-		margin-top: 0.85rem;
-	}
-
-	.example summary {
-		margin-bottom: 0;
-		color: var(--color-accent);
-		font-size: 0.82rem;
-		font-weight: 800;
-		text-transform: uppercase;
-		cursor: pointer;
-	}
-
-	.example[open] summary {
-		margin-bottom: 0.55rem;
 	}
 }
 
@@ -1936,27 +1267,6 @@ export default {
 		font-weight: 700;
 	}
 
-	:deep(.inline-difficulty-pill) {
-		font-size: 0.78rem;
-		padding: 0.15rem 0.42rem;
-		min-height: 1.5rem;
-		font-weight: 800;
-	}
-
-	.content {
-		.block {
-			font-size: 0.9rem;
-
-			:deep(table) {
-				font-size: 0.78rem;
-			}
-
-			:deep(th),
-			:deep(td) {
-				padding: 0.3rem 0.35rem;
-			}
-		}
-	}
 }
 
 @media (max-width: 520px) {

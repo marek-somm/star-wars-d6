@@ -158,22 +158,13 @@
 <script>
 import { Power, PowerName } from "@/assets/powers";
 import ForceSkill from "./Force Skill";
+import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
 
 const FAVORITES_STORAGE_KEY = "star-wars-d6:favorites";
 const RECENT_STORAGE_KEY = "star-wars-d6:recent-powers";
 const KEPT_UP_STORAGE_KEY = "star-wars-d6:kept-up-powers";
 const LIST_COLLAPSED_STORAGE_KEY = "star-wars-d6:character-powers-list-collapsed";
 const RECENT_LIMIT = 6;
-
-function loadStoredBoolean(key) {
-	if (typeof window === "undefined") return false;
-
-	try {
-		return window.localStorage.getItem(key) === "true";
-	} catch {
-		return false;
-	}
-}
 
 export default {
 	components: {
@@ -191,7 +182,7 @@ export default {
 				currentSkill: null,
 				search: "",
 				powerFilter: "all",
-				listCollapsed: loadStoredBoolean(LIST_COLLAPSED_STORAGE_KEY),
+				listCollapsed: readBoolean(LIST_COLLAPSED_STORAGE_KEY, false),
 				mobileListOpen: false,
 				favorites: [],
 				recent: [],
@@ -200,10 +191,10 @@ export default {
 		};
 	},
 	created() {
-		this.data.favorites = this.loadList(FAVORITES_STORAGE_KEY);
-		this.data.recent = this.loadList(RECENT_STORAGE_KEY);
-		this.data.keptUp = this.normalizeKeptUpList(this.loadList(KEPT_UP_STORAGE_KEY));
-		this.saveList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
+		this.data.favorites = this.loadNameList(FAVORITES_STORAGE_KEY);
+		this.data.recent = this.loadNameList(RECENT_STORAGE_KEY);
+		this.data.keptUp = this.normalizeKeptUpList(this.loadNameList(KEPT_UP_STORAGE_KEY));
+		this.saveNameList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
 
 		const firstLabel = this.resolvedPowerLabels.find((powerLabel) => powerLabel.getSkills().length > 0);
 
@@ -288,7 +279,7 @@ export default {
 
 		toggleListCollapsed() {
 			this.data.listCollapsed = !this.data.listCollapsed;
-			this.saveBoolean(LIST_COLLAPSED_STORAGE_KEY, this.data.listCollapsed);
+			writeBoolean(LIST_COLLAPSED_STORAGE_KEY, this.data.listCollapsed);
 		},
 
 		isCurrentSkill(skill) {
@@ -317,7 +308,7 @@ export default {
 
 		toggleFavorite(skill) {
 			this.data.favorites = this.toggleName(this.data.favorites, skill.name);
-			this.saveList(FAVORITES_STORAGE_KEY, this.data.favorites);
+			this.saveNameList(FAVORITES_STORAGE_KEY, this.data.favorites);
 		},
 
 		isFavorite(skill) {
@@ -330,7 +321,7 @@ export default {
 
 			const isAlreadyActive = this.isKeptUpActive(skill);
 			this.data.keptUp = isAlreadyActive ? [] : [skill.name];
-			this.saveList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
+			this.saveNameList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
 		},
 
 		isKeptUpActive(skill) {
@@ -350,7 +341,7 @@ export default {
 					this.normalizeSkillName(name) !== this.normalizeSkillName(skill.name)
 				)
 			].slice(0, RECENT_LIMIT);
-			this.saveList(RECENT_STORAGE_KEY, this.data.recent);
+			this.saveNameList(RECENT_STORAGE_KEY, this.data.recent);
 		},
 
 		toggleName(list, name) {
@@ -396,35 +387,13 @@ export default {
 			return [];
 		},
 
-		loadList(key) {
-			if (typeof window === "undefined") return [];
-
-			try {
-				const value = JSON.parse(window.localStorage.getItem(key) || "[]");
-				return Array.isArray(value) ? value.filter(Boolean) : [];
-			} catch {
-				return [];
-			}
+		loadNameList(key) {
+			const value = readJson(key, []);
+			return Array.isArray(value) ? value.filter(Boolean) : [];
 		},
 
-		saveList(key, value) {
-			if (typeof window === "undefined") return;
-
-			try {
-				window.localStorage.setItem(key, JSON.stringify(value));
-			} catch {
-				// Ignore storage quota or private-mode errors; the in-memory state is still updated.
-			}
-		},
-
-		saveBoolean(key, value) {
-			if (typeof window === "undefined") return;
-
-			try {
-				window.localStorage.setItem(key, String(Boolean(value)));
-			} catch {
-				// Ignore storage quota or private-mode errors; the in-memory state is still updated.
-			}
+		saveNameList(key, value) {
+			writeJson(key, Array.isArray(value) ? value.filter(Boolean) : []);
 		}
 	},
 	watch: {

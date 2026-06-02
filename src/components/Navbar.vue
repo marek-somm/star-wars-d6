@@ -51,6 +51,7 @@ import Powers from "./Zebron Kebino/Powers/Powers";
 import { points } from "@/assets/zebron_kebino.js";
 import Zebron from "@/assets/zebron_kebino.js";
 import { forceStats } from "@/assets/powers";
+import { readNumber, writeNumber } from "@/utils/storage";
 
 const TEMP_FORCE_STORAGE_KEY = "star-wars-d6:temporary-force-points";
 
@@ -102,28 +103,18 @@ export default {
 		}
 
 		function loadTemporaryForcePoints() {
-			if (typeof window === "undefined") return points.force_temp;
-
-			try {
-				const value = Number.parseInt(
-					window.localStorage.getItem(TEMP_FORCE_STORAGE_KEY) || "",
-					10
-				);
-				if (Number.isNaN(value) || value < 0) {
-					return points.force_temp;
-				}
-				points.force_temp = value;
-				return value;
-			} catch {
+			const value = readNumber(TEMP_FORCE_STORAGE_KEY, points.force_temp);
+			if (value < 0) {
 				return points.force_temp;
 			}
+
+			points.force_temp = value;
+			return value;
 		}
 
 		function saveTemporaryForcePoints(value) {
 			points.force_temp = value;
-			if (typeof window === "undefined") return;
-
-			window.localStorage.setItem(TEMP_FORCE_STORAGE_KEY, String(value));
+			writeNumber(TEMP_FORCE_STORAGE_KEY, value);
 		}
 
 		return {
