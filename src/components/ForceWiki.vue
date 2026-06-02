@@ -1828,6 +1828,141 @@ export default {
 
 }
 
+@media (max-width: 560px) {
+	.wiki {
+		gap: 0.75rem;
+	}
+
+	.wiki-header {
+		padding: 0.8rem 1rem;
+		gap: 0.6rem;
+
+		h1 {
+			font-size: 1.5rem;
+		}
+
+		.header-meta {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0.4rem;
+		}
+
+		.search {
+			min-width: unset;
+			width: 100%;
+		}
+
+		.count {
+			min-width: unset;
+			width: 100%;
+		}
+	}
+
+	.wiki-filters {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.5rem;
+		padding: 0.7rem 0.8rem;
+
+		.filter-control span {
+			font-size: 0.65rem;
+		}
+
+		select,
+		.clear-filters {
+			min-height: 2.1rem;
+			font-size: 0.9rem;
+		}
+
+		.clear-filters {
+			grid-column: 1 / -1;
+		}
+	}
+
+	.wiki-layout {
+		gap: 0.8rem;
+	}
+
+	.wiki-index {
+		padding: 0.7rem;
+	}
+
+	.wiki-entry {
+		padding: 1rem 0.85rem;
+	}
+
+	.entry-header {
+		padding-bottom: 0.85rem;
+		margin-bottom: 0.85rem;
+
+		h2 {
+			font-size: 1.35rem;
+			margin-bottom: 0.5rem;
+			font-weight: 900;
+		}
+
+		.meta {
+			display: none;
+		}
+
+		.pill {
+			display: none;
+		}
+
+		.required {
+			margin-top: 0.65rem;
+		}
+
+		.required-label {
+			font-size: 0.72rem;
+			font-weight: 900;
+		}
+
+		.required-pills {
+			gap: 0.35rem;
+			margin-top: 0.35rem;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.required-pill {
+			font-size: 0.78rem;
+			padding: 0.2rem 0.48rem;
+			min-height: 1.6rem;
+			white-space: nowrap;
+			font-weight: 800;
+		}
+	}
+
+	.summary {
+		font-size: 0.95rem;
+		line-height: 1.55;
+		margin: 0 0 1rem;
+		font-weight: 700;
+	}
+
+	:deep(.inline-difficulty-pill) {
+		font-size: 0.78rem;
+		padding: 0.15rem 0.42rem;
+		min-height: 1.5rem;
+		font-weight: 800;
+	}
+
+	.content {
+		.block {
+			font-size: 0.9rem;
+
+			:deep(table) {
+				font-size: 0.78rem;
+			}
+
+			:deep(th),
+			:deep(td) {
+				padding: 0.3rem 0.35rem;
+			}
+		}
+	}
+}
+
 @media (max-width: 520px) {
 	.wiki .mobile-list-toggle {
 		top: 0.5rem;
@@ -1839,6 +1974,26 @@ export default {
 
 		.index-scroll {
 			max-height: calc(90vh - 6.6rem);
+		}
+	}
+
+	.wiki-filters {
+		grid-template-columns: 1fr;
+	}
+
+	.entry-header {
+		h2 {
+			font-size: 1.25rem;
+		}
+
+		.required-pill {
+			font-size: 0.75rem;
+			padding: 0.18rem 0.42rem;
+			min-height: 1.5rem;
+		}
+
+		.required-pills {
+			gap: 0.3rem;
 		}
 	}
 }

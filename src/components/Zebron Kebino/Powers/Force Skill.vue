@@ -931,45 +931,80 @@ export default {
 
 @media (max-width: 560px) {
 	.skill--container {
-		padding: 1rem;
+		padding: 0.95rem;
 
 		.title {
-			margin-bottom: 1rem;
-			padding-bottom: 1rem;
+			margin-bottom: 0.95rem;
+			padding-bottom: 0.95rem;
 
 			.text {
-				font-size: 2rem;
+				font-size: 1.8rem;
+				font-weight: 900;
 			}
 
 			.title-actions {
 				display: grid;
 				grid-template-columns: 1fr;
 				width: 100%;
+				gap: 0.35rem;
 			}
 
 			.action-button {
 				width: 100%;
-				min-height: 2.75rem;
+				min-height: 2.65rem;
 				justify-content: center;
+				font-size: 0.9rem;
+				font-weight: 800;
 			}
 
 			.meta-pill,
 			.required-pill {
-				min-height: 2.35rem;
+				display: none;
+			}
+
+			.meta-pills {
+				display: none;
+			}
+
+			.required {
+				margin-top: 0.65rem;
+			}
+
+			.required-label {
+				font-size: 0.72rem;
+				font-weight: 900;
+				margin-bottom: 0.35rem;
+			}
+
+			.required-pills {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.35rem;
 			}
 		}
 
 		.content {
+			grid-template-columns: 1fr;
+
+			.details {
+				padding-left: 0;
+				padding-top: 0.95rem;
+				border-left: 0;
+				border-top: 1px solid rgba(244, 239, 229, 0.16);
+			}
+
 			.effect {
 				.long {
-					max-height: 18rem;
+					max-height: 20rem;
 					overflow: auto;
 					padding-right: 0.35rem;
 				}
 
 				summary {
 					min-height: 2.6rem;
-					margin-bottom: 0.45rem;
+					margin-bottom: 0.5rem;
+					font-size: 0.95rem;
+					font-weight: 800;
 				}
 			}
 		}
