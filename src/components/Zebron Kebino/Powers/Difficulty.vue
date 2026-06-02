@@ -496,23 +496,46 @@ export default {
 			return this.getTimeToUseDetails().rush || null;
 		},
 
+		getRushOptions() {
+			return Array.isArray(this.getRushRule()?.options)
+				? this.getRushRule().options
+				: [];
+		},
+
+		getSelectedRushOption() {
+			const options = this.getRushOptions();
+			if (!options.length) return null;
+
+			const index = Math.min(Math.max(Number(this.rushMinutesCut) || 0, 0), options.length - 1);
+			return options[index];
+		},
+
 		hasRushControl() {
+			if (this.getRushOptions().length > 1) return true;
+
 			const rush = this.getRushRule();
 			return Number(rush?.baseMinutes) > Number(rush?.minimumMinutes)
 				&& Number(rush?.stepMinutes) > 0;
 		},
 
 		getRushStepMinutes() {
+			if (this.getRushOptions().length > 1) return 1;
 			return Number(this.getRushRule()?.stepMinutes) || 1;
 		},
 
 		getMaxRushMinutesCut() {
+			const options = this.getRushOptions();
+			if (options.length > 1) return options.length - 1;
+
 			const rush = this.getRushRule();
 			if (!rush) return 0;
 			return Math.max(0, Number(rush.baseMinutes) - Number(rush.minimumMinutes));
 		},
 
 		getSelectedMinutes() {
+			const option = this.getSelectedRushOption();
+			if (option?.minutes != null) return Number(option.minutes);
+
 			const rush = this.getRushRule();
 			if (!rush) return null;
 
@@ -527,6 +550,9 @@ export default {
 		},
 
 		getSelectedTimeToUseLabel() {
+			const option = this.getSelectedRushOption();
+			if (option?.label) return option.label;
+
 			const selectedMinutes = this.getSelectedMinutes();
 			return selectedMinutes == null
 				? this.getTimeToUseDetails().baseLabel || this.getTimeToUse()
@@ -534,6 +560,9 @@ export default {
 		},
 
 		getSelectedTimeModifierLabel() {
+			const option = this.getSelectedRushOption();
+			if (option?.modifierLabel) return option.modifierLabel;
+
 			const rush = this.getRushRule();
 			if (!rush) return "+0";
 
