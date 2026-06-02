@@ -48,14 +48,10 @@
 					<span>Power index</span>
 					<strong>{{ filteredSkills.length }}</strong>
 				</div>
-				<button
-					class="index-toggle"
-					type="button"
-					:aria-expanded="!data.indexCollapsed"
+				<button class="index-toggle" type="button" :aria-expanded="!data.indexCollapsed"
 					:aria-label="data.indexCollapsed ? 'Show powers' : 'Hide powers'"
 					:title="data.indexCollapsed ? 'Show powers' : 'Hide powers'"
-					@click="data.indexCollapsed = !data.indexCollapsed"
-				>
+					@click="data.indexCollapsed = !data.indexCollapsed">
 					<span class="index-toggle-icon" aria-hidden="true"></span>
 				</button>
 				<div class="index-scroll" v-show="!data.indexCollapsed">
@@ -77,19 +73,14 @@
 						<span class="pill" v-for="power in data.currentSkill.powers" :key="power">
 							{{ PowerName[power] }}
 						</span>
-						<span class="pill kept-up" v-if="isKeptUpPower(data.currentSkill)">Can be kept up</span>
 						<span class="pill fan-made" v-if="data.currentSkill.fanMade">Fan-made</span>
 					</div>
 					<div class="required" v-if="data.currentSkill.hasRequiredSkills()">
 						<span class="required-label">Requirements</span>
 						<div class="required-pills">
-							<button
-								type="button"
-								v-for="requiredSkill in data.currentSkill.required"
-								:key="requiredSkill.id || requiredSkill.name"
-								class="required-pill"
-								@click="showSkill(requiredSkill)"
-							>
+							<button type="button" v-for="requiredSkill in data.currentSkill.required"
+								:key="requiredSkill.id || requiredSkill.name" class="required-pill"
+								@click="showSkill(requiredSkill)">
 								{{ requiredSkill.name }}
 							</button>
 						</div>
@@ -100,74 +91,52 @@
 
 				<section class="content" v-if="contentBlocks.length > 0">
 					<template v-for="(block, index) in contentBlocks" :key="index">
-						<details
-							v-if="block.type === 'example'"
-							class="block example"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-						>
+						<details v-if="block.type === 'example'" class="block example"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 							<summary>Example</summary>
 							<div v-html="formatBlockHtml(block.text)"></div>
 						</details>
-						<div
-							v-else-if="block.type === 'note'"
-							class="block note"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-						>
+						<div v-else-if="block.type === 'note'" class="block note"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 							<p class="note-label">Note</p>
 							<div v-html="formatBlockHtml(block.text)"></div>
 						</div>
-						<div
-							v-else-if="block.type === 'warning'"
-							class="block warning"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-						>
+						<div v-else-if="block.type === 'warning'" class="block warning"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 							<p class="warning-label">Warning</p>
 							<div v-html="formatBlockHtml(block.text)"></div>
 						</div>
-						<div
-							v-else-if="block.type === 'special'"
-							class="block special"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-						>
+						<div v-else-if="block.type === 'special'" class="block special"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 							<p class="special-label">Special</p>
 							<div v-html="formatBlockHtml(block.text)"></div>
 						</div>
-						<div
-							v-else-if="block.type === 'table'"
-							class="block table-block"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-						>
+						<div v-else-if="block.type === 'table'" class="block table-block"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 							<p class="table-title" v-if="block.title" v-html="formatRichText(block.title)"></p>
 							<p class="table-text" v-if="block.text" v-html="formatRichText(block.text)"></p>
 							<div class="table-wrap">
 								<table>
 									<thead>
 										<tr>
-											<th v-for="(column, columnIndex) in block.columns" :key="columnIndex" v-html="sanitizeHtml(column)"></th>
+											<th v-for="(column, columnIndex) in block.columns" :key="columnIndex"
+												v-html="sanitizeHtml(column)"></th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr v-for="(row, rowIndex) in block.rows" :key="rowIndex">
-											<td
-												v-for="(column, columnIndex) in block.columns"
-												:key="columnIndex"
-											>
+											<td v-for="(column, columnIndex) in block.columns" :key="columnIndex">
 												<template v-if="getTableDifficultyCell(block, row, column)">
 													<div class="table-difficulty">
-														<span class="table-difficulty-chip">{{ getTableDifficultyCell(block, row, column).title }}</span>
-														<span
-															v-if="getTableDifficultyCell(block, row, column).increase"
+														<span class="table-difficulty-chip">{{
+															getTableDifficultyCell(block, row, column).title }}</span>
+														<span v-if="getTableDifficultyCell(block, row, column).increase"
 															class="table-difficulty-increase"
-															v-html="sanitizeHtml(getTableDifficultyCell(block, row, column).increase)"
-														></span>
-														<ul
-															class="table-tooltip"
-															v-if="normalizeHoverList(getTableDifficultyCell(block, row, column).hover).length"
-														>
-															<li
-																v-for="(hoverItem, hoverIndex) in normalizeHoverList(getTableDifficultyCell(block, row, column).hover)"
-																:key="hoverIndex"
-															>
+															v-html="sanitizeHtml(getTableDifficultyCell(block, row, column).increase)"></span>
+														<ul class="table-tooltip"
+															v-if="normalizeHoverList(getTableDifficultyCell(block, row, column).hover).length">
+															<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(getTableDifficultyCell(block, row, column).hover)"
+																:key="hoverIndex">
 																{{ hoverItem }}
 															</li>
 														</ul>
@@ -184,12 +153,8 @@
 							<p class="table-subtext" v-if="block.subtext" v-html="formatRichText(block.subtext)"></p>
 							<p class="table-subnote" v-if="block.subnote" v-html="formatRichText(block.subnote)"></p>
 						</div>
-						<div
-							v-else
-							class="block"
-							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-							v-html="formatBlockHtml(block.text)"
-						></div>
+						<div v-else class="block" :class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+							v-html="formatBlockHtml(block.text)"></div>
 					</template>
 				</section>
 
@@ -381,8 +346,8 @@ export default {
 				{ value: "requirements", label: "Has requirements" },
 				{ value: "no-requirements", label: "No requirements" },
 				{ value: "dark-side-point", label: "Dark Side Point risk" },
-				{ value: "light-side-only", label: "Light-side usable" },
-				{ value: "dark-side-only", label: "Dark-side only" },
+				{ value: "light-side-only", label: "Light Side Only" },
+				{ value: "dark-side-only", label: "Dark Side Only" },
 				{ value: "long-use", label: "Longer than one round" },
 				{ value: "fan-made", label: "Fan-made" },
 			];
@@ -498,8 +463,8 @@ export default {
 			if (filter === "no-requirements") return skill?.hasRequiredSkills?.() !== true;
 			if (filter === "fan-made") return Boolean(skill?.fanMade);
 			if (filter === "dark-side-point") return this.hasDarkSidePointRisk(skill);
-			if (filter === "light-side-only") return this.getSkillExtraText(skill).includes("consumed by the dark side");
-			if (filter === "dark-side-only") return this.getSkillExtraText(skill).includes("only be used by characters who have been consumed by the dark side");
+			if (filter === "light-side-only") return this.isLightSideOnlyPower(skill);
+			if (filter === "dark-side-only") return this.isDarkSideOnlyPower(skill);
 			if (filter === "long-use") return this.isLongUsePower(skill);
 			return true;
 		},
@@ -538,6 +503,17 @@ export default {
 		hasDarkSidePointRisk(skill) {
 			return this.getSkillContentText(skill).includes("dark side point")
 				|| String(skill?.summary || "").toLowerCase().includes("dark side point");
+		},
+
+		isLightSideOnlyPower(skill) {
+			const extras = this.getSkillExtraText(skill);
+			return extras.includes("consumed by the dark side")
+				&& extras.includes("may not use");
+		},
+
+		isDarkSideOnlyPower(skill) {
+			return this.getSkillExtraText(skill)
+				.includes("only be used by characters who have been consumed by the dark side");
 		},
 
 		isLongUsePower(skill) {
@@ -1101,7 +1077,7 @@ export default {
 		height: 0;
 		min-height: 0;
 		margin-top: 0.55rem;
-		padding-right: 2.35rem;
+		padding: 0.15rem 2.35rem 0.4rem 0.25rem;
 		overflow: auto;
 		scrollbar-color: rgba(242, 193, 78, 0.52) rgba(244, 239, 229, 0.06);
 		scrollbar-width: thin;
@@ -1137,6 +1113,7 @@ export default {
 	}
 
 	.index-item {
+		box-sizing: border-box;
 		width: 100%;
 		min-height: 2.2rem;
 		margin-top: 0.25rem;
@@ -1148,6 +1125,12 @@ export default {
 		font-weight: 700;
 		text-align: left;
 		cursor: pointer;
+
+		&:focus-visible {
+			outline: none;
+			border-color: rgba(242, 193, 78, 0.72);
+			box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.72);
+		}
 
 		&:hover {
 			border-color: rgba(244, 239, 229, 0.18);
@@ -1170,6 +1153,7 @@ export default {
 .wiki-entry {
 	padding: 1.2rem;
 	min-width: 0;
+	min-height: max(32rem, calc(100vh - 22rem));
 }
 
 .entry-header {
@@ -1207,11 +1191,6 @@ export default {
 			color: var(--color-cyan);
 		}
 
-		&.kept-up {
-			border-color: rgba(153, 123, 255, 0.34);
-			background: rgba(153, 123, 255, 0.1);
-			color: #c7b8ff;
-		}
 	}
 }
 
@@ -1342,14 +1321,12 @@ export default {
 			left: 0.45rem;
 			right: 0.45rem;
 			height: 1px;
-			background: linear-gradient(
-				90deg,
-				transparent 0%,
-				rgba(244, 239, 229, 0.04) 12%,
-				rgba(244, 239, 229, 0.1) 50%,
-				rgba(244, 239, 229, 0.04) 88%,
-				transparent 100%
-			);
+			background: linear-gradient(90deg,
+					transparent 0%,
+					rgba(244, 239, 229, 0.04) 12%,
+					rgba(244, 239, 229, 0.1) 50%,
+					rgba(244, 239, 229, 0.04) 88%,
+					transparent 100%);
 		}
 	}
 
@@ -1490,7 +1467,7 @@ export default {
 				box-shadow: var(--shadow-panel);
 				display: none;
 
-				li + li {
+				li+li {
 					margin-top: 0.3rem;
 				}
 			}
@@ -1583,9 +1560,9 @@ export default {
 		margin-top: 0;
 	}
 
-	.note + .block:not(.with-divider),
-	.warning + .block:not(.with-divider),
-	.special + .block:not(.with-divider) {
+	.note+.block:not(.with-divider),
+	.warning+.block:not(.with-divider),
+	.special+.block:not(.with-divider) {
 		margin-top: 0.85rem;
 	}
 
@@ -1649,4 +1626,3 @@ export default {
 	}
 }
 </style>
-

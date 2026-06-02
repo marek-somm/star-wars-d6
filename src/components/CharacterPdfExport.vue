@@ -78,7 +78,7 @@
 									<p class="pre-line">{{ row.difficulty }}</p>
 								</div>
 								<div v-if="row.extras !== '-'">
-									<strong>Extras</strong>
+									<strong>Tags</strong>
 									<p class="pre-line">{{ row.extras }}</p>
 								</div>
 							</div>
@@ -246,6 +246,26 @@ function htmlToReadableText(value) {
 	return text;
 }
 
+function createPowerTagText(item) {
+	const readable = htmlToReadableText(item);
+	if (!readable) return "";
+
+	const normalized = readable.toLowerCase();
+	if (normalized.startsWith("power can be kept up")) {
+		const detail = readable.replace(/^Power can be kept up:?\s*/i, "").trim();
+		return detail ? `Kept Up: ${detail}` : "Kept Up";
+	}
+	if (normalized.includes("may be kept up") || normalized.includes("kept up as long as")) return `Kept Up: ${readable}`;
+	if (normalized.includes("target must be in sight")) return "Requirement: target must be in sight";
+	if (normalized.includes("only be used by characters who have been consumed by the dark side")) return "Dark Side Only";
+	if (normalized.includes("consumed by the dark side") && normalized.includes("may not use")) return "Light Side Only";
+	if (normalized.includes("sith discipline")) return "Sith Discipline";
+	if (normalized.startsWith("homebrew:")) return `Homebrew: ${readable.replace(/^Homebrew:\s*/i, "").trim()}`;
+	if (normalized.includes("must make a new") || normalized.includes("new roll")) return `New Roll: ${readable}`;
+	if (normalized.includes("can only affect")) return `Limited Scope: ${readable}`;
+	return `Note: ${readable}`;
+}
+
 function formatModifierText(modifier = {}) {
 	const label = htmlToReadableText(modifier?.text || "");
 
@@ -405,7 +425,7 @@ export default {
 						skill.timeToUseNote,
 					].filter(Boolean).join(" - ")),
 					extras: Array.isArray(skill.extra) && skill.extra.length > 0
-						? skill.extra.map((item) => htmlToReadableText(item)).filter(Boolean).join("\n")
+						? skill.extra.map((item) => createPowerTagText(item)).filter(Boolean).join("\n")
 						: "-",
 				}));
 		}

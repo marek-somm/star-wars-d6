@@ -151,11 +151,12 @@
 				</section>
 			</div>
 		</details>
-		<ul class="extra" v-if="getExtra().length">
-			<li class="list-item" v-for="(item, index) in getExtra()" :key="index">
-				<div v-html="sanitizeHtml(item)"></div>
-			</li>
-		</ul>
+		<div class="extra-tags" v-if="getExtraTags().length">
+			<div class="extra-tag" :class="tag.type" v-for="(tag, index) in getExtraTags()" :key="index">
+				<span class="tag-label">{{ tag.label }}</span>
+				<span class="tag-text" v-if="tag.text" v-html="sanitizeHtml(tag.text)"></span>
+			</div>
+		</div>
 		<div class="timeToUse" :class="{ detailed: hasTimeToUseDetails() }">
 			<div class="timeToUse-header">
 				<span class="time-icon" aria-hidden="true"></span>
@@ -478,6 +479,102 @@ export default {
 				return this.skill.extra;
 			}
 			return [];
+		},
+
+		getExtraTags() {
+			return this.getExtra()
+				.map((item) => this.createExtraTag(item))
+				.filter(Boolean);
+		},
+
+		createExtraTag(item) {
+			const html = String(item || "").trim();
+			if (!html) return null;
+
+			const text = html
+				.replace(/<[^>]*>/g, "")
+				.replace(/\s+/g, " ")
+				.trim();
+			const normalized = text.toLowerCase();
+
+			if (normalized.startsWith("power can be kept up")) {
+				const detail = html.replace(/^Power can be kept up:?\s*/i, "").trim();
+				return {
+					type: "upkeep",
+					label: "Kept Up",
+					text: detail && detail !== html ? detail : "",
+				};
+			}
+
+			if (normalized.includes("may be kept up") || normalized.includes("kept up as long as")) {
+				return {
+					type: "upkeep",
+					label: "Kept Up",
+					text: html,
+				};
+			}
+
+			if (normalized.includes("target must be in sight")) {
+				return {
+					type: "requirement",
+					label: "Requirement",
+					text: "Target must be in sight",
+				};
+			}
+
+			if (normalized.includes("only be used by characters who have been consumed by the dark side")) {
+				return {
+					type: "dark-side",
+					label: "Dark Side Only",
+					text: "",
+				};
+			}
+
+			if (normalized.includes("consumed by the dark side") && normalized.includes("may not use")) {
+				return {
+					type: "light-side",
+					label: "Light Side Only",
+					text: "",
+				};
+			}
+
+			if (normalized.includes("sith discipline")) {
+				return {
+					type: "discipline",
+					label: "Sith Discipline",
+					text: "",
+				};
+			}
+
+			if (normalized.startsWith("homebrew:")) {
+				return {
+					type: "homebrew",
+					label: "Homebrew",
+					text: html.replace(/^<b>Homebrew:<\/b>\s*/i, "").replace(/^Homebrew:\s*/i, "").trim(),
+				};
+			}
+
+			if (normalized.includes("must make a new") || normalized.includes("new roll")) {
+				return {
+					type: "trigger",
+					label: "New Roll",
+					text: html,
+				};
+			}
+
+			if (normalized.includes("can only affect")) {
+				return {
+					type: "restriction",
+					label: "Limited Scope",
+					text: html,
+				};
+			}
+
+			return {
+				type: "note",
+				label: "Note",
+				text: html,
+			};
 		},
 
 		getTimeToUse() {
@@ -962,17 +1059,93 @@ export default {
 		}
 	}
 
-	.extra {
-		list-style: none;
-		padding: 0;
-		margin-top: 0;
-		margin-bottom: 0;
-		color: var(--color-muted);
-		line-height: 1.55;
+	.extra-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+		align-items: flex-start;
+	}
 
-		.list-item {
-			padding: 0.4rem 0 0.4rem 1rem;
-			border-left: 3px solid rgba(103, 213, 200, 0.36);
+	.extra-tag {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.35rem;
+		max-width: 100%;
+		min-height: 1.75rem;
+		padding: 0.22rem 0.55rem;
+		border: 1px solid rgba(103, 213, 200, 0.26);
+		border-radius: var(--radius-sm);
+		background: rgba(103, 213, 200, 0.07);
+		color: var(--color-muted);
+		line-height: 1.35;
+
+		.tag-label {
+			color: var(--color-cyan);
+			font-size: 0.72rem;
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+
+		.tag-text {
+			font-size: 0.84rem;
+			font-weight: 700;
+		}
+
+		&.upkeep {
+			border-color: rgba(153, 123, 255, 0.36);
+			background: rgba(153, 123, 255, 0.1);
+
+			.tag-label {
+				color: #c7b8ff;
+			}
+		}
+
+		&.requirement {
+			border-color: rgba(242, 193, 78, 0.3);
+			background: rgba(242, 193, 78, 0.08);
+
+			.tag-label {
+				color: var(--color-accent);
+			}
+		}
+
+		&.light-side {
+			border-color: rgba(244, 239, 229, 0.24);
+			background: rgba(244, 239, 229, 0.07);
+
+			.tag-label {
+				color: var(--color-text);
+			}
+		}
+
+		&.dark-side,
+		&.restriction,
+		&.trigger {
+			border-color: rgba(217, 95, 67, 0.38);
+			background: rgba(217, 95, 67, 0.1);
+
+			.tag-label {
+				color: var(--color-danger);
+			}
+		}
+
+		&.homebrew {
+			border-color: rgba(153, 123, 255, 0.36);
+			background: rgba(153, 123, 255, 0.1);
+
+			.tag-label {
+				color: #c7b8ff;
+			}
+		}
+
+		&.discipline {
+			border-color: rgba(217, 95, 67, 0.34);
+			background: rgba(217, 95, 67, 0.09);
+
+			.tag-label {
+				color: var(--color-danger);
+			}
 		}
 	}
 
