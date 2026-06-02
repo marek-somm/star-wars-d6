@@ -165,6 +165,16 @@ const KEPT_UP_STORAGE_KEY = "star-wars-d6:kept-up-powers";
 const LIST_COLLAPSED_STORAGE_KEY = "star-wars-d6:character-powers-list-collapsed";
 const RECENT_LIMIT = 6;
 
+function loadStoredBoolean(key) {
+	if (typeof window === "undefined") return false;
+
+	try {
+		return window.localStorage.getItem(key) === "true";
+	} catch {
+		return false;
+	}
+}
+
 export default {
 	components: {
 		ForceSkill
@@ -181,7 +191,7 @@ export default {
 				currentSkill: null,
 				search: "",
 				powerFilter: "all",
-				listCollapsed: this.loadBoolean(LIST_COLLAPSED_STORAGE_KEY),
+				listCollapsed: loadStoredBoolean(LIST_COLLAPSED_STORAGE_KEY),
 				mobileListOpen: false,
 				favorites: [],
 				recent: [],
@@ -404,16 +414,6 @@ export default {
 				window.localStorage.setItem(key, JSON.stringify(value));
 			} catch {
 				// Ignore storage quota or private-mode errors; the in-memory state is still updated.
-			}
-		},
-
-		loadBoolean(key) {
-			if (typeof window === "undefined") return false;
-
-			try {
-				return window.localStorage.getItem(key) === "true";
-			} catch {
-				return false;
 			}
 		},
 

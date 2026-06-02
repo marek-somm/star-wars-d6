@@ -156,9 +156,45 @@
 				<div v-html="sanitizeHtml(item)"></div>
 			</li>
 		</ul>
-		<div class="timeToUse">
-			<span class="title">Time to Use: </span>
-			<span class="content">{{ getTimeToUse() }}</span>
+		<div class="timeToUse" :class="{ detailed: hasTimeToUseDetails() }">
+			<div class="timeToUse-header">
+				<span class="time-icon" aria-hidden="true"></span>
+				<span class="title">Time to Use</span>
+				<span class="content">{{ getTimeToUse() }}</span>
+			</div>
+			<div class="timeToUse-details" v-if="hasTimeToUseDetails()">
+				<p class="timeToUse-summary" v-if="getTimeToUseDetails().summary">
+					{{ getTimeToUseDetails().summary }}
+				</p>
+				<div class="timeToUse-metrics">
+					<div class="timeToUse-metric">
+						<span class="metric-label">Base</span>
+						<strong>{{ getTimeToUseDetails().baseLabel }}</strong>
+					</div>
+					<div class="timeToUse-metric">
+						<span class="metric-label">Selected</span>
+						<strong>{{ getSelectedTimeToUseLabel() }}</strong>
+					</div>
+					<div class="timeToUse-metric">
+						<span class="metric-label">Modifier</span>
+						<strong>{{ getSelectedTimeModifierLabel() }}</strong>
+					</div>
+					<div class="timeToUse-metric">
+						<span class="metric-label">Minimum</span>
+						<strong>{{ getTimeToUseDetails().minimumLabel }}</strong>
+					</div>
+				</div>
+				<label class="rush-control" v-if="hasRushControl()">
+					<span>{{ getRushModifierLabel() }}</span>
+					<input
+						v-model.number="rushMinutesCut"
+						type="range"
+						:min="0"
+						:max="getMaxRushMinutesCut()"
+						:step="getRushStepMinutes()"
+					>
+				</label>
+			</div>
 		</div>
 	</div>
 </template>
@@ -176,7 +212,8 @@ export default {
 	},
 	data() {
 		return {
-			PowerName
+			PowerName,
+			rushMinutesCut: 0
 		};
 	},
 	computed: {
@@ -445,6 +482,74 @@ export default {
 				return this.skill.timeToUse;
 			}
 			return TimeToUse.default;
+		},
+
+		getTimeToUseDetails() {
+			return this.skill?.timeToUseDetails || {};
+		},
+
+		hasTimeToUseDetails() {
+			return Object.keys(this.getTimeToUseDetails()).length > 0;
+		},
+
+		getRushRule() {
+			return this.getTimeToUseDetails().rush || null;
+		},
+
+		hasRushControl() {
+			const rush = this.getRushRule();
+			return Number(rush?.baseMinutes) > Number(rush?.minimumMinutes)
+				&& Number(rush?.stepMinutes) > 0;
+		},
+
+		getRushStepMinutes() {
+			return Number(this.getRushRule()?.stepMinutes) || 1;
+		},
+
+		getMaxRushMinutesCut() {
+			const rush = this.getRushRule();
+			if (!rush) return 0;
+			return Math.max(0, Number(rush.baseMinutes) - Number(rush.minimumMinutes));
+		},
+
+		getSelectedMinutes() {
+			const rush = this.getRushRule();
+			if (!rush) return null;
+
+			const maxCut = this.getMaxRushMinutesCut();
+			const cut = Math.min(Math.max(Number(this.rushMinutesCut) || 0, 0), maxCut);
+			return Math.max(Number(rush.minimumMinutes), Number(rush.baseMinutes) - cut);
+		},
+
+		formatMinutes(minutes) {
+			if (minutes == null) return "";
+			return `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+		},
+
+		getSelectedTimeToUseLabel() {
+			const selectedMinutes = this.getSelectedMinutes();
+			return selectedMinutes == null
+				? this.getTimeToUseDetails().baseLabel || this.getTimeToUse()
+				: this.formatMinutes(selectedMinutes);
+		},
+
+		getSelectedTimeModifierLabel() {
+			const rush = this.getRushRule();
+			if (!rush) return "+0";
+
+			const cut = Math.min(Math.max(Number(this.rushMinutesCut) || 0, 0), this.getMaxRushMinutesCut());
+			const steps = cut / this.getRushStepMinutes();
+			const modifier = steps * Number(rush.modifierPerStep || 0);
+			return modifier > 0 ? `+${modifier}` : "+0";
+		},
+
+		getRushModifierLabel() {
+			return this.getRushRule()?.modifierLabel || "Rush modifier";
+		}
+	},
+	watch: {
+		"skill.id"() {
+			this.rushMinutesCut = 0;
 		}
 	}
 };
@@ -839,12 +944,155 @@ export default {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.35rem;
-		align-items: center;
+		align-items: flex-start;
+		width: fit-content;
+		max-width: 100%;
+		padding: 0.45rem 0.55rem;
+		border: 1px solid rgba(103, 213, 200, 0.24);
+		border-radius: var(--radius-sm);
+		background: rgba(103, 213, 200, 0.055);
 		color: var(--color-muted);
 
+		.timeToUse-header {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.45rem;
+			width: 100%;
+		}
+
+		.time-icon {
+			position: relative;
+			display: inline-flex;
+			flex: 0 0 auto;
+			width: 1rem;
+			height: 1rem;
+			border: 2px solid rgba(103, 213, 200, 0.74);
+			border-radius: 50%;
+
+			&::before,
+			&::after {
+				content: "";
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				width: 1.5px;
+				border-radius: 999px;
+				background: var(--color-cyan);
+				transform-origin: 50% 0;
+			}
+
+			&::before {
+				height: 0.32rem;
+				transform: translate(-50%, -100%);
+			}
+
+			&::after {
+				height: 0.26rem;
+				transform: translate(-50%, -0.02rem) rotate(120deg);
+			}
+		}
+
 		.title {
+			color: var(--color-cyan);
+			font-size: 0.74rem;
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+
+		.content {
+			display: inline-flex;
+			align-items: center;
+			min-height: 1.55rem;
+			padding: 0.16rem 0.5rem;
+			border: 1px solid rgba(244, 239, 229, 0.1);
+			border-radius: var(--radius-sm);
+			background: rgba(255, 255, 255, 0.035);
 			color: var(--color-text);
-			font-weight: bold;
+			font-size: 0.86rem;
+			font-weight: 800;
+			line-height: 1.4;
+		}
+
+		&.detailed {
+			width: 100%;
+			padding: 0.8rem 0.9rem;
+			border: 1px solid rgba(103, 213, 200, 0.28);
+			border-radius: var(--radius-sm);
+			background: rgba(103, 213, 200, 0.06);
+
+			.time-icon {
+				border-color: rgba(103, 213, 200, 0.74);
+
+				&::before,
+				&::after {
+					background: var(--color-cyan);
+				}
+			}
+
+			.title {
+				color: var(--color-cyan);
+			}
+		}
+
+		.timeToUse-details {
+			display: flex;
+			flex-direction: column;
+			gap: 0.7rem;
+			width: 100%;
+		}
+
+		.timeToUse-summary {
+			margin: 0;
+			line-height: 1.45;
+		}
+
+		.timeToUse-metrics {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 0.55rem;
+		}
+
+		.timeToUse-metric {
+			display: flex;
+			flex-direction: column;
+			gap: 0.18rem;
+			min-width: 0;
+			padding: 0.5rem 0.55rem;
+			border: 1px solid rgba(244, 239, 229, 0.1);
+			border-radius: var(--radius-sm);
+			background: rgba(255, 255, 255, 0.035);
+
+			.metric-label {
+				color: var(--color-muted);
+				font-size: 0.68rem;
+				font-weight: 900;
+				text-transform: uppercase;
+			}
+
+			strong {
+				color: var(--color-text);
+				font-size: 0.9rem;
+				line-height: 1.25;
+			}
+		}
+
+		.rush-control {
+			display: grid;
+			grid-template-columns: minmax(9rem, auto) minmax(8rem, 1fr);
+			gap: 0.75rem;
+			align-items: center;
+
+			span {
+				color: var(--color-cyan);
+				font-size: 0.8rem;
+				font-weight: 900;
+			}
+
+			input {
+				width: 100%;
+				accent-color: var(--color-cyan);
+			}
 		}
 	}
 }
@@ -886,6 +1134,12 @@ export default {
 						gap: 0.35rem;
 					}
 				}
+			}
+		}
+		.timeToUse {
+			.timeToUse-metrics,
+			.rush-control {
+				grid-template-columns: 1fr;
 			}
 		}
 	}

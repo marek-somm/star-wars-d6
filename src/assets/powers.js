@@ -69,6 +69,7 @@ export class Skill {
 	effect;
 	example;
 	summary;
+	timeToUseDetails;
 	contentBlocks = [];
 	fanMade = false;
 
