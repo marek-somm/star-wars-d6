@@ -22,6 +22,7 @@ const ALLOWED_TAGS = new Set([
 ]);
 
 const ALLOWED_ATTRIBUTES = new Set([
+	"class",
 	"colspan",
 	"rowspan",
 	"title",

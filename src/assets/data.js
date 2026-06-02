@@ -29,18 +29,25 @@ const darkSidePointWarningText = String(forcePowerData?.warnings?.darkSidePointO
 	|| defaultDarkSidePointWarningText;
 
 function normalizeDifficultyLevels(levels) {
-	return asArray(levels).map((item) => clone(item));
+	return asArray(levels)
+		.map((item) => {
+			if (item == null) return null;
+			if (item && typeof item === "object") return clone(item);
+
+			return {
+				level: clone(item),
+			};
+		})
+		.filter(Boolean);
 }
 
 function normalizeDifficulty(rawDifficulty = {}) {
 	const difficulty = createEmptyDifficulty();
 
 	Object.entries(rawDifficulty || {}).forEach(([power, value]) => {
-		const normalizedModifiers = Array.isArray(value?.modifiers)
-			? value.modifiers
-				.map((modifier) => normalizeModifier(modifier))
-				.filter((modifier) => modifier && typeof modifier === "object")
-			: [];
+		const normalizedModifiers = asArray(value?.modifiers)
+			.map((modifier) => normalizeModifier(modifier))
+			.filter((modifier) => modifier && typeof modifier === "object");
 
 		difficulty[power] = {
 			...clone(value),
@@ -92,6 +99,44 @@ function normalizeLongText(value) {
 	return value.long ? cleanText(value.long) : null;
 }
 
+function normalizeTableColumns(columns) {
+	return asArray(columns).map((column) => String(column || ""));
+}
+
+function normalizeTableRow(row, columns) {
+	if (Array.isArray(row)) {
+		return Object.fromEntries(
+			columns.map((column, index) => [column, clone(row[index] ?? "")])
+		);
+	}
+
+	if (row && typeof row === "object") {
+		return Object.fromEntries(
+			columns.map((column, index) => {
+				if (Object.prototype.hasOwnProperty.call(row, column)) {
+					return [column, clone(row[column])];
+				}
+				if (Object.prototype.hasOwnProperty.call(row, index)) {
+					return [column, clone(row[index])];
+				}
+				if (Object.prototype.hasOwnProperty.call(row, String(index))) {
+					return [column, clone(row[String(index)])];
+				}
+				return [column, ""];
+			})
+		);
+	}
+
+	if (columns.length === 0) return {};
+	return Object.fromEntries(
+		columns.map((column, index) => [column, index === 0 ? clone(row ?? "") : ""])
+	);
+}
+
+function normalizeTableRows(rows, columns) {
+	return asArray(rows).map((row) => normalizeTableRow(row, columns));
+}
+
 function hasDarkSidePointOnUse(rawSkill = {}) {
 	return Boolean(
 		rawSkill.grantsDarkSidePointOnUse
@@ -133,6 +178,24 @@ function normalizeContentBlocks(rawSkill = {}) {
 					return { type: "effect", text: normalizeLongText(block) };
 				}
 				if (!block || typeof block !== "object") return null;
+				if (block.type === "table") {
+					const columns = normalizeTableColumns(block.columns);
+					const rows = normalizeTableRows(block.rows, columns);
+					const columnTypes = block.columnTypes && typeof block.columnTypes === "object"
+						? clone(block.columnTypes)
+						: null;
+
+					return {
+						type: "table",
+						title: normalizeLongText(block.title) || null,
+						text: normalizeLongText(block.text) || null,
+						subtext: normalizeLongText(block.subtext) || null,
+						subnote: normalizeLongText(block.subnote) || null,
+						columns,
+						rows,
+						columnTypes,
+					};
+				}
 
 				const type = block.type === "example"
 					? "example"

@@ -32,19 +32,23 @@
 							{{ PowerName[power] }}
 						</span>
 					</div>
+					<div class="required" v-if="data.currentSkill.hasRequiredSkills()">
+						<span class="required-label">Requirements</span>
+						<div class="required-pills">
+							<button
+								type="button"
+								v-for="requiredSkill in data.currentSkill.required"
+								:key="requiredSkill.id || requiredSkill.name"
+								class="required-pill"
+								@click="showSkill(requiredSkill)"
+							>
+								{{ requiredSkill.name }}
+							</button>
+						</div>
+					</div>
 				</header>
 
 				<p class="summary" v-if="data.currentSkill.summary" v-html="getSummaryHtml()"></p>
-
-				<div class="required" v-if="data.currentSkill.hasRequiredSkills()">
-					<span class="required-label">Requirements</span>
-					<ul>
-						<li v-for="requiredSkill in data.currentSkill.required"
-							:key="requiredSkill.id || requiredSkill.name">
-							<button type="button" @click="showSkill(requiredSkill)">{{ requiredSkill.name }}</button>
-						</li>
-					</ul>
-				</div>
 
 				<section class="content" v-if="contentBlocks.length > 0">
 					<template v-for="(block, index) in contentBlocks" :key="index">
@@ -73,6 +77,53 @@
 							<div v-html="formatBlockHtml(block.text)"></div>
 						</div>
 						<div
+							v-else-if="block.type === 'table'"
+							class="block table-block"
+							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
+						>
+							<p class="table-title" v-if="block.title" v-html="formatRichText(block.title)"></p>
+							<p class="table-text" v-if="block.text" v-html="formatRichText(block.text)"></p>
+							<div class="table-wrap">
+								<table>
+									<thead>
+										<tr>
+											<th v-for="(column, columnIndex) in block.columns" :key="columnIndex" v-html="sanitizeHtml(column)"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="(row, rowIndex) in block.rows" :key="rowIndex">
+											<td
+												v-for="(column, columnIndex) in block.columns"
+												:key="columnIndex"
+											>
+												<template v-if="getTableDifficultyCell(block, row, column)">
+													<div class="table-difficulty">
+														<span class="table-difficulty-chip">{{ getTableDifficultyCell(block, row, column).title }}</span>
+														<ul
+															class="table-tooltip"
+															v-if="normalizeHoverList(getTableDifficultyCell(block, row, column).hover).length"
+														>
+															<li
+																v-for="(hoverItem, hoverIndex) in normalizeHoverList(getTableDifficultyCell(block, row, column).hover)"
+																:key="hoverIndex"
+															>
+																{{ hoverItem }}
+															</li>
+														</ul>
+													</div>
+												</template>
+												<template v-else>
+													<span v-html="sanitizeHtml(getTableCellText(row?.[column]))"></span>
+												</template>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<p class="table-subtext" v-if="block.subtext" v-html="formatRichText(block.subtext)"></p>
+							<p class="table-subnote" v-if="block.subnote" v-html="formatRichText(block.subnote)"></p>
+						</div>
+						<div
 							v-else
 							class="block"
 							:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
@@ -95,6 +146,7 @@ import { createPowerSkills } from "@/assets/data";
 import { PowerName } from "@/assets/powers";
 import Difficulty from "./Zebron Kebino/Powers/Difficulty.vue";
 import { sanitizeHtml } from "@/utils/html";
+import { injectDifficultyPills } from "@/utils/difficultyInline";
 
 function normalizeSkillName(name) {
 	return String(name || "")
@@ -228,6 +280,10 @@ export default {
 			return this.toParagraphHtml(summary.replace(pattern, "<mark>$1</mark>"));
 		},
 
+		formatRichText(value) {
+			return sanitizeHtml(injectDifficultyPills(String(value || "")));
+		},
+
 		formatBlockHtml(text) {
 			return this.toParagraphHtml(String(text || ""));
 		},
@@ -235,7 +291,7 @@ export default {
 		toParagraphHtml(content) {
 			const raw = String(content || "").trim();
 			if (!raw) return "";
-			const sanitized = sanitizeHtml(raw);
+			const sanitized = this.formatRichText(raw);
 
 			if (typeof document === "undefined") return sanitized;
 
@@ -284,18 +340,161 @@ export default {
 		},
 
 		shouldRenderDivider(index, blocks) {
-			if (!Array.isArray(blocks) || index <= 0) return false;
+			if (!Array.isArray(blocks)) return false;
 
 			const currentType = String(blocks[index]?.type || "").toLowerCase();
 			if (currentType === "note" || currentType === "warning") return false;
 
+			const firstRegularIndex = blocks.findIndex((block) => {
+				const type = String(block?.type || "").toLowerCase();
+				return type !== "note" && type !== "warning";
+			});
+			if (index === firstRegularIndex) {
+				return true;
+			}
+			if (index <= 0) return false;
+
 			const previousType = String(blocks[index - 1]?.type || "").toLowerCase();
 			const previousIsSpecial = previousType === "note" || previousType === "warning";
 			if (previousIsSpecial) {
-				return index - 1 > 0;
+				return currentType === "example";
 			}
 
 			return true;
+		},
+
+		getDifficultyMeta(level, hover = null, andMore = false) {
+			let levelTitle = "";
+			let levelHover = hover;
+			let parsedLevel = Number(level);
+			let thisAndMore = Boolean(andMore);
+
+			if (!Number.isNaN(parsedLevel) && parsedLevel > 10) {
+				parsedLevel -= 10;
+				thisAndMore = true;
+			}
+
+			if (parsedLevel === 1) {
+				levelTitle = "Very Easy";
+				levelHover = levelHover ?? "1-5 or 1D";
+			} else if (parsedLevel === 2) {
+				levelTitle = "Easy";
+				levelHover = levelHover ?? "6-10 or 2D";
+			} else if (parsedLevel === 3) {
+				levelTitle = "Moderate";
+				levelHover = levelHover ?? "11-15 or 3D-4D";
+			} else if (parsedLevel === 4) {
+				levelTitle = "Difficult";
+				levelHover = levelHover ?? "16-20 or 5D-6D";
+			} else if (parsedLevel === 5) {
+				levelTitle = "Very Difficult";
+				levelHover = levelHover ?? "21-30 or 7D-8D";
+			} else if (parsedLevel === 6) {
+				levelTitle = "Heroic";
+				levelHover = levelHover ?? "31+ or 9D+";
+			} else {
+				return null;
+			}
+
+			if (thisAndMore) {
+				levelTitle += "+";
+				levelHover = String(levelHover || "").replace(" or", "+ or") + "+";
+			}
+
+			return {
+				title: levelTitle,
+				hover: levelHover,
+			};
+		},
+
+		normalizeHoverList(hover) {
+			if (Array.isArray(hover)) return hover.map((entry) => String(entry ?? ""));
+			if (hover == null) return [];
+			return [String(hover)];
+		},
+
+		getDifficultyLabelMeta(value) {
+			if (typeof value !== "string") return null;
+			const normalized = value.trim();
+			if (!normalized) return null;
+
+			if (/^very\s+easy$/i.test(normalized)) return this.getDifficultyMeta(1);
+			if (/^easy$/i.test(normalized)) return this.getDifficultyMeta(2);
+			if (/^moderate$/i.test(normalized)) return this.getDifficultyMeta(3);
+			if (/^difficult$/i.test(normalized)) return this.getDifficultyMeta(4);
+			if (/^very\s+difficult$/i.test(normalized)) return this.getDifficultyMeta(5);
+			if (/^heroic(?:\s*\(\s*31\+\s*\))?$/i.test(normalized)) return this.getDifficultyMeta(6);
+			return null;
+		},
+
+		shouldParseTableDifficultyCell(table, column) {
+			const columnType = String(table?.columnTypes?.[column] || "").trim().toLowerCase();
+			if (columnType === "difficulty") return true;
+			if (columnType === "plain" || columnType === "text") return false;
+
+			const rows = Array.isArray(table?.rows) ? table.rows : [];
+			if (rows.length === 0) return false;
+
+			let hasDifficultyValue = false;
+			for (const row of rows) {
+				const cell = row?.[column];
+				if (cell == null || cell === "") continue;
+
+				if (cell && typeof cell === "object" && cell.level != null) {
+					hasDifficultyValue = true;
+					continue;
+				}
+
+				if (typeof cell === "number" || (typeof cell === "string" && /^\d+$/.test(cell))) {
+					const numeric = Number(cell);
+					if (numeric >= 1 && numeric <= 6) {
+						hasDifficultyValue = true;
+						continue;
+					}
+				}
+
+				return false;
+			}
+
+			return hasDifficultyValue;
+		},
+
+		getTableDifficultyCell(table, row, column) {
+			const cell = row?.[column];
+			if (cell == null) return null;
+			const parseByColumn = this.shouldParseTableDifficultyCell(table, column);
+
+			if (cell && typeof cell === "object" && cell.level != null && (parseByColumn || cell.difficulty === true)) {
+				return this.getDifficultyMeta(cell.level, cell.hover ?? null, cell.and_more === true);
+			}
+
+			if (!parseByColumn) return null;
+			if (typeof cell === "number" || (typeof cell === "string" && /^\d+$/.test(cell))) {
+				return this.getDifficultyMeta(Number(cell));
+			}
+
+			const difficultyLabel = this.getDifficultyLabelMeta(String(cell));
+			if (difficultyLabel) return difficultyLabel;
+
+			const columnType = String(table?.columnTypes?.[column] || "").trim().toLowerCase();
+			if (columnType === "difficulty" && typeof cell === "string") {
+				return {
+					title: cell.trim(),
+					hover: null,
+				};
+			}
+
+			return null;
+		},
+
+		getTableCellText(value) {
+			if (value == null) return "";
+			if (value && typeof value === "object") {
+				if (Object.prototype.hasOwnProperty.call(value, "text")) return value.text;
+				if (Object.prototype.hasOwnProperty.call(value, "label")) return value.label;
+				return "";
+			}
+			return String(value);
 		},
 
 		showSkill(skill, updateHash = true) {
@@ -478,7 +677,7 @@ export default {
 .entry-header {
 	padding-bottom: 0.9rem;
 	margin-bottom: 0.9rem;
-	border-bottom: 1px solid rgba(244, 239, 229, 0.1);
+	border-bottom: 1px solid rgba(244, 239, 229, 0.16);
 
 	h2 {
 		margin: 0;
@@ -520,40 +719,127 @@ export default {
 	border-radius: 2px;
 }
 
+:deep(.inline-difficulty-pill) {
+	display: inline-flex;
+	align-items: center;
+	min-height: 1.55rem;
+	padding: 0.12rem 0.48rem;
+	border: 1px solid rgba(242, 193, 78, 0.36);
+	border-radius: var(--radius-sm);
+	background: rgba(242, 193, 78, 0.1);
+	color: var(--color-accent);
+	font-size: 0.79rem;
+	font-weight: 900;
+	line-height: 1.2;
+	vertical-align: middle;
+}
+
+:deep(.inline-difficulty) {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	cursor: help;
+}
+
+:deep(.inline-difficulty-tooltip) {
+	position: absolute;
+	left: 0;
+	top: calc(100% + 0.3rem);
+	z-index: 6;
+	width: min(22rem, 80vw);
+	margin: 0;
+	padding: 0.5rem 0.7rem;
+	list-style: none;
+	border: 1px solid rgba(244, 239, 229, 0.14);
+	border-radius: var(--radius-sm);
+	background: #151311;
+	color: var(--color-muted);
+	font-size: 0.82rem;
+	line-height: 1.4;
+	box-shadow: var(--shadow-panel);
+	display: none;
+	flex-direction: column;
+}
+
+:deep(.inline-difficulty-tooltip-item + .inline-difficulty-tooltip-item) {
+	margin-top: 0.3rem;
+}
+
+:deep(.inline-difficulty:hover .inline-difficulty-tooltip),
+:deep(.inline-difficulty:focus-within .inline-difficulty-tooltip) {
+	display: flex;
+}
+
 .required {
-	margin: 0 0 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.45rem;
+	margin: 0.75rem 0 0;
 
 	.required-label {
-		font-size: 0.74rem;
-		font-weight: 800;
 		color: var(--color-muted);
+		font-size: 0.75rem;
+		font-weight: 900;
+		letter-spacing: 0;
 		text-transform: uppercase;
 	}
 
-	ul {
-		margin: 0.45rem 0 0;
-		padding-left: 1rem;
+	.required-pills {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.45rem;
+		margin-top: 0;
 	}
 
-	li {
-		margin: 0.25rem 0;
-	}
-
-	button {
-		border: 0;
-		background: transparent;
-		color: var(--color-cyan);
-		text-decoration: underline;
+	.required-pill {
+		display: inline-flex;
+		align-items: center;
+		min-height: 1.8rem;
+		padding: 0.25rem 0.6rem;
+		border-radius: var(--radius-sm);
+		font-size: 0.82rem;
+		font-weight: 800;
+		border: 1px solid rgba(244, 239, 229, 0.12);
+		background: var(--color-panel-soft);
+		color: var(--color-text);
 		cursor: pointer;
-		padding: 0;
+		transition:
+			border-color 0.2s ease,
+			color 0.2s ease,
+			background 0.2s ease;
+
+		&:hover {
+			border-color: var(--color-accent);
+			color: var(--color-accent);
+		}
 	}
 }
 
 .content {
 	.block.with-divider {
+		position: relative;
 		margin-top: 0.95rem;
 		padding-top: 0.95rem;
-		border-top: 1px solid rgba(244, 239, 229, 0.1);
+		border-top: 0;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0.45rem;
+			right: 0.45rem;
+			height: 1px;
+			background: linear-gradient(
+				90deg,
+				transparent 0%,
+				rgba(244, 239, 229, 0.04) 12%,
+				rgba(244, 239, 229, 0.1) 50%,
+				rgba(244, 239, 229, 0.04) 88%,
+				transparent 100%
+			);
+		}
 	}
 
 	.block {
@@ -568,6 +854,155 @@ export default {
 			margin-top: 0.5rem;
 		}
 
+		:deep(table) {
+			width: max-content;
+			margin: 0.7rem 0;
+			border-collapse: collapse;
+			border: 1px solid rgba(244, 239, 229, 0.12);
+			font-size: 0.86rem;
+			display: block;
+			overflow-x: auto;
+		}
+
+		:deep(th),
+		:deep(td) {
+			padding: 0.38rem 0.52rem;
+			border: 1px solid rgba(244, 239, 229, 0.1);
+			text-align: left;
+			vertical-align: top;
+			white-space: nowrap;
+		}
+
+		:deep(th) {
+			color: var(--color-text);
+			font-weight: 900;
+			background: rgba(242, 193, 78, 0.08);
+		}
+
+		:deep(td) {
+			color: var(--color-muted);
+		}
+	}
+
+	.table-block {
+		margin-top: 0.95rem;
+		margin-inline: 0;
+		padding-inline: 0.45rem;
+
+		.table-title {
+			margin: 0 0 0.45rem;
+			color: var(--color-text);
+			font-weight: 900;
+			line-height: 1.45;
+		}
+
+		.table-text {
+			margin: 0 0 0.45rem;
+			color: var(--color-muted);
+			font-size: 1rem;
+			font-weight: 500;
+			line-height: 1.5;
+			margin-inline: -0.45rem;
+		}
+
+		.table-wrap {
+			overflow-x: auto;
+		}
+
+		.table-subtext {
+			margin: 0.45rem 0 0;
+			color: var(--color-muted);
+			font-size: 1rem;
+			line-height: 1.6;
+			font-weight: 400;
+			margin-inline: -0.45rem;
+		}
+
+		.table-subnote {
+			margin: 0.45rem 0 0;
+			color: var(--color-muted);
+			font-size: 0.9rem;
+			line-height: 1.55;
+		}
+
+		table {
+			width: max-content;
+			min-width: 0;
+			display: table;
+			overflow: visible;
+			border-collapse: collapse;
+			border: 1px solid rgba(244, 239, 229, 0.12);
+			font-size: 0.86rem;
+			background: transparent;
+		}
+
+		th,
+		td {
+			padding: 0.38rem 0.52rem;
+			border: 1px solid rgba(244, 239, 229, 0.1);
+			text-align: left;
+			vertical-align: top;
+		}
+
+		th {
+			color: var(--color-text);
+			font-weight: 900;
+			background: rgba(242, 193, 78, 0.08);
+		}
+
+		td {
+			color: var(--color-muted);
+			white-space: nowrap;
+		}
+
+		.table-difficulty {
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			cursor: help;
+
+			.table-tooltip {
+				position: absolute;
+				left: 0;
+				top: calc(100% + 0.3rem);
+				z-index: 6;
+				width: min(22rem, 80vw);
+				margin: 0;
+				padding: 0.5rem 0.7rem;
+				list-style: none;
+				border: 1px solid rgba(244, 239, 229, 0.14);
+				border-radius: var(--radius-sm);
+				background: #151311;
+				color: var(--color-muted);
+				font-size: 0.82rem;
+				line-height: 1.4;
+				box-shadow: var(--shadow-panel);
+				display: none;
+
+				li + li {
+					margin-top: 0.3rem;
+				}
+			}
+
+			&:hover .table-tooltip,
+			&:focus-within .table-tooltip {
+				display: block;
+			}
+		}
+
+		.table-difficulty-chip {
+			display: inline-flex;
+			align-items: center;
+			min-height: 1.55rem;
+			padding: 0.12rem 0.48rem;
+			border: 1px solid rgba(242, 193, 78, 0.36);
+			border-radius: var(--radius-sm);
+			background: rgba(242, 193, 78, 0.1);
+			color: var(--color-accent);
+			font-size: 0.79rem;
+			font-weight: 900;
+			line-height: 1.2;
+		}
 	}
 
 	.note {
@@ -627,7 +1062,7 @@ export default {
 .difficulty {
 	margin-top: 1.2rem;
 	padding-top: 1rem;
-	border-top: 1px solid rgba(244, 239, 229, 0.1);
+	border-top: 1px solid rgba(244, 239, 229, 0.16);
 
 	h3 {
 		margin: 0 0 0.8rem;
@@ -666,3 +1101,4 @@ export default {
 	}
 }
 </style>
+
