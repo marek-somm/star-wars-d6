@@ -7,23 +7,12 @@
 					<h1 class="text">{{ skill.name }}</h1>
 				</div>
 				<div class="title-actions">
-					<button
-						class="action-button"
-						:class="{ active: isFavorite }"
-						type="button"
-						:aria-pressed="isFavorite"
-						@click="$emit('toggle-favorite', skill)"
-					>
+					<button class="action-button" :class="{ active: isFavorite }" type="button"
+						:aria-pressed="isFavorite" @click="$emit('toggle-favorite', skill)">
 						{{ isFavorite ? "Saved" : "Favorite" }}
 					</button>
-					<button
-						class="action-button keep-up"
-						:class="{ active: keptUpActive }"
-						type="button"
-						v-if="canKeepUp"
-						:aria-pressed="keptUpActive"
-						@click="$emit('toggle-kept-up', skill)"
-					>
+					<button class="action-button keep-up" :class="{ active: keptUpActive }" type="button"
+						v-if="canKeepUp" :aria-pressed="keptUpActive" @click="$emit('toggle-kept-up', skill)">
 						{{ keptUpActive ? "Kept up" : "Keep up" }}
 					</button>
 				</div>
@@ -38,15 +27,9 @@
 			</div>
 			<div class="required" v-if="skill.hasRequiredSkills()">
 				<span class="required-label">Required</span>
-				<button
-					class="required-pill"
-					:class="{ disabled: !canSelectSkill(requiredSkill) }"
-					type="button"
-					v-for="(requiredSkill, index) in skill.required"
-					:key="index"
-					:disabled="!canSelectSkill(requiredSkill)"
-					@click="$emit('select-skill', requiredSkill)"
-				>
+				<button class="required-pill" :class="{ disabled: !canSelectSkill(requiredSkill) }" type="button"
+					v-for="(requiredSkill, index) in skill.required" :key="index"
+					:disabled="!canSelectSkill(requiredSkill)" @click="$emit('select-skill', requiredSkill)">
 					{{ requiredSkill.name }}
 				</button>
 			</div>
@@ -55,54 +38,39 @@
 			<div class="effect">
 				<div class="summary" v-if="skill.summary" v-html="getSummaryHtml()"></div>
 				<template v-for="(block, index) in contentBlocks" :key="index">
-					<details
-						v-if="block.type === 'example'"
-						class="text-section example"
-						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-						open
-					>
+					<details v-if="block.type === 'example'" class="text-section example"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }" open>
 						<summary>Example</summary>
 						<div class="long" v-html="formatRichText(block.text)"></div>
 					</details>
-					<div
-						v-else-if="block.type === 'note'"
-						class="text-section note"
-						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-					>
+					<div v-else-if="block.type === 'note'" class="text-section note"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 						<p class="note-label">Note</p>
 						<div class="long" v-html="formatRichText(block.text)"></div>
 					</div>
-					<div
-						v-else-if="block.type === 'table'"
-						class="text-section table-block"
-						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-					>
+					<div v-else-if="block.type === 'table'" class="text-section table-block"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 						<p class="table-title" v-if="block.title" v-html="formatRichText(block.title)"></p>
 						<p class="table-text" v-if="block.text" v-html="formatRichText(block.text)"></p>
 						<div class="table-wrap">
 							<table>
 								<thead>
 									<tr>
-										<th v-for="(column, columnIndex) in block.columns" :key="columnIndex" v-html="sanitizeHtml(column)"></th>
+										<th v-for="(column, columnIndex) in block.columns" :key="columnIndex"
+											v-html="sanitizeHtml(column)"></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr v-for="(row, rowIndex) in block.rows" :key="rowIndex">
-										<td
-											v-for="(column, columnIndex) in block.columns"
-											:key="columnIndex"
-										>
+										<td v-for="(column, columnIndex) in block.columns" :key="columnIndex">
 											<template v-if="getTableDifficultyCell(block, row, column)">
 												<div class="table-difficulty hover-wrap">
-													<span class="table-difficulty-chip">{{ getTableDifficultyCell(block, row, column).title }}</span>
-													<ul
-														class="hover-tooltip"
-														v-if="normalizeHoverList(getTableDifficultyCell(block, row, column).hover).length"
-													>
-														<li
-															v-for="(hoverItem, hoverIndex) in normalizeHoverList(getTableDifficultyCell(block, row, column).hover)"
-															:key="hoverIndex"
-														>
+													<span class="table-difficulty-chip">{{ getTableDifficultyCell(block,
+														row, column).title }}</span>
+													<ul class="hover-tooltip"
+														v-if="normalizeHoverList(getTableDifficultyCell(block, row, column).hover).length">
+														<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(getTableDifficultyCell(block, row, column).hover)"
+															:key="hoverIndex">
 															{{ hoverItem }}
 														</li>
 													</ul>
@@ -119,19 +87,13 @@
 						<p class="table-subtext" v-if="block.subtext" v-html="formatRichText(block.subtext)"></p>
 						<p class="table-subnote" v-if="block.subnote" v-html="formatRichText(block.subnote)"></p>
 					</div>
-					<div
-						v-else-if="block.type === 'warning'"
-						class="text-section warning"
-						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-					>
+					<div v-else-if="block.type === 'warning'" class="text-section warning"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 						<p class="warning-label">Warning</p>
 						<div class="long" v-html="formatRichText(block.text)"></div>
 					</div>
-					<div
-						v-else
-						class="text-section"
-						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }"
-					>
+					<div v-else class="text-section"
+						:class="{ 'with-divider': shouldRenderDivider(index, contentBlocks) }">
 						<div class="long" v-html="formatRichText(block.text)"></div>
 					</div>
 				</template>
@@ -584,14 +546,12 @@ export default {
 					left: 0.45rem;
 					right: 0.45rem;
 					height: 1px;
-					background: linear-gradient(
-						90deg,
-						transparent 0%,
-						rgba(244, 239, 229, 0.04) 12%,
-						rgba(244, 239, 229, 0.1) 50%,
-						rgba(244, 239, 229, 0.04) 88%,
-						transparent 100%
-					);
+					background: linear-gradient(90deg,
+							transparent 0%,
+							rgba(244, 239, 229, 0.04) 12%,
+							rgba(244, 239, 229, 0.1) 50%,
+							rgba(244, 239, 229, 0.04) 88%,
+							transparent 100%);
 				}
 			}
 
@@ -724,7 +684,7 @@ export default {
 						box-shadow: var(--shadow-panel);
 						display: none;
 
-						li + li {
+						li+li {
 							margin-top: 0.3rem;
 						}
 					}
@@ -755,8 +715,8 @@ export default {
 				margin-top: 0;
 			}
 
-			.text-section.note + .text-section:not(.with-divider),
-			.text-section.warning + .text-section:not(.with-divider) {
+			.text-section.note+.text-section:not(.with-divider),
+			.text-section.warning+.text-section:not(.with-divider) {
 				margin-top: 0.95rem;
 			}
 
@@ -1011,4 +971,3 @@ export default {
 	}
 }
 </style>
-

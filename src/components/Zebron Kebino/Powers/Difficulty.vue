@@ -4,14 +4,17 @@
 			<summary class="title">
 				<span class="name">{{ getGroupPowerLabel(group.powers) }}</span>
 				<span class="summary-badges">
-					<span class="summary-badge-group" v-for="(item, itemIndex) in group.difficulty.level" :key="itemIndex">
-						<template v-for="(pill, pillIndex) in getDifficultyPills(item)" :key="`${itemIndex}-${pillIndex}`">
+					<span class="summary-badge-group" v-for="(item, itemIndex) in group.difficulty.level"
+						:key="itemIndex">
+						<template v-for="(pill, pillIndex) in getDifficultyPills(item)"
+							:key="`${itemIndex}-${pillIndex}`">
 							<span class="hover-wrap summary-pill">
 								<span class="summary-badge" :class="{ optional: isOptionalDifficultyItem(item) }">
 									{{ pill.title }}
 								</span>
 								<ul class="hover-tooltip" v-if="normalizeHoverList(pill.hover).length">
-									<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)" :key="hoverIndex">
+									<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)"
+										:key="hoverIndex">
 										{{ hoverItem }}
 									</li>
 								</ul>
@@ -19,11 +22,13 @@
 							<span class="summary-plus" v-if="pillIndex < getDifficultyPills(item).length - 1">+</span>
 						</template>
 					</span>
-					<span class="summary-badge muted" v-if="hasConditionalDifficulty(group.difficulty)">Conditional</span>
+					<span class="summary-badge muted"
+						v-if="hasConditionalDifficulty(group.difficulty)">Conditional</span>
 					<span class="summary-badge muted" v-if="hasUpkeepDifficulty(group.difficulty)">Upkeep</span>
 					<span class="summary-badge muted" v-if="hasIncreasedDifficulty(group.difficulty)">Increases</span>
 					<span class="summary-badge muted" v-if="hasModifiedDifficulty(group.difficulty)">Modifiers</span>
-					<span class="summary-badge muted" v-if="!hasBaseDifficulty(group.difficulty)">No base difficulty</span>
+					<span class="summary-badge muted" v-if="!hasBaseDifficulty(group.difficulty)">No base
+						difficulty</span>
 				</span>
 			</summary>
 			<div class="details--container">
@@ -31,19 +36,24 @@
 					<h3>Base Difficulty</h3>
 					<ul class="level--container">
 						<template v-for="(item, index) in group.difficulty.level" :key="index">
-							<li class="level-or" v-if="shouldShowOptionalSeparator(group.difficulty.level, index)">OR</li>
+							<li class="level-or" v-if="shouldShowOptionalSeparator(group.difficulty.level, index)">OR
+							</li>
 							<li class="level-item">
 								<div class="level-pills">
 									<template v-for="(pill, pillIndex) in getDifficultyPills(item)" :key="pillIndex">
 										<div class="level hover-wrap">
-											<span class="level-badge" :class="{ optional: isOptionalDifficultyItem(item) }">{{ pill.title }}</span>
+											<span class="level-badge"
+												:class="{ optional: isOptionalDifficultyItem(item) }">{{ pill.title
+												}}</span>
 											<ul class="hover-tooltip" v-if="normalizeHoverList(pill.hover).length">
-												<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)" :key="hoverIndex">
+												<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)"
+													:key="hoverIndex">
 													{{ hoverItem }}
 												</li>
 											</ul>
 										</div>
-										<span class="level-plus" v-if="pillIndex < getDifficultyPills(item).length - 1">+</span>
+										<span class="level-plus"
+											v-if="pillIndex < getDifficultyPills(item).length - 1">+</span>
 									</template>
 								</div>
 								<div class="text" v-html="sanitizeHtml(item.text)"></div>
@@ -56,38 +66,29 @@
 					<div class="conditional-description" v-if="getConditionalDescription(group.difficulty)">
 						{{ getConditionalDescription(group.difficulty) }}
 					</div>
-					<div
-						class="conditional-table-block"
-						v-for="(table, tableIndex) in getConditionalTables(group.difficulty)"
-						:key="tableIndex"
-					>
+					<div class="conditional-table-block"
+						v-for="(table, tableIndex) in getConditionalTables(group.difficulty)" :key="tableIndex">
 						<p class="conditional-title" v-if="table.title">{{ table.title }}</p>
 						<div class="conditional-table-wrap">
 							<table class="conditional-table">
 								<thead>
 									<tr>
-										<th v-for="(column, columnIndex) in table.columns" :key="columnIndex">{{ column }}</th>
+										<th v-for="(column, columnIndex) in table.columns" :key="columnIndex">{{ column
+											}}</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr v-for="(row, rowIndex) in table.rows" :key="rowIndex">
-										<td
-											v-for="(column, columnIndex) in table.columns"
-											:key="columnIndex"
-										>
+										<td v-for="(column, columnIndex) in table.columns" :key="columnIndex">
 											<template v-if="getConditionalDifficultyCell(table, row, column)">
 												<div class="conditional-difficulty hover-wrap">
 													<span class="difficulty-chip">
 														{{ getConditionalDifficultyCell(table, row, column).title }}
 													</span>
-													<ul
-														class="hover-tooltip"
-														v-if="normalizeHoverList(getConditionalDifficultyCell(table, row, column).hover).length"
-													>
-														<li
-															v-for="(hoverItem, hoverIndex) in normalizeHoverList(getConditionalDifficultyCell(table, row, column).hover)"
-															:key="hoverIndex"
-														>
+													<ul class="hover-tooltip"
+														v-if="normalizeHoverList(getConditionalDifficultyCell(table, row, column).hover).length">
+														<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(getConditionalDifficultyCell(table, row, column).hover)"
+															:key="hoverIndex">
 															{{ hoverItem }}
 														</li>
 													</ul>
@@ -113,12 +114,14 @@
 									<div class="level hover-wrap">
 										<span class="level-badge">{{ pill.title }}</span>
 										<ul class="hover-tooltip" v-if="normalizeHoverList(pill.hover).length">
-											<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)" :key="hoverIndex">
+											<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)"
+												:key="hoverIndex">
 												{{ hoverItem }}
 											</li>
 										</ul>
 									</div>
-									<span class="level-plus" v-if="pillIndex < getDifficultyPills(item).length - 1">+</span>
+									<span class="level-plus"
+										v-if="pillIndex < getDifficultyPills(item).length - 1">+</span>
 								</template>
 							</div>
 							<div class="text" v-html="sanitizeHtml(item.text)"></div>
@@ -141,7 +144,8 @@
 							<div class="level hover-wrap">
 								<span class="level-badge modifier">{{ item.text }}</span>
 								<ul class="hover-tooltip" v-if="normalizeHoverList(item.hover).length">
-									<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(item.hover)" :key="hoverIndex">
+									<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(item.hover)"
+										:key="hoverIndex">
 										{{ hoverItem }}
 									</li>
 								</ul>
@@ -190,13 +194,8 @@
 				</div>
 				<label class="rush-control" v-if="hasRushControl()">
 					<span>{{ getRushModifierLabel() }}</span>
-					<input
-						v-model.number="rushMinutesCut"
-						type="range"
-						:min="0"
-						:max="getMaxRushMinutesCut()"
-						:step="getRushStepMinutes()"
-					>
+					<input v-model.number="rushMinutesCut" type="range" :min="0" :max="getMaxRushMinutesCut()"
+						:step="getRushStepMinutes()">
 				</label>
 			</div>
 		</div>
@@ -777,7 +776,7 @@ export default {
 					box-shadow: var(--shadow-panel);
 					display: none;
 
-					li + li {
+					li+li {
 						margin-top: 0.3rem;
 					}
 				}
@@ -844,7 +843,7 @@ export default {
 					line-height: 1.5;
 				}
 
-				.conditional-table-block + .conditional-table-block {
+				.conditional-table-block+.conditional-table-block {
 					margin-top: 0.75rem;
 				}
 
@@ -913,7 +912,7 @@ export default {
 						box-shadow: var(--shadow-panel);
 						display: none;
 
-						li + li {
+						li+li {
 							margin-top: 0.3rem;
 						}
 					}
@@ -1009,7 +1008,7 @@ export default {
 							box-shadow: var(--shadow-panel);
 							display: none;
 
-							li + li {
+							li+li {
 								margin-top: 0.3rem;
 							}
 						}
@@ -1359,6 +1358,7 @@ export default {
 					.level--container,
 					.add--container,
 					.modifiers--container {
+
 						.level-item,
 						.add-item,
 						.modifiers-item {
