@@ -162,6 +162,9 @@
 				<span class="title">Time to Use</span>
 				<span class="content">{{ getTimeToUse() }}</span>
 			</div>
+			<p class="timeToUse-note" v-if="getTimeToUseNote() && !hasTimeToUseDetails()">
+				{{ getTimeToUseNote() }}
+			</p>
 			<div class="timeToUse-details" v-if="hasTimeToUseDetails()">
 				<p class="timeToUse-summary" v-if="getTimeToUseDetails().summary">
 					{{ getTimeToUseDetails().summary }}
@@ -482,6 +485,10 @@ export default {
 				return this.skill.timeToUse;
 			}
 			return TimeToUse.default;
+		},
+
+		getTimeToUseNote() {
+			return String(this.skill?.timeToUseNote || "").trim();
 		},
 
 		getTimeToUseDetails() {
@@ -1043,6 +1050,15 @@ export default {
 			line-height: 1.4;
 		}
 
+		.timeToUse-note {
+			width: 100%;
+			margin: -0.05rem 0 0 1.45rem;
+			color: var(--color-muted);
+			font-size: 0.78rem;
+			font-weight: 700;
+			line-height: 1.35;
+		}
+
 		&.detailed {
 			width: 100%;
 			padding: 0.8rem 0.9rem;
@@ -1061,6 +1077,10 @@ export default {
 
 			.title {
 				color: var(--color-cyan);
+			}
+
+			.timeToUse-note {
+				margin-left: 0;
 			}
 		}
 

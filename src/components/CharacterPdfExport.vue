@@ -400,7 +400,10 @@ export default {
 					name: htmlToReadableText(skill.name),
 					summary: htmlToReadableText(skill.summary || ""),
 					difficulty: formatPowerDifficulty(skill),
-					time: htmlToReadableText(skill.timeToUse || TimeToUse.default),
+					time: htmlToReadableText([
+						skill.timeToUse || TimeToUse.default,
+						skill.timeToUseNote,
+					].filter(Boolean).join(" - ")),
 					extras: Array.isArray(skill.extra) && skill.extra.length > 0
 						? skill.extra.map((item) => htmlToReadableText(item)).filter(Boolean).join("\n")
 						: "-",

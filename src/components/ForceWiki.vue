@@ -543,7 +543,7 @@ export default {
 		isLongUsePower(skill) {
 			const timeToUse = String(skill?.timeToUse || "").toLowerCase().trim();
 			if (!timeToUse) return false;
-			return !/^(one round|\[?1r\]?)/i.test(timeToUse);
+			return !/^((one|1)\s+round|\[?1r\]?)/i.test(timeToUse);
 		},
 
 		getMaxDifficultyLevel(skill) {

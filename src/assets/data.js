@@ -318,6 +318,7 @@ function createSkill(rawSkill) {
 		.join("<br>");
 	skill.source = rawSkill.source;
 	skill.timeToUse = rawSkill.timeToUse;
+	skill.timeToUseNote = rawSkill.timeToUseNote;
 	skill.timeToUseDetails = rawSkill.timeToUseDetails;
 	skill.fanMade = isFanMade(rawSkill);
 	return skill;

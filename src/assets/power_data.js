@@ -66,17 +66,21 @@ const data = {
 	},
 	"time": {
 		"minutes": {
-			"1": "One minute [12R]",
-			"1+": "At least one minute [12R]",
-			"5": "Five minutes",
-			"30+": "30 minutes per use; severe cases may require several uses over weeks",
+			"1": "1 minute",
+			"1+": "At least 1 minute",
+			"5": "5 minutes",
+			"30+": "30 minutes per use",
 		},
 		"rounds": {
-			"3": "Three rounds [3R]",
-			"6": "Six rounds [6R]"
+			"3": "3 rounds",
+			"6": "6 rounds"
 		},
 		"days": {
-			"2+": "Two days (or more)",
+			"2+": "2+ days",
+		},
+		"notes": {
+			"12R": "12 rounds",
+			"disease": "Severe cases may require several uses over weeks."
 		}
 	},
 	"warnings": {
@@ -197,6 +201,7 @@ export const rawPowerItems = [
 			"Control Pain"
 		],
 		"timeToUse": data.time.minutes["1"],
+		"timeToUseNote": data.time.notes["12R"],
 		"difficulty": {
 			"control": {
 				"level": 1,
@@ -217,6 +222,7 @@ export const rawPowerItems = [
 	{
 		"name": "Accelerate Healing",
 		"timeToUse": data.time.minutes["1"],
+		"timeToUseNote": data.time.notes["12R"],
 		"difficulty": {
 			"control": {
 				"level": [
@@ -665,6 +671,7 @@ export const rawPowerItems = [
 		"name": "Farseeing",
 		"required": "Life Sense",
 		"timeToUse": data.time.minutes["1+"],
+		"timeToUseNote": data.time.notes["12R"],
 		"difficulty": {
 			"control": {
 				"level": 1,
@@ -1258,6 +1265,7 @@ export const rawPowerItems = [
 			"Control Pain"
 		],
 		"timeToUse": data.time.minutes["1"],
+		"timeToUseNote": data.time.notes["12R"],
 		"difficulty": {
 			"control": {
 				"level": 2,
@@ -1372,6 +1380,7 @@ export const rawPowerItems = [
 		"name": "Control Disease",
 		"required": "Accelerate Healing",
 		"timeToUse": data.time.minutes["30+"],
+		"timeToUseNote": data.time.notes.disease,
 		"difficulty": {
 			"control": {
 				"level": [
@@ -1521,6 +1530,7 @@ export const rawPowerItems = [
 	{
 		"name": "Instinctive Astrogation Control",
 		"timeToUse": data.time.minutes["1"],
+		"timeToUseNote": data.time.notes["12R"],
 		"difficulty": {
 			"control": {
 				"level": 5,
@@ -1624,7 +1634,7 @@ export const rawPowerItems = [
 			"Life Detection",
 			"Sense Force"
 		],
-		"timeToUse": "Five minutes, rushable to one minute",
+		"timeToUse": "5 minutes, rushable to 1 minute",
 		"timeToUseDetails": {
 			"baseLabel": "5 minutes",
 			"minimumLabel": "1 minute",
@@ -1698,7 +1708,7 @@ export const rawPowerItems = [
 			"Weather Sense",
 			"Magnify Senses"
 		],
-		"timeToUse": "15 minutes, rushable to one minute",
+		"timeToUse": "15 minutes, rushable to 1 minute",
 		"timeToUseDetails": {
 			"baseLabel": "15 minutes",
 			"minimumLabel": "1 minute",
@@ -1847,6 +1857,7 @@ export const rawPowerItems = [
 		"name": "Resist Stun",
 		"extra": data.extra.keptUp,
 		"timeToUse": data.time.minutes["1"],
+		"timeToUseNote": data.time.notes["12R"],
 		"difficulty": {
 			"control": {
 				"level": 3
@@ -2228,6 +2239,7 @@ export const rawPowerItems = [
 			"Control Disease"
 		],
 		"timeToUse": data.time.minutes["30+"],
+		"timeToUseNote": data.time.notes.disease,
 		"difficulty": {
 			"control": {
 				"level": 1,

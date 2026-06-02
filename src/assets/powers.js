@@ -30,10 +30,10 @@ export const PowerName = {
 };
 
 export const TimeToUse = {
-	default: 'One round [1R]',
-	minute: 'One minute [12R]',
-	minutePlus: 'At least one minute [12R]',
-	threeRounds: 'Three rounds [3R]',
+	default: '1 round',
+	minute: '1 minute',
+	minutePlus: 'At least 1 minute',
+	threeRounds: '3 rounds',
 };
 
 export const forceStats = {
@@ -69,6 +69,7 @@ export class Skill {
 	effect;
 	example;
 	summary;
+	timeToUseNote;
 	timeToUseDetails;
 	contentBlocks = [];
 	fanMade = false;
