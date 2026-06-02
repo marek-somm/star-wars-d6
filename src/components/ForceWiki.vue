@@ -43,15 +43,31 @@
 		</section>
 
 		<div class="wiki-layout">
-			<aside class="wiki-index">
-				<div class="index-group" v-for="group in groupedSkills" :key="group.letter">
-					<h2>{{ group.letter }}</h2>
-					<button v-for="skill in group.skills" :key="skill.id || skill.name" class="index-item"
-						:class="{ active: isCurrentSkill(skill) }" type="button" @click="showSkill(skill)">
-						{{ skill.name }}
-					</button>
+			<aside class="wiki-index" :class="{ collapsed: data.indexCollapsed }">
+				<div class="index-heading" v-show="!data.indexCollapsed">
+					<span>Power index</span>
+					<strong>{{ filteredSkills.length }}</strong>
 				</div>
-				<p class="empty" v-if="groupedSkills.length === 0">No powers found.</p>
+				<button
+					class="index-toggle"
+					type="button"
+					:aria-expanded="!data.indexCollapsed"
+					:aria-label="data.indexCollapsed ? 'Show powers' : 'Hide powers'"
+					:title="data.indexCollapsed ? 'Show powers' : 'Hide powers'"
+					@click="data.indexCollapsed = !data.indexCollapsed"
+				>
+					<span class="index-toggle-icon" aria-hidden="true"></span>
+				</button>
+				<div class="index-scroll" v-show="!data.indexCollapsed">
+					<div class="index-group" v-for="group in groupedSkills" :key="group.letter">
+						<h2>{{ group.letter }}</h2>
+						<button v-for="skill in group.skills" :key="skill.id || skill.name" class="index-item"
+							:class="{ active: isCurrentSkill(skill) }" type="button" @click="showSkill(skill)">
+							{{ skill.name }}
+						</button>
+					</div>
+					<p class="empty" v-if="groupedSkills.length === 0">No powers found.</p>
+				</div>
 			</aside>
 
 			<article class="wiki-entry" v-if="data.currentSkill">
@@ -61,6 +77,7 @@
 						<span class="pill" v-for="power in data.currentSkill.powers" :key="power">
 							{{ PowerName[power] }}
 						</span>
+						<span class="pill kept-up" v-if="isKeptUpPower(data.currentSkill)">Can be kept up</span>
 						<span class="pill fan-made" v-if="data.currentSkill.fanMade">Fan-made</span>
 					</div>
 					<div class="required" v-if="data.currentSkill.hasRequiredSkills()">
@@ -237,19 +254,85 @@ const BLOCK_TAGS = new Set([
 	"ul",
 ]);
 
+const WIKI_INDEX_COLLAPSED_STORAGE_KEY = "star-wars-d6:wiki-index-collapsed";
+const WIKI_FILTERS_STORAGE_KEY = "star-wars-d6:wiki-filters";
+
+const defaultWikiFilters = {
+	search: "",
+	powerFilter: "all",
+	traitFilter: "all",
+	difficultyFilter: "all",
+};
+
+function loadWikiIndexCollapsed() {
+	if (typeof window === "undefined") return false;
+
+	try {
+		return window.localStorage.getItem(WIKI_INDEX_COLLAPSED_STORAGE_KEY) === "true";
+	} catch {
+		return false;
+	}
+}
+
+function saveWikiIndexCollapsed(value) {
+	if (typeof window === "undefined") return;
+
+	try {
+		window.localStorage.setItem(WIKI_INDEX_COLLAPSED_STORAGE_KEY, String(Boolean(value)));
+	} catch {
+		// Ignore storage quota or private-mode errors; the in-memory state is still updated.
+	}
+}
+
+function loadWikiFilters() {
+	if (typeof window === "undefined") return { ...defaultWikiFilters };
+
+	try {
+		const value = JSON.parse(window.localStorage.getItem(WIKI_FILTERS_STORAGE_KEY) || "{}");
+		if (!value || typeof value !== "object") return { ...defaultWikiFilters };
+
+		return {
+			search: typeof value.search === "string" ? value.search : defaultWikiFilters.search,
+			powerFilter: typeof value.powerFilter === "string" ? value.powerFilter : defaultWikiFilters.powerFilter,
+			traitFilter: typeof value.traitFilter === "string" ? value.traitFilter : defaultWikiFilters.traitFilter,
+			difficultyFilter: typeof value.difficultyFilter === "string" ? value.difficultyFilter : defaultWikiFilters.difficultyFilter,
+		};
+	} catch {
+		return { ...defaultWikiFilters };
+	}
+}
+
+function saveWikiFilters(value) {
+	if (typeof window === "undefined") return;
+
+	try {
+		window.localStorage.setItem(WIKI_FILTERS_STORAGE_KEY, JSON.stringify({
+			search: String(value?.search || ""),
+			powerFilter: String(value?.powerFilter || defaultWikiFilters.powerFilter),
+			traitFilter: String(value?.traitFilter || defaultWikiFilters.traitFilter),
+			difficultyFilter: String(value?.difficultyFilter || defaultWikiFilters.difficultyFilter),
+		}));
+	} catch {
+		// Ignore storage quota or private-mode errors; the in-memory state is still updated.
+	}
+}
+
 export default {
 	components: {
 		Difficulty
 	},
 	data() {
+		const savedFilters = loadWikiFilters();
+
 		return {
 			PowerName,
 			allSkills: [],
 			data: {
-				search: "",
-				powerFilter: "all",
-				traitFilter: "all",
-				difficultyFilter: "all",
+				search: savedFilters.search,
+				powerFilter: savedFilters.powerFilter,
+				traitFilter: savedFilters.traitFilter,
+				difficultyFilter: savedFilters.difficultyFilter,
+				indexCollapsed: loadWikiIndexCollapsed(),
 				currentSkill: null
 			}
 		};
@@ -380,10 +463,10 @@ export default {
 		sanitizeHtml,
 
 		clearFilters() {
-			this.data.search = "";
-			this.data.powerFilter = "all";
-			this.data.traitFilter = "all";
-			this.data.difficultyFilter = "all";
+			this.data.search = defaultWikiFilters.search;
+			this.data.powerFilter = defaultWikiFilters.powerFilter;
+			this.data.traitFilter = defaultWikiFilters.traitFilter;
+			this.data.difficultyFilter = defaultWikiFilters.difficultyFilter;
 		},
 
 		getSkillPowerKey(skill) {
@@ -760,6 +843,26 @@ export default {
 
 	},
 	watch: {
+		"data.indexCollapsed"(isCollapsed) {
+			saveWikiIndexCollapsed(isCollapsed);
+		},
+
+		"data.search"() {
+			saveWikiFilters(this.data);
+		},
+
+		"data.powerFilter"() {
+			saveWikiFilters(this.data);
+		},
+
+		"data.traitFilter"() {
+			saveWikiFilters(this.data);
+		},
+
+		"data.difficultyFilter"() {
+			saveWikiFilters(this.data);
+		},
+
 		filteredSkills(list) {
 			if (list.length === 0) {
 				this.data.currentSkill = null;
@@ -893,6 +996,11 @@ export default {
 	display: grid;
 	grid-template-columns: minmax(14rem, 19rem) minmax(0, 1fr);
 	gap: 1rem;
+	align-items: stretch;
+
+	&:has(.wiki-index.collapsed) {
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+	}
 }
 
 .wiki-index,
@@ -904,11 +1012,119 @@ export default {
 }
 
 .wiki-index {
-	position: sticky;
-	top: 1rem;
-	max-height: calc(100vh - 2rem);
-	overflow: auto;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
 	padding: 0.9rem;
+	overflow: visible;
+
+	&.collapsed {
+		align-self: stretch;
+		min-height: 4rem;
+		padding-inline: 0.5rem;
+	}
+
+	.index-heading {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 2rem;
+		padding-right: 2.65rem;
+
+		span {
+			color: var(--color-muted);
+			font-size: 0.72rem;
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+
+		strong {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 1.9rem;
+			min-height: 1.45rem;
+			padding: 0 0.4rem;
+			border: 1px solid rgba(242, 193, 78, 0.26);
+			border-radius: var(--radius-sm);
+			color: var(--color-accent);
+			font-size: 0.78rem;
+			font-weight: 900;
+		}
+	}
+
+	.index-toggle {
+		position: absolute;
+		top: 0.75rem;
+		right: 0.65rem;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		border: 1px solid rgba(242, 193, 78, 0.28);
+		border-radius: var(--radius-sm);
+		background: rgba(22, 20, 17, 0.9);
+		color: var(--color-accent);
+		cursor: pointer;
+		box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.22);
+
+		&:hover {
+			border-color: rgba(242, 193, 78, 0.48);
+			background: rgba(242, 193, 78, 0.1);
+		}
+
+		.index-toggle-icon {
+			display: inline-flex;
+			width: 0.5rem;
+			height: 0.5rem;
+			border: solid currentColor;
+			border-width: 0 2px 2px 0;
+			transform: translateX(0.12rem) rotate(135deg);
+		}
+	}
+
+	&.collapsed .index-toggle {
+		right: 50%;
+		transform: translateX(50%);
+
+		.index-toggle-icon {
+			transform: translateX(-0.12rem) rotate(-45deg);
+		}
+	}
+
+	.index-scroll {
+		flex: 1 1 auto;
+		height: 0;
+		min-height: 0;
+		margin-top: 0.55rem;
+		padding-right: 2.35rem;
+		overflow: auto;
+		scrollbar-color: rgba(242, 193, 78, 0.52) rgba(244, 239, 229, 0.06);
+		scrollbar-width: thin;
+
+		&::-webkit-scrollbar {
+			width: 0.55rem;
+		}
+
+		&::-webkit-scrollbar-track {
+			border-radius: 999px;
+			background: rgba(244, 239, 229, 0.06);
+		}
+
+		&::-webkit-scrollbar-thumb {
+			border: 2px solid rgba(24, 22, 18, 0.95);
+			border-radius: 999px;
+			background: rgba(242, 193, 78, 0.62);
+		}
+
+		&::-webkit-scrollbar-thumb:hover {
+			background: rgba(242, 193, 78, 0.84);
+		}
+	}
 
 	.index-group+.index-group {
 		margin-top: 0.9rem;
@@ -989,6 +1205,12 @@ export default {
 			border-color: rgba(103, 213, 200, 0.3);
 			background: rgba(103, 213, 200, 0.09);
 			color: var(--color-cyan);
+		}
+
+		&.kept-up {
+			border-color: rgba(153, 123, 255, 0.34);
+			background: rgba(153, 123, 255, 0.1);
+			color: #c7b8ff;
 		}
 	}
 }
@@ -1411,6 +1633,10 @@ export default {
 
 	.wiki-layout {
 		grid-template-columns: 1fr;
+
+		&:has(.wiki-index.collapsed) {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.wiki-index {
