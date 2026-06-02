@@ -65,10 +65,19 @@ const data = {
 		"sithDiscipline": "This power is a Sith discipline"
 	},
 	"time": {
-		"3": "Three rounds [3R]",
-		"default": "One round [1R]",
-		"minute": "One minute [12R]",
-		"minute_plus": "At least one minute [12R]"
+		"minutes": {
+			"1": "One minute [12R]",
+			"1+": "At least one minute [12R]",
+			"5": "Five minutes",
+			"30+": "30 minutes per use; severe cases may require several uses over weeks",
+		},
+		"rounds": {
+			"3": "Three rounds [3R]",
+			"6": "Six rounds [6R]"
+		},
+		"days": {
+			"2+": "Two days (or more)",
+		}
 	},
 	"warnings": {
 		"darkSidePointOnUseWarning": "Using this power grants the user one Dark Side Point"
@@ -187,7 +196,7 @@ export const rawPowerItems = [
 			"Control Another's Pain",
 			"Control Pain"
 		],
-		"timeToUse": "One minute [12R]",
+		"timeToUse": data.time.minutes["1"],
 		"difficulty": {
 			"control": {
 				"level": 1,
@@ -207,7 +216,7 @@ export const rawPowerItems = [
 	},
 	{
 		"name": "Accelerate Healing",
-		"timeToUse": "One minute [12R]",
+		"timeToUse": data.time.minutes["1"],
 		"difficulty": {
 			"control": {
 				"level": [
@@ -655,7 +664,7 @@ export const rawPowerItems = [
 	{
 		"name": "Farseeing",
 		"required": "Life Sense",
-		"timeToUse": "At least one minute [12R]",
+		"timeToUse": data.time.minutes["1+"],
 		"difficulty": {
 			"control": {
 				"level": 1,
@@ -1014,7 +1023,7 @@ export const rawPowerItems = [
 	},
 	{
 		"name": "Magnify Senses",
-		"timeToUse": "Three rounds",
+		"timeToUse": data.time.rounds["3"],
 		"difficulty": {
 			"sense": {
 				"level": 1,
@@ -1032,7 +1041,7 @@ export const rawPowerItems = [
 	{
 		"name": "Merge Senses",
 		"required": "Magnify Senses",
-		"timeToUse": "Three rounds",
+		"timeToUse": data.time.rounds["3"],
 		"difficulty": {
 			"sense": {
 				"level": 3,
@@ -1248,7 +1257,7 @@ export const rawPowerItems = [
 			"Control Another's Pain",
 			"Control Pain"
 		],
-		"timeToUse": "One minute [12R]",
+		"timeToUse": data.time.minutes["1"],
 		"difficulty": {
 			"control": {
 				"level": 2,
@@ -1362,7 +1371,7 @@ export const rawPowerItems = [
 	{
 		"name": "Control Disease",
 		"required": "Accelerate Healing",
-		"timeToUse": "30 minutes to several uses over the course of weeks",
+		"timeToUse": data.time.minutes["30+"],
 		"difficulty": {
 			"control": {
 				"level": [
@@ -1406,7 +1415,7 @@ export const rawPowerItems = [
 	},
 	{
 		"name": "Detoxify Poison",
-		"timeToUse": "Five minutes",
+		"timeToUse": data.time.minutes["5"],
 		"difficulty": {
 			"control": {
 				"level": [
@@ -1511,7 +1520,7 @@ export const rawPowerItems = [
 	},
 	{
 		"name": "Instinctive Astrogation Control",
-		"timeToUse": "One minute",
+		"timeToUse": data.time.minutes["1"],
 		"difficulty": {
 			"control": {
 				"level": 5,
@@ -1553,7 +1562,7 @@ export const rawPowerItems = [
 			"Life Sense",
 			"Sense Force"
 		],
-		"timeToUse": "Two days (or more)",
+		"timeToUse": data.time.days["2+"],
 		"difficulty": {
 			"sense": {
 				"level": [
@@ -1615,7 +1624,19 @@ export const rawPowerItems = [
 			"Life Detection",
 			"Sense Force"
 		],
-		"timeToUse": "Five minutes; the time to use may be reduced by adding +10 for each minute cut. Minimum time to use of one minute",
+		"timeToUse": "Five minutes, rushable to one minute",
+		"timeToUseDetails": {
+			"baseLabel": "5 minutes",
+			"minimumLabel": "1 minute",
+			"summary": "Reduce the time by accepting a higher Sense difficulty.",
+			"rush": {
+				"baseMinutes": 5,
+				"minimumMinutes": 1,
+				"stepMinutes": 1,
+				"modifierPerStep": 10,
+				"modifierLabel": "+10 difficulty per minute reduced"
+			}
+		},
 		"difficulty": {
 			"sense": {
 				"level": [
@@ -1677,7 +1698,21 @@ export const rawPowerItems = [
 			"Weather Sense",
 			"Magnify Senses"
 		],
-		"timeToUse": "15 minutes. May be reduced in five-minute increments by increasing difficulty one level per five-minute increment (minimum time to use is one minute)",
+		"timeToUse": "15 minutes, rushable to one minute",
+		"timeToUseDetails": {
+			"baseLabel": "15 minutes",
+			"minimumLabel": "1 minute",
+			"summary": "Reduce the time by raising the Sense difficulty in five-minute rush steps.",
+			"rush": {
+				"modifierLabel": "+1 difficulty category per rush step",
+				"options": [
+					{ "minutes": 15, "modifierLabel": "+0" },
+					{ "minutes": 10, "modifierLabel": "+1 category" },
+					{ "minutes": 5, "modifierLabel": "+2 categories" },
+					{ "minutes": 1, "modifierLabel": "+3 categories" }
+				]
+			}
+		},
 		"difficulty": {
 			"sense": {
 				"level": [
@@ -1811,7 +1846,7 @@ export const rawPowerItems = [
 	{
 		"name": "Resist Stun",
 		"extra": data.extra.keptUp,
-		"timeToUse": "One minute",
+		"timeToUse": data.time.minutes["1"],
 		"difficulty": {
 			"control": {
 				"level": 3
@@ -1931,7 +1966,7 @@ export const rawPowerItems = [
 			"Receptive Telepathy",
 			"Sense Force"
 		],
-		"timeToUse": "Six rounds",
+		"timeToUse": data.time.rounds["6"],
 		"difficulty": {
 			"sense": {
 				"level": [
@@ -1940,7 +1975,12 @@ export const rawPowerItems = [
 						"text": "for friendly, unresistant targets"
 					},
 					{
-						"levels": 3,
+						"levels": [
+							{
+								"level": 3,
+							},
+							data.level.perception
+						],
 						"text": "for unwilling subjects"
 					}
 				]
@@ -2187,7 +2227,7 @@ export const rawPowerItems = [
 			"Accelerate Healing",
 			"Control Disease"
 		],
-		"timeToUse": "30 minutes to several uses over the course of several weeks",
+		"timeToUse": data.time.minutes["30+"],
 		"difficulty": {
 			"control": {
 				"level": 1,
@@ -2214,7 +2254,7 @@ export const rawPowerItems = [
 			"Control Another's Pain",
 			"Detoxify Poison"
 		],
-		"timeToUse": "Five minutes",
+		"timeToUse": data.time.minutes["5"],
 		"difficulty": {
 			"control": {
 				"level": 1,
@@ -2356,7 +2396,7 @@ export const rawPowerItems = [
 	{
 		"name": "Place Another in Hibernation Trance",
 		"required": "Hibernation Trance",
-		"timeToUse": "Five minutes",
+		"timeToUse": data.time.minutes["5"],
 		"difficulty": {
 			"control": {
 				"level": 1,
@@ -2531,7 +2571,7 @@ export const rawPowerItems = [
 	{
 		"name": "Battle Meditation",
 		"extra": data.extra.keptUp,
-		"timeToUse": "Five minutes",
+		"timeToUse": data.time.minutes["5"],
 		"difficulty": {
 			"control": {
 				"level": [
@@ -2815,7 +2855,7 @@ export const rawPowerItems = [
 			"Dim Another's Senses"
 		],
 		"extra": data.extra.keptUp,
-		"timeToUse": "Five minutes",
+		"timeToUse": data.time.minutes["5"],
 		"grantsDarkSidePointOnUse": true,
 		"difficulty": {
 			"control": {
