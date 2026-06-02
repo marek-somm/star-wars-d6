@@ -74,7 +74,7 @@
 								<thead>
 									<tr>
 										<th v-for="(column, columnIndex) in table.columns" :key="columnIndex">{{ column
-											}}</th>
+										}}</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -760,7 +760,7 @@ export default {
 
 				.hover-tooltip {
 					position: absolute;
-					left: 0;
+					right: 0;
 					top: calc(100% + 0.3rem);
 					z-index: 6;
 					width: min(22rem, 80vw);
@@ -818,6 +818,10 @@ export default {
 			.title {
 				&::before {
 					content: "Hide";
+				}
+
+				.summary-badges {
+					display: none;
 				}
 			}
 		}
@@ -1397,6 +1401,7 @@ export default {
 
 			.details--container {
 				.details-section {
+
 					.level--container,
 					.add--container {
 
