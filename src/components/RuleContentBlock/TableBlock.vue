@@ -1,6 +1,6 @@
 <template>
-	<section class="table-block" :class="`is-${block.type}`">
-		<h3>{{ tableTitle }}</h3>
+	<section class="table-block" :class="tableClasses">
+		<h3 v-if="tableTitle">{{ tableTitle }}</h3>
 		<table>
 			<thead v-if="hasColumns">
 				<tr>
@@ -39,14 +39,21 @@ export default {
 		},
 
 		isStrongLabelTable() {
-			return this.block.type === "modifier_table" || this.block.type === "outcome_table";
+			return this.block.subtype === "modifier" || !this.block.subtype;
+		},
+
+		tableClasses() {
+			return {
+				[`is-${this.block.type}`]: true,
+				[`is-${this.block.subtype}`]: Boolean(this.block.subtype),
+			};
 		},
 
 		tableTitle() {
-			if (this.block.type === "difficulty_table") return "Difficulty";
-			if (this.block.type === "modifier_table") return "Modifiers";
+			if (this.block.subtype === "difficulty") return this.block.title || "Difficulty";
+			if (this.block.subtype === "modifier") return this.block.title || "Modifiers";
 			if (this.block.title) return this.block.title;
-			return formatRuleLabel(this.block.type);
+			return formatRuleLabel(this.block.subtype || this.block.type);
 		},
 	},
 	methods: {

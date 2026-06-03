@@ -105,13 +105,7 @@
 					"$ref": "#/$defs/example"
 				},
 				{
-					"$ref": "#/$defs/difficultyTable"
-				},
-				{
-					"$ref": "#/$defs/modifierTable"
-				},
-				{
-					"$ref": "#/$defs/outcomeTable"
+					"$ref": "#/$defs/table"
 				}
 			]
 		},
@@ -529,55 +523,24 @@
 				}
 			}
 		},
-		"difficultyRow": {
-			"type": "array",
-			"prefixItems": [
+		"tableCell": {
+			"oneOf": [
 				{
 					"type": "integer"
 				},
 				{
 					"$ref": "#/$defs/nonEmptyString"
 				}
-			],
-			"items": false,
-			"minItems": 2,
-			"maxItems": 2
+			]
 		},
-		"stringPairRow": {
+		"tableRow": {
 			"type": "array",
-			"prefixItems": [
-				{
-					"$ref": "#/$defs/nonEmptyString"
-				},
-				{
-					"$ref": "#/$defs/nonEmptyString"
-				}
-			],
-			"items": false,
-			"minItems": 2,
-			"maxItems": 2
-		},
-		"difficultyTable": {
-			"type": "object",
-			"required": [
-				"type",
-				"rows"
-			],
-			"additionalProperties": false,
-			"properties": {
-				"type": {
-					"const": "difficulty_table"
-				},
-				"rows": {
-					"type": "array",
-					"minItems": 1,
-					"items": {
-						"$ref": "#/$defs/difficultyRow"
-					}
-				}
+			"minItems": 1,
+			"items": {
+				"$ref": "#/$defs/tableCell"
 			}
 		},
-		"modifierTable": {
+		"table": {
 			"type": "object",
 			"required": [
 				"type",
@@ -586,40 +549,29 @@
 			"additionalProperties": false,
 			"properties": {
 				"type": {
-					"const": "modifier_table"
+					"const": "table"
+				},
+				"subtype": {
+					"enum": [
+						"difficulty",
+						"modifier"
+					]
 				},
 				"title": {
 					"$ref": "#/$defs/nonEmptyString"
 				},
-				"rows": {
+				"columns": {
 					"type": "array",
 					"minItems": 1,
 					"items": {
-						"$ref": "#/$defs/stringPairRow"
+						"$ref": "#/$defs/nonEmptyString"
 					}
-				}
-			}
-		},
-		"outcomeTable": {
-			"type": "object",
-			"required": [
-				"type",
-				"title",
-				"rows"
-			],
-			"additionalProperties": false,
-			"properties": {
-				"type": {
-					"const": "outcome_table"
-				},
-				"title": {
-					"$ref": "#/$defs/nonEmptyString"
 				},
 				"rows": {
 					"type": "array",
 					"minItems": 1,
 					"items": {
-						"$ref": "#/$defs/stringPairRow"
+						"$ref": "#/$defs/tableRow"
 					}
 				}
 			}

@@ -12,9 +12,7 @@ export const CONTAINER_BLOCK_TYPES = new Set([
 ]);
 
 export const TABLE_BLOCK_TYPES = new Set([
-	"difficulty_table",
-	"modifier_table",
-	"outcome_table",
+	"table",
 ]);
 
 export const PAGE_BLOCK_TYPES = new Set([
