@@ -193,7 +193,8 @@
 											"text": "The difficulty depends upon how difficult the acrobatic maneuver is, some examples are provided below:"
 										},
 										{
-											"type": "difficulty_table",
+											"type": "table",
+											"subtype": "difficulty",
 											"rows": [
 												[
 													1,
@@ -214,7 +215,8 @@
 											]
 										},
 										{
-											"type": "modifier_table",
+											"type": "table",
+											"subtype": "modifier",
 											"rows": [
 												[
 													"No Modifier",
@@ -588,8 +590,8 @@
 											"text": "Dirk Harkness wants to dip into a courier's satchel to filch a datapad which happens to hold important patrol schedules for a nearby Imperial garrison base. Dirk rolls his pick pocket skill of 5D and gets an 18. The gamemaster rolls the courier's Perception of 2D and gets a 7. Since his roll is higher than the courier's, Dirk successfully slips the datapad out of the satchel."
 										},
 										{
-											"type": "modifier_table",
-											"title": "Modifiers",
+											"type": "table",
+											"subtype": "modifier",
 											"rows": [
 												[
 													"+5 or more to target's roll",
@@ -614,7 +616,7 @@
 											"text": "The difference between the two rolls determines the pickpocket's success. Use the following guidelines:"
 										},
 										{
-											"type": "outcome_table",
+											"type": "table",
 											"title": "Pick-pocket rolls higher than the target by",
 											"rows": [
 												[
@@ -640,7 +642,7 @@
 											]
 										},
 										{
-											"type": "outcome_table",
+											"type": "table",
 											"title": "Target rolls higher than pick-pocket by",
 											"rows": [
 												[
@@ -739,7 +741,8 @@
 									"text": "Use the following guidelines to pick a difficulty, but remember that they should be modified based on the circumstances. See the chapter on \"The Rules\" for more information:"
 								},
 								{
-									"type": "difficulty_table",
+									"type": "table",
+									"subtype": "difficulty",
 									"rows": [
 										[
 											1,
@@ -832,7 +835,8 @@
 											"text": "The difficulty depends upon how restricted the information is:"
 										},
 										{
-											"type": "difficulty_table",
+											"type": "table",
+											"subtype": "difficulty",
 											"rows": [
 												[
 													1,
@@ -857,7 +861,8 @@
 											]
 										},
 										{
-											"type": "modifier_table",
+											"type": "table",
+											"subtype": "modifier",
 											"rows": [
 												[
 													"+5-10 to the difficulty",
@@ -983,7 +988,8 @@
 											"text": "Characters resist intimidation with the willpower skill."
 										},
 										{
-											"type": "modifier_table",
+											"type": "table",
+											"subtype": "modifier",
 											"rows": [
 												[
 													"+5 or more to intimidator's roll",
@@ -1055,7 +1061,8 @@
 											"text": "The base difficulty depends on the language's complexity and structure compared to Basic (or any other language the character knows):"
 										},
 										{
-											"type": "difficulty_table",
+											"type": "table",
+											"subtype": "modifier",
 											"rows": [
 												[
 													1,
@@ -1084,7 +1091,8 @@
 											]
 										},
 										{
-											"type": "modifier_table",
+											"type": "table",
+											"subtype": "modifier",
 											"rows": [
 												[
 													"+10 or more to character's roll",
@@ -1202,7 +1210,8 @@
 											"text": "The planetary systems difficulty is based on how obscure the system is:"
 										},
 										{
-											"type": "difficulty_table",
+											"type": "table",
+											"subtype": "difficulty",
 											"rows": [
 												[
 													1,
@@ -1231,7 +1240,8 @@
 											]
 										},
 										{
-											"type": "modifier_table",
+											"type": "table",
+											"subtype": "modifier",
 											"rows": [
 												[
 													"No modifier",
@@ -1323,7 +1333,8 @@
 											"text": "The base difficulty depends upon how common the service or good is or how hard it is to find the underworld contact:"
 										},
 										{
-											"type": "difficulty_table",
+											"type": "table",
+											"subtype": "difficulty",
 											"rows": [
 												[
 													1,
@@ -1352,7 +1363,8 @@
 											]
 										},
 										{
-											"type": "modifier_table",
+											"type": "table",
+											"subtype": "modifier",
 											"rows": [
 												[
 													"+10 or more to the character's roll",
@@ -1440,7 +1452,8 @@
 											"text": "When the character makes a survival roll, use these difficulty guidelines:"
 										},
 										{
-											"type": "difficulty_table",
+											"type": "table",
+											"subtype": "difficulty",
 											"rows": [
 												[
 													1,
@@ -1532,7 +1545,8 @@
 											"text": "When the character makes a value roll, use these difficulty guidelines:"
 										},
 										{
-											"type": "difficulty_table",
+											"type": "table",
+											"subtype": "difficulty",
 											"rows": [
 												[
 													1,
@@ -1582,6 +1596,977 @@
 										{
 											"type": "description",
 											"text": "Also, when a character fails a stamina check, if the character can make a willpower check at one higher level of difficulty, he can drive himself on through sheer willpower. A character doing this has to make a willpower check as often as he would normally have had to make a stamina check, with all checks at one difficulty level higher. Once the character fails a check or stops pushing himself, he is completely exhausted and must rest double the normal length of time. If, as a result of failing a stamina check, the character would have suffered any damage, the character suffers one worse wound level as a result of pushing his body far beyond its limitations."
+										}
+									]
+								}
+							]
+						},
+						{
+							"id": "skill_group.mechanical",
+							"type": "skill_group",
+							"title": "Mechanical Skills",
+							"source": {
+								"page_start": 45,
+								"page_end": -1
+							},
+							"blocks": [
+								{
+									"type": "paragraph",
+									"text": "Mechanical stands for \"mechanical aptitude\" and represents how well a character can pilot vehicles and starships and operate the various systems on board. It also reflects how well the character handles live mounts, like banthas and tauntauns. A character with a high Mechanical attribute is going to take naturally to driving landspeeders, flying cloud cars and piloting Xwings and ships like the Millennium Falcon. A character with a low Mechanical attribute has a lot of minor accidents."
+								},
+								{
+									"type": "paragraph",
+									"text": "Most Mechanical skills are used to drive vehicles or pilot starships. Most of the time, characters should be able to negotiate clear terrain (Very Easy or Easy) without too much trouble. It's when a driver goes too fast, tries risky maneuvers or gets involved in a chase that things get tricky."
+								},
+								{
+									"type": "paragraph",
+									"text": "Movement, chase and vehicle combat rules are explained in the chapter on \"Movement and Chases.\" Movement and chases with starships is explained in the chapter on \"Space Travel and Combat.\""
+								},
+								{
+									"type": "mechanic",
+									"title": "Time Taken",
+									"blocks": [
+										{
+											"type": "paragraph",
+											"text": "One round for chases and combat. For trips, several minutes, hours or days. (Characters might roll space transports to see if anything went wrong over a trip that takes three hours. One beast riding roll might be made to see how well a character handles his tauntaun over a patrol march of several hours.)"
+										}
+									]
+								},
+								{
+									"id": "skill.aquatic_vehicle_operation",
+									"type": "skill",
+									"title": "Aquatic Vehicle Operation",
+									"source": {
+										"page_start": 46
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Particular ship type or class",
+										"examples": "Oceanic transport, coastal runabout, skiff, sailboat"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill allows characters to pilot naval ships and boats. While these vehicles are seldom used in the higher-tech worlds, many low-tech cultures use them for transporting personnel and freight over bodies of water."
+										},
+										{
+											"type": "description",
+											"text": "Note that aquatic vehicles which employ the use of repulsorlift or hover technology may also require the use of different skills (namely repulsorlift operation and hover vehicle operation)."
+										},
+										{
+											"type": "description",
+											"text": "Aquatic vehicle operation can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.archaic_starship_piloting",
+									"type": "skill",
+									"title": "Archaic Starship Piloting",
+									"source": {
+										"page_start": 46
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Particular ship type or class",
+										"examples": "Delaya-class, Coruscant-class heavy courier"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill allows characters to pilot primitive starships and other basic archaic ship designs. While these vehicles are seldom used in settled areas, they can be encountered on frontier worlds or planets that have just developed space travel on their own."
+										},
+										{
+											"type": "description",
+											"text": "Archaic starship piloting can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.astrogation",
+									"type": "skill",
+									"title": "Astrogation",
+									"source": {
+										"page_start": 46
+									},
+									"fields": {
+										"time_taken": "One minute when your position is known and you are following a commonly-traveled jump route for which hyperspace coordinates have already been calculated (can be reduced to one round in emergencies). A few hours when your position is known, but your destination is one to which you have not traveled before and the nav computer must calculate coordinates. One day when you must take readings to determine your ship's current position and then compute jump coordinates.",
+										"specializations": "Specific trade route",
+										"examples": "Kessel Run, Tatooine to Coruscant, Corellian Run Trade Route"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Starship pilots use astrogation to plot a course from one star system to another. For more details on astrogation difficulties, see the chapter on \"Space Travel and Combat.\""
+										}
+									]
+								},
+								{
+									"id": "skill.beast_riding",
+									"type": "skill",
+									"title": "Beast Riding",
+									"source": {
+										"page_start": 46
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Particular riding animal",
+										"examples": "banthas, Cracian thumpers, dewbacks, tauntauns"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Beast riding represents a character's ability to ride any live mount. Unlike vehicles, animals sometimes resist orders from their riders. Each animal has an orneriness code. When a character mounts a riding animal, the character makes an opposed roll against the animal's orneriness code. If the character rolls higher than the animal, it does as he wishes. If the animal rolls higher, find the results on the chart below."
+										},
+										{
+											"type": "paragraph",
+											"text": "The character must make another opposed roll whenever the animal is exposed to danger or is in a situation which could scare the animal - being involved in a battle, encountering a ferocious predator, being surprised by a sudden storm or an incoming starship."
+										},
+										{
+											"type": "table",
+											"title": "Animal rolls higher than character",
+											"rows": [
+												[
+													"21+ points",
+													"Animal bucks rider. Roll the animal's Strength versus the character's Dexterity: If the animal rolls higher, the character is thrown to the ground. The animal will trample the rider if there is no immediate threat; otherwise, it will run to safety."
+												],
+												[
+													"16-20 points",
+													"Animal bucks rider and runs to safety. If the character falls off, the creature will not attempt to trample the rider."
+												],
+												[
+													"11-15 points",
+													"Animal refuses to follow rider's command and runs to safety. The rider may regain control by making another beast riding roll and beating the animal's total by 5 or more points."
+												],
+												[
+													"6-10 points",
+													"Animal stops moving and refuses to move for the rest of the round or the next round."
+												],
+												[
+													"1-5 points",
+													"Animal stops moving and refuses to move for the rest of the round."
+												]
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.capital_ship_gunnery",
+									"type": "skill",
+									"title": "Capital Ship Gunnery",
+									"source": {
+										"page_start": 46
+									},
+									"fields": {
+										"time_taken": "One round.",
+										"specializations": "Weapon type or model",
+										"examples": "concussion missiles, gravity well projectors, ion cannons, laser cannons, proton torpedoes, tractor beams, turbolasers"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Capital ship gunnery is the \"ranged combat\" skill that covers the operation of capital-scale starship weapons, including turbolasers, ion cannons and tractor beams."
+										},
+										{
+											"type": "description",
+											"text": "See the chapter on \"Space Travel and Combat,\" for more information on using this skill."
+										}
+									]
+								},
+								{
+									"id": "skill.capital_ship_piloting",
+									"type": "skill",
+									"title": "Capital Ship Piloting",
+									"source": {
+										"page_start": 47
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Type or class of capital ship",
+										"examples": "Imperial Star Destroyer, Victory Star Destroyer, Nebulon-B frigate, Trade Federation Battleship"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Capital ship piloting covers the operation of large combat starships such as Imperial Star Destroyers, Carrack-class cruisers, Corellian Corvettes and Mon Cal cruisers. Capital ships normally require huge crews for efficient operation, and thus the skill emphasizes both quick reflexes and disciplined teamwork. The chapter on \"Space Travel and Combat\" has more details about using capital ship piloting."
+										},
+										{
+											"type": "description",
+											"text": "Capital ship piloting can be used for a starship dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.capital_ship_shields",
+									"type": "skill",
+									"title": "Capital Ship Shields",
+									"source": {
+										"page_start": 47
+									},
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Type or class of capital ship",
+										"examples": "Imperial Star Destroyer, Victory Star Destroyer, Nebulon-B frigate, Trade Federation Battleship"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters use this skill when operating shields on capital-scale starships, both military and civilian. These shields normally require large, coordinated crews for efficient operation. You can find more information about capital ship shields in the chapter \"Space Travel and Combat.\""
+										},
+										{
+											"type": "description",
+											"text": "Capital ship shields can be used to bring up shields - a \"reaction skill\" - to block enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.communications",
+									"type": "skill",
+									"title": "Communications",
+									"source": {
+										"document": "Kodex.pdf",
+										"page_start": 47,
+										"page_end": 48
+									},
+									"tags": [
+										"skills",
+										"mechanical"
+									],
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Type or model of communications unit",
+										"examples": "comlink, subspace radio"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Communications represents a character's ability to use subspace radios, comlinks and other communications systems. While operating communications devices is generally a Very Easy task, the difficulty numbers are higher when the skill is used to descramble enemy codes and find particular enemy transmission frequencies."
+										},
+										{
+											"type": "description",
+											"text": "Characters may also use communications to send or receive a signal through natural hazards which disrupt communications, such as a gas cloud, heavy magnetic fields or locations with a high metal content."
+										},
+										{
+											"type": "paragraph",
+											"text": "The following difficulties are for finding a specific kind of frequency:"
+										},
+										{
+											"type": "table",
+											"subtype": "difficulty",
+											"rows": [
+												[
+													1,
+													"Listening in on a known, registered frequency. Public communications, low-security corporate commnets."
+												],
+												[
+													2,
+													"Listening in on a specific private frequency. Low-security government communications such as emergency services."
+												],
+												[
+													3,
+													"Listening in on a somewhat sensitive communication frequency. Local governments, sensitive businesses or security-conscious individuals."
+												],
+												[
+													4,
+													"Tapping professionally secure channels. Lower-level Imperial or higher-level police bands."
+												],
+												[
+													5,
+													"Listening in on higher Imperial channels, or high-ranking government channels."
+												],
+												[
+													6,
+													"Listening in on a top-secret Imperial, Rebel or New Republic frequency."
+												]
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "If the signal is coded, the character can use communications to make a decoding roll. Some broadcasting devices have coding die codes, which adds to the broadcaster's communication skills when determining how difficult it is to decode the message. By comparing the results on the \"Decoder Roll Chart,\" (below) the character may decode none, some or all of the message."
+										},
+										{
+											"type": "paragraph",
+											"text": "Note that some messages will also have code words - for example, Coruscant might be referred to as \"Dewback\" in a message. At this point, the characters only know what was said about \"Dewback\" and must figure out what \"Dewback\" is."
+										},
+										{
+											"type": "table",
+											"title": "Decoder Roll Chart",
+											"columns": [
+												"Coder's roll is &ge; decoder's roll",
+												"Decoder learns"
+											],
+											"rows": [
+												[
+													"6",
+													"Nothing can be made out"
+												],
+												[
+													"1-5",
+													"Decoder makes out wrong message"
+												]
+											]
+										},
+										{
+											"type": "table",
+											"title": "Decoder Roll Chart",
+											"columns": [
+												"Decoder's roll is &ge; coder's roll",
+												"Decoder learns"
+											],
+											"rows": [
+												[
+													"0-3",
+													"One or two garbled passages"
+												],
+												[
+													"4-6",
+													"About one-quarter of the information in the message"
+												],
+												[
+													"7-10",
+													"About half of the information in the message"
+												],
+												[
+													"11+",
+													"The entire message is unscrambled"
+												]
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Field Communications",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "A host of factors can complicate communications. Most civilian comlinks are supported by repeater stations, processing nodes, comsats and fairly short transmission distances. Combat communications can be confounded by intervening terrain, inadequate repeating stations, enemy jamming and strong electrical activity."
+												},
+												{
+													"type": "paragraph",
+													"text": "Almost any comlink, even a fairly low-power comlink, can reach orbital comsats in clear weather. Ordinary comlinks use a wide-band broadcast to reach comsats, but these are much too easy to trace. As a result, military units use comlinks with narrow beamcast antennas, which reduces the chances of detection (though it also reduces range and clarity)."
+												},
+												{
+													"type": "paragraph",
+													"text": "When attempting to jam enemy communications the comjammer operator adds his communications skill roll to the opponent's difficulty."
+												},
+												{
+													"type": "paragraph",
+													"text": "Detecting and locating comlinks involves sensor rolls. Use the rules on pages 47 and 48 for more information."
+												},
+												{
+													"type": "paragraph",
+													"text": "The following are basic difficulty guidelines for using communications equipment:"
+												},
+												{
+													"type": "table",
+													"subtype": "difficulty",
+													"rows": [
+														[
+															1,
+															"Base communications set. HoloNet node. Surface-based comm. Signal within a system."
+														],
+														[
+															2,
+															"Military comset. Civilian comset in city."
+														],
+														[
+															3,
+															"Military comlink. Civilian comset in rural area."
+														],
+														[
+															4,
+															"Civilian comset in wild area."
+														]
+													]
+												},
+												{
+													"type": "table",
+													"subtype": "modifier",
+													"rows": [
+														[
+															"+5 to operator's difficulty",
+															"Heavy cloud cover. Active energy fields, such as from moderate combat within 20 kilometers."
+														],
+														[
+															"+10 to operator's difficulty",
+															"Storm activity. Broad-based enemy jamming. Heavy combat conditions due to strong energy fields."
+														],
+														[
+															"+15 to operator's difficulty",
+															"Nearby, very strong, or specific bandwidth energy fields. Trying to punch through planetary shields, either way."
+														]
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.ground_vehicle_operation",
+									"type": "skill",
+									"title": "Ground Vehicle Operation",
+									"source": {
+										"page_start": 48
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Type or model ground vehicle",
+										"examples": "compact assault vehicle, Juggernaut"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Ground vehicle operation covers primitive wheeled and tracked land vehicles, including Jawa sandcrawlers, the Rebel personnel transports on Yavin IV, personal transportation cars and bikes, and cargo haulers. Some military vehicles - such as the Empire's Juggernaut and PX-4 Mobile Command Base - also utilize wheel or track-technology."
+										},
+										{
+											"type": "description",
+											"text": "Ground vehicle operation is seldom needed on modern worlds - where repulsorlift vehicles are very common but this primitive technology is often used on low-tech worlds."
+										},
+										{
+											"type": "description",
+											"text": "Ground vehicle operation can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.hover_vehicle_operation",
+									"type": "skill",
+									"title": "Hover Vehicle Operation",
+									"source": {
+										"page_start": 48
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Type or model vehicle",
+										"examples": "hoverscout"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Hover vehicles generate a cushion of air for travel hover vehicle operation enables characters to pilot these"
+										},
+										{
+											"type": "description",
+											"text": "vehicles. Hovercraft are generally unwieldy, but they are used on many primitive worlds and are sometimes used for specific military applications. They are also used on planets with unusual gravitational fluctuations or other quirks which interfere with repulsorlift operation."
+										},
+										{
+											"type": "description",
+											"text": "Hover vehicle operation can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.jet_pack_operation",
+									"type": "skill",
+									"title": "Jet Pack Operation",
+									"source": {
+										"page_start": 48
+									},
+									"fields": {
+										"time_taken": "One round"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill represents a character's skill at using jet packs. Since these back-mounted packs rely on pulling in surrounding atmosphere and mixing it with regulated amounts of fuel, they can only be operated within atmospheres. Characters with jet pack operation gain no bonuses when operating \"rocket packs,\" which use the rocket pack operation skill."
+										},
+										{
+											"type": "description",
+											"text": "Jet pack operation can be used as a \"reaction skill\" to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.pod_racer_operation",
+									"type": "skill",
+									"title": "Pod Racer Operation",
+									"source": {
+										"page_start": 48
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Particular custom pod racer",
+										"advanced": "requires repulsorlift operations of at least 5D"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Pod racers are dangerously fast, difficult to pilot vehicles which combine a typical repulsorlift engine with extremely powerful thruster engines for unbelievable performance. Pod racer operation reflects a character's ability to successfully fly one of the fastest, and most dangerous vehicles in the galaxy."
+										},
+										{
+											"type": "description",
+											"text": "Pod racer operation can be used for a vehicle dodge a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.powersuit_operation",
+									"type": "skill",
+									"title": "Powersuit Operation",
+									"source": {
+										"page_start": 48
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Particular kind or model powersuit",
+										"examples": "spacetrooper armor, servo-lifter"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Powersuits are devices which enhance a person's natural abilities through servo-mechanisms and powered movement. These suits are often used for construction or cargo movement work wherever industrial droids are neither practical nor desirable. This technology has also been adapted to the zero-gee stormtrooper (spacetrooper) battle suits."
+										},
+										{
+											"type": "description",
+											"text": "Powersuit operation can be used as a \"reaction skill\" to dodge enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.repulsorlift_operation",
+									"type": "skill",
+									"title": "Repulsorlift Operation",
+									"source": {
+										"page_start": 48
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Type or model repulsorlift vehicle",
+										"examples": "XP-38 landspeeder, Incom T-16 Skyhopper, Rebel Alliance combat snowspeeder"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "The character knows how to operate common repulsorlift (or \"antigrav\") craft, including landspeeders, snowspeeders, T-16 skyhoppers, cloud cars, airspeeders, speeder bikes, skiffs and sail barges."
+										},
+										{
+											"type": "description",
+											"text": "Repulsorlift operation can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.rocket_pack_operation",
+									"type": "skill",
+									"title": "Rocket Pack Operation",
+									"source": {
+										"page_start": 49
+									},
+									"fields": {
+										"time_taken": "One round or longer"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill reflects the character's ability to use personal, self-contained rocket packs. Since these backpack units contain all the chemical thrust components for propulsion and maneuvering, they can be used in zero, low or high atmosphere conditions. Characters with rocket pack operation gain no bonuses when operating \"jet packs,\" which use the jet pack operation skill."
+										},
+										{
+											"type": "description",
+											"text": "Rocket pack operation can be used as a \"reaction skill\" to dodge enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.sensors",
+									"type": "skill",
+									"title": "Sensors",
+									"source": {
+										"page_start": 49,
+										"page_end": 50
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Type or model scanner",
+										"examples": "hand scanner, med diagnostic scanner, heat sensor"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters with this skill can operate various kinds of sensors, including those that detect lifeforms, identify vehicles, pick up energy readings, and make long-distance visual readings. Sensors covers everything from portable hand scanners to the huge sensor arrays used on capital ships and in military bases."
+										},
+										{
+											"type": "description",
+											"text": "Some scanners have die code bonuses; these extra dice are added when characters roll their sensors skill."
+										},
+										{
+											"type": "note",
+											"title": "Gamemaster Note",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Sensors are best used as plot devices: characters should detect just enough to intrigue them, then personally investigate to learn the whole story. <i>\"You detect three ships headed out of the system... sensors can't determine what they are, but their energy signatures indicate they could be fighters. Wait! They've just changed course and are now closing in you!\"</i>"
+												}
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "While there are plenty of sensors modifiers to choose from, don't be afraid to keep things simple. Pick a difficulty number using your judgment. If the character beats the difficulty number, he detects something; if he rolls really well, he maybe able to get very detailed information."
+										},
+										{
+											"type": "paragraph",
+											"text": "One sensors roll can be made per round: the character detects everything he rolled well enough to notice. Sensors can perform two distinct tasks: detection and identification."
+										},
+										{
+											"type": "paragraph",
+											"text": "When a sensor detects something, it has noticed the object but cannot identify exactly what it is. <i>\"There's a ship out there... it might be a freighter or a fighter.\"</i>"
+										},
+										{
+											"type": "paragraph",
+											"text": "When a sensor identifies something, it identifies the specific type of ship or object. <i>\"It's a light freighter. Scanner identifies it as a Corellian YT-1300. Look at the power signature... he's carrying around a lot of weaponry.\"</i>"
+										},
+										{
+											"type": "paragraph",
+											"text": "The base difficulty to find a ship with sensors depends on the mode the sensor is in: passive, scan, search or focus. The ship must be within a sensor's scanning range to be detected."
+										},
+										{
+											"type": "table",
+											"rows": [
+												[
+													"Passive",
+													3,
+													5
+												],
+												[
+													"Scan",
+													2,
+													3
+												],
+												[
+													"Search",
+													2,
+													4
+												],
+												[
+													"Focus",
+													1,
+													2
+												]
+											],
+											"title": "Sensor Mode",
+											"columns": [
+												"Sensor Mode",
+												"Detect",
+												"Identify"
+											]
+										},
+										{
+											"type": "table",
+											"subtype": "modifier",
+											"rows": [
+												[
+													"+10 or more to the difficulty",
+													"Target is using a sensor mask."
+												],
+												[
+													"+5 to the difficulty to identify only",
+													"Target is using a sensor mask. +5 to the difficulty to identify only: Target is using a sensor decoy (sensors detect both ship and decoy as \"real\" unless difficulty is beat). <i>\"We've got one ship out there. Wait a minute... sensors are now picking up two ships!\"</i>"
+												],
+												[
+													"+5 to the difficulty",
+													"Target ship's sensors are in passive mode. (See the chapter on \"Space Travel and Combat.\")"
+												],
+												[
+													"+15 or more to the difficulty",
+													"Target ship is running silent. (See the chapter on \"Space Travel and Combat.\")"
+												],
+												[
+													"+10 or more to the difficulty to identify only",
+													"Target is jamming sensor readings. (See the chapter on \"Space Travel and Combat.\")"
+												],
+												[
+													"+10 or more to the difficulty",
+													"Ship is hiding behind a planet or other massive body."
+												],
+												[
+													"+20 to the difficulty",
+													"Ship has other mass objects, such as asteroids, to hide among."
+												],
+												[
+													"+5 to the character's roll",
+													"Targeting a small natural body. A small asteroid."
+												],
+												[
+													"+10 to the character's roll",
+													"Target is capital ship sized."
+												],
+												[
+													"+10 to the character's roll to detect only",
+													"Target ship is jamming sensor readings."
+												],
+												[
+													"+10 to the character's roll",
+													"Target is a moderate-size natural body. A decent-sized asteroid."
+												],
+												[
+													"+20 to the character's roll",
+													"Planetary or moon-sized natural body. Death Star-scale ship."
+												],
+												[
+													"+30 or more to the character's roll",
+													"Stellar object. A star, nebula, black hole."
+												]
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "If the sensor operator scans a ship and beats the sensors difficulty by 10 or more points, he can pick out a ship's transponder code. However, while the Bureau of Ships and Services (BoSS) keeps detailed records of starship transponder codes, it only releases these records to the proper authorities - local planetary defense forces, starport authorities and, of course, the Imperial Navy and Imperial Customs. Should characters somehow get BoSS records and download them into their ship's sensors computer, they may be able to identify other vessels by their transponder codes. Of course, if the ship has a false transponder code, this information is worthless anyway."
+										},
+										{
+											"type": "mechanic",
+											"title": "Scanning Planets",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Scanning for specific objects on a planet's surface can be fairly difficult. While it's easy to find major landmarks - continents, mountain chains, inland seas and so forth - a planet's geothermal functions, the energy generated by large settlements, large concentrations of metal, and other energy sources can distort sensor readings, especially if the sensor is looking for a small facility but scanning a large area. Often, sensor operators must greatly limit their scanning area - covering perhaps a few square kilometers at a time - to find military bases, small cities and other \"minor\" landmarks."
+												},
+												{
+													"type": "paragraph",
+													"text": "The basic sensors difficulty depends upon how much of the planet is being scanned. No more than half a planet may be scanned as only one hemisphere is visible at any given time."
+												},
+												{
+													"type": "paragraph",
+													"text": "Characters normally make a general scan of the planet to determine basic characteristics - atmosphere type, presence of major geographic features, scans for energy readings typical of very large cities - and then conduct increasingly detailed scans on smaller and smaller areas to determine information about interesting landmarks."
+												},
+												{
+													"type": "paragraph",
+													"text": "These sample difficulties are for scanning from orbit and finding a specific item - such as a starport, small town, factory complex, scout base, Imperial garrison or industrial compound - when scanning an area of a certain size."
+												},
+												{
+													"type": "table",
+													"subtype": "difficulty",
+													"rows": [
+														[
+															1,
+															"An area one square kilometer or less."
+														],
+														[
+															2,
+															"An area 100 square kilometers or less."
+														],
+														[
+															3,
+															"An area 1,000 square kilometers or less."
+														],
+														[
+															4,
+															"An area one million square kilometers or less. An average size nation."
+														],
+														[
+															5,
+															"An area 100 million square kilometers or less. A small continent."
+														],
+														[
+															6,
+															"One hemisphere."
+														]
+													]
+												},
+												{
+													"type": "table",
+													"subtype": "modifier",
+													"rows": [
+														[
+															"+5-20 or more to the difficulty",
+															"Looking for telltale energy emissions, such as emissions from spaceships."
+														],
+														[
+															"+10 or more to the difficulty",
+															"Specific signal is hidden among other similar emissions or in an area where other signals will overwhelm that object's signal. (A ship flying among volcanoes to disguise its trail; for a hand scanner, hiding a droid in a factory filled with active droids and electronics systems.)"
+														],
+														[
+															"+5 or more to the difficulty",
+															"Spotting or identifying a specific life-form if there are various species in an area."
+														],
+														[
+															"+25 or more to the character's roll",
+															"Looking for basic information. Location of major continents, planet's atmosphere and gravity, composition of land masses."
+														],
+														[
+															"+10 to the character's roll",
+															"Looking for major sources of heat, light and other energy sources; by default, other, non- energy emitting areas, such as glaciers, can be found."
+														],
+														[
+															"+5-15 to the character's roll (depending upon size)",
+															"Looking for major landmarks. Mountain chains, forests, large lakes, or cities."
+														],
+														[
+															"+5 or more to the character's roll",
+															"Finding life-forms if life- form is known and there are massive concentrations of them (determining that humans live on a planet if there are thousands of them clustered in a small area)."
+														],
+														[
+															"+5 or more to the character's roll",
+															"Spotting or identifying a specific life-form if it is very different from all other lifeforms around it (finding a human and a Wookiee who are hiding in a Noghri village)."
+														],
+														[
+															"+10 or more to the character's roll",
+															"Following an energy trail left by an incoming starship."
+														]
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.space_transports",
+									"type": "skill",
+									"title": "Space Transports",
+									"source": {
+										"page_start": 50
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Type or model transport",
+										"examples": "YT-1300 transport, Gallofree medium transport, Corellian Action VI transport"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Space transports is used to pilot all space transports: any non-combat starship, ranging from small light freighters (the Millennium Falcon is a highly-modified YT- 1300 light freighter) and scout ships to passenger liners, huge container ships and super transports. Transports may be starfighter- or capital-scale."
+										},
+										{
+											"type": "description",
+											"text": "Space transports can be used for a starship dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.starfighter_piloting",
+									"type": "skill",
+									"title": "Starfighter Piloting",
+									"source": {
+										"page_start": 50
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Type or model starfighter",
+										"examples": "X-wing, TIE/In, TIE interceptor, Z-95 Headhunter"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Starfighter piloting is used for all combat starfighters, including X-wings, Y-wings, A-wings, and TIE fighters. See the chapter on \"Space Travel and Combat.\""
+										},
+										{
+											"type": "description",
+											"text": "Starfighter piloting can be used for a starship dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.starship_gunnery",
+									"type": "skill",
+									"title": "Starship Gunnery",
+									"source": {
+										"page_start": 50
+									},
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Specific type or model weapon",
+										"examples": "concussion missiles, ion cannons, laser cannon, proton torpedoes, turbolasers"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Starship gunnery is the \"ranged combat\" skill that covers all starfighter-scale weapons, including laser cannons, ion cannons, concussion missiles, and proton torpedoes."
+										},
+										{
+											"type": "description",
+											"text": "Starfighter-scale weapons may be mounted on both starfighter-scale ships and capital-scale vessels. See the chapter on \"Space Travel and Combat,\" for more information on using this skill."
+										}
+									]
+								},
+								{
+									"id": "skill.starship_shields",
+									"type": "skill",
+									"title": "Starship Shields",
+									"source": {
+										"page_start": 50,
+										"page_end": 51
+									},
+									"fields": {
+										"time_taken": "One round"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Starship shields is the skill used to operate shields on all starfighter-scale ships. The difficulty of the roll is determined by how many fire arcs the character is trying to raise shields over (front, left, right, back). See the chapter on \"Space Travel and Combat\" for more details on using this skill."
+										},
+										{
+											"type": "description",
+											"text": "Starship shields can be used to bring up shields - a \"reaction skill\" - to block enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.submersible_vehicle_operation",
+									"type": "skill",
+									"title": "Submersible Vehicle Operation",
+									"source": {
+										"page_start": 51
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Particular submersible type or class",
+										"examples": "Bongo, electric submarine"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill allows characters to pilot submersible ships and boats. While these vehicles are seldom used in the higher-tech worlds, many low-tech cultures use them for inspection, exploration and transportation."
+										},
+										{
+											"type": "description",
+											"text": "Note that submersibles which employ the use of repulsorlift may also require the use of the repulsorlift operation skill."
+										},
+										{
+											"type": "description",
+											"text": "Submersible vehicle operation can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.swoop_operation",
+									"type": "skill",
+									"title": "Swoop Operation",
+									"source": {
+										"page_start": 51
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Specific type or model swoop",
+										"examples": "TaggeCo Air-2, Ubrikkian Skybird"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Swoops are dangerously fast, difficult to pilot vehicles which combine a typical repulsorlift engine with an ion engine afterburner for unbelievable performance. Swoop operation reflects a character's ability to successfully fly what is little more than a powerful engine with a seat."
+										},
+										{
+											"type": "description",
+											"text": "Swoop operation can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								},
+								{
+									"id": "skill.walker_operation",
+									"type": "skill",
+									"title": "Walker Operation",
+									"source": {
+										"page_start": 51
+									},
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Particular kind of walker",
+										"examples": "AT-AT, AT- ST, AT-PT"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Walkers are difficult vehicles to learn how to operate. Generally only military characters or characters who formally worked in an industrial field would have this specialized vehicle skill. A character with this skill can pilot AT-ATs, AT-STs, AT-PTs, personal walkers and various other types of walkers."
+										},
+										{
+											"type": "description",
+											"text": "Walker operation can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
 										}
 									]
 								}
