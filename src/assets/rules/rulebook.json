@@ -17,22 +17,6 @@
 			"title": "Player Section",
 			"blocks": [
 				{
-					"id": "chapter.01.introduction",
-					"type": "chapter",
-					"number": 1,
-					"label": "Chapter One",
-					"title": "Introduction",
-					"blocks": []
-				},
-				{
-					"id": "chapter.02.characters",
-					"type": "chapter",
-					"number": 2,
-					"label": "Chapter Two",
-					"title": "Characters",
-					"blocks": []
-				},
-				{
 					"id": "chapter.03.attributes_and_skills",
 					"type": "chapter",
 					"number": 3,
