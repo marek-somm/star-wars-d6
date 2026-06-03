@@ -3,6 +3,7 @@
 		<header class="block-section-header">
 			<p class="block-type">{{ formatRuleLabel(block.type) }}</p>
 			<h3>{{ block.title }}</h3>
+			<span class="optional-tag" v-if="isOptionalMechanic">Optional</span>
 		</header>
 		<BlockFields :fields="block.fields" />
 		<div class="nested-blocks" v-if="childBlocks.length">
@@ -31,6 +32,10 @@ export default {
 	computed: {
 		childBlocks() {
 			return getChildContentBlocks(this.block);
+		},
+
+		isOptionalMechanic() {
+			return this.block?.type === "mechanic" && this.block.optional === true;
 		},
 	},
 	methods: {
@@ -145,6 +150,21 @@ export default {
 		font-size: 0.68rem;
 		font-weight: 900;
 		text-transform: uppercase;
+	}
+
+	.optional-tag {
+		display: inline-flex;
+		align-items: center;
+		width: fit-content;
+		margin-top: 0.4rem;
+		min-height: 1.15rem;
+		padding: 0.08rem 0.35rem;
+		border: 1px solid rgba(103, 213, 200, 0.36);
+		border-radius: var(--radius-sm);
+		background: rgba(103, 213, 200, 0.09);
+		color: var(--color-cyan);
+		font-size: 0.62rem;
+		line-height: 1;
 	}
 
 	h3 {
