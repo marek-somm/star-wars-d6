@@ -3,11 +3,12 @@
 	"id": "sw-reup",
 	"type": "rulebook",
 	"title": "Star Wars Roleplaying Game: Revised, Expanded and Updated",
+	"title_short": "Star Wars RPG",
 	"authors": [
 		"The REUP Team"
 	],
 	"source": {
-		"document": "Kodex.pdf"
+		"document": "REUP.pdf"
 	},
 	"blocks": [
 		{
@@ -93,7 +94,7 @@
 							"title": "Dexterity Skills",
 							"source": {
 								"page_start": 35,
-								"page_end": 37
+								"page_end": 39
 							},
 							"blocks": [
 								{
@@ -518,7 +519,7 @@
 										},
 										{
 											"type": "example",
-											"text": "Example: Ana Tathis is using her lightsaber to strike at a pirate. Her lightsaber skill is 5D and the lightsaber's difficulty is Difficult (her difficulty number is a 20). Ana's player rolls her skill dice and gets a 21 - she hits. If she had rolled a 10 or lower, Ana would have underestimated the momentum of her attack maneuver and sliced herself with her own lightsaber, causing 5D damage to herself."
+											"text": "Ana Tathis is using her lightsaber to strike at a pirate. Her lightsaber skill is 5D and the lightsaber's difficulty is Difficult (her difficulty number is a 20). Ana's player rolls her skill dice and gets a 21 - she hits. If she had rolled a 10 or lower, Ana would have underestimated the momentum of her attack maneuver and sliced herself with her own lightsaber, causing 5D damage to herself."
 										}
 									]
 								},
@@ -733,7 +734,7 @@
 							"type": "skill_group",
 							"title": "Knowledge Skills",
 							"source": {
-								"page_start": 37,
+								"page_start": 39,
 								"page_end": 45
 							},
 							"blocks": [
@@ -1451,7 +1452,7 @@
 											"text": "When a character is in a hostile environment, he may roll survival to find the necessities of life: shelter, food, water, herbs and roots that can be made into medicines, and so forth."
 										},
 										{
-											"type": "rule_summary",
+											"type": "paragraph",
 											"text": "When the character makes a survival roll, use these difficulty guidelines:"
 										},
 										{
@@ -1543,7 +1544,7 @@
 											"text": "Using value often answers the question, \"How much is it really worth?\" Results often depend on the source of information about the item, and how much the character already knows about that kind of merchandise. A starship dealer rattling on about a particular used-freighter might be exaggerating - although characters can make some estimations based on the starship model. If the item can be examined in person, its value is much easier to determine."
 										},
 										{
-											"type": "rule_summary",
+											"type": "paragraph",
 											"text": "When the character makes a value roll, use these difficulty guidelines:"
 										},
 										{
