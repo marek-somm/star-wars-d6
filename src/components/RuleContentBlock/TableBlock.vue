@@ -4,7 +4,7 @@
 		<table>
 			<thead v-if="hasColumns">
 				<tr>
-					<th v-for="column in block.columns" :key="column">{{ column }}</th>
+					<th v-for="column in block.columns" :key="column" v-html="getTableCellHtml(column)"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -12,7 +12,7 @@
 					<td v-for="(cell, cellIndex) in row" :key="cellIndex"
 						:class="{ 'strong-label-cell': isStrongLabelTable && cellIndex === 0 }">
 						<span v-if="isDifficultyCell(cell)" v-html="getDifficultyCellHtml(cell)"></span>
-						<span v-else>{{ cell }}</span>
+						<span v-else v-html="getTableCellHtml(cell)"></span>
 					</td>
 				</tr>
 			</tbody>
@@ -63,6 +63,10 @@ export default {
 
 		getDifficultyCellHtml(value) {
 			return sanitizeHtml(injectDifficultyPills(`[[difficulty:${value}]]`));
+		},
+
+		getTableCellHtml(value) {
+			return sanitizeHtml(value);
 		},
 	},
 };
