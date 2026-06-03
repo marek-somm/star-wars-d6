@@ -84,6 +84,9 @@
 					"$ref": "#/$defs/skillGroup"
 				},
 				{
+					"$ref": "#/$defs/rule"
+				},
+				{
 					"$ref": "#/$defs/ruleSection"
 				},
 				{
@@ -258,6 +261,46 @@
 							"const": "intro"
 						}
 					}
+				}
+			]
+		},
+		"ruleBlock": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": [
+				"type",
+				"title",
+				"blocks"
+			],
+			"properties": {
+				"type": {
+					"const": "rule"
+				},
+				"optional": {
+					"type": "boolean"
+				},
+				"title": {
+					"type": "string",
+					"minLength": 1
+				},
+				"blocks": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"$ref": "#/$defs/block"
+					}
+				}
+			},
+			"anyOf": [
+				{
+					"required": [
+						"text"
+					]
+				},
+				{
+					"required": [
+						"blocks"
+					]
 				}
 			]
 		},
