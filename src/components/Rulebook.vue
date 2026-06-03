@@ -86,37 +86,41 @@
 					<div>
 						<p class="breadcrumb">{{ getTocPath(data.currentRule) }}</p>
 						<h2>{{ data.currentRule.title }}</h2>
+						<p class="source-line" v-if="getSourceLabel(data.currentRule)">{{ getSourceLabel(data.currentRule) }}</p>
 					</div>
 					<div class="meta">
 						<span class="ui-pill">{{ formatType(data.currentRule.type) }}</span>
-						<span class="ui-pill is-cyan" v-if="getPageLabel(data.currentRule)">{{
-							getPageLabel(data.currentRule) }}</span>
 					</div>
 				</header>
 
-				<section class="content-blocks">
-					<template v-for="(block, index) in data.currentRule.content" :key="`${index}-${block.type}`">
-						<h3 v-if="block.type === 'heading'" class="rule-heading">{{ block.text }}</h3>
-						<ul v-else-if="block.type === 'list'" class="rule-list">
-							<li v-for="(item, itemIndex) in getListItems(block)" :key="itemIndex">{{ item }}</li>
-						</ul>
-						<div v-else-if="block.type === 'stat_block' || block.type === 'table_or_stat_block'"
-							class="stat-block">
-							<p v-if="block.text" class="stat-title">{{ block.text }}</p>
-							<dl v-if="getFields(block).length">
-								<template v-for="field in getFields(block)" :key="field.key">
-									<dt>{{ field.key }}</dt>
-									<dd>{{ field.value }}</dd>
-								</template>
-							</dl>
+				<section class="skill-definition" v-if="hasSkillDefinition(data.currentRule)" aria-label="Skill definition">
+					<div class="definition-fields" v-if="hasSkillMeta(data.currentRule)">
+						<div class="definition-field" v-if="getFieldValue(data.currentRule, 'time_taken')">
+							<span class="definition-label">Time Taken</span>
+							<strong v-html="getFieldValue(data.currentRule, 'time_taken')"></strong>
 						</div>
-						<aside v-else-if="block.type === 'example' || block.type === 'note'" class="callout"
-							:class="`is-${block.type}`">
-							<strong>{{ block.type === 'example' ? 'Beispiel' : 'Notiz' }}</strong>
-							<p>{{ block.text }}</p>
-						</aside>
-						<p v-else class="rule-paragraph">{{ block.text }}</p>
-					</template>
+						<div class="definition-field" v-if="getFieldValue(data.currentRule, 'specializations')">
+							<span class="definition-label">Specializations</span>
+							<p v-html="getFieldValue(data.currentRule, 'specializations')"></p>
+						</div>
+						<div class="definition-field examples-field" v-if="getExampleItems(data.currentRule).length">
+							<span class="definition-label">Examples</span>
+							<p>
+								<em v-for="(example, index) in getExampleItems(data.currentRule)" :key="example">
+									{{ example }}<span v-if="index < getExampleItems(data.currentRule).length - 1">, </span>
+								</em>
+							</p>
+						</div>
+					</div>
+					<div class="definition-description" v-if="getDefinitionBlocks(data.currentRule).length">
+						<RuleContentBlock v-for="(block, index) in getDefinitionBlocks(data.currentRule)"
+							:key="getBlockKey(block, index)" :block="block" />
+					</div>
+				</section>
+
+				<section class="content-blocks">
+					<RuleContentBlock v-for="(block, index) in getBodyBlocks(data.currentRule)"
+						:key="getBlockKey(block, index)" :block="block" />
 				</section>
 			</article>
 		</div>
@@ -124,8 +128,10 @@
 </template>
 
 <script>
+import RuleContentBlock from "@/components/RuleContentBlock.vue";
 import RuleTreeNode from "@/components/RuleTreeNode.vue";
-import rulesData from "@/assets/rules/structure.json";
+import rulebookData from "@/assets/rules/rulebook.json";
+import { sanitizeHtml } from "@/utils/html";
 import { readJson, writeJson } from "@/utils/storage";
 
 const RULE_FILTERS_STORAGE_KEY = "star-wars-d6:rule-filters";
@@ -135,6 +141,12 @@ const defaultRuleFilters = {
 	typeFilter: "all",
 	chapterFilter: "all",
 };
+
+const PAGE_BLOCK_TYPES = new Set([
+	"chapter",
+	"skill_group",
+	"skill",
+]);
 
 function normalize(value) {
 	return String(value || "").toLowerCase().trim();
@@ -174,13 +186,14 @@ function saveRuleFilters(value) {
 
 export default {
 	components: {
+		RuleContentBlock,
 		RuleTreeNode,
 	},
 	data() {
 		const savedFilters = loadRuleFilters();
 
 		return {
-			allRules: Array.isArray(rulesData.objects) ? rulesData.objects : [],
+			allRules: [],
 			data: {
 				search: savedFilters.search,
 				typeFilter: savedFilters.typeFilter,
@@ -192,6 +205,7 @@ export default {
 		};
 	},
 	created() {
+		this.allRules = this.flattenRulebook(rulebookData);
 		this.selectRuleFromHash();
 		if (!this.data.currentRule) {
 			this.showRule(this.filteredRules[0] || this.allRules[0], false);
@@ -223,17 +237,13 @@ export default {
 		},
 
 		availableChapters() {
-			const chapters = new Map();
-			for (const rule of this.allRules) {
-				const path = Array.isArray(rule.source?.toc_path) ? rule.source.toc_path : [];
-				const chapter = path.find((entry) => /^chapter\s+\d+/i.test(String(entry || "")));
-				if (chapter && !chapters.has(chapter)) {
-					chapters.set(chapter, chapter);
-				}
-			}
-			return [...chapters.values()]
-				.sort((a, b) => this.getChapterNumber(a) - this.getChapterNumber(b))
-				.map((chapter) => ({ value: chapter, label: chapter }));
+			return this.allRules
+				.filter((entry) => entry.type === "chapter")
+				.sort((a, b) => Number(a.number || 0) - Number(b.number || 0))
+				.map((chapter) => ({
+					value: chapter.id,
+					label: chapter.label ? `${chapter.label}: ${this.getPathTitle(chapter)}` : this.getPathTitle(chapter),
+				}));
 		},
 
 		hasActiveFilters() {
@@ -249,7 +259,7 @@ export default {
 
 			return this.allRules.filter((rule) => {
 				if (this.data.typeFilter !== "all" && rule.type !== this.data.typeFilter) return false;
-				if (this.data.chapterFilter !== "all" && !this.getTocPath(rule).includes(this.data.chapterFilter)) return false;
+				if (this.data.chapterFilter !== "all" && !rule.pathIds.includes(this.data.chapterFilter)) return false;
 				if (!search) return true;
 
 				return this.getSearchText(rule).includes(search);
@@ -318,27 +328,100 @@ export default {
 		},
 
 		getSearchText(rule) {
-			const content = Array.isArray(rule.content)
-				? rule.content.map((block) => [
-					block.text,
-					...(Array.isArray(block.items) ? block.items : []),
-					...(Array.isArray(block.lines) ? block.lines : []),
-					...Object.values(block.fields || {}),
-				].join(" ")).join(" ")
-				: "";
 			return normalize([
 				rule.title,
-				rule.summary,
+				rule.title_short,
+				rule.label,
 				rule.type,
 				...(Array.isArray(rule.tags) ? rule.tags : []),
-				...(Array.isArray(rule.aliases) ? rule.aliases : []),
 				this.getTocPath(rule),
-				content,
+				this.getBlockSearchText(rule),
 			].join(" "));
 		},
 
 		getTocPath(rule) {
-			return Array.isArray(rule?.source?.toc_path) ? rule.source.toc_path.join(" / ") : "";
+			return Array.isArray(rule?.path) ? rule.path.join(" / ") : "";
+		},
+
+		flattenRulebook(rulebook) {
+			const entries = [];
+
+			const walk = (block, parents = []) => {
+				if (!block || typeof block !== "object") return;
+
+				const pathParents = parents.filter((entry) => entry?.title);
+				const pathSegment = block.title
+					? this.createPathSegment(block, pathParents, entries.length)
+					: null;
+				const entry = this.isPageBlock(block)
+					? this.createRuleEntry(block, pathParents, entries.length)
+					: null;
+
+				if (entry) entries.push(entry);
+
+				const nextParents = pathSegment ? [...pathParents, pathSegment] : pathParents;
+				for (const child of block.blocks || []) {
+					walk(child, nextParents);
+				}
+			};
+
+			walk(rulebook, []);
+			return entries;
+		},
+
+		isPageBlock(block) {
+			return Boolean(block?.title && PAGE_BLOCK_TYPES.has(block.type));
+		},
+
+		createRuleEntry(block, parents, fallbackIndex) {
+			const generatedId = this.getBlockId(block, parents, fallbackIndex);
+			const path = [...parents.map((entry) => this.getPathTitle(entry)), this.getPathTitle(block)];
+			const pathIds = [...parents.map((entry) => entry.id), generatedId];
+
+			return {
+				...block,
+				id: generatedId,
+				path,
+				pathIds,
+				blocks: this.getDisplayBlocks(block),
+			};
+		},
+
+		createPathSegment(block, parents, fallbackIndex) {
+			return {
+				id: this.getBlockId(block, parents, fallbackIndex),
+				title: block.title,
+				title_short: block.title_short,
+				type: block.type,
+			};
+		},
+
+		getBlockId(block, parents, fallbackIndex) {
+			return block.id || `${block.type}.${parents.map((entry) => entry.id).join(".")}.${fallbackIndex}`;
+		},
+
+		getDisplayBlocks(block) {
+			return Array.isArray(block.blocks)
+				? block.blocks.filter((child) => !this.isPageBlock(child))
+				: [];
+		},
+
+		getBlockSearchText(block) {
+			if (!block || typeof block !== "object") return "";
+
+			return [
+				block.title,
+				block.title_short,
+				block.label,
+				block.text,
+				...Object.values(block.fields || {}),
+				...(Array.isArray(block.rows) ? block.rows.flat() : []),
+				...(Array.isArray(block.blocks) ? block.blocks.map((child) => this.getBlockSearchText(child)) : []),
+			].join(" ");
+		},
+
+		getBlockKey(block, index) {
+			return block?.id || `${block?.type || "block"}-${index}`;
 		},
 
 		buildRuleTree(rules) {
@@ -381,14 +464,11 @@ export default {
 		},
 
 		getRulePath(rule) {
-			const path = Array.isArray(rule?.source?.toc_path)
-				? rule.source.toc_path.filter(Boolean)
-				: [];
-			const title = String(rule?.title || "Untitled");
+			return Array.isArray(rule?.path) && rule.path.length ? rule.path : [String(rule?.title || "Untitled")];
+		},
 
-			if (path.length === 0) return [title];
-			if (String(path[path.length - 1]) !== title) return [...path, title];
-			return path;
+		getPathTitle(block) {
+			return String(block?.title_short || block?.title || "Untitled");
 		},
 
 		expandPathForRule(rule) {
@@ -404,10 +484,18 @@ export default {
 		},
 
 		getPageLabel(rule) {
-			const start = rule?.source?.pdf_page_start;
-			const end = rule?.source?.pdf_page_end;
+			const start = rule?.source?.page_start;
+			const end = rule?.source?.page_end;
 			if (!start) return "";
 			return end && end !== start ? `S. ${start}-${end}` : `S. ${start}`;
+		},
+
+		getSourceLabel(rule) {
+			const pageLabel = this.getPageLabel(rule);
+			if (!pageLabel) return "";
+
+			const document = rulebookData?.source?.document;
+			return document ? `Quelle: ${document}, ${pageLabel}` : `Quelle: ${pageLabel}`;
 		},
 
 		formatType(type) {
@@ -417,24 +505,46 @@ export default {
 				.join(" ");
 		},
 
-		getChapterNumber(chapter) {
-			const match = String(chapter || "").match(/\d+/);
-			return match ? Number(match[0]) : Number.MAX_SAFE_INTEGER;
+		hasSkillMeta(rule) {
+			return Boolean(
+				this.getFieldValue(rule, "time_taken")
+				|| this.getFieldValue(rule, "specializations")
+				|| this.getExampleItems(rule).length
+			);
 		},
 
-		getListItems(block) {
-			if (Array.isArray(block.items) && block.items.length) return block.items;
-			if (Array.isArray(block.lines) && block.lines.length) return block.lines;
-			return String(block.text || "").split(/\n+/).filter(Boolean);
+		hasSkillDefinition(rule) {
+			return Boolean(rule?.type === "skill" && (
+				this.hasSkillMeta(rule)
+				|| this.getDefinitionBlocks(rule).length
+			));
 		},
 
-		getFields(block) {
-			const fields = block?.fields || {};
-			const order = Array.isArray(block?.field_order) ? block.field_order : Object.keys(fields);
-			return order
-				.filter((key) => fields[key] != null && fields[key] !== "")
-				.map((key) => ({ key, value: fields[key] }));
+		getDefinitionBlocks(rule) {
+			if (rule?.type !== "skill" || !Array.isArray(rule.blocks)) return [];
+			return rule.blocks.filter((block) => block?.type === "description");
 		},
+
+		getBodyBlocks(rule) {
+			if (!Array.isArray(rule?.blocks)) return [];
+			if (rule?.type !== "skill") return rule.blocks;
+			return rule.blocks.filter((block) => block?.type !== "description");
+		},
+
+		getFieldValue(rule, key) {
+			return sanitizeHtml(rule?.fields?.[key] || "");
+		},
+
+		getExampleItems(rule) {
+			const rawExamples = String(rule?.fields?.examples || "").trim();
+			if (!rawExamples) return [];
+
+			return rawExamples
+				.split(",")
+				.map((example) => example.trim())
+				.filter(Boolean);
+		},
+
 	},
 	watch: {
 		"data.search"() {
@@ -701,7 +811,7 @@ export default {
 .rule-entry {
 	min-width: 0;
 	min-height: max(34rem, calc(100vh - 17rem));
-	padding: 1.2rem;
+	padding: 1.35rem;
 }
 
 .entry-header {
@@ -720,6 +830,13 @@ export default {
 		font-weight: 800;
 	}
 
+	.source-line {
+		margin: 0.45rem 0 0;
+		color: var(--color-subtle);
+		font-size: 0.78rem;
+		font-weight: 700;
+	}
+
 	h2 {
 		margin: 0;
 		font-size: 2rem;
@@ -733,10 +850,69 @@ export default {
 	}
 }
 
+.skill-definition {
+	position: relative;
+	margin: 0 0 1.05rem;
+	padding: 0.95rem 1.05rem 1rem;
+	border: 1px solid rgba(242, 193, 78, 0.34);
+	border-left-width: 4px;
+	border-radius: var(--radius-md);
+	background:
+		linear-gradient(135deg, rgba(242, 193, 78, 0.17), rgba(242, 193, 78, 0.065) 45%, rgba(103, 213, 200, 0.035));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+	.definition-fields {
+		display: grid;
+		grid-template-columns: max-content minmax(0, 1fr);
+		gap: 0.25rem 0.75rem;
+	}
+
+	.definition-field {
+		display: grid;
+		grid-column: 1 / -1;
+		grid-template-columns: max-content minmax(0, 1fr);
+		gap: 0.75rem;
+		align-items: baseline;
+		min-width: 0;
+	}
+
+	.definition-label {
+		color: var(--color-accent);
+		font-size: 0.78rem;
+		font-style: italic;
+		font-weight: 900;
+		line-height: 1.4;
+		white-space: nowrap;
+	}
+
+	strong,
+	p {
+		margin: 0;
+		color: var(--color-text);
+		font-size: 0.93rem;
+		line-height: 1.45;
+	}
+
+	strong {
+		font-weight: 800;
+	}
+
+	em {
+		color: var(--color-text);
+		font-style: italic;
+	}
+
+	.definition-description {
+		margin-top: 0.7rem;
+		padding-left: 1rem;
+		border-left: 2px solid rgba(242, 193, 78, 0.3);
+	}
+}
+
 .content-blocks {
 	display: flex;
 	flex-direction: column;
-	gap: 0.85rem;
+	gap: 1rem;
 }
 
 .rule-heading {
@@ -747,7 +923,7 @@ export default {
 
 .rule-paragraph {
 	margin: 0;
-	color: var(--color-text);
+	color: var(--color-muted);
 	line-height: 1.65;
 }
 
@@ -949,6 +1125,20 @@ export default {
 
 		.meta {
 			justify-content: flex-start;
+		}
+	}
+
+	.skill-definition {
+		padding: 0.85rem;
+
+		.definition-fields,
+		.definition-field {
+			grid-template-columns: 1fr;
+			gap: 0.15rem;
+		}
+
+		.definition-description {
+			padding-left: 0.75rem;
 		}
 	}
 
