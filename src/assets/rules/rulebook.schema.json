@@ -1,0 +1,585 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://example.local/schemas/sw-reup-rulebook.schema.json",
+	"title": "Rulebook JSON Schema",
+	"description": "Striktes Schema für die hochgeladene Rulebook-Struktur mit rekursiven Blocks.",
+	"$ref": "#/$defs/rulebook",
+	"$defs": {
+		"nonEmptyString": {
+			"type": "string",
+			"minLength": 1
+		},
+		"id": {
+			"type": "string",
+			"minLength": 1,
+			"pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+		},
+		"version": {
+			"type": "string",
+			"pattern": "1.0.0"
+		},
+		"documentSource": {
+			"type": "object",
+			"required": [
+				"document"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"document": {
+					"$ref": "#/$defs/nonEmptyString"
+				}
+			}
+		},
+		"pageSource": {
+			"type": "object",
+			"required": [
+				"page_start"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"page_start": {
+					"type": "integer",
+					"minimum": 1
+				},
+				"page_end": {
+					"type": "integer",
+					"minimum": 1
+				}
+			}
+		},
+		"tags": {
+			"type": "array",
+			"items": {
+				"$ref": "#/$defs/nonEmptyString"
+			},
+			"uniqueItems": true
+		},
+		"blocks": {
+			"type": "array",
+			"items": {
+				"$ref": "#/$defs/block"
+			}
+		},
+		"block": {
+			"oneOf": [
+				{
+					"$ref": "#/$defs/section"
+				},
+				{
+					"$ref": "#/$defs/chapter"
+				},
+				{
+					"$ref": "#/$defs/chapterIntro"
+				},
+				{
+					"$ref": "#/$defs/intro"
+				},
+				{
+					"$ref": "#/$defs/ruleSummary"
+				},
+				{
+					"$ref": "#/$defs/statBlock"
+				},
+				{
+					"$ref": "#/$defs/skillGroup"
+				},
+				{
+					"$ref": "#/$defs/ruleSection"
+				},
+				{
+					"$ref": "#/$defs/skill"
+				},
+				{
+					"$ref": "#/$defs/paragraph"
+				},
+				{
+					"$ref": "#/$defs/description"
+				},
+				{
+					"$ref": "#/$defs/note"
+				},
+				{
+					"$ref": "#/$defs/example"
+				},
+				{
+					"$ref": "#/$defs/difficultyTable"
+				},
+				{
+					"$ref": "#/$defs/modifierTable"
+				},
+				{
+					"$ref": "#/$defs/outcomeTable"
+				}
+			]
+		},
+		"rulebook": {
+			"type": "object",
+			"required": [
+				"schemaVersion",
+				"id",
+				"type",
+				"title",
+				"authors",
+				"source",
+				"blocks"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"schemaVersion": {
+					"$ref": "#/$defs/version"
+				},
+				"id": {
+					"$ref": "#/$defs/id"
+				},
+				"type": {
+					"const": "rulebook"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"authors": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"$ref": "#/$defs/nonEmptyString"
+					}
+				},
+				"source": {
+					"$ref": "#/$defs/documentSource"
+				},
+				"blocks": {
+					"$ref": "#/$defs/blocks"
+				}
+			}
+		},
+		"section": {
+			"type": "object",
+			"required": [
+				"id",
+				"type",
+				"title",
+				"blocks"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"$ref": "#/$defs/id"
+				},
+				"type": {
+					"const": "section"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"blocks": {
+					"$ref": "#/$defs/blocks"
+				}
+			}
+		},
+		"chapter": {
+			"type": "object",
+			"required": [
+				"id",
+				"type",
+				"number",
+				"label",
+				"title",
+				"blocks"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"$ref": "#/$defs/id"
+				},
+				"type": {
+					"const": "chapter"
+				},
+				"number": {
+					"type": "integer",
+					"minimum": 1
+				},
+				"label": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"source": {
+					"$ref": "#/$defs/pageSource"
+				},
+				"tags": {
+					"$ref": "#/$defs/tags"
+				},
+				"blocks": {
+					"$ref": "#/$defs/blocks"
+				}
+			}
+		},
+		"textBlockBase": {
+			"type": "object",
+			"required": [
+				"type",
+				"text"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"type": "string"
+				},
+				"text": {
+					"$ref": "#/$defs/nonEmptyString"
+				}
+			}
+		},
+		"chapterIntro": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/textBlockBase"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"const": "chapter_intro"
+						}
+					}
+				}
+			]
+		},
+		"intro": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/textBlockBase"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"const": "intro"
+						}
+					}
+				}
+			]
+		},
+		"ruleSummary": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/textBlockBase"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"const": "rule_summary"
+						}
+					}
+				}
+			]
+		},
+		"paragraph": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/textBlockBase"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"const": "paragraph"
+						}
+					}
+				}
+			]
+		},
+		"description": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/textBlockBase"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"const": "description"
+						}
+					}
+				}
+			]
+		},
+		"note": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/textBlockBase"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"const": "note"
+						}
+					}
+				}
+			]
+		},
+		"example": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/textBlockBase"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"const": "example"
+						}
+					}
+				}
+			]
+		},
+		"fields": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"time_taken": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"specializations": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"examples": {
+					"$ref": "#/$defs/nonEmptyString"
+				}
+			}
+		},
+		"statFields": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/fields"
+				},
+				{
+					"type": "object",
+					"required": [
+						"time_taken",
+						"specializations"
+					]
+				}
+			]
+		},
+		"skillFields": {
+			"allOf": [
+				{
+					"$ref": "#/$defs/fields"
+				},
+				{
+					"type": "object",
+					"required": [
+						"time_taken"
+					]
+				}
+			]
+		},
+		"statBlock": {
+			"type": "object",
+			"required": [
+				"type",
+				"title",
+				"fields",
+				"blocks"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"const": "stat_block"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"fields": {
+					"$ref": "#/$defs/statFields"
+				},
+				"blocks": {
+					"$ref": "#/$defs/blocks"
+				}
+			}
+		},
+		"skillGroup": {
+			"type": "object",
+			"required": [
+				"id",
+				"type",
+				"title",
+				"source",
+				"blocks"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"$ref": "#/$defs/id"
+				},
+				"type": {
+					"const": "skill_group"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"source": {
+					"$ref": "#/$defs/pageSource"
+				},
+				"blocks": {
+					"$ref": "#/$defs/blocks"
+				}
+			}
+		},
+		"ruleSection": {
+			"type": "object",
+			"required": [
+				"id",
+				"type",
+				"title",
+				"blocks"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"$ref": "#/$defs/id"
+				},
+				"type": {
+					"const": "rule_section"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"blocks": {
+					"$ref": "#/$defs/blocks"
+				}
+			}
+		},
+		"skill": {
+			"type": "object",
+			"required": [
+				"id",
+				"type",
+				"title",
+				"source",
+				"fields",
+				"blocks"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"$ref": "#/$defs/id"
+				},
+				"type": {
+					"const": "skill"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"source": {
+					"$ref": "#/$defs/pageSource"
+				},
+				"fields": {
+					"$ref": "#/$defs/skillFields"
+				},
+				"blocks": {
+					"$ref": "#/$defs/blocks"
+				}
+			}
+		},
+		"difficultyRow": {
+			"type": "array",
+			"prefixItems": [
+				{
+					"type": "integer"
+				},
+				{
+					"$ref": "#/$defs/nonEmptyString"
+				}
+			],
+			"items": false,
+			"minItems": 2,
+			"maxItems": 2
+		},
+		"stringPairRow": {
+			"type": "array",
+			"prefixItems": [
+				{
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				{
+					"$ref": "#/$defs/nonEmptyString"
+				}
+			],
+			"items": false,
+			"minItems": 2,
+			"maxItems": 2
+		},
+		"difficultyTable": {
+			"type": "object",
+			"required": [
+				"type",
+				"rows"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"const": "difficulty_table"
+				},
+				"rows": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"$ref": "#/$defs/difficultyRow"
+					}
+				}
+			}
+		},
+		"modifierTable": {
+			"type": "object",
+			"required": [
+				"type",
+				"rows"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"const": "modifier_table"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"rows": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"$ref": "#/$defs/stringPairRow"
+					}
+				}
+			}
+		},
+		"outcomeTable": {
+			"type": "object",
+			"required": [
+				"type",
+				"title",
+				"rows"
+			],
+			"additionalProperties": false,
+			"properties": {
+				"type": {
+					"const": "outcome_table"
+				},
+				"title": {
+					"$ref": "#/$defs/nonEmptyString"
+				},
+				"rows": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"$ref": "#/$defs/stringPairRow"
+					}
+				}
+			}
+		}
+	}
+}
