@@ -79,7 +79,7 @@ export default {
 	}
 
 	&.is-rule,
-	&.is-rule_section {
+	&.is-mechanic {
 		display: grid;
 		grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
 		gap: 1rem;
@@ -90,7 +90,7 @@ export default {
 		background: transparent;
 
 		&+.is-rule,
-		&+.is-rule_section {
+		&+.is-mechanic {
 			margin-top: 0.15rem;
 			padding-top: 1rem;
 			border-top: 1px solid rgba(244, 239, 229, 0.1);
@@ -162,12 +162,12 @@ export default {
 
 @media (max-width: 620px) {
 	.block-section.is-rule,
-	.block-section.is-rule_section {
+	.block-section.is-mechanic {
 		grid-template-columns: 1fr;
 		gap: 0.6rem;
 
 		&+.is-rule,
-		&+.is-rule_section {
+		&+.is-mechanic {
 			padding-top: 0.9rem;
 		}
 

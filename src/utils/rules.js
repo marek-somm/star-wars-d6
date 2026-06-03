@@ -7,8 +7,8 @@ export const TEXT_BLOCK_TYPES = new Set([
 
 export const CONTAINER_BLOCK_TYPES = new Set([
 	"stat_block",
-	"rule_section",
 	"rule",
+	"mechanic",
 ]);
 
 export const TABLE_BLOCK_TYPES = new Set([
@@ -24,6 +24,13 @@ export const PAGE_BLOCK_TYPES = new Set([
 ]);
 
 export function formatRuleLabel(value) {
+	const labels = {
+		mechanic: "Game Mechanic",
+		rule: "Rule",
+	};
+
+	if (labels[value]) return labels[value];
+
 	return String(value || "unknown")
 		.split("_")
 		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))

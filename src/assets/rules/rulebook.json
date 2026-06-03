@@ -103,7 +103,7 @@
 								},
 								{
 									"id": "rule.dexterity.ranged_combat_skills",
-									"type": "rule_section",
+									"type": "rule",
 									"title": "Using Ranged Combat Skills",
 									"blocks": [
 										{
@@ -130,7 +130,7 @@
 								},
 								{
 									"id": "rule.dexterity.melee_combat_skills",
-									"type": "rule_section",
+									"type": "rule",
 									"title": "Using Melee Combat Skills",
 									"blocks": [
 										{
@@ -149,7 +149,7 @@
 								},
 								{
 									"id": "rule.dexterity.reaction_skills",
-									"type": "rule_section",
+									"type": "rule",
 									"title": "Using Reaction Skills",
 									"blocks": [
 										{
@@ -1028,15 +1028,15 @@
 											]
 										},
 										{
-											"type": "rule",
+											"type": "mechanic",
 											"optional": true,
 											"title": "Using in Combat",
 											"blocks": [
 												{
 													"type": "paragraph",
-																								"text": "At gamemaster discretion, intimidation can enhance a character's attacks and defenses. The player adds one-half of the difference, positive or negative, between the difficulty and the intimidation roll to any one attack or defense attempt, both made at Point Blank or Short range. The character must use the benefit of scaring the target on the same turn as or on the round after the interaction endeavor."
-																							}
-																						]
+													"text": "At gamemaster discretion, intimidation can enhance a character's attacks and defenses. The player adds one-half of the difference, positive or negative, between the difficulty and the intimidation roll to any one attack or defense attempt, both made at Point Blank or Short range. The character must use the benefit of scaring the target on the same turn as or on the round after the interaction endeavor."
+												}
+											]
 										}
 									]
 								},
@@ -1129,7 +1129,7 @@
 											]
 										},
 										{
-											"type": "rule",
+											"type": "mechanic",
 											"title": "Fluency",
 											"blocks": [
 												{
@@ -1139,7 +1139,7 @@
 											]
 										},
 										{
-											"type": "rule",
+											"type": "mechanic",
 											"title": "Specialization",
 											"blocks": [
 												{
