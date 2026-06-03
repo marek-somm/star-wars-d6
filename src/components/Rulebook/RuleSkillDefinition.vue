@@ -17,6 +17,10 @@
 					</em>
 				</p>
 			</div>
+			<div class="definition-field is-advanced" v-if="advancedRequirements">
+				<span class="definition-label">Advanced Skill</span>
+				<p v-html="advancedRequirements"></p>
+			</div>
 		</div>
 		<div class="definition-description" v-if="definitionBlocks.length">
 			<RuleContentBlock v-for="(block, index) in definitionBlocks" :key="getBlockKey(block, index)" :block="block" />
@@ -49,6 +53,10 @@ export default {
 			return this.getFieldValue("specializations");
 		},
 
+		advancedRequirements() {
+			return this.getFieldValue("advanced");
+		},
+
 		examples() {
 			const rawExamples = String(this.rule?.fields?.examples || "").trim();
 			if (!rawExamples) return [];
@@ -65,7 +73,7 @@ export default {
 		},
 
 		hasMeta() {
-			return Boolean(this.timeTaken || this.specializations || this.examples.length);
+			return Boolean(this.timeTaken || this.specializations || this.examples.length || this.advancedRequirements);
 		},
 
 		hasDefinition() {
@@ -116,6 +124,10 @@ export default {
 		font-weight: 900;
 		line-height: 1.4;
 		white-space: nowrap;
+	}
+
+	.is-advanced .definition-label {
+		color: #f29a7f;
 	}
 
 	strong,
