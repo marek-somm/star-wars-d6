@@ -1,5 +1,5 @@
 <template>
-	<aside id="rule-index-panel" class="rule-index ui-panel" :class="{ 'mobile-open': mobileIndexOpen }">
+	<aside id="rule-index-panel" class="rule-index ui-panel" :class="{ collapsed, 'mobile-open': mobileIndexOpen }">
 		<div class="index-panel-header">
 			<div class="index-panel-title">
 				<span>Regelindex</span>
@@ -20,11 +20,16 @@
 				</select>
 			</div>
 		</div>
-		<div class="index-heading">
+		<div class="index-heading" v-show="!collapsed">
 			<span>Regelindex</span>
 			<strong>{{ filteredCount }}</strong>
 		</div>
-		<div class="index-scroll">
+		<button class="index-toggle ui-button" type="button" :aria-expanded="!collapsed"
+			:aria-label="collapsed ? 'Regelindex anzeigen' : 'Regelindex ausblenden'"
+			:title="collapsed ? 'Regelindex anzeigen' : 'Regelindex ausblenden'" @click="$emit('toggle-collapse')">
+			<span class="index-toggle-icon" aria-hidden="true"></span>
+		</button>
+		<div class="index-scroll" v-show="!collapsed">
 			<div class="rule-tree" role="tree" aria-label="Regelstruktur">
 				<RuleTreeNode v-for="node in ruleTree" :key="node.key" :node="node"
 					:expanded-keys="expandedKeys" :current-rule-id="currentRuleId"
@@ -84,8 +89,12 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		collapsed: {
+			type: Boolean,
+			required: true,
+		},
 	},
-	emits: ["close", "select", "toggle", "update:search", "update:typeFilter", "update:chapterFilter"],
+	emits: ["close", "select", "toggle", "toggle-collapse", "update:search", "update:typeFilter", "update:chapterFilter"],
 };
 </script>
 
@@ -95,16 +104,24 @@ export default {
 }
 
 .rule-index {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	min-height: max(34rem, calc(100vh - 17rem));
 	padding: 0.9rem;
+	overflow: visible;
+
+	&.collapsed {
+		align-self: stretch;
+		padding-inline: 0.5rem;
+	}
 
 	.index-heading {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		min-height: 2rem;
+		padding-right: 2.65rem;
 
 		span {
 			color: var(--color-muted);
@@ -116,6 +133,47 @@ export default {
 		strong {
 			color: var(--color-accent);
 			font-size: 0.82rem;
+		}
+	}
+
+	.index-toggle {
+		position: absolute;
+		top: 0.75rem;
+		right: 0.65rem;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		min-height: 0;
+		padding: 0;
+		border: 1px solid rgba(242, 193, 78, 0.28);
+		background: rgba(22, 20, 17, 0.9);
+		color: var(--color-accent);
+		box-shadow: var(--shadow-control);
+
+		&:hover {
+			border-color: rgba(242, 193, 78, 0.48);
+			background: rgba(242, 193, 78, 0.1);
+		}
+
+		.index-toggle-icon {
+			display: inline-flex;
+			width: 0.5rem;
+			height: 0.5rem;
+			border: solid currentColor;
+			border-width: 0 2px 2px 0;
+			transform: translateX(0.12rem) rotate(135deg);
+		}
+	}
+
+	&.collapsed .index-toggle {
+		right: 50%;
+		transform: translateX(50%);
+
+		.index-toggle-icon {
+			transform: translateX(-0.12rem) rotate(-45deg);
 		}
 	}
 
@@ -154,11 +212,20 @@ export default {
 			transform: translateY(0);
 		}
 
+		&.collapsed {
+			padding-inline: 1rem;
+		}
+
+		.index-toggle {
+			display: none;
+		}
+
 		.index-heading {
 			display: none;
 		}
 
 		.index-scroll {
+			display: block !important;
 			height: auto;
 		}
 	}

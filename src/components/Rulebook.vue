@@ -18,7 +18,8 @@
 				:current-rule-id="data.currentRule?.id || ''" :filtered-count="filteredRules.length"
 				:search="data.search" :type-filter="data.typeFilter" :chapter-filter="data.chapterFilter"
 				:available-types="availableTypes" :available-chapters="availableChapters"
-				:mobile-index-open="data.mobileIndexOpen" @close="closeMobileIndex" @toggle="toggleTreeNode"
+				:mobile-index-open="data.mobileIndexOpen" :collapsed="data.indexCollapsed"
+				@close="closeMobileIndex" @toggle="toggleTreeNode" @toggle-collapse="toggleIndexCollapsed"
 				@select="showRuleFromIndex" @update:search="data.search = $event"
 				@update:type-filter="data.typeFilter = $event" @update:chapter-filter="data.chapterFilter = $event" />
 
@@ -35,9 +36,10 @@ import RuleIndexPanel from "@/components/Rulebook/RuleIndexPanel.vue";
 import RuleMobileIndexToggle from "@/components/Rulebook/RuleMobileIndexToggle.vue";
 import rulebookData from "@/assets/rules/rulebook.json";
 import { formatRuleLabel, getChildContentBlocks, PAGE_BLOCK_TYPES } from "@/utils/rules";
-import { readJson, writeJson } from "@/utils/storage";
+import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
 
 const RULE_FILTERS_STORAGE_KEY = "star-wars-d6:rule-filters";
+const RULE_INDEX_COLLAPSED_STORAGE_KEY = "star-wars-d6:rule-index-collapsed";
 
 const defaultRuleFilters = {
 	search: "",
@@ -81,6 +83,14 @@ function saveRuleFilters(value) {
 	});
 }
 
+function loadRuleIndexCollapsed() {
+	return readBoolean(RULE_INDEX_COLLAPSED_STORAGE_KEY, false);
+}
+
+function saveRuleIndexCollapsed(value) {
+	writeBoolean(RULE_INDEX_COLLAPSED_STORAGE_KEY, value);
+}
+
 export default {
 	components: {
 		RuleEntry,
@@ -98,6 +108,7 @@ export default {
 				search: savedFilters.search,
 				typeFilter: savedFilters.typeFilter,
 				chapterFilter: savedFilters.chapterFilter,
+				indexCollapsed: loadRuleIndexCollapsed(),
 				currentRule: null,
 				mobileIndexOpen: false,
 				expandedTreeKeys: {},
@@ -199,6 +210,10 @@ export default {
 				...this.data.expandedTreeKeys,
 				[key]: !this.data.expandedTreeKeys[key],
 			};
+		},
+
+		toggleIndexCollapsed() {
+			this.data.indexCollapsed = !this.data.indexCollapsed;
 		},
 
 		showRule(rule, updateHash = true) {
@@ -383,6 +398,10 @@ export default {
 
 	},
 	watch: {
+		"data.indexCollapsed"(isCollapsed) {
+			saveRuleIndexCollapsed(isCollapsed);
+		},
+
 		"data.search"() {
 			saveRuleFilters(this.data);
 		},
@@ -430,12 +449,20 @@ export default {
 	grid-template-columns: minmax(17rem, 23rem) minmax(0, 1fr);
 	gap: 1rem;
 	align-items: stretch;
+
+	&:has(.rule-index.collapsed) {
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+	}
 }
 
 
 @media (max-width: 980px) {
 	.rulebook-layout {
 		grid-template-columns: 1fr;
+
+		&:has(.rule-index.collapsed) {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.mobile-backdrop {
