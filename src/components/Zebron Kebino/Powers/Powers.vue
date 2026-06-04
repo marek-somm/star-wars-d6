@@ -171,6 +171,28 @@ const KEPT_UP_STORAGE_KEY = "star-wars-d6:kept-up-powers";
 const LIST_COLLAPSED_STORAGE_KEY = "star-wars-d6:character-powers-list-collapsed";
 const RECENT_LIMIT = 6;
 
+function getPowerIdFromHash() {
+	if (typeof window === "undefined") return "";
+
+	const hashParts = String(window.location.hash || "")
+		.replace(/^#\/?/, "")
+		.split("/")
+		.filter(Boolean);
+
+	if (hashParts[0] !== "sheet" || hashParts[1] !== "powers") return "";
+	return decodeURIComponent(hashParts.slice(2).join("/") || "");
+}
+
+function setPowerHash(powerId) {
+	if (typeof window === "undefined") return;
+
+	const encodedPowerId = encodeURIComponent(String(powerId || "").trim());
+	const nextHash = encodedPowerId ? `#/sheet/powers/${encodedPowerId}` : "#/sheet/powers";
+	if (window.location.hash !== nextHash) {
+		window.location.hash = nextHash;
+	}
+}
+
 export default {
 	components: {
 		ForcePowerSearch,
@@ -185,6 +207,10 @@ export default {
 		language: {
 			type: String,
 			default: "en"
+		},
+		active: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
@@ -207,10 +233,17 @@ export default {
 		this.data.keptUp = this.normalizeKeptUpList(this.loadNameList(KEPT_UP_STORAGE_KEY));
 		this.saveNameList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
 
+		const hashSkill = this.findSkillReference(getPowerIdFromHash());
 		const firstLabel = this.resolvedPowerLabels.find((powerLabel) => powerLabel.getSkills().length > 0);
 
-		if (firstLabel) {
-			this.showSkill(firstLabel.getSkills()[0], { trackRecent: false });
+		if (hashSkill) {
+			this.showSkill(hashSkill, { trackRecent: false, updateHash: false });
+		} else if (firstLabel) {
+			this.showSkill(firstLabel.getSkills()[0], { trackRecent: false, updateHash: false });
+		}
+
+		if (typeof window !== "undefined") {
+			window.addEventListener("hashchange", this.syncSkillWithHash);
 		}
 	},
 	computed: {
@@ -283,9 +316,23 @@ export default {
 			this.data.currentSkill = resolvedSkill;
 			this.closeMobileList();
 
+			if (options.updateHash !== false && this.active) {
+				setPowerHash(this.getSkillStorageKey(resolvedSkill));
+			}
+
 			if (options.trackRecent !== false) {
 				this.trackRecentSkill(resolvedSkill);
 			}
+		},
+
+		syncSkillWithHash() {
+			const hashSkillId = getPowerIdFromHash();
+			if (!hashSkillId) return;
+
+			const hashSkill = this.findSkillReference(hashSkillId);
+			if (!hashSkill || this.isCurrentSkill(hashSkill)) return;
+
+			this.showSkill(hashSkill, { trackRecent: false, updateHash: false });
 		},
 
 		openMobileList() {
@@ -454,6 +501,13 @@ export default {
 				return;
 			}
 
+			const hashSkill = this.findSkillReference(getPowerIdFromHash());
+			if (hashSkill) {
+				this.data.currentSkill = hashSkill;
+				this.data.keptUp = this.normalizeKeptUpList(this.data.keptUp);
+				return;
+			}
+
 			const firstLabel = this.resolvedPowerLabels.find((powerLabel) => powerLabel.getSkills().length > 0);
 			this.data.currentSkill = firstLabel ? firstLabel.getSkills()[0] : null;
 			this.data.keptUp = this.normalizeKeptUpList(this.data.keptUp);
@@ -463,11 +517,20 @@ export default {
 			if (typeof document === "undefined") return;
 
 			document.body.classList.toggle("mobile-drawer-open", isOpen);
+		},
+
+		active(isActive) {
+			if (isActive && this.data.currentSkill) {
+				setPowerHash(this.getSkillStorageKey(this.data.currentSkill));
+			}
 		}
 	},
 	beforeUnmount() {
 		if (typeof document !== "undefined") {
 			document.body.classList.remove("mobile-drawer-open");
+		}
+		if (typeof window !== "undefined") {
+			window.removeEventListener("hashchange", this.syncSkillWithHash);
 		}
 	}
 };

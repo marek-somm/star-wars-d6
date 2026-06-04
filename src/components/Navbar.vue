@@ -38,13 +38,13 @@
 			<Stats class="content-item" v-show="data.stats" />
 			<Background class="content-item" v-show="data.background" />
 			<Powers class="content-item" v-show="data.powers" :language="powerLanguageState.language"
-				:power-labels="characterPowerLabels" />
+				:power-labels="characterPowerLabels" :active="data.powers" />
 		</main>
 	</div>
 </template>
 
 <script>
-import { computed, reactive, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
 import Stats from "./Zebron Kebino/Stats/Stats";
 import Background from "./Zebron Kebino/Background";
 import Powers from "./Zebron Kebino/Powers/Powers";
@@ -55,6 +55,28 @@ import { readNumber, writeNumber } from "@/utils/storage";
 import { powerLanguageState } from "@/utils/powerLanguage";
 
 const TEMP_FORCE_STORAGE_KEY = "star-wars-d6:temporary-force-points";
+const SHEET_SECTIONS = ["stats", "powers", "background"];
+
+function getSheetSectionFromHash() {
+	if (typeof window === "undefined") return "stats";
+
+	const hashParts = String(window.location.hash || "")
+		.replace(/^#\/?/, "")
+		.split("/")
+		.filter(Boolean);
+
+	if (hashParts[0] !== "sheet") return "stats";
+	return SHEET_SECTIONS.includes(hashParts[1]) ? hashParts[1] : "stats";
+}
+
+function setSheetHash(section) {
+	if (typeof window === "undefined") return;
+
+	const nextHash = `#/sheet/${section}`;
+	if (window.location.hash !== nextHash) {
+		window.location.hash = nextHash;
+	}
+}
 
 export default {
 	components: {
@@ -75,22 +97,30 @@ export default {
 
 		const force_temp = ref(loadTemporaryForcePoints());
 
+		function showSection(section, options = {}) {
+			data.stats = section === "stats";
+			data.powers = section === "powers";
+			data.background = section === "background";
+
+			if (options.updateHash !== false) {
+				setSheetHash(section);
+			}
+		}
+
 		function showStats() {
-			data.stats = true;
-			data.powers = false;
-			data.background = false;
+			showSection("stats");
 		}
 
 		function showPowers() {
-			data.powers = true;
-			data.stats = false;
-			data.background = false;
+			showSection("powers");
 		}
 
 		function showBackground() {
-			data.background = true;
-			data.stats = false;
-			data.powers = false;
+			showSection("background");
+		}
+
+		function syncSectionWithHash() {
+			showSection(getSheetSectionFromHash(), { updateHash: false });
 		}
 
 		function addTemporaryForce() {
@@ -119,6 +149,19 @@ export default {
 			points.force_temp = value;
 			writeNumber(TEMP_FORCE_STORAGE_KEY, value);
 		}
+
+		onMounted(() => {
+			syncSectionWithHash();
+			if (typeof window !== "undefined") {
+				window.addEventListener("hashchange", syncSectionWithHash);
+			}
+		});
+
+		onBeforeUnmount(() => {
+			if (typeof window !== "undefined") {
+				window.removeEventListener("hashchange", syncSectionWithHash);
+			}
+		});
 
 		return {
 			data,
