@@ -653,17 +653,22 @@ export default {
 
 		.filter-tabs {
 			display: grid;
-			grid-template-columns: repeat(4, minmax(0, 1fr));
+			grid-template-columns: repeat(auto-fit, minmax(5.7rem, 1fr));
 			gap: 0.35rem;
 			margin-bottom: 1rem;
 
 			.filter-tab {
-				min-height: 2.15rem;
-				padding: 0.3rem 0.35rem;
+				min-width: 0;
+				min-height: 2.35rem;
+				padding: 0.35rem 0.45rem;
 				background: var(--surface-control);
 				color: var(--color-muted);
-				font-size: 0.82rem;
+				font-size: 0.78rem;
 				font-weight: 800;
+				line-height: 1.15;
+				overflow-wrap: anywhere;
+				text-align: center;
+				white-space: normal;
 
 				&:hover {
 					color: var(--color-text);
@@ -981,7 +986,7 @@ export default {
 				grid-template-columns: repeat(2, minmax(0, 1fr));
 
 				.filter-tab {
-					min-height: 2.55rem;
+					min-height: 2.65rem;
 				}
 			}
 
