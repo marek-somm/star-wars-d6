@@ -21,14 +21,6 @@
 						>
 							{{ getName(skill) }}
 						</button>
-					</li>
-				</ul>
-				<ul class="list">
-					<li
-						class="list-item"
-						v-for="skill in getSkills(stat)"
-						:key="getName(skill)"
-					>
 						<button class="copy hover" type="button" @click="copyRoll(stat, skill)">
 							{{ getDice(stat, skill) }}
 						</button>
@@ -167,10 +159,6 @@ export default {
 		}
 
 		.skills {
-			display: grid;
-			grid-template-columns: minmax(0, 1fr) auto;
-			gap: 0.75rem;
-
 			.list {
 				list-style: none;
 				text-align: left;
@@ -179,12 +167,20 @@ export default {
 				min-width: 0;
 
 				.list-item {
-					min-height: 1.75rem;
+					display: grid;
+					grid-template-columns: minmax(0, 1fr) auto;
+					align-items: center;
+					gap: 0.75rem;
+					min-height: 2.1rem;
 					padding: 0.18rem 0;
 
 					.name {
 						color: var(--color-muted);
 						line-height: 1.3;
+					}
+
+					.copy {
+						justify-self: end;
 					}
 				}
 			}
@@ -222,15 +218,17 @@ export default {
 			}
 
 			.skills {
-				gap: 0.45rem;
-
 				.list {
 					.list-item {
-						min-height: 2.45rem;
+						gap: 0.45rem;
+						min-height: 2.65rem;
 						padding: 0.2rem 0;
 
 						button {
 							min-height: 2.2rem;
+						}
+
+						.name {
 							width: 100%;
 						}
 					}
