@@ -2,7 +2,7 @@ import { createPowerLabelsFromGroups } from "./data.js";
 
 export const points = {
 	force: 4,
-	force_temp: 2,
+	force_temp: 0,
 	darkside: 0,
 	character: 210,
 	spent: 197,
