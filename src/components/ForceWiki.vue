@@ -573,7 +573,7 @@ export default {
 			}
 
 			if (!this.data.currentSkill) {
-				this.showSkill(allSkills[0], false);
+				this.showSkill(allSkills[0]);
 			}
 		},
 
@@ -651,7 +651,7 @@ export default {
 			}
 
 			if (!this.data.currentSkill || !list.some((skill) => this.isCurrentSkill(skill))) {
-				this.showSkill(list[0], false);
+				this.showSkill(list[0]);
 			}
 		}
 	}
