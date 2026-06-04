@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import { createPowerSkills } from "@/assets/data";
+import { createPowerSkills, getForcePowerLanguages } from "@/assets/data";
 import { getForcePowerText } from "@/assets/power_data";
 import { Power, PowerName } from "@/assets/powers";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
@@ -156,8 +156,28 @@ function normalizeSkillName(name) {
 }
 
 function normalizeSearchTerm(value) {
-	const normalized = String(value || "").toLowerCase().trim();
+	const normalized = normalizeSearchText(value);
 	return normalized === "altar" ? "alter" : normalized;
+}
+
+function normalizeSearchText(value) {
+	return String(value || "")
+		.toLowerCase()
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.trim();
+}
+
+function collectSearchText(value) {
+	if (Array.isArray(value)) {
+		return value.map((entry) => collectSearchText(entry)).join(" ");
+	}
+
+	if (value && typeof value === "object") {
+		return Object.values(value).map((entry) => collectSearchText(entry)).join(" ");
+	}
+
+	return value == null ? "" : String(value);
 }
 
 function getSkillIdFromHash() {
@@ -224,6 +244,7 @@ export default {
 		return {
 			PowerName,
 			allSkills: [],
+			searchTextBySkillId: new Map(),
 			data: {
 				search: savedFilters.search,
 				powerFilter: savedFilters.powerFilter,
@@ -313,23 +334,15 @@ export default {
 				if (!this.matchesDifficultyFilter(skill)) return false;
 				if (!search) return true;
 
-				const name = String(skill.name || "").toLowerCase();
-				const summary = String(skill.summary || "").toLowerCase();
-				const extras = this.getSkillExtraText(skill).toLowerCase();
-				const requirements = Array.isArray(skill.required)
-					? skill.required.map((entry) => String(entry?.name || "")).join(" ").toLowerCase()
-					: "";
+				const searchText = this.getSkillSearchText(skill);
 				const powers = Array.isArray(skill.powers) ? skill.powers : [];
 				const powerMatches = powers.some((power) => {
-					const key = String(power || "").toLowerCase();
-					const label = String(this.PowerName[power] || "").toLowerCase();
+					const key = normalizeSearchText(power);
+					const label = normalizeSearchText(this.PowerName[power]);
 					return key.includes(search) || label.includes(search);
 				});
 
-				return name.includes(search)
-					|| summary.includes(search)
-					|| extras.includes(search)
-					|| requirements.includes(search)
+				return searchText.includes(search)
 					|| powerMatches;
 			});
 		},
@@ -441,18 +454,56 @@ export default {
 
 		getSkillContentText(skill) {
 			return Array.isArray(skill?.contentBlocks)
-				? skill.contentBlocks.map((block) => String(block?.text || "")).join(" ").toLowerCase()
+				? normalizeSearchText(skill.contentBlocks.map((block) => String(block?.text || "")).join(" "))
 				: "";
+		},
+
+		getSkillSearchText(skill) {
+			if (!skill?.id) return this.buildSkillSearchText(skill);
+			return this.searchTextBySkillId.get(skill.id) || this.buildSkillSearchText(skill);
+		},
+
+		buildSkillSearchText(skill) {
+			const requirements = Array.isArray(skill?.required)
+				? skill.required.map((entry) => entry?.name).join(" ")
+				: "";
+			const text = [
+				skill?.name,
+				skill?.summary,
+				this.getSkillExtraText(skill),
+				requirements,
+				collectSearchText(skill?.contentBlocks),
+				collectSearchText(skill?.difficulty),
+				skill?.timeToUse,
+				skill?.timeToUseNote,
+				skill?.timeToUseDetails,
+			].join(" ");
+
+			return normalizeSearchText(text);
+		},
+
+		buildAllLanguageSearchIndex() {
+			const searchTextBySkillId = new Map();
+
+			for (const language of getForcePowerLanguages()) {
+				for (const skill of createPowerSkills(null, language.code)) {
+					if (!skill?.id) continue;
+					const existingText = searchTextBySkillId.get(skill.id) || "";
+					searchTextBySkillId.set(skill.id, `${existingText} ${this.buildSkillSearchText(skill)}`);
+				}
+			}
+
+			this.searchTextBySkillId = searchTextBySkillId;
 		},
 
 		isKeptUpPower(skill) {
 			return this.getSkillExtraText(skill).includes("kept up")
-				|| String(skill?.summary || "").toLowerCase().includes("kept up");
+				|| normalizeSearchText(skill?.summary).includes("kept up");
 		},
 
 		hasDarkSidePointRisk(skill) {
 			return this.getSkillContentText(skill).includes("dark side point")
-				|| String(skill?.summary || "").toLowerCase().includes("dark side point");
+				|| normalizeSearchText(skill?.summary).includes("dark side point");
 		},
 
 		isLightSideOnlyPower(skill) {
@@ -505,6 +556,7 @@ export default {
 
 		loadPowerSkills() {
 			const currentSkillId = this.data.currentSkill?.id || getSkillIdFromHash();
+			this.buildAllLanguageSearchIndex();
 			const allSkills = createPowerSkills(null, this.language)
 				.sort((a, b) => String(a.name).localeCompare(String(b.name)));
 
