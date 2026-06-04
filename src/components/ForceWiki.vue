@@ -106,7 +106,7 @@
 					<h2>{{ data.currentSkill.name }}</h2>
 					<div class="meta">
 						<span class="pill" v-for="power in data.currentSkill.powers" :key="power">
-							{{ PowerName[power] }}
+							{{ getPowerName(power) }}
 						</span>
 						<span class="pill fan-made" v-if="data.currentSkill.fanMade">{{ t("ui.forceWiki.fanMade") }}</span>
 					</div>
@@ -140,8 +140,8 @@
 
 <script>
 import { createPowerSkills, getForcePowerLanguages } from "@/assets/data";
-import { getForcePowerText } from "@/assets/power_data";
-import { Power, PowerName } from "@/assets/powers";
+import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
+import { Power } from "@/assets/powers";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import Difficulty from "./Zebron Kebino/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
@@ -245,7 +245,6 @@ export default {
 		const savedFilters = loadWikiFilters();
 
 		return {
-			PowerName,
 			allSkills: [],
 			searchTextBySkillId: new Map(),
 			data: {
@@ -341,7 +340,7 @@ export default {
 				const powers = Array.isArray(skill.powers) ? skill.powers : [];
 				const powerMatches = powers.some((power) => {
 					const key = normalizeSearchText(power);
-					const label = normalizeSearchText(this.PowerName[power]);
+					const label = normalizeSearchText(this.getPowerName(power));
 					return key.includes(search) || label.includes(search);
 				});
 
@@ -378,6 +377,10 @@ export default {
 	methods: {
 		t(id, replacements = {}) {
 			return getForcePowerText(this.language, id, replacements);
+		},
+
+		getPowerName(power) {
+			return getForcePowerSkillName(this.language, power);
 		},
 
 		openMobileIndex() {

@@ -1,57 +1,7 @@
-export const Extra = {
-	inSight: 'Target must be in sight of the Jedi',
-	keptUp: 'Power can be kept up',
-	ignorePain: 'Character can ignore pain of injuries for a long period of time',
-	newRollWhenInjured: 'Whenever character is injured again, must make a new Control pain roll',
-	notUsableWhenDarkside: 'Characters who are consumed by the dark side of the Force may not use this power.'
-};
-
-export const Modifier = {
-	proximity: {
-		text: 'Modified by Proximity',
-		hover: 'Touching +0\nLine of sight (not touching) +2\nNot line of site, at 1-100 meters +5\n101 meters, to 10 kilometers +7\n11 to 1,000 kilometers +10\nSame planet more than 1,000 kilometers +15\nSame star system, different planet +20\nNot in same star system +20'
-	},
-	relationship: {
-		text: 'Modified by Relationship',
-		hover: 'Close relatives (married, siblings, parent and child, etc) +0\nClose friends +2\nFriends +5\nAcquaintances +7\nSlight acquaintances +10\nMet once +12\nNever met, but know each other by reputation +15\nComplete strangers +20\nComplete strangers and not of the same species +30'
-	},
-};
-
 export const Power = {
 	control: 'control',
 	sense: 'sense',
 	alter: 'alter'
-};
-
-export const PowerName = {
-	control: "Control",
-	sense: "Sense",
-	alter: "Alter"
-};
-
-export const TimeToUse = {
-	default: '1 round',
-	minute: '1 minute',
-	minutePlus: 'At least 1 minute',
-	threeRounds: '3 rounds',
-};
-
-export const forceStats = {
-	control: {
-		name: PowerName.control,
-		dice: 6,
-		pips: 1,
-	},
-	sense: {
-		name: PowerName.sense,
-		dice: 5,
-		pips: 2,
-	},
-	alter: {
-		name: PowerName.alter,
-		dice: 5,
-		pips: 1,
-	},
 };
 
 export class Skill {

@@ -1194,5 +1194,8 @@
 	"ui.difficulty.difficultHover": "16-20 oder 5W-6W",
 	"ui.difficulty.veryDifficultHover": "21-30 oder 7W-8W",
 	"ui.difficulty.heroicHover": "31+ oder 9W+",
-	"ui.difficulty.defaultTimeToUse": "1 Runde"
+	"ui.difficulty.defaultTimeToUse": "1 Runde",
+	"ui.powers.control": "Kontrolle",
+	"ui.powers.sense": "Sinne",
+	"ui.powers.alter": "Verändern"
 }

@@ -94,8 +94,8 @@
 import { nextTick, ref } from "vue";
 import pdfMakeModule from "pdfmake/build/pdfmake";
 import pdfFontsModule from "pdfmake/build/vfs_fonts";
-import Zebron, { points, stats as characterStats } from "@/assets/zebron_kebino.js";
-import { forceStats, PowerName, TimeToUse } from "@/assets/powers";
+import Zebron, { forceStats, points, stats as characterStats } from "@/assets/zebron_kebino.js";
+import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 
 const MAX_SKILL_ROWS = 30;
 const ATTRIBUTE_SHORTCODE = {
@@ -108,6 +108,7 @@ const ATTRIBUTE_SHORTCODE = {
 };
 
 const pdfMake = pdfMakeModule?.default || pdfMakeModule;
+const PDF_POWER_LANGUAGE = "en";
 
 function registerPdfFonts() {
 	const vfsCandidates = [
@@ -305,7 +306,7 @@ function formatPowerDifficulty(skill) {
 			if (increasedText.length > 0) segments.push(...increasedText);
 			if (segments.length === 0) return null;
 
-			return `${PowerName[power] || power} (${formatDice(forceStats[power]?.dice, forceStats[power]?.pips)})\n${segments.join("\n")}`;
+			return `${getForcePowerSkillName(PDF_POWER_LANGUAGE, power)} (${formatDice(forceStats[power]?.dice, forceStats[power]?.pips)})\n${segments.join("\n")}`;
 		})
 		.filter(Boolean);
 
@@ -421,7 +422,7 @@ export default {
 					summary: htmlToReadableText(skill.summary || ""),
 					difficulty: formatPowerDifficulty(skill),
 					time: htmlToReadableText([
-						skill.timeToUse || TimeToUse.default,
+						skill.timeToUse || getForcePowerText(PDF_POWER_LANGUAGE, "ui.difficulty.defaultTimeToUse"),
 						skill.timeToUseNote,
 					].filter(Boolean).join(" - ")),
 					extras: Array.isArray(skill.extra) && skill.extra.length > 0
@@ -449,9 +450,9 @@ export default {
 					{ label: "Dark Side Points", value: String(points.darkside) },
 				],
 				forceRows: [
-					{ name: "Control", value: formatDice(forceStats.control.dice, forceStats.control.pips) },
-					{ name: "Sense", value: formatDice(forceStats.sense.dice, forceStats.sense.pips) },
-					{ name: "Alter", value: formatDice(forceStats.alter.dice, forceStats.alter.pips) },
+					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "control"), value: formatDice(forceStats.control.dice, forceStats.control.pips) },
+					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "sense"), value: formatDice(forceStats.sense.dice, forceStats.sense.pips) },
+					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "alter"), value: formatDice(forceStats.alter.dice, forceStats.alter.pips) },
 				],
 				skillRows: visibleSkills,
 				skillColumns,

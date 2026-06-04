@@ -1194,5 +1194,8 @@
 	"ui.difficulty.difficultHover": "16-20 or 5D-6D",
 	"ui.difficulty.veryDifficultHover": "21-30 or 7D-8D",
 	"ui.difficulty.heroicHover": "31+ or 9D+",
-	"ui.difficulty.defaultTimeToUse": "1 round"
+	"ui.difficulty.defaultTimeToUse": "1 round",
+	"ui.powers.control": "Control",
+	"ui.powers.sense": "Sense",
+	"ui.powers.alter": "Alter"
 }

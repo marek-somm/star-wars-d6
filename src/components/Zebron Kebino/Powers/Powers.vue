@@ -158,8 +158,8 @@
 </template>
 
 <script>
-import { Power, PowerName } from "@/assets/powers";
-import { getForcePowerText } from "@/assets/power_data";
+import { Power } from "@/assets/powers";
+import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import ForceSkill from "./Force Skill";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
@@ -223,9 +223,9 @@ export default {
 		powerFilters() {
 			return [
 				{ value: "all", label: this.t("ui.characterPowers.all") },
-				{ value: Power.control, label: PowerName[Power.control] },
-				{ value: Power.sense, label: PowerName[Power.sense] },
-				{ value: Power.alter, label: PowerName[Power.alter] },
+				{ value: Power.control, label: this.getPowerName(Power.control) },
+				{ value: Power.sense, label: this.getPowerName(Power.sense) },
+				{ value: Power.alter, label: this.getPowerName(Power.alter) },
 				{ value: "fan-made", label: this.t("ui.characterPowers.fanMade") },
 			];
 		},
@@ -267,6 +267,10 @@ export default {
 	methods: {
 		t(id, replacements = {}) {
 			return getForcePowerText(this.language, id, replacements);
+		},
+
+		getPowerName(power) {
+			return getForcePowerSkillName(this.language, power);
 		},
 
 		showSkill(skill, options = {}) {
@@ -416,7 +420,7 @@ export default {
 		},
 
 		getPowerShortName(power) {
-			return (PowerName[power] || power).charAt(0);
+			return this.getPowerName(power).charAt(0);
 		},
 
 		normalizeKeptUpList(list) {

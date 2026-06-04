@@ -5294,6 +5294,10 @@ export function getForcePowerText(code, id, replacements = {}) {
 	);
 }
 
+export function getForcePowerSkillName(code, power) {
+	return getForcePowerText(code, `ui.powers.${power}`);
+}
+
 function resolveTextRefs(value, strings, fallbackStrings) {
 	if (Array.isArray(value)) {
 		return value.map((entry) => resolveTextRefs(entry, strings, fallbackStrings));

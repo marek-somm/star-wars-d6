@@ -49,9 +49,8 @@ import Stats from "./Zebron Kebino/Stats/Stats";
 import Background from "./Zebron Kebino/Background";
 import Powers from "./Zebron Kebino/Powers/Powers";
 
-import { points } from "@/assets/zebron_kebino.js";
+import { points, forceStats } from "@/assets/zebron_kebino.js";
 import Zebron from "@/assets/zebron_kebino.js";
-import { forceStats } from "@/assets/powers";
 import { readNumber, writeNumber } from "@/utils/storage";
 import { powerLanguageState } from "@/utils/powerLanguage";
 

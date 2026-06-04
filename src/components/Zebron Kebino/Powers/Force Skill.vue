@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="meta-row">
-				<span class="meta-pill" v-for="power in skill.powers" :key="power">{{ PowerName[power] }}</span>
+				<span class="meta-pill" v-for="power in skill.powers" :key="power">{{ getPowerName(power) }}</span>
 				<span class="meta-pill fan-made" v-if="skill.fanMade">{{ t("ui.characterPowers.fanMade") }}</span>
 				<span class="meta-pill source" v-if="skill.source">{{ skill.source }}</span>
 				<span class="meta-pill kept-up" :class="{ active: keptUpActive }" v-if="canKeepUp">
@@ -51,8 +51,8 @@
 <script>
 import Difficulty from "./Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
-import { PowerName, Skill } from "@/assets/powers";
-import { defaultPowerLanguage, getForcePowerText } from "@/assets/power_data";
+import { Skill } from "@/assets/powers";
+import { defaultPowerLanguage, getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import { formatRichText as formatPowerRichText } from "@/utils/powerContent";
 
 export default {
@@ -83,11 +83,6 @@ export default {
 			type: String
 		}
 	},
-	data() {
-		return {
-			PowerName
-		};
-	},
 	computed: {
 		canKeepUp() {
 			return Array.isArray(this.skill.extra)
@@ -115,6 +110,10 @@ export default {
 	methods: {
 		t(id, replacements = {}) {
 			return getForcePowerText(this.language, id, replacements);
+		},
+
+		getPowerName(power) {
+			return getForcePowerSkillName(this.language, power);
 		},
 
 		getSummaryHtml() {

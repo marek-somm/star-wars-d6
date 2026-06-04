@@ -207,9 +207,9 @@
 </template>
 
 <script>
-import { Skill, PowerName } from '../../../assets/powers';
+import { Skill } from '../../../assets/powers';
 import { sanitizeHtml } from "@/utils/html";
-import { defaultPowerLanguage, getForcePowerText } from "@/assets/power_data";
+import { defaultPowerLanguage, getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 
 export default {
 	props: {
@@ -224,7 +224,6 @@ export default {
 	},
 	data() {
 		return {
-			PowerName,
 			rushMinutesCut: 0
 		};
 	},
@@ -260,6 +259,10 @@ export default {
 			return getForcePowerText(this.language, id, replacements);
 		},
 
+		getPowerName(power) {
+			return getForcePowerSkillName(this.language, power);
+		},
+
 		getDifficulty(power) {
 			const difficulty = this.skill.difficulty[power] || { level: [] };
 
@@ -282,7 +285,7 @@ export default {
 
 		getGroupPowerLabel(powers = []) {
 			return powers
-				.map((power) => this.PowerName[power] || power)
+				.map((power) => this.getPowerName(power))
 				.join(" + ");
 		},
 
