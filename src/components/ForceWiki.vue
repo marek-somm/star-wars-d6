@@ -131,6 +131,9 @@
 					<Difficulty :skill="data.currentSkill" :language="language" />
 				</section>
 			</article>
+			<section class="wiki-entry wiki-empty-state ui-panel" v-else>
+				<p>{{ t("ui.characterPowers.noPowersMatch") }}</p>
+			</section>
 		</div>
 	</section>
 </template>
@@ -960,6 +963,20 @@ export default {
 	padding: 1.2rem;
 	min-width: 0;
 	min-height: max(32rem, calc(100vh - 22rem));
+}
+
+.wiki-empty-state {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--color-muted);
+	font-size: 0.95rem;
+	line-height: 1.5;
+	text-align: center;
+
+	p {
+		margin: 0;
+	}
 }
 
 .entry-header {
