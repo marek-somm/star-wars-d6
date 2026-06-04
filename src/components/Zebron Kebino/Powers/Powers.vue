@@ -7,13 +7,13 @@
 			aria-controls="power-list-panel"
 			@click="openMobileList"
 		>
-			<span>{{ data.currentSkill ? data.currentSkill.name : "Select a power" }}</span>
-			<strong>Browse {{ filteredPowerCount }}</strong>
+			<span>{{ data.currentSkill ? data.currentSkill.name : t("ui.characterPowers.selectPower") }}</span>
+			<strong>{{ t("ui.characterPowers.browse") }} {{ filteredPowerCount }}</strong>
 		</button>
 		<button
 			class="mobile-backdrop"
 			type="button"
-			aria-label="Close power list"
+			:aria-label="t('ui.characterPowers.closePowerList')"
 			v-if="data.mobileListOpen"
 			@click="closeMobileList"
 		></button>
@@ -26,8 +26,8 @@
 				class="list-collapse-toggle ui-button"
 				type="button"
 				:aria-expanded="!data.listCollapsed"
-				:aria-label="data.listCollapsed ? 'Show powers' : 'Hide powers'"
-				:title="data.listCollapsed ? 'Show powers' : 'Hide powers'"
+				:aria-label="data.listCollapsed ? t('ui.characterPowers.showPowers') : t('ui.characterPowers.hidePowers')"
+				:title="data.listCollapsed ? t('ui.characterPowers.showPowers') : t('ui.characterPowers.hidePowers')"
 				@click="toggleListCollapsed"
 			>
 				<span class="list-collapse-icon" aria-hidden="true"></span>
@@ -35,23 +35,24 @@
 			<div class="list-content">
 				<div class="list-header">
 					<div>
-						<p class="eyebrow">Force Powers</p>
-						<h2>Powers</h2>
+						<p class="eyebrow">{{ t("ui.characterPowers.titleEyebrow") }}</p>
+						<h2>{{ t("ui.characterPowers.title") }}</h2>
 					</div>
 					<div class="header-actions">
+						<PowerLanguageToggle compact />
 						<span class="power-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
-						<button class="list-close ui-button" type="button" @click="closeMobileList">Close</button>
+						<button class="list-close ui-button" type="button" @click="closeMobileList">{{ t("ui.characterPowers.close") }}</button>
 					</div>
 				</div>
 				<div class="list-scroll">
 					<input
 						class="search"
-						placeholder="Search powers"
+						:placeholder="t('ui.characterPowers.searchPlaceholder')"
 						type="search"
 						v-model.trim="data.search"
-						aria-label="Search powers"
+						:aria-label="t('ui.characterPowers.searchAriaLabel')"
 					>
-					<div class="filter-tabs" aria-label="Power type filter">
+					<div class="filter-tabs" :aria-label="t('ui.characterPowers.filterAriaLabel')">
 						<button
 							class="filter-tab ui-button"
 							:class="{ active: data.powerFilter === filter.value }"
@@ -66,7 +67,7 @@
 					</div>
 					<div class="quick-sections" v-if="favoriteSkills.length || activeKeptUpSkills.length || recentSkills.length">
 						<div class="quick-section" v-if="favoriteSkills.length">
-							<h3>Favorites</h3>
+							<h3>{{ t("ui.characterPowers.favorites") }}</h3>
 							<button
 							class="quick-item ui-button"
 								:class="{ active: isCurrentSkill(skill) }"
@@ -79,7 +80,7 @@
 							</button>
 						</div>
 						<div class="quick-section" v-if="activeKeptUpSkills.length">
-							<h3>Kept Up</h3>
+							<h3>{{ t("ui.characterPowers.keptUp") }}</h3>
 							<button
 							class="quick-item kept ui-button"
 								:class="{ active: isCurrentSkill(skill) }"
@@ -92,7 +93,7 @@
 							</button>
 						</div>
 						<div class="quick-section" v-if="recentSkills.length">
-							<h3>Recent</h3>
+							<h3>{{ t("ui.characterPowers.recent") }}</h3>
 							<button
 							class="quick-item ui-button"
 								:class="{ active: isCurrentSkill(skill) }"
@@ -120,14 +121,14 @@
 						>
 							<span class="skill-name">{{ forceSkill.name }}</span>
 							<span class="skill-meta">
-								<span class="skill-flag fan-made" v-if="forceSkill.fanMade">Fan-made</span>
-								<span class="skill-flag favorite" v-if="isFavorite(forceSkill)">Fav</span>
+								<span class="skill-flag fan-made" v-if="forceSkill.fanMade">{{ t("ui.characterPowers.fanMade") }}</span>
+								<span class="skill-flag favorite" v-if="isFavorite(forceSkill)">{{ t("ui.characterPowers.favoriteShort") }}</span>
 								<span
 									class="skill-flag kept"
 									:class="{ active: isKeptUpActive(forceSkill) }"
 									v-if="isKeptUpPower(forceSkill)"
 								>
-									Kept
+									{{ t("ui.characterPowers.keptShort") }}
 								</span>
 								<span class="power-chip" v-for="power in forceSkill.powers" :key="power">
 									{{ getPowerShortName(power) }}
@@ -135,7 +136,7 @@
 							</span>
 						</button>
 					</div>
-					<p class="empty-state" v-if="filteredPowerLabels.length === 0">No powers match the current filter.</p>
+					<p class="empty-state" v-if="filteredPowerLabels.length === 0">{{ t("ui.characterPowers.noPowersMatch") }}</p>
 				</div>
 			</div>
 		</aside>
@@ -146,6 +147,7 @@
 				:search-term="data.search"
 				:is-favorite="isFavorite(data.currentSkill)"
 				:kept-up-active="isKeptUpActive(data.currentSkill)"
+				:language="language"
 				class="shown"
 				@select-skill="showSkill"
 				@toggle-favorite="toggleFavorite"
@@ -157,6 +159,8 @@
 
 <script>
 import { Power, PowerName } from "@/assets/powers";
+import { getForcePowerText } from "@/assets/power_data";
+import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import ForceSkill from "./Force Skill";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
 
@@ -168,12 +172,17 @@ const RECENT_LIMIT = 6;
 
 export default {
 	components: {
-		ForceSkill
+		ForceSkill,
+		PowerLanguageToggle,
 	},
 	props: {
 		powerLabels: {
 			type: Array,
 			default: () => []
+		},
+		language: {
+			type: String,
+			default: "en"
 		}
 	},
 	data() {
@@ -213,11 +222,11 @@ export default {
 
 		powerFilters() {
 			return [
-				{ value: "all", label: "All" },
+				{ value: "all", label: this.t("ui.characterPowers.all") },
 				{ value: Power.control, label: PowerName[Power.control] },
 				{ value: Power.sense, label: PowerName[Power.sense] },
 				{ value: Power.alter, label: PowerName[Power.alter] },
-				{ value: "fan-made", label: "Fan-made" },
+				{ value: "fan-made", label: this.t("ui.characterPowers.fanMade") },
 			];
 		},
 
@@ -256,8 +265,12 @@ export default {
 		}
 	},
 	methods: {
+		t(id, replacements = {}) {
+			return getForcePowerText(this.language, id, replacements);
+		},
+
 		showSkill(skill, options = {}) {
-			const resolvedSkill = this.findSkillByName(skill?.name) || skill;
+			const resolvedSkill = this.findSkill(skill) || skill;
 
 			if (!resolvedSkill) return;
 
@@ -307,38 +320,41 @@ export default {
 		},
 
 		toggleFavorite(skill) {
-			this.data.favorites = this.toggleName(this.data.favorites, skill.name);
+			this.data.favorites = this.toggleName(this.data.favorites, this.getSkillStorageKey(skill));
 			this.saveNameList(FAVORITES_STORAGE_KEY, this.data.favorites);
 		},
 
 		isFavorite(skill) {
 			return this.data.favorites
-				.some((name) => this.normalizeSkillName(name) === this.normalizeSkillName(skill?.name));
+				.some((item) => this.matchesSkillReference(skill, item));
 		},
 
 		toggleKeptUp(skill) {
 			if (!this.isKeptUpPower(skill)) return;
 
 			const isAlreadyActive = this.isKeptUpActive(skill);
-			this.data.keptUp = isAlreadyActive ? [] : [skill.name];
+			this.data.keptUp = isAlreadyActive ? [] : [this.getSkillStorageKey(skill)];
 			this.saveNameList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
 		},
 
 		isKeptUpActive(skill) {
 			return this.data.keptUp
-				.some((name) => this.normalizeSkillName(name) === this.normalizeSkillName(skill?.name));
+				.some((item) => this.matchesSkillReference(skill, item));
 		},
 
 		isKeptUpPower(skill) {
 			return Array.isArray(skill?.extra)
-				&& skill.extra.some((item) => String(item || "").toLowerCase().includes("kept up"));
+				&& skill.extra.some((item) => {
+					const text = String(item || "").toLowerCase();
+					return text.includes("kept up") || text.includes("aufrechterhalten");
+				});
 		},
 
 		trackRecentSkill(skill) {
 			this.data.recent = [
-				skill.name,
-				...this.data.recent.filter((name) =>
-					this.normalizeSkillName(name) !== this.normalizeSkillName(skill.name)
+				this.getSkillStorageKey(skill),
+				...this.data.recent.filter((item) =>
+					!this.matchesSkillReference(skill, item)
 				)
 			].slice(0, RECENT_LIMIT);
 			this.saveNameList(RECENT_STORAGE_KEY, this.data.recent);
@@ -354,8 +370,22 @@ export default {
 
 		getSkillsFromNames(names) {
 			return names
-				.map((name) => this.findSkillByName(name))
+				.map((name) => this.findSkillReference(name))
 				.filter(Boolean);
+		},
+
+		findSkillReference(reference) {
+			const value = String(reference || "").trim();
+			return this.allSkills.find((skill) => this.matchesSkillReference(skill, value)) || null;
+		},
+
+		findSkill(skill) {
+			if (!skill) return null;
+			if (skill.id) {
+				const byId = this.allSkills.find((entry) => entry.id === skill.id);
+				if (byId) return byId;
+			}
+			return this.findSkillByName(skill.name);
 		},
 
 		findSkillByName(name) {
@@ -372,6 +402,19 @@ export default {
 				.trim();
 		},
 
+		getSkillStorageKey(skill) {
+			return String(skill?.id || skill?.name || "").trim();
+		},
+
+		matchesSkillReference(skill, reference) {
+			if (!skill || !reference) return false;
+			const value = String(reference || "").trim();
+			return Boolean(
+				(skill.id && value === skill.id)
+				|| this.normalizeSkillName(value) === this.normalizeSkillName(skill.name)
+			);
+		},
+
 		getPowerShortName(power) {
 			return (PowerName[power] || power).charAt(0);
 		},
@@ -379,9 +422,9 @@ export default {
 		normalizeKeptUpList(list) {
 			const names = Array.isArray(list) ? list : [];
 			for (const name of names) {
-				const skill = this.findSkillByName(name);
+				const skill = this.findSkillReference(name);
 				if (skill && this.isKeptUpPower(skill)) {
-					return [skill.name];
+					return [this.getSkillStorageKey(skill)];
 				}
 			}
 			return [];
@@ -397,6 +440,19 @@ export default {
 		}
 	},
 	watch: {
+		powerLabels() {
+			const currentSkill = this.findSkill(this.data.currentSkill);
+			if (currentSkill) {
+				this.data.currentSkill = currentSkill;
+				this.data.keptUp = this.normalizeKeptUpList(this.data.keptUp);
+				return;
+			}
+
+			const firstLabel = this.resolvedPowerLabels.find((powerLabel) => powerLabel.getSkills().length > 0);
+			this.data.currentSkill = firstLabel ? firstLabel.getSkills()[0] : null;
+			this.data.keptUp = this.normalizeKeptUpList(this.data.keptUp);
+		},
+
 		"data.mobileListOpen"(isOpen) {
 			if (typeof document === "undefined") return;
 

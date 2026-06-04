@@ -3,30 +3,30 @@
 		<header class="title">
 			<div class="title-top">
 				<div>
-					<p class="eyebrow">Selected Power</p>
+					<p class="eyebrow">{{ t("ui.characterPowers.selectedPower") }}</p>
 					<h1 class="text">{{ skill.name }}</h1>
 				</div>
 				<div class="title-actions">
 					<button class="action-button ui-button" :class="{ active: isFavorite }" type="button"
 						:aria-pressed="isFavorite" @click="$emit('toggle-favorite', skill)">
-						{{ isFavorite ? "Saved" : "Favorite" }}
+						{{ isFavorite ? t("ui.characterPowers.saved") : t("ui.characterPowers.favorite") }}
 					</button>
 					<button class="action-button keep-up ui-button" :class="{ active: keptUpActive }" type="button"
 						v-if="canKeepUp" :aria-pressed="keptUpActive" @click="$emit('toggle-kept-up', skill)">
-						{{ keptUpActive ? "Kept up" : "Keep up" }}
+						{{ keptUpActive ? t("ui.characterPowers.keptUpActionActive") : t("ui.characterPowers.keepUpAction") }}
 					</button>
 				</div>
 			</div>
 			<div class="meta-row">
 				<span class="meta-pill" v-for="power in skill.powers" :key="power">{{ PowerName[power] }}</span>
-				<span class="meta-pill fan-made" v-if="skill.fanMade">Fan-made</span>
+				<span class="meta-pill fan-made" v-if="skill.fanMade">{{ t("ui.characterPowers.fanMade") }}</span>
 				<span class="meta-pill source" v-if="skill.source">{{ skill.source }}</span>
 				<span class="meta-pill kept-up" :class="{ active: keptUpActive }" v-if="canKeepUp">
-					{{ keptUpActive ? "Kept up active" : "Can be kept up" }}
+					{{ keptUpActive ? t("ui.characterPowers.keptUpActive") : t("ui.characterPowers.canBeKeptUp") }}
 				</span>
 			</div>
 			<div class="required" v-if="skill.hasRequiredSkills()">
-				<span class="required-label">Required</span>
+				<span class="required-label">{{ t("ui.characterPowers.required") }}</span>
 				<div class="required-pills">
 					<button class="required-pill ui-button" :class="{ disabled: !canSelectSkill(requiredSkill) }" type="button"
 						v-for="(requiredSkill, index) in skill.required" :key="index"
@@ -39,10 +39,10 @@
 		<div class="content">
 			<div class="effect">
 				<div class="summary" v-if="skill.summary" v-html="getSummaryHtml()"></div>
-				<PowerContentBlocks :blocks="contentBlocks" />
+				<PowerContentBlocks :blocks="contentBlocks" :language="language" />
 			</div>
 			<div class="details">
-				<Difficulty :skill="skill" />
+				<Difficulty :skill="skill" :language="language" />
 			</div>
 		</div>
 	</div>
@@ -52,6 +52,7 @@
 import Difficulty from "./Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
 import { PowerName, Skill } from "@/assets/powers";
+import { defaultPowerLanguage, getForcePowerText } from "@/assets/power_data";
 import { formatRichText as formatPowerRichText } from "@/utils/powerContent";
 
 export default {
@@ -76,6 +77,10 @@ export default {
 		keptUpActive: {
 			default: false,
 			type: Boolean
+		},
+		language: {
+			default: defaultPowerLanguage,
+			type: String
 		}
 	},
 	data() {
@@ -86,7 +91,10 @@ export default {
 	computed: {
 		canKeepUp() {
 			return Array.isArray(this.skill.extra)
-				&& this.skill.extra.some((item) => String(item || "").toLowerCase().includes("kept up"));
+				&& this.skill.extra.some((item) => {
+					const text = String(item || "").toLowerCase();
+					return text.includes("kept up") || text.includes("aufrechterhalten");
+				});
 		},
 
 		contentBlocks() {
@@ -105,6 +113,10 @@ export default {
 		}
 	},
 	methods: {
+		t(id, replacements = {}) {
+			return getForcePowerText(this.language, id, replacements);
+		},
+
 		getSummaryHtml() {
 			const summary = String(this.skill?.summary || "");
 			const search = String(this.searchTerm || "").trim();

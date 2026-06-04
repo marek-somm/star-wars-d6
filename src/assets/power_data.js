@@ -2624,8 +2624,12 @@ export const rawPowerItemStructures = [
 		"summary": "powers.redirect_energy.summary",
 		"content": [
 			{
-				"type": "effect",
+				"type": "warning",
 				"text": "powers.redirect_energy.content.0.text"
+			},
+			{
+				"type": "effect",
+				"text": "powers.redirect_energy.content.1.text"
 			}
 		]
 	},
@@ -3399,14 +3403,18 @@ export const rawPowerItemStructures = [
 		"summary": "powers.projected_fighting.summary",
 		"content": [
 			{
-				"type": "note",
+				"type": "warning",
 				"text": "powers.projected_fighting.content.0.text"
+			},
+			{
+				"type": "note",
+				"text": "powers.projected_fighting.content.1.text"
 			},
 			{
 				"type": "effect",
 				"text": [
-					"powers.projected_fighting.content.1.text.0",
-					"powers.projected_fighting.content.1.text.1"
+					"powers.projected_fighting.content.2.text.0",
+					"powers.projected_fighting.content.2.text.1"
 				]
 			}
 		]
@@ -5307,6 +5315,20 @@ function resolveTextRefs(value, strings, fallbackStrings) {
 	return value;
 }
 
+function getPowerIdFromNameRef(name) {
+	const match = String(name || "").match(/^powers\.([^.]+)\.name$/);
+	return match?.[1] || null;
+}
+
+function withStablePowerIds(items = []) {
+	return items.map((item) => {
+		if (!item || typeof item !== "object" || item.id) return item;
+
+		const id = getPowerIdFromNameRef(item.name);
+		return id ? { id, ...item } : item;
+	});
+}
+
 export function getForcePowerLanguage(code) {
 	const languageCode = String(code || defaultPowerLanguage).trim().toLowerCase();
 	return forcePowerLanguages.find((language) => language.code === languageCode)
@@ -5319,7 +5341,7 @@ export function getForcePowerCatalog(code = defaultPowerLanguage) {
 
 	return {
 		data: resolveTextRefs(data, strings, fallbackStrings),
-		items: resolveTextRefs(rawPowerItemStructures, strings, fallbackStrings),
+		items: resolveTextRefs(withStablePowerIds(rawPowerItemStructures), strings, fallbackStrings),
 	};
 }
 

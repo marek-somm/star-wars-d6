@@ -6,10 +6,7 @@
 				<span>{{ data.currentSkill ? data.currentSkill.name : t("ui.forceWiki.selectPower") }}</span>
 				<strong>{{ t("ui.forceWiki.browse") }} {{ filteredSkills.length }}</strong>
 			</button>
-			<button class="language-toggle mobile-language-toggle ui-button" type="button"
-				:title="getLanguageToggleTitle()" :aria-label="getLanguageToggleTitle()" @click="cyclePowerLanguage">
-				<span class="language-code">{{ currentLanguage.shortLabel || currentLanguage.code.toUpperCase() }}</span>
-			</button>
+			<PowerLanguageToggle class="mobile-language-toggle" compact />
 		</div>
 		<button class="mobile-backdrop" type="button" :aria-label="t('ui.forceWiki.closeIndex')" v-if="data.mobileIndexOpen"
 			@click="closeMobileIndex"></button>
@@ -22,11 +19,7 @@
 				<input v-model.trim="data.search" class="search" type="search" :placeholder="t('ui.forceWiki.searchPlaceholder')"
 					:aria-label="t('ui.forceWiki.searchAriaLabel')">
 				<p class="count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
-				<button class="language-toggle ui-button" type="button" :title="getLanguageToggleTitle()"
-					:aria-label="getLanguageToggleTitle()" @click="cyclePowerLanguage">
-					<span class="language-code">{{ currentLanguage.shortLabel || currentLanguage.code.toUpperCase() }}</span>
-					<span class="language-label">{{ currentLanguage.label }}</span>
-				</button>
+				<PowerLanguageToggle />
 			</div>
 		</header>
 
@@ -131,11 +124,11 @@
 
 				<p class="summary" v-if="data.currentSkill.summary" v-html="getSummaryHtml()"></p>
 
-				<PowerContentBlocks :blocks="contentBlocks" :language="data.language" />
+				<PowerContentBlocks :blocks="contentBlocks" :language="language" />
 
 				<section class="difficulty">
 					<h3>{{ t("ui.forceWiki.rules") }}</h3>
-					<Difficulty :skill="data.currentSkill" :language="data.language" />
+					<Difficulty :skill="data.currentSkill" :language="language" />
 				</section>
 			</article>
 		</div>
@@ -143,13 +136,15 @@
 </template>
 
 <script>
-import { createPowerSkills, getForcePowerLanguages } from "@/assets/data";
+import { createPowerSkills } from "@/assets/data";
 import { getForcePowerText } from "@/assets/power_data";
 import { Power, PowerName } from "@/assets/powers";
+import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import Difficulty from "./Zebron Kebino/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
 import { toParagraphHtml } from "@/utils/powerContent";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
+import { powerLanguageState } from "@/utils/powerLanguage";
 
 function normalizeSkillName(name) {
 	return String(name || "")
@@ -180,7 +175,6 @@ function getSkillIdFromHash() {
 
 const WIKI_INDEX_COLLAPSED_STORAGE_KEY = "star-wars-d6:wiki-index-collapsed";
 const WIKI_FILTERS_STORAGE_KEY = "star-wars-d6:wiki-filters";
-const WIKI_POWER_LANGUAGE_STORAGE_KEY = "star-wars-d6:wiki-power-language";
 
 const defaultWikiFilters = {
 	search: "",
@@ -218,31 +212,19 @@ function saveWikiFilters(value) {
 	});
 }
 
-function loadPowerLanguage() {
-	const saved = readJson(WIKI_POWER_LANGUAGE_STORAGE_KEY, "en");
-	const value = typeof saved === "string" ? saved : "en";
-	const languages = getForcePowerLanguages();
-	return languages.some((language) => language.code === value) ? value : "en";
-}
-
-function savePowerLanguage(value) {
-	writeJson(WIKI_POWER_LANGUAGE_STORAGE_KEY, String(value || "en"));
-}
-
 export default {
 	components: {
 		Difficulty,
-		PowerContentBlocks
+		PowerContentBlocks,
+		PowerLanguageToggle,
 	},
 	data() {
 		const savedFilters = loadWikiFilters();
 
 		return {
 			PowerName,
-			powerLanguages: getForcePowerLanguages(),
 			allSkills: [],
 			data: {
-				language: loadPowerLanguage(),
 				search: savedFilters.search,
 				powerFilter: savedFilters.powerFilter,
 				traitFilter: savedFilters.traitFilter,
@@ -373,15 +355,13 @@ export default {
 			return [];
 		},
 
-		currentLanguage() {
-			return this.powerLanguages.find((language) => language.code === this.data.language)
-				|| this.powerLanguages[0]
-				|| { code: "en", label: "English", shortLabel: "EN" };
+		language() {
+			return powerLanguageState.language;
 		},
 	},
 	methods: {
 		t(id, replacements = {}) {
-			return getForcePowerText(this.data.language, id, replacements);
+			return getForcePowerText(this.language, id, replacements);
 		},
 
 		openMobileIndex() {
@@ -402,23 +382,6 @@ export default {
 			this.data.powerFilter = defaultWikiFilters.powerFilter;
 			this.data.traitFilter = defaultWikiFilters.traitFilter;
 			this.data.difficultyFilter = defaultWikiFilters.difficultyFilter;
-		},
-
-		cyclePowerLanguage() {
-			const languages = Array.isArray(this.powerLanguages) ? this.powerLanguages : [];
-			if (languages.length === 0) return;
-
-			const currentIndex = languages.findIndex((language) => language.code === this.data.language);
-			const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % languages.length : 0;
-			this.data.language = languages[nextIndex].code;
-		},
-
-		getLanguageToggleTitle() {
-			const languages = Array.isArray(this.powerLanguages) ? this.powerLanguages : [];
-			const currentIndex = languages.findIndex((language) => language.code === this.data.language);
-			const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % languages.length : 0;
-			const nextLanguage = languages[nextIndex] || this.currentLanguage;
-			return this.t("ui.forceWiki.switchLanguageTo", { language: nextLanguage.label });
 		},
 
 		getSkillPowerKey(skill) {
@@ -542,7 +505,7 @@ export default {
 
 		loadPowerSkills() {
 			const currentSkillId = this.data.currentSkill?.id || getSkillIdFromHash();
-			const allSkills = createPowerSkills(null, this.data.language)
+			const allSkills = createPowerSkills(null, this.language)
 				.sort((a, b) => String(a.name).localeCompare(String(b.name)));
 
 			this.allSkills = allSkills;
@@ -619,8 +582,7 @@ export default {
 			saveWikiFilters(this.data);
 		},
 
-		"data.language"() {
-			savePowerLanguage(this.data.language);
+		language() {
 			this.loadPowerSkills();
 		},
 
@@ -717,37 +679,6 @@ export default {
 		border-radius: var(--radius-sm);
 		color: var(--color-cyan);
 		font-weight: 800;
-	}
-}
-
-.language-toggle {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.45rem;
-	min-height: 2.5rem;
-	padding: 0.32rem 0.65rem;
-	border: 1px solid rgba(242, 193, 78, 0.34);
-	background:
-		linear-gradient(135deg, rgba(242, 193, 78, 0.14), rgba(103, 213, 200, 0.08)),
-		var(--color-panel-soft);
-	color: var(--color-text);
-	font-weight: 900;
-	box-shadow: var(--shadow-control);
-
-	&:hover {
-		border-color: rgba(242, 193, 78, 0.58);
-		color: var(--color-accent);
-	}
-
-	.language-code {
-		color: var(--color-accent);
-		font-size: 0.82rem;
-		letter-spacing: 0;
-	}
-
-	.language-label {
-		color: var(--color-muted);
-		font-size: 0.82rem;
 	}
 }
 

@@ -37,13 +37,14 @@
 		<main class="content-shell">
 			<Stats class="content-item" v-show="data.stats" />
 			<Background class="content-item" v-show="data.background" />
-			<Powers class="content-item" v-show="data.powers" :power-labels="characterPowerLabels" />
+			<Powers class="content-item" v-show="data.powers" :language="powerLanguageState.language"
+				:power-labels="characterPowerLabels" />
 		</main>
 	</div>
 </template>
 
 <script>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import Stats from "./Zebron Kebino/Stats/Stats";
 import Background from "./Zebron Kebino/Background";
 import Powers from "./Zebron Kebino/Powers/Powers";
@@ -52,6 +53,7 @@ import { points } from "@/assets/zebron_kebino.js";
 import Zebron from "@/assets/zebron_kebino.js";
 import { forceStats } from "@/assets/powers";
 import { readNumber, writeNumber } from "@/utils/storage";
+import { powerLanguageState } from "@/utils/powerLanguage";
 
 const TEMP_FORCE_STORAGE_KEY = "star-wars-d6:temporary-force-points";
 
@@ -68,7 +70,9 @@ export default {
 			powers: false,
 			background: false,
 		});
-		const characterPowerLabels = new Zebron().getPowerLabels();
+		const characterPowerLabels = computed(() =>
+			new Zebron(powerLanguageState.language).getPowerLabels()
+		);
 
 		const force_temp = ref(loadTemporaryForcePoints());
 
@@ -121,6 +125,7 @@ export default {
 			data,
 			points,
 			forceStats,
+			powerLanguageState,
 			characterPowerLabels,
 			showStats,
 			showPowers,

@@ -509,8 +509,11 @@ export default {
 				.trim();
 			const normalized = text.toLowerCase();
 
-			if (normalized.startsWith("power can be kept up")) {
-				const detail = html.replace(/^Power can be kept up:?\s*/i, "").trim();
+			if (normalized.startsWith("power can be kept up") || normalized.startsWith("macht kann aufrechterhalten werden")) {
+				const detail = html
+					.replace(/^Power can be kept up:?\s*/i, "")
+					.replace(/^Macht kann aufrechterhalten werden:?\s*/i, "")
+					.trim();
 				return {
 					type: "upkeep",
 					label: this.t("ui.difficulty.keptUp"),
@@ -518,7 +521,13 @@ export default {
 				};
 			}
 
-			if (normalized.includes("may be kept up") || normalized.includes("kept up as long as")) {
+			if (
+				normalized.includes("may be kept up")
+				|| normalized.includes("kept up as long as")
+				|| normalized.includes("kann aufrechterhalten werden")
+				|| normalized.includes("macht kann aufrechterhalten werden")
+				|| normalized.includes("die macht kann aufrechterhalten werden")
+			) {
 				return {
 					type: "upkeep",
 					label: this.t("ui.difficulty.keptUp"),
