@@ -9,8 +9,9 @@ export const points = {
 };
 
 export default class Zebron {
-	constructor() {
-		this.labels = createPowerLabelsFromGroups(learnedPowerGroups, learnedPowerIds);
+	constructor(language = undefined) {
+		this.language = language;
+		this.labels = createPowerLabelsFromGroups(learnedPowerGroups, learnedPowerIds, language);
 	}
 
 	getPowerLabels() { return this.labels; }
@@ -39,7 +40,9 @@ export const learnedPowerGroups = [
 		powerIds: [
 			"concentration",
 			"enhance_attribute",
+			"force_jump",
 			"emptiness",
+			"burst_of_speed"
 		],
 	},
 	{
@@ -49,15 +52,20 @@ export const learnedPowerGroups = [
 			"remain_conscious",
 			"hibernation_trance",
 			"accelerate_healing",
+			"control_breathing"
 		],
 	},
 	{
 		name: "Enhance Senses",
 		powerIds: [
+			"merge_senses",
+			"magnify_senses",
 			"life_sense",
 			"life_detection",
 			"danger_sense",
 			"combat_sense",
+			"direction_sense",
+			"farseeing"
 		],
 	},
 	{
