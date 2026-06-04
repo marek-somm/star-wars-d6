@@ -1,5 +1,9 @@
 import PowerLabel, { Power, Skill } from "./powers.js";
-import { forcePowerData, rawPowerItems } from "./power_data.js";
+import {
+	defaultPowerLanguage,
+	forcePowerLanguages,
+	getForcePowerCatalog,
+} from "./power_data.js";
 
 function asArray(value) {
 	if (value == null) return [];
@@ -25,8 +29,6 @@ function createEmptyDifficulty() {
 }
 
 const defaultDarkSidePointWarningText = "Using this power grants the user one Dark Side Point.";
-const darkSidePointWarningText = String(forcePowerData?.warnings?.darkSidePointOnUseWarning || "").trim()
-	|| defaultDarkSidePointWarningText;
 
 function normalizeDifficultyLevels(levels) {
 	return asArray(levels)
@@ -194,7 +196,12 @@ function isDarkSidePointOnUseWarning(text) {
 		|| value.includes("activates this");
 }
 
-function withDarkSidePointWarning(blocks = [], rawSkill = {}) {
+function getDarkSidePointWarningText(catalogData) {
+	return String(catalogData?.warnings?.darkSidePointOnUseWarning || "").trim()
+		|| defaultDarkSidePointWarningText;
+}
+
+function withDarkSidePointWarning(blocks = [], rawSkill = {}, catalogData = {}) {
 	if (!hasDarkSidePointOnUse(rawSkill)) {
 		return blocks;
 	}
@@ -204,12 +211,12 @@ function withDarkSidePointWarning(blocks = [], rawSkill = {}) {
 	);
 
 	return [
-		{ type: "warning", text: darkSidePointWarningText },
+		{ type: "warning", text: getDarkSidePointWarningText(catalogData) },
 		...filteredBlocks,
 	];
 }
 
-function normalizeContentBlocks(rawSkill = {}) {
+function normalizeContentBlocks(rawSkill = {}, catalogData = {}) {
 	if (Array.isArray(rawSkill.content)) {
 		const blocks = rawSkill.content
 			.map((block) => {
@@ -252,7 +259,7 @@ function normalizeContentBlocks(rawSkill = {}) {
 			})
 			.filter(Boolean);
 
-		return withDarkSidePointWarning(blocks, rawSkill);
+		return withDarkSidePointWarning(blocks, rawSkill, catalogData);
 	}
 
 	const blocks = [];
@@ -262,7 +269,7 @@ function normalizeContentBlocks(rawSkill = {}) {
 	if (effectText) blocks.push({ type: "effect", text: effectText });
 	if (exampleText) blocks.push({ type: "example", text: exampleText });
 
-	return withDarkSidePointWarning(blocks, rawSkill);
+	return withDarkSidePointWarning(blocks, rawSkill, catalogData);
 }
 
 export function normalizeSkillKey(name) {
@@ -276,36 +283,44 @@ function getRawSkillId(rawSkill) {
 	return rawSkill.id || normalizeSkillKey(rawSkill.name || "");
 }
 
-function getOrCreateSkill(skillsByName, name) {
+function getOrCreateSkill(skillsByName, name, id = null, skillsById = null) {
 	if (!skillsByName.has(name)) {
-		skillsByName.set(name, new Skill(name));
+		const skill = new Skill(name);
+		if (id) skill.id = id;
+		skillsByName.set(name, skill);
+		if (id && skillsById) skillsById.set(id, skill);
 	}
 	return skillsByName.get(name);
 }
 
-function hydrateRequiredSkills(rawSkill, skill, skillsByName) {
+function hydrateRequiredSkills(rawSkill, skill, skillsByName, skillsById) {
 	const required = asArray(rawSkill.required || rawSkill.requires)
 		.map((requiredSkill) => {
 			if (requiredSkill instanceof Skill) return requiredSkill;
+
+			const id = typeof requiredSkill === "object"
+				? String(requiredSkill?.id || "").trim()
+				: "";
+			if (id && skillsById.has(id)) return skillsById.get(id);
 
 			const name = typeof requiredSkill === "string"
 				? requiredSkill
 				: requiredSkill?.name;
 
-			return name ? getOrCreateSkill(skillsByName, name) : null;
+			return name ? getOrCreateSkill(skillsByName, name, id, skillsById) : null;
 		})
 		.filter(Boolean);
 
 	skill.setRequired(required);
 }
 
-function createSkill(rawSkill) {
+function createSkill(rawSkill, catalogData = {}) {
 	const skill = new Skill(rawSkill.name);
 	skill.id = getRawSkillId(rawSkill);
 	skill.setPowers(getPowersFromDifficulty(rawSkill.difficulty));
 	skill.setExtra(normalizeExtra(rawSkill.extra));
 	skill.difficulty = normalizeDifficulty(rawSkill.difficulty);
-	skill.contentBlocks = normalizeContentBlocks(rawSkill);
+	skill.contentBlocks = normalizeContentBlocks(rawSkill, catalogData);
 	skill.summary = normalizeLongText(rawSkill.summary);
 	skill.effect = skill.contentBlocks
 		.filter((block) => block.type === "effect")
@@ -324,18 +339,23 @@ function createSkill(rawSkill) {
 	return skill;
 }
 
-let powerCatalog = null;
+const powerCatalogs = new Map();
 
-function getPowerCatalog() {
-	if (powerCatalog) return powerCatalog;
+function getPowerCatalog(language = defaultPowerLanguage) {
+	const selectedLanguage = getForcePowerLanguage(language);
+	if (powerCatalogs.has(selectedLanguage.code)) return powerCatalogs.get(selectedLanguage.code);
+
+	const catalogSource = getForcePowerCatalog(selectedLanguage.code);
+	const catalogData = catalogSource?.data || {};
+	const catalogItems = Array.isArray(catalogSource?.items) ? catalogSource.items : [];
 
 	const skills = [];
 	const skillsByName = new Map();
 	const skillsById = new Map();
 	const entries = [];
 
-	rawPowerItems.forEach((item) => {
-		const skill = createSkill(item);
+	catalogItems.forEach((item) => {
+		const skill = createSkill(item, catalogData);
 		skills.push(skill);
 		skillsByName.set(skill.name, skill);
 		skillsById.set(skill.id, skill);
@@ -343,19 +363,29 @@ function getPowerCatalog() {
 	});
 
 	entries.forEach(({ rawSkill, skill }) => {
-		hydrateRequiredSkills(rawSkill, skill, skillsByName);
+		hydrateRequiredSkills(rawSkill, skill, skillsByName, skillsById);
 	});
 
-	powerCatalog = { skills, skillsById };
-	return powerCatalog;
+	const catalog = { language: selectedLanguage.code, skills, skillsById };
+	powerCatalogs.set(selectedLanguage.code, catalog);
+	return catalog;
 }
 
-export function getAllPowerIds() {
-	return getPowerCatalog().skills.map((skill) => skill.id);
+export function getAllPowerIds(language = defaultPowerLanguage) {
+	return getPowerCatalog(language).skills.map((skill) => skill.id);
 }
 
-export function createPowerSkills(powerIds = null) {
-	const catalog = getPowerCatalog();
+export function getForcePowerLanguage(language = defaultPowerLanguage) {
+	return forcePowerLanguages.find((entry) => entry.code === String(language || "").toLowerCase())
+		|| forcePowerLanguages.find((entry) => entry.code === defaultPowerLanguage);
+}
+
+export function getForcePowerLanguages() {
+	return forcePowerLanguages.map((language) => ({ ...language }));
+}
+
+export function createPowerSkills(powerIds = null, language = defaultPowerLanguage) {
+	const catalog = getPowerCatalog(language);
 	const allSkills = catalog.skills;
 
 	if (powerIds == null) return allSkills;
@@ -377,17 +407,17 @@ function createLabel(name, skills = []) {
 	return label;
 }
 
-export function createPowerLabels() {
-	return [createLabel("Powers", createPowerSkills())];
+export function createPowerLabels(language = defaultPowerLanguage) {
+	return [createLabel("Powers", createPowerSkills(null, language))];
 }
 
-export function createPowerLabelsFromIds(powerIds = []) {
-	return [createLabel("Powers", createPowerSkills(powerIds))];
+export function createPowerLabelsFromIds(powerIds = [], language = defaultPowerLanguage) {
+	return [createLabel("Powers", createPowerSkills(powerIds, language))];
 }
 
-export function createPowerLabelsFromGroups(groups = [], powerIds = null) {
-	const catalog = getPowerCatalog();
-	const allowedSkills = createPowerSkills(powerIds);
+export function createPowerLabelsFromGroups(groups = [], powerIds = null, language = defaultPowerLanguage) {
+	const catalog = getPowerCatalog(language);
+	const allowedSkills = createPowerSkills(powerIds, language);
 	const allowedIds = new Set(allowedSkills.map((skill) => skill.id));
 	const assignedIds = new Set();
 	const labels = [];
