@@ -16,8 +16,8 @@
 				<h1>{{ t("ui.forceWiki.title") }}</h1>
 			</div>
 			<div class="header-meta">
-				<input v-model.trim="data.search" class="search" type="search" :placeholder="t('ui.forceWiki.searchPlaceholder')"
-					:aria-label="t('ui.forceWiki.searchAriaLabel')">
+				<ForcePowerSearch v-model.trim="data.search" class="header-search" :placeholder="t('ui.forceWiki.searchPlaceholder')"
+					:aria-label="t('ui.forceWiki.searchAriaLabel')" />
 				<p class="count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
 				<PowerLanguageToggle />
 			</div>
@@ -62,8 +62,8 @@
 						<span>{{ t("ui.forceWiki.powerIndex") }}</span>
 						<button class="index-close ui-button" type="button" @click="closeMobileIndex">{{ t("ui.forceWiki.close") }}</button>
 					</div>
-					<input v-model.trim="data.search" class="search mobile-search" type="search"
-						:placeholder="t('ui.forceWiki.searchPlaceholder')" :aria-label="t('ui.forceWiki.searchAriaLabel')">
+					<ForcePowerSearch v-model.trim="data.search" class="mobile-search"
+						:placeholder="t('ui.forceWiki.searchPlaceholder')" :aria-label="t('ui.forceWiki.searchAriaLabel')" />
 					<div class="mobile-filters">
 						<select class="ui-control" v-model="data.powerFilter">
 							<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">{{
@@ -142,6 +142,7 @@
 import { createPowerSkills, getForcePowerLanguages } from "@/assets/data";
 import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import { Power } from "@/assets/powers";
+import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import Difficulty from "./Zebron Kebino/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
@@ -238,6 +239,7 @@ function saveWikiFilters(value) {
 export default {
 	components: {
 		Difficulty,
+		ForcePowerSearch,
 		PowerContentBlocks,
 		PowerLanguageToggle,
 	},
@@ -709,23 +711,8 @@ export default {
 		flex: 0 0 auto;
 	}
 
-	.search {
-		min-height: 2.5rem;
+	.header-search {
 		min-width: min(22rem, 56vw);
-		padding: 0.5rem 0.65rem;
-		border: 1px solid rgba(244, 239, 229, 0.12);
-		border-radius: var(--radius-sm);
-		background: var(--color-panel-soft);
-		color: var(--color-text);
-
-		&::placeholder {
-			color: var(--color-subtle);
-		}
-
-		&:focus {
-			outline: 2px solid rgba(242, 193, 78, 0.42);
-			outline-offset: 2px;
-		}
 	}
 
 	.count {
@@ -1090,7 +1077,7 @@ export default {
 			align-items: stretch;
 		}
 
-		.search {
+		.header-search {
 			min-width: 0;
 			width: 100%;
 		}
@@ -1268,8 +1255,6 @@ export default {
 
 	.index-panel-header .mobile-search {
 		width: 100%;
-		min-height: 2.75rem;
-		padding: 0.65rem 0.75rem;
 		font-size: 1rem;
 	}
 
@@ -1319,7 +1304,7 @@ export default {
 			gap: 0.4rem;
 		}
 
-		.search {
+		.header-search {
 			min-width: unset;
 			width: 100%;
 		}

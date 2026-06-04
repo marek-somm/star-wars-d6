@@ -45,13 +45,13 @@
 					</div>
 				</div>
 				<div class="list-scroll">
-					<input
-						class="search"
-						:placeholder="t('ui.characterPowers.searchPlaceholder')"
-						type="search"
+					<ForcePowerSearch
 						v-model.trim="data.search"
+						class="search"
+						contained-focus
+						:placeholder="t('ui.characterPowers.searchPlaceholder')"
 						:aria-label="t('ui.characterPowers.searchAriaLabel')"
-					>
+					/>
 					<div class="filter-tabs" :aria-label="t('ui.characterPowers.filterAriaLabel')">
 						<button
 							class="filter-tab ui-button"
@@ -160,6 +160,7 @@
 <script>
 import { Power } from "@/assets/powers";
 import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
+import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import ForceSkill from "./Force Skill";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
@@ -172,6 +173,7 @@ const RECENT_LIMIT = 6;
 
 export default {
 	components: {
+		ForcePowerSearch,
 		ForceSkill,
 		PowerLanguageToggle,
 	},
@@ -632,23 +634,8 @@ export default {
 
 		.search {
 			width: 100%;
-			min-height: 2.75rem;
 			margin-bottom: 0.7rem;
-			padding: 0.65rem 0.75rem;
-			border: 1px solid rgba(244, 239, 229, 0.12);
-			border-radius: var(--radius-sm);
-			background: var(--color-panel-soft);
-			color: var(--color-text);
 			font-size: 1rem;
-
-			&::placeholder {
-				color: var(--color-subtle);
-			}
-
-			&:focus {
-				outline: 2px solid rgba(242, 193, 78, 0.42);
-				outline-offset: 2px;
-			}
 		}
 
 		.filter-tabs {
@@ -672,6 +659,12 @@ export default {
 
 				&:hover {
 					color: var(--color-text);
+				}
+
+				&:focus-visible {
+					outline: none;
+					border-color: rgba(242, 193, 78, 0.72);
+					box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.72);
 				}
 
 				&.active {
@@ -717,6 +710,12 @@ export default {
 				&.active {
 					border-color: rgba(242, 193, 78, 0.45);
 					color: var(--color-accent);
+				}
+
+				&:focus-visible {
+					outline: none;
+					border-color: rgba(242, 193, 78, 0.72);
+					box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.72);
 				}
 
 				&.kept {
@@ -813,6 +812,12 @@ export default {
 				border-color: rgba(244, 239, 229, 0.14);
 				background: rgba(244, 239, 229, 0.06);
 				color: var(--color-text);
+			}
+
+			&:focus-visible {
+				outline: none;
+				border-color: rgba(242, 193, 78, 0.72);
+				box-shadow: inset 0 0 0 1px rgba(242, 193, 78, 0.72);
 			}
 
 			&.active {
