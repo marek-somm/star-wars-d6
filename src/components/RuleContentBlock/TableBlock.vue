@@ -8,12 +8,20 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(row, index) in block.rows" :key="index">
-					<td v-for="(cell, cellIndex) in row" :key="cellIndex"
-						:class="{ 'strong-label-cell': isStrongLabelTable && cellIndex === 0 }">
-						<span v-if="isDifficultyCell(cell)" v-html="getDifficultyCellHtml(cell)"></span>
-						<span v-else v-html="getTableCellHtml(cell)"></span>
-					</td>
+				<tr v-for="(row, index) in normalizedRows" :key="index" :class="getRowClass(row)">
+					<td v-if="row.type === 'section'" :colspan="columnCount" v-html="getTableCellHtml(row.text)"></td>
+					<td v-else-if="row.type === 'note'" :colspan="columnCount" v-html="getTableCellHtml(row.text)"></td>
+					<template v-else-if="row.type === 'header'">
+						<th v-for="(cell, cellIndex) in row.cells" :key="cellIndex" scope="col"
+							v-html="getTableCellHtml(cell)"></th>
+					</template>
+					<template v-else>
+						<td v-for="(cell, cellIndex) in row.cells" :key="cellIndex"
+							:class="{ 'strong-label-cell': isStrongLabelTable && cellIndex === 0 }">
+							<span v-if="isDifficultyCell(cell)" v-html="getDifficultyCellHtml(cell)"></span>
+							<span v-else v-html="getTableCellHtml(cell)"></span>
+						</td>
+					</template>
 				</tr>
 			</tbody>
 		</table>
@@ -38,8 +46,57 @@ export default {
 			return Array.isArray(this.block.columns) && this.block.columns.length > 0;
 		},
 
+		columnCount() {
+			if (this.hasColumns) return this.block.columns.length;
+			return this.normalizedRows.reduce((count, row) => {
+				if (!Array.isArray(row.cells)) return count;
+				return Math.max(count, row.cells.length);
+			}, 1);
+		},
+
 		isStrongLabelTable() {
 			return this.block.subtype === "modifier" || !this.block.subtype;
+		},
+
+		normalizedRows() {
+			if (!Array.isArray(this.block.rows)) return [];
+
+			return this.block.rows.map((row) => {
+				if (Array.isArray(row)) {
+					return {
+						type: "data",
+						cells: row,
+					};
+				}
+
+				if (row && typeof row === "object") {
+					if (row.type === "section" || row.type === "note") {
+						return {
+							type: row.type,
+							text: row.text || row.title || "",
+						};
+					}
+
+					if (row.type === "header" && Array.isArray(row.cells)) {
+						return {
+							type: "header",
+							cells: row.cells,
+						};
+					}
+
+					if (Array.isArray(row.cells)) {
+						return {
+							type: "data",
+							cells: row.cells,
+						};
+					}
+				}
+
+				return {
+					type: "data",
+					cells: [row],
+				};
+			});
 		},
 
 		tableClasses() {
@@ -63,6 +120,14 @@ export default {
 
 		getDifficultyCellHtml(value) {
 			return sanitizeHtml(injectDifficultyPills(`[[difficulty:${value}]]`));
+		},
+
+		getRowClass(row) {
+			return {
+				"is-section-row": row.type === "section",
+				"is-note-row": row.type === "note",
+				"is-header-row": row.type === "header",
+			};
 		},
 
 		getTableCellHtml(value) {
@@ -120,6 +185,40 @@ export default {
 	}
 
 	tbody tr:hover td {
+		background: rgba(244, 239, 229, 0.025);
+	}
+
+	.is-section-row td {
+		border-top: 0;
+		background: rgba(244, 239, 229, 0.035);
+		color: var(--color-text);
+		font-weight: 900;
+		line-height: 1.2;
+	}
+
+	.is-section-row:first-child td {
+		border-top: 0;
+	}
+
+	.is-note-row td {
+		background: rgba(244, 239, 229, 0.025);
+		color: var(--color-muted);
+		font-size: 0.9rem;
+		font-style: italic;
+		font-weight: 600;
+		line-height: 1.4;
+		text-align: center;
+	}
+
+	.is-header-row th {
+		border-top: 1px solid rgba(244, 239, 229, 0.12);
+	}
+
+	.is-section-row:hover td {
+		background: rgba(244, 239, 229, 0.035);
+	}
+
+	.is-note-row:hover td {
 		background: rgba(244, 239, 229, 0.025);
 	}
 

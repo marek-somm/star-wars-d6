@@ -148,6 +148,9 @@ export default {
 	}
 
 	.definition-description {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 		margin-top: 0.7rem;
 		padding-left: 1rem;
 		border-left: 2px solid rgba(242, 193, 78, 0.3);
