@@ -5,7 +5,22 @@ export const points = {
 	force_temp: 2,
 	darkside: 0,
 	character: 210,
-	spent: 167,
+	spent: 197,
+};
+
+export const forceStats = {
+	control: {
+		dice: 6,
+		pips: 1,
+	},
+	sense: {
+		dice: 6,
+		pips: 0,
+	},
+	alter: {
+		dice: 6,
+		pips: 0,
+	}
 };
 
 export default class Zebron {
@@ -26,6 +41,8 @@ export const learnedPowerGroups = [
 			"force_push",
 			"absorb_dissipate_energy",
 			"lesser_force_shield",
+			"greater_force_shield",
+			"guided_attack"
 		],
 	},
 	{
@@ -42,7 +59,8 @@ export const learnedPowerGroups = [
 			"enhance_attribute",
 			"force_jump",
 			"emptiness",
-			"burst_of_speed"
+			"burst_of_speed",
+			"empower_force"
 		],
 	},
 	{
