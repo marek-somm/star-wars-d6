@@ -6,7 +6,7 @@
 				class="block example"
 				:class="{ 'with-divider': shouldRenderDivider(index) }"
 			>
-				<summary>Example</summary>
+				<summary>{{ t("ui.content.example") }}</summary>
 				<div class="block-text" v-html="formatBlockHtml(block.text)"></div>
 			</details>
 			<div
@@ -14,7 +14,7 @@
 				class="block note"
 				:class="{ 'with-divider': shouldRenderDivider(index) }"
 			>
-				<p class="note-label">Note</p>
+				<p class="note-label">{{ t("ui.content.note") }}</p>
 				<div class="block-text" v-html="formatBlockHtml(block.text)"></div>
 			</div>
 			<div
@@ -22,7 +22,7 @@
 				class="block warning"
 				:class="{ 'with-divider': shouldRenderDivider(index) }"
 			>
-				<p class="warning-label">Warning</p>
+				<p class="warning-label">{{ t("ui.content.warning") }}</p>
 				<div class="block-text" v-html="formatBlockHtml(block.text)"></div>
 			</div>
 			<div
@@ -30,7 +30,7 @@
 				class="block special"
 				:class="{ 'with-divider': shouldRenderDivider(index) }"
 			>
-				<p class="special-label">Special</p>
+				<p class="special-label">{{ t("ui.content.special") }}</p>
 				<div class="block-text" v-html="formatBlockHtml(block.text)"></div>
 			</div>
 			<div
@@ -101,6 +101,7 @@
 
 <script>
 import { sanitizeHtml } from "@/utils/html";
+import { defaultPowerLanguage, getForcePowerText } from "@/assets/power_data";
 import {
 	formatRichText,
 	getDifficultyMeta,
@@ -114,11 +115,19 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+		language: {
+			type: String,
+			default: defaultPowerLanguage,
+		},
 	},
 	methods: {
 		sanitizeHtml,
 		formatRichText,
 		normalizeHoverList,
+
+		t(id, replacements = {}) {
+			return getForcePowerText(this.language, id, replacements);
+		},
 
 		formatBlockHtml(text) {
 			return toParagraphHtml(String(text || ""));

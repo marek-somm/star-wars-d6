@@ -23,20 +23,24 @@
 						</template>
 					</span>
 					<span class="summary-badge muted"
-						v-if="hasConditionalDifficulty(group.difficulty)">Conditional</span>
-					<span class="summary-badge muted" v-if="hasUpkeepDifficulty(group.difficulty)">Upkeep</span>
-					<span class="summary-badge muted" v-if="hasIncreasedDifficulty(group.difficulty)">Increases</span>
-					<span class="summary-badge muted" v-if="hasModifiedDifficulty(group.difficulty)">Modifiers</span>
-					<span class="summary-badge muted" v-if="!hasBaseDifficulty(group.difficulty)">No base
-						difficulty</span>
+						v-if="hasConditionalDifficulty(group.difficulty)">{{ t("ui.difficulty.conditional") }}</span>
+					<span class="summary-badge muted" v-if="hasUpkeepDifficulty(group.difficulty)">{{ t("ui.difficulty.upkeep") }}</span>
+					<span class="summary-badge muted" v-if="hasIncreasedDifficulty(group.difficulty)">{{ t("ui.difficulty.increases") }}</span>
+					<span class="summary-badge muted" v-if="hasModifiedDifficulty(group.difficulty)">{{ t("ui.difficulty.modifiers") }}</span>
+					<span class="summary-badge muted" v-if="!hasBaseDifficulty(group.difficulty)">{{
+						t("ui.difficulty.noBaseDifficulty") }}</span>
+				</span>
+				<span class="toggle-label">
+					<span class="toggle-show">{{ t("ui.difficulty.show") }}</span>
+					<span class="toggle-hide">{{ t("ui.difficulty.hide") }}</span>
 				</span>
 			</summary>
 			<div class="details--container">
 				<section class="details-section" v-if="group.difficulty.level.length">
-					<h3>Base Difficulty</h3>
+					<h3>{{ t("ui.difficulty.baseDifficulty") }}</h3>
 					<ul class="level--container">
 						<template v-for="(item, index) in group.difficulty.level" :key="index">
-							<li class="level-or" v-if="shouldShowOptionalSeparator(group.difficulty.level, index)">OR
+							<li class="level-or" v-if="shouldShowOptionalSeparator(group.difficulty.level, index)">{{ t("ui.difficulty.or") }}
 							</li>
 							<li class="level-item">
 								<div class="level-pills">
@@ -62,7 +66,7 @@
 					</ul>
 				</section>
 				<section class="details-section" v-if="hasConditionalDifficulty(group.difficulty)">
-					<h3>Conditional Difficulty</h3>
+					<h3>{{ t("ui.difficulty.conditionalDifficulty") }}</h3>
 					<div class="conditional-description" v-if="getConditionalDescription(group.difficulty)">
 						{{ getConditionalDescription(group.difficulty) }}
 					</div>
@@ -106,7 +110,7 @@
 					</div>
 				</section>
 				<section class="details-section" v-if="hasUpkeepDifficulty(group.difficulty)">
-					<h3>Upkeep Difficulty</h3>
+					<h3>{{ t("ui.difficulty.upkeepDifficulty") }}</h3>
 					<ul class="level--container">
 						<li class="level-item" v-for="(item, index) in group.difficulty.upkeep" :key="index">
 							<div class="level-pills">
@@ -129,7 +133,7 @@
 					</ul>
 				</section>
 				<section class="details-section" v-if="hasIncreasedDifficulty(group.difficulty)">
-					<h3>Increased Difficulty</h3>
+					<h3>{{ t("ui.difficulty.increasedDifficulty") }}</h3>
 					<ul class="add--container">
 						<li class="add-item" v-for="(item, index) in group.difficulty.increased" :key="index">
 							<div class="level" v-html="sanitizeHtml(item.add)"></div>
@@ -138,7 +142,7 @@
 					</ul>
 				</section>
 				<section class="details-section" v-if="hasModifiedDifficulty(group.difficulty)">
-					<h3>Modifiers</h3>
+					<h3>{{ t("ui.difficulty.modifiers") }}</h3>
 					<ul class="modifiers--container">
 						<li class="modifiers-item" v-for="(item, index) in group.difficulty.modifiers" :key="index">
 							<div class="level hover-wrap">
@@ -164,7 +168,7 @@
 		<div class="timeToUse" :class="{ detailed: hasTimeToUseDetails() }">
 			<div class="timeToUse-header">
 				<span class="time-icon" aria-hidden="true"></span>
-				<span class="title">Time to Use</span>
+				<span class="title">{{ t("ui.difficulty.timeToUse") }}</span>
 				<span class="content">{{ getTimeToUse() }}</span>
 			</div>
 			<p class="timeToUse-note" v-if="getTimeToUseNote() && !hasTimeToUseDetails()">
@@ -176,19 +180,19 @@
 				</p>
 				<div class="timeToUse-metrics">
 					<div class="timeToUse-metric">
-						<span class="metric-label">Base</span>
+						<span class="metric-label">{{ t("ui.difficulty.base") }}</span>
 						<strong>{{ getTimeToUseDetails().baseLabel }}</strong>
 					</div>
 					<div class="timeToUse-metric">
-						<span class="metric-label">Selected</span>
+						<span class="metric-label">{{ t("ui.difficulty.selected") }}</span>
 						<strong>{{ getSelectedTimeToUseLabel() }}</strong>
 					</div>
 					<div class="timeToUse-metric">
-						<span class="metric-label">Modifier</span>
+						<span class="metric-label">{{ t("ui.difficulty.modifier") }}</span>
 						<strong>{{ getSelectedTimeModifierLabel() }}</strong>
 					</div>
 					<div class="timeToUse-metric">
-						<span class="metric-label">Minimum</span>
+						<span class="metric-label">{{ t("ui.difficulty.minimum") }}</span>
 						<strong>{{ getTimeToUseDetails().minimumLabel }}</strong>
 					</div>
 				</div>
@@ -203,14 +207,19 @@
 </template>
 
 <script>
-import { Skill, PowerName, TimeToUse } from '../../../assets/powers';
+import { Skill, PowerName } from '../../../assets/powers';
 import { sanitizeHtml } from "@/utils/html";
+import { defaultPowerLanguage, getForcePowerText } from "@/assets/power_data";
 
 export default {
 	props: {
 		skill: {
 			required: true,
 			type: Skill
+		},
+		language: {
+			type: String,
+			default: defaultPowerLanguage,
 		},
 	},
 	data() {
@@ -246,6 +255,10 @@ export default {
 	},
 	methods: {
 		sanitizeHtml,
+
+		t(id, replacements = {}) {
+			return getForcePowerText(this.language, id, replacements);
+		},
 
 		getDifficulty(power) {
 			const difficulty = this.skill.difficulty[power] || { level: [] };
@@ -408,23 +421,23 @@ export default {
 			}
 
 			if (level === 1) {
-				levelTitle = "Very Easy";
-				levelHover = item.hover ? item.hover : "1-5 or 1D";
+				levelTitle = this.t("ui.difficulty.veryEasy");
+				levelHover = item.hover ? item.hover : this.t("ui.difficulty.veryEasyHover");
 			} else if (level === 2) {
-				levelTitle = "Easy";
-				levelHover = item.hover ? item.hover : "6-10 or 2D";
+				levelTitle = this.t("ui.difficulty.easy");
+				levelHover = item.hover ? item.hover : this.t("ui.difficulty.easyHover");
 			} else if (level === 3) {
-				levelTitle = "Moderate";
-				levelHover = item.hover ? item.hover : "11-15 or 3D-4D";
+				levelTitle = this.t("ui.difficulty.moderate");
+				levelHover = item.hover ? item.hover : this.t("ui.difficulty.moderateHover");
 			} else if (level === 4) {
-				levelTitle = "Difficult";
-				levelHover = item.hover ? item.hover : "16-20 or 5D-6D";
+				levelTitle = this.t("ui.difficulty.difficult");
+				levelHover = item.hover ? item.hover : this.t("ui.difficulty.difficultHover");
 			} else if (level === 5) {
-				levelTitle = "Very Difficult";
-				levelHover = item.hover ? item.hover : "21-30 or 7D-8D";
+				levelTitle = this.t("ui.difficulty.veryDifficult");
+				levelHover = item.hover ? item.hover : this.t("ui.difficulty.veryDifficultHover");
 			} else if (level === 6) {
-				levelTitle = "Heroic";
-				levelHover = item.hover ? item.hover : "31+ or 9D+";
+				levelTitle = this.t("ui.difficulty.heroic");
+				levelHover = item.hover ? item.hover : this.t("ui.difficulty.heroicHover");
 			} else {
 				levelTitle = item.level;
 				levelHover = item.hover;
@@ -500,7 +513,7 @@ export default {
 				const detail = html.replace(/^Power can be kept up:?\s*/i, "").trim();
 				return {
 					type: "upkeep",
-					label: "Kept Up",
+					label: this.t("ui.difficulty.keptUp"),
 					text: detail && detail !== html ? detail : "",
 				};
 			}
@@ -508,7 +521,7 @@ export default {
 			if (normalized.includes("may be kept up") || normalized.includes("kept up as long as")) {
 				return {
 					type: "upkeep",
-					label: "Kept Up",
+					label: this.t("ui.difficulty.keptUp"),
 					text: html,
 				};
 			}
@@ -516,15 +529,15 @@ export default {
 			if (normalized.includes("target must be in sight")) {
 				return {
 					type: "requirement",
-					label: "Requirement",
-					text: "Target must be in sight",
+					label: this.t("ui.difficulty.requirement"),
+					text: this.t("ui.difficulty.targetMustBeInSight"),
 				};
 			}
 
 			if (normalized.includes("only be used by characters who have been consumed by the dark side")) {
 				return {
 					type: "dark-side",
-					label: "Dark Side Only",
+					label: this.t("ui.difficulty.darkSideOnly"),
 					text: "",
 				};
 			}
@@ -532,7 +545,7 @@ export default {
 			if (normalized.includes("consumed by the dark side") && normalized.includes("may not use")) {
 				return {
 					type: "light-side",
-					label: "Light Side Only",
+					label: this.t("ui.difficulty.lightSideOnly"),
 					text: "",
 				};
 			}
@@ -540,7 +553,7 @@ export default {
 			if (normalized.includes("sith discipline")) {
 				return {
 					type: "discipline",
-					label: "Sith Discipline",
+					label: this.t("ui.difficulty.sithDiscipline"),
 					text: "",
 				};
 			}
@@ -548,7 +561,7 @@ export default {
 			if (normalized.startsWith("homebrew:")) {
 				return {
 					type: "homebrew",
-					label: "Homebrew",
+					label: this.t("ui.difficulty.homebrew"),
 					text: html.replace(/^<b>Homebrew:<\/b>\s*/i, "").replace(/^Homebrew:\s*/i, "").trim(),
 				};
 			}
@@ -556,7 +569,7 @@ export default {
 			if (normalized.includes("must make a new") || normalized.includes("new roll")) {
 				return {
 					type: "trigger",
-					label: "New Roll",
+					label: this.t("ui.difficulty.newRoll"),
 					text: html,
 				};
 			}
@@ -564,14 +577,14 @@ export default {
 			if (normalized.includes("can only affect")) {
 				return {
 					type: "restriction",
-					label: "Limited Scope",
+					label: this.t("ui.difficulty.limitedScope"),
 					text: html,
 				};
 			}
 
 			return {
 				type: "note",
-				label: "Note",
+				label: this.t("ui.content.note"),
 				text: html,
 			};
 		},
@@ -580,7 +593,7 @@ export default {
 			if (this.skill.timeToUse != null) {
 				return this.skill.timeToUse;
 			}
-			return TimeToUse.default;
+			return this.t("ui.difficulty.defaultTimeToUse");
 		},
 
 		getTimeToUseNote() {
@@ -649,7 +662,7 @@ export default {
 
 		formatMinutes(minutes) {
 			if (minutes == null) return "";
-			return `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+			return `${minutes} ${minutes === 1 ? this.t("ui.difficulty.minute") : this.t("ui.difficulty.minutes")}`;
 		},
 
 		getSelectedTimeToUseLabel() {
@@ -676,7 +689,7 @@ export default {
 		},
 
 		getRushModifierLabel() {
-			return this.getRushRule()?.modifierLabel || "Rush modifier";
+			return this.getRushRule()?.modifierLabel || this.t("ui.difficulty.rushModifier");
 		}
 	},
 	watch: {
@@ -712,8 +725,7 @@ export default {
 				display: none;
 			}
 
-			&::before {
-				content: "Show";
+			.toggle-label {
 				min-width: 3.3rem;
 				order: 3;
 				padding: 0.16rem 0.4rem;
@@ -723,6 +735,10 @@ export default {
 				font-size: 0.72rem;
 				font-weight: 900;
 				text-align: center;
+			}
+
+			.toggle-hide {
+				display: none;
 			}
 
 			.name {
@@ -816,8 +832,12 @@ export default {
 
 		&[open] {
 			.title {
-				&::before {
-					content: "Hide";
+				.toggle-show {
+					display: none;
+				}
+
+				.toggle-hide {
+					display: inline;
 				}
 
 				.summary-badges {

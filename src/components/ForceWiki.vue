@@ -1,27 +1,38 @@
 <template>
 	<section class="wiki">
-		<button class="mobile-list-toggle ui-button" type="button" :aria-expanded="data.mobileIndexOpen"
-			aria-controls="wiki-index-panel" @click="openMobileIndex">
-			<span>{{ data.currentSkill ? data.currentSkill.name : 'Select a power' }}</span>
-			<strong>Browse {{ filteredSkills.length }}</strong>
-		</button>
-		<button class="mobile-backdrop" type="button" aria-label="Close index" v-if="data.mobileIndexOpen"
+		<div class="mobile-toolbar">
+			<button class="mobile-list-toggle ui-button" type="button" :aria-expanded="data.mobileIndexOpen"
+				aria-controls="wiki-index-panel" @click="openMobileIndex">
+				<span>{{ data.currentSkill ? data.currentSkill.name : t("ui.forceWiki.selectPower") }}</span>
+				<strong>{{ t("ui.forceWiki.browse") }} {{ filteredSkills.length }}</strong>
+			</button>
+			<button class="language-toggle mobile-language-toggle ui-button" type="button"
+				:title="getLanguageToggleTitle()" :aria-label="getLanguageToggleTitle()" @click="cyclePowerLanguage">
+				<span class="language-code">{{ currentLanguage.shortLabel || currentLanguage.code.toUpperCase() }}</span>
+			</button>
+		</div>
+		<button class="mobile-backdrop" type="button" :aria-label="t('ui.forceWiki.closeIndex')" v-if="data.mobileIndexOpen"
 			@click="closeMobileIndex"></button>
 		<header class="wiki-header ui-panel">
 			<div>
-				<p class="eyebrow">Force Powers</p>
-				<h1>Reference</h1>
+				<p class="eyebrow">{{ t("ui.forceWiki.titleEyebrow") }}</p>
+				<h1>{{ t("ui.forceWiki.title") }}</h1>
 			</div>
 			<div class="header-meta">
-				<input v-model.trim="data.search" class="search" type="search" placeholder="Search powers"
-					aria-label="Search powers">
+				<input v-model.trim="data.search" class="search" type="search" :placeholder="t('ui.forceWiki.searchPlaceholder')"
+					:aria-label="t('ui.forceWiki.searchAriaLabel')">
 				<p class="count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
+				<button class="language-toggle ui-button" type="button" :title="getLanguageToggleTitle()"
+					:aria-label="getLanguageToggleTitle()" @click="cyclePowerLanguage">
+					<span class="language-code">{{ currentLanguage.shortLabel || currentLanguage.code.toUpperCase() }}</span>
+					<span class="language-label">{{ currentLanguage.label }}</span>
+				</button>
 			</div>
 		</header>
 
-		<section class="wiki-filters ui-panel" aria-label="Force power filters">
+		<section class="wiki-filters ui-panel" :aria-label="t('ui.forceWiki.filtersAriaLabel')">
 			<label class="filter-control">
-				<span>Force skills</span>
+				<span>{{ t("ui.forceWiki.filterForceSkills") }}</span>
 				<select class="ui-control" v-model="data.powerFilter">
 					<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">
 						{{ filter.label }}
@@ -29,7 +40,7 @@
 				</select>
 			</label>
 			<label class="filter-control">
-				<span>Properties</span>
+				<span>{{ t("ui.forceWiki.filterProperties") }}</span>
 				<select class="ui-control" v-model="data.traitFilter">
 					<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">
 						{{ filter.label }}
@@ -37,7 +48,7 @@
 				</select>
 			</label>
 			<label class="filter-control">
-				<span>Difficulty</span>
+				<span>{{ t("ui.forceWiki.filterDifficulty") }}</span>
 				<select class="ui-control" v-model="data.difficultyFilter">
 					<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">
 						{{ filter.label }}
@@ -45,7 +56,7 @@
 				</select>
 			</label>
 			<button class="clear-filters ui-button" type="button" :disabled="!hasActiveFilters" @click="clearFilters">
-				Clear filters
+				{{ t("ui.forceWiki.clearFilters") }}
 			</button>
 		</section>
 
@@ -55,11 +66,11 @@
 				:class="{ collapsed: data.indexCollapsed, 'mobile-open': data.mobileIndexOpen }">
 				<div class="index-panel-header">
 					<div class="index-panel-title">
-						<span>Power index</span>
-						<button class="index-close ui-button" type="button" @click="closeMobileIndex">Close</button>
+						<span>{{ t("ui.forceWiki.powerIndex") }}</span>
+						<button class="index-close ui-button" type="button" @click="closeMobileIndex">{{ t("ui.forceWiki.close") }}</button>
 					</div>
 					<input v-model.trim="data.search" class="search mobile-search" type="search"
-						placeholder="Search powers" aria-label="Search powers">
+						:placeholder="t('ui.forceWiki.searchPlaceholder')" :aria-label="t('ui.forceWiki.searchAriaLabel')">
 					<div class="mobile-filters">
 						<select class="ui-control" v-model="data.powerFilter">
 							<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">{{
@@ -76,12 +87,12 @@
 					</div>
 				</div>
 				<div class="index-heading" v-show="!data.indexCollapsed">
-					<span>Power index</span>
+					<span>{{ t("ui.forceWiki.powerIndex") }}</span>
 					<strong>{{ filteredSkills.length }}</strong>
 				</div>
 				<button class="index-toggle ui-button" type="button" :aria-expanded="!data.indexCollapsed"
-					:aria-label="data.indexCollapsed ? 'Show powers' : 'Hide powers'"
-					:title="data.indexCollapsed ? 'Show powers' : 'Hide powers'"
+					:aria-label="data.indexCollapsed ? t('ui.forceWiki.showPowers') : t('ui.forceWiki.hidePowers')"
+					:title="data.indexCollapsed ? t('ui.forceWiki.showPowers') : t('ui.forceWiki.hidePowers')"
 					@click="data.indexCollapsed = !data.indexCollapsed">
 					<span class="index-toggle-icon" aria-hidden="true"></span>
 				</button>
@@ -93,7 +104,7 @@
 							{{ skill.name }}
 						</button>
 					</div>
-					<p class="empty" v-if="groupedSkills.length === 0">No powers found.</p>
+					<p class="empty" v-if="groupedSkills.length === 0">{{ t("ui.forceWiki.noPowersFound") }}</p>
 				</div>
 			</aside>
 
@@ -104,10 +115,10 @@
 						<span class="pill" v-for="power in data.currentSkill.powers" :key="power">
 							{{ PowerName[power] }}
 						</span>
-						<span class="pill fan-made" v-if="data.currentSkill.fanMade">Fan-made</span>
+						<span class="pill fan-made" v-if="data.currentSkill.fanMade">{{ t("ui.forceWiki.fanMade") }}</span>
 					</div>
 					<div class="required" v-if="data.currentSkill.hasRequiredSkills()">
-						<span class="required-label">Requirements</span>
+						<span class="required-label">{{ t("ui.forceWiki.requirements") }}</span>
 						<div class="required-pills">
 							<button type="button" v-for="requiredSkill in data.currentSkill.required"
 								:key="requiredSkill.id || requiredSkill.name" class="required-pill ui-button"
@@ -120,11 +131,11 @@
 
 				<p class="summary" v-if="data.currentSkill.summary" v-html="getSummaryHtml()"></p>
 
-				<PowerContentBlocks :blocks="contentBlocks" />
+				<PowerContentBlocks :blocks="contentBlocks" :language="data.language" />
 
 				<section class="difficulty">
-					<h3>Rules</h3>
-					<Difficulty :skill="data.currentSkill" />
+					<h3>{{ t("ui.forceWiki.rules") }}</h3>
+					<Difficulty :skill="data.currentSkill" :language="data.language" />
 				</section>
 			</article>
 		</div>
@@ -132,7 +143,8 @@
 </template>
 
 <script>
-import { createPowerSkills } from "@/assets/data";
+import { createPowerSkills, getForcePowerLanguages } from "@/assets/data";
+import { getForcePowerText } from "@/assets/power_data";
 import { Power, PowerName } from "@/assets/powers";
 import Difficulty from "./Zebron Kebino/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
@@ -168,6 +180,7 @@ function getSkillIdFromHash() {
 
 const WIKI_INDEX_COLLAPSED_STORAGE_KEY = "star-wars-d6:wiki-index-collapsed";
 const WIKI_FILTERS_STORAGE_KEY = "star-wars-d6:wiki-filters";
+const WIKI_POWER_LANGUAGE_STORAGE_KEY = "star-wars-d6:wiki-power-language";
 
 const defaultWikiFilters = {
 	search: "",
@@ -205,6 +218,17 @@ function saveWikiFilters(value) {
 	});
 }
 
+function loadPowerLanguage() {
+	const saved = readJson(WIKI_POWER_LANGUAGE_STORAGE_KEY, "en");
+	const value = typeof saved === "string" ? saved : "en";
+	const languages = getForcePowerLanguages();
+	return languages.some((language) => language.code === value) ? value : "en";
+}
+
+function savePowerLanguage(value) {
+	writeJson(WIKI_POWER_LANGUAGE_STORAGE_KEY, String(value || "en"));
+}
+
 export default {
 	components: {
 		Difficulty,
@@ -215,8 +239,10 @@ export default {
 
 		return {
 			PowerName,
+			powerLanguages: getForcePowerLanguages(),
 			allSkills: [],
 			data: {
+				language: loadPowerLanguage(),
 				search: savedFilters.search,
 				powerFilter: savedFilters.powerFilter,
 				traitFilter: savedFilters.traitFilter,
@@ -228,14 +254,7 @@ export default {
 		};
 	},
 	created() {
-		const allSkills = createPowerSkills()
-			.sort((a, b) => String(a.name).localeCompare(String(b.name)));
-
-		this.allSkills = allSkills;
-		this.selectSkillFromHash();
-		if (!this.data.currentSkill) {
-			this.showSkill(allSkills[0], false);
-		}
+		this.loadPowerSkills();
 	},
 	mounted() {
 		if (typeof window !== "undefined") {
@@ -255,42 +274,42 @@ export default {
 	computed: {
 		powerFilters() {
 			return [
-				{ value: "all", label: "All force skills" },
-				{ value: `uses:${Power.control}`, label: "Uses Control" },
-				{ value: `uses:${Power.sense}`, label: "Uses Sense" },
-				{ value: `uses:${Power.alter}`, label: "Uses Alter" },
-				{ value: `exact:${Power.control}`, label: "Control only" },
-				{ value: `exact:${Power.sense}`, label: "Sense only" },
-				{ value: `exact:${Power.alter}`, label: "Alter only" },
-				{ value: `exact:${Power.control}+${Power.sense}`, label: "Control + Sense" },
-				{ value: `exact:${Power.control}+${Power.alter}`, label: "Control + Alter" },
-				{ value: `exact:${Power.sense}+${Power.alter}`, label: "Sense + Alter" },
-				{ value: `exact:${Power.control}+${Power.sense}+${Power.alter}`, label: "All three" },
+				{ value: "all", label: this.t("ui.filters.allForceSkills") },
+				{ value: `uses:${Power.control}`, label: this.t("ui.filters.usesControl") },
+				{ value: `uses:${Power.sense}`, label: this.t("ui.filters.usesSense") },
+				{ value: `uses:${Power.alter}`, label: this.t("ui.filters.usesAlter") },
+				{ value: `exact:${Power.control}`, label: this.t("ui.filters.controlOnly") },
+				{ value: `exact:${Power.sense}`, label: this.t("ui.filters.senseOnly") },
+				{ value: `exact:${Power.alter}`, label: this.t("ui.filters.alterOnly") },
+				{ value: `exact:${Power.control}+${Power.sense}`, label: this.t("ui.filters.controlSense") },
+				{ value: `exact:${Power.control}+${Power.alter}`, label: this.t("ui.filters.controlAlter") },
+				{ value: `exact:${Power.sense}+${Power.alter}`, label: this.t("ui.filters.senseAlter") },
+				{ value: `exact:${Power.control}+${Power.sense}+${Power.alter}`, label: this.t("ui.filters.allThree") },
 			];
 		},
 
 		traitFilters() {
 			return [
-				{ value: "all", label: "All properties" },
-				{ value: "kept-up", label: "Can be kept up" },
-				{ value: "requirements", label: "Has requirements" },
-				{ value: "no-requirements", label: "No requirements" },
-				{ value: "dark-side-point", label: "Dark Side Point risk" },
-				{ value: "light-side-only", label: "Light Side Only" },
-				{ value: "dark-side-only", label: "Dark Side Only" },
-				{ value: "long-use", label: "Longer than one round" },
-				{ value: "fan-made", label: "Fan-made" },
+				{ value: "all", label: this.t("ui.filters.allProperties") },
+				{ value: "kept-up", label: this.t("ui.filters.keptUp") },
+				{ value: "requirements", label: this.t("ui.filters.hasRequirements") },
+				{ value: "no-requirements", label: this.t("ui.filters.noRequirements") },
+				{ value: "dark-side-point", label: this.t("ui.filters.darkSidePointRisk") },
+				{ value: "light-side-only", label: this.t("ui.filters.lightSideOnly") },
+				{ value: "dark-side-only", label: this.t("ui.filters.darkSideOnly") },
+				{ value: "long-use", label: this.t("ui.filters.longerThanOneRound") },
+				{ value: "fan-made", label: this.t("ui.filters.fanMade") },
 			];
 		},
 
 		difficultyFilters() {
 			return [
-				{ value: "all", label: "Any difficulty" },
-				{ value: "low", label: "Easy entry" },
-				{ value: "moderate", label: "Up to Moderate" },
-				{ value: "difficult", label: "Difficult or harder" },
-				{ value: "very-difficult", label: "Very Difficult or harder" },
-				{ value: "heroic", label: "Heroic" },
+				{ value: "all", label: this.t("ui.filters.anyDifficulty") },
+				{ value: "low", label: this.t("ui.filters.easyEntry") },
+				{ value: "moderate", label: this.t("ui.filters.upToModerate") },
+				{ value: "difficult", label: this.t("ui.filters.difficultOrHarder") },
+				{ value: "very-difficult", label: this.t("ui.filters.veryDifficultOrHarder") },
+				{ value: "heroic", label: this.t("ui.filters.heroic") },
 			];
 		},
 
@@ -352,9 +371,19 @@ export default {
 				return this.data.currentSkill.contentBlocks;
 			}
 			return [];
-		}
+		},
+
+		currentLanguage() {
+			return this.powerLanguages.find((language) => language.code === this.data.language)
+				|| this.powerLanguages[0]
+				|| { code: "en", label: "English", shortLabel: "EN" };
+		},
 	},
 	methods: {
+		t(id, replacements = {}) {
+			return getForcePowerText(this.data.language, id, replacements);
+		},
+
 		openMobileIndex() {
 			this.data.mobileIndexOpen = true;
 		},
@@ -373,6 +402,23 @@ export default {
 			this.data.powerFilter = defaultWikiFilters.powerFilter;
 			this.data.traitFilter = defaultWikiFilters.traitFilter;
 			this.data.difficultyFilter = defaultWikiFilters.difficultyFilter;
+		},
+
+		cyclePowerLanguage() {
+			const languages = Array.isArray(this.powerLanguages) ? this.powerLanguages : [];
+			if (languages.length === 0) return;
+
+			const currentIndex = languages.findIndex((language) => language.code === this.data.language);
+			const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % languages.length : 0;
+			this.data.language = languages[nextIndex].code;
+		},
+
+		getLanguageToggleTitle() {
+			const languages = Array.isArray(this.powerLanguages) ? this.powerLanguages : [];
+			const currentIndex = languages.findIndex((language) => language.code === this.data.language);
+			const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % languages.length : 0;
+			const nextLanguage = languages[nextIndex] || this.currentLanguage;
+			return this.t("ui.forceWiki.switchLanguageTo", { language: nextLanguage.label });
 		},
 
 		getSkillPowerKey(skill) {
@@ -494,6 +540,28 @@ export default {
 			return toParagraphHtml(summary.replace(pattern, "<mark>$1</mark>"));
 		},
 
+		loadPowerSkills() {
+			const currentSkillId = this.data.currentSkill?.id || getSkillIdFromHash();
+			const allSkills = createPowerSkills(null, this.data.language)
+				.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+
+			this.allSkills = allSkills;
+			this.data.currentSkill = null;
+
+			if (currentSkillId) {
+				const target = allSkills.find((skill) => skill.id === currentSkillId);
+				if (target) this.showSkill(target, false);
+			}
+
+			if (!this.data.currentSkill) {
+				this.selectSkillFromHash();
+			}
+
+			if (!this.data.currentSkill) {
+				this.showSkill(allSkills[0], false);
+			}
+		},
+
 		showSkill(skill, updateHash = true) {
 			const target = this.allSkills.find((entry) => entry.id === skill.id)
 				|| this.allSkills.find((entry) => normalizeSkillName(entry.name) === normalizeSkillName(skill.name));
@@ -551,6 +619,11 @@ export default {
 			saveWikiFilters(this.data);
 		},
 
+		"data.language"() {
+			savePowerLanguage(this.data.language);
+			this.loadPowerSkills();
+		},
+
 		"data.mobileIndexOpen"(isOpen) {
 			if (typeof document === "undefined") return;
 
@@ -579,6 +652,7 @@ export default {
 }
 
 /* mobile controls hidden by default */
+.mobile-toolbar,
 .mobile-list-toggle,
 .mobile-backdrop,
 .index-panel-header {
@@ -611,6 +685,10 @@ export default {
 		gap: 0.5rem;
 	}
 
+	.language-toggle {
+		flex: 0 0 auto;
+	}
+
 	.search {
 		min-height: 2.5rem;
 		min-width: min(22rem, 56vw);
@@ -639,6 +717,37 @@ export default {
 		border-radius: var(--radius-sm);
 		color: var(--color-cyan);
 		font-weight: 800;
+	}
+}
+
+.language-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	min-height: 2.5rem;
+	padding: 0.32rem 0.65rem;
+	border: 1px solid rgba(242, 193, 78, 0.34);
+	background:
+		linear-gradient(135deg, rgba(242, 193, 78, 0.14), rgba(103, 213, 200, 0.08)),
+		var(--color-panel-soft);
+	color: var(--color-text);
+	font-weight: 900;
+	box-shadow: var(--shadow-control);
+
+	&:hover {
+		border-color: rgba(242, 193, 78, 0.58);
+		color: var(--color-accent);
+	}
+
+	.language-code {
+		color: var(--color-accent);
+		font-size: 0.82rem;
+		letter-spacing: 0;
+	}
+
+	.language-label {
+		color: var(--color-muted);
+		font-size: 0.82rem;
 	}
 }
 
@@ -1018,10 +1127,20 @@ export default {
 			display: none;
 		}
 
+		.mobile-toolbar {
+			display: grid;
+			position: sticky;
+			top: 0.65rem;
+			z-index: 7;
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: 0.55rem;
+			align-items: stretch;
+		}
+
 		.mobile-list-toggle {
 			display: flex;
 			position: sticky;
-			top: 0.65rem;
+			top: 0;
 			z-index: 7;
 			align-items: center;
 			justify-content: space-between;
@@ -1041,6 +1160,21 @@ export default {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
+			}
+		}
+
+		.mobile-language-toggle {
+			display: inline-flex;
+			position: sticky;
+			top: 0;
+			z-index: 8;
+			justify-content: center;
+			width: 4.15rem;
+			min-height: 3.1rem;
+			padding: 0.55rem;
+
+			.language-label {
+				display: none;
 			}
 		}
 
@@ -1270,8 +1404,12 @@ export default {
 }
 
 @media (max-width: 520px) {
-	.wiki .mobile-list-toggle {
+	.wiki .mobile-toolbar {
 		top: 0.5rem;
+	}
+
+	.wiki .mobile-list-toggle,
+	.wiki .mobile-language-toggle {
 		min-height: 3.3rem;
 	}
 

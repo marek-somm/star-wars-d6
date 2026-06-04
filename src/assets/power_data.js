@@ -79,14 +79,14 @@ const data = {
 			"1": "data.time.minutes.1",
 			"5": "data.time.minutes.5",
 			"1+": "data.time.minutes.1+",
-			"30+": "data.time.minutes.30"
+			"30+": "data.time.minutes.30+"
 		},
 		"rounds": {
 			"3": "data.time.rounds.3",
 			"6": "data.time.rounds.6"
 		},
 		"days": {
-			"2+": "data.time.days.2"
+			"2+": "data.time.days.2+"
 		},
 		"notes": {
 			"12R": "data.time.notes.12R",
@@ -5273,6 +5273,17 @@ function getStringCatalog(code = defaultPowerLanguage) {
 	return forcePowerStringCatalogs[language.code]
 		|| forcePowerStringCatalogs[language.fallbackCode]
 		|| forcePowerStringCatalogs[defaultPowerLanguage];
+}
+
+export function getForcePowerText(code, id, replacements = {}) {
+	const strings = getStringCatalog(code);
+	const fallbackStrings = forcePowerStringCatalogs[defaultPowerLanguage];
+	const template = strings[id] ?? fallbackStrings[id] ?? id;
+
+	return Object.entries(replacements).reduce(
+		(text, [key, value]) => text.replaceAll(`{${key}}`, String(value)),
+		String(template)
+	);
 }
 
 function resolveTextRefs(value, strings, fallbackStrings) {
