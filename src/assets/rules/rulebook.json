@@ -2981,7 +2981,7 @@
 											"text": "The character has the ability to falsify electronic documents to say what the character wishes. Characters might forge bank codes to get someone else's credits out of an account, alter official Imperial cargo vouchers so they may appear to have the right permit to carry a certain type of restricted good, or create valid identification so they may impersonate New Republic inspectors."
 										},
 										{
-											"type": "paragraph",
+											"type": "description",
 											"text": "A person inspecting a forged document may make an opposed forgery, search or Perception roll to spot the forgery. This is further modified by the difficulty in forging the document and familiarity with the type of document in question."
 										},
 										{
@@ -3007,31 +3007,28 @@
 												[
 													"+3-15 to forger's roll",
 													"Forger has special assistance (droids, computers) designed to assist in forging documents."
+												],
+												[
+													"No modifier",
+													"Both characters have equal experience with document type."
+												],
+												[
+													"+10 or more to difficulty or inspector's roll",
+													"Inspector has extensive experience with document type or forger has none."
+												],
+												[
+													"+5 to difficulty or inspector's roll",
+													"Inspector has some experience with document type or forger has had little."
+												],
+												[
+													"+3 to inspector's roll",
+													"Inspector has \"sample\" document to compare forgery to."
+												],
+												[
+													"+3-15 to inspector's roll",
+													"Inspector has additional assistance (computers, droids, analyzers) designed to help spot forgeries."
 												]
-											],
-											"source": {
-												"page_start": 53
-											}
-										},
-										{
-											"type": "paragraph",
-											"text": "No modifier: Both characters have equal experience with document type."
-										},
-										{
-											"type": "paragraph",
-											"text": "+10 or more to difficulty or inspector's roll: Inspector has extensive experience with document type or forger has none."
-										},
-										{
-											"type": "paragraph",
-											"text": "+5 to difficulty or inspector's roll: Inspector has some experience with document type or forger has had little."
-										},
-										{
-											"type": "paragraph",
-											"text": "+3 to inspector's roll: Inspector has \"sample\" document to compare forgery to."
-										},
-										{
-											"type": "paragraph",
-											"text": "+3-15 to inspector's roll: Inspector has additional assistance (computers, droids, analyzers) designed to help spot forgeries."
+											]
 										}
 									]
 								}
