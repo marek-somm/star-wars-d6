@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { sanitizeHtml } from "@/utils/html";
+import { formatRuleRichText } from "@/utils/ruleContent";
 import { formatRuleLabel } from "@/utils/rules";
 
 export default {
@@ -24,7 +24,7 @@ export default {
 			return Object.entries(this.fields || {}).map(([key, value]) => ({
 				key,
 				label: formatRuleLabel(key),
-				value: sanitizeHtml(value),
+				value: formatRuleRichText(value),
 			}));
 		},
 	},

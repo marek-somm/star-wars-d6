@@ -30,7 +30,7 @@
 
 <script>
 import RuleContentBlock from "@/components/RuleContentBlock.vue";
-import { sanitizeHtml } from "@/utils/html";
+import { formatRuleRichText } from "@/utils/ruleContent";
 import { getBlockKey } from "@/utils/rules";
 
 export default {
@@ -84,7 +84,7 @@ export default {
 		getBlockKey,
 
 		getFieldValue(key) {
-			return sanitizeHtml(this.rule?.fields?.[key] || "");
+			return formatRuleRichText(this.rule?.fields?.[key] || "");
 		},
 	},
 };

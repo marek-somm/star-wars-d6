@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { sanitizeHtml } from "@/utils/html";
+import { formatRuleRichText } from "@/utils/ruleContent";
 
 export default {
 	name: "TextBlock",
@@ -15,7 +15,7 @@ export default {
 	},
 	computed: {
 		safeText() {
-			return sanitizeHtml(this.block.text || "");
+			return formatRuleRichText(this.block.text || "");
 		},
 	},
 };

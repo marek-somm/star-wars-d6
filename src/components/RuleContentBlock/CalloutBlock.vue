@@ -10,7 +10,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { sanitizeHtml } from "@/utils/html";
+import { formatRuleRichText } from "@/utils/ruleContent";
 import { getBlockKey, getChildContentBlocks } from "@/utils/rules";
 
 export default {
@@ -30,7 +30,7 @@ export default {
 		},
 
 		safeText() {
-			return sanitizeHtml(this.block.text || "");
+			return formatRuleRichText(this.block.text || "");
 		},
 	},
 	methods: {

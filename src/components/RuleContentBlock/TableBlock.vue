@@ -31,6 +31,7 @@
 <script>
 import { injectDifficultyPills } from "@/utils/difficultyInline";
 import { sanitizeHtml } from "@/utils/html";
+import { formatRuleRichText } from "@/utils/ruleContent";
 import { formatRuleLabel } from "@/utils/rules";
 
 export default {
@@ -131,7 +132,7 @@ export default {
 		},
 
 		getTableCellHtml(value) {
-			return sanitizeHtml(value);
+			return formatRuleRichText(value);
 		},
 	},
 };
