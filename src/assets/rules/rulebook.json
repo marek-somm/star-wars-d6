@@ -505,7 +505,12 @@
 										},
 										{
 											"type": "example",
-											"text": "Ana Tathis is using her lightsaber to strike at a pirate. Her lightsaber skill is 5D and the lightsaber's difficulty is Difficult (her difficulty number is a 20). Ana's player rolls her skill dice and gets a 21 - she hits. If she had rolled a 10 or lower, Ana would have underestimated the momentum of her attack maneuver and sliced herself with her own lightsaber, causing 5D damage to herself."
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Ana Tathis is using her lightsaber to strike at a pirate. Her lightsaber skill is 5D and the lightsaber's difficulty is Difficult (her difficulty number is a 20). Ana's player rolls her skill dice and gets a 21 - she hits. If she had rolled a 10 or lower, Ana would have underestimated the momentum of her attack maneuver and sliced herself with her own lightsaber, causing 5D damage to herself."
+												}
+											]
 										}
 									]
 								},
@@ -587,7 +592,12 @@
 										},
 										{
 											"type": "example",
-											"text": "Dirk Harkness wants to dip into a courier's satchel to filch a datapad which happens to hold important patrol schedules for a nearby Imperial garrison base. Dirk rolls his pick pocket skill of 5D and gets an 18. The gamemaster rolls the courier's Perception of 2D and gets a 7. Since his roll is higher than the courier's, Dirk successfully slips the datapad out of the satchel."
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Dirk Harkness wants to dip into a courier's satchel to filch a datapad which happens to hold important patrol schedules for a nearby Imperial garrison base. Dirk rolls his pick pocket skill of 5D and gets an 18. The gamemaster rolls the courier's Perception of 2D and gets a 7. Since his roll is higher than the courier's, Dirk successfully slips the datapad out of the satchel."
+												}
+											]
 										},
 										{
 											"type": "table",
@@ -1607,7 +1617,7 @@
 							"title": "Mechanical Skills",
 							"source": {
 								"page_start": 45,
-								"page_end": -1
+								"page_end": 51
 							},
 							"blocks": [
 								{
@@ -3029,6 +3039,677 @@
 													"Inspector has additional assistance (computers, droids, analyzers) designed to help spot forgeries."
 												]
 											]
+										}
+									]
+								},
+								{
+									"id": "skill.gambling",
+									"type": "skill",
+									"title": "Gambling",
+									"source": {
+										"page_start": 54
+									},
+									"fields": {
+										"time_taken": "One round to several minutes",
+										"specializations": "Particular game of chance",
+										"examples": "sabacc, Trin sticks, warp-top"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Gambling reflects a character's skill at various games of chance - it is used to increase his odds of winning. This skill doesn't affect games that are purely random, but does influence games with an element of strategy, like sabacc or a similar game. When playing a skill game honestly, all characters make opposed gambling rolls, and the highest roll wins."
+										},
+										{
+											"type": "paragraph",
+											"text": "A character can also use the gambling skill to cheat or detect others who are cheating. When a character cheats, every other character is allowed to make an opposed gambling skill roll to see if they detect the cheat. The characters can make detection rolls every time the gambler attempts to cheat. If they fail, the gambler \"wins\" the round."
+										},
+										{
+											"type": "paragraph",
+											"text": "Modifiers include \"assistance\" (more than one person looking for the cheater, or helping the cheater), one character's familiarity with the game being played surpasses the other's, or other factors. The gamemaster should consider as many \"angles\" as possible when using the gambling skill."
+										},
+										{
+											"type": "paragraph",
+											"text": "Gamemasters are also encouraged to ask players to describe exactly how they're cheating. A player whose character rolls a high gambling roll to cheat but doesn't create a feasible method his character could use should not be successful. For instance, a character cheating at sabacc might hide a card up his sleeve or use a rigged card-chip."
+										}
+									]
+								},
+								{
+									"id": "skill.hide",
+									"type": "skill",
+									"title": "Hide",
+									"source": {
+										"page_start": 54
+									},
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Camouflage"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Hide represents a character's ability to conceal objects from view. The skill is used when trying to hide weapons on one's person, conceal goods within luggage, plant objects to be left in a room and other similar tasks."
+										},
+										{
+											"type": "description",
+											"text": "When characters are attempting to spot hidden objects, they must make an opposed search or Perception check. Modifiers include how well the gamemaster thinks the character hid the object. Just rolling high to hide a lightsaber on a character's belt won't do any good in a pat-down search, but dumping one into a ventilator shaft will be much more effective (usually)."
+										},
+										{
+											"type": "description",
+											"text": "Hide can also be used to conceal large objects: camouflaging a grounded starfighter or covering up the cave entrance of a secret base."
+										}
+									]
+								},
+								{
+									"id": "rule.attributes_and_skills.sabacc",
+									"type": "rule",
+									"title": "SABACC",
+									"source": {
+										"page_start": 54,
+										"page_end": 55
+									},
+									"blocks": [
+										{
+											"type": "paragraph",
+											"text": "The game of sabacc has been played for thousands of years, dating back to the ancient days of the Old Republic. Sabacc tables can be found in the most expensive luxury casinos, or dangerous hole-in-the-wall establishments, and anywhere else."
+										},
+										{
+											"type": "paragraph",
+											"text": "Sabacc is played with a deck of 76 card-chips. Through the use of micro-circuitry in the card-chips, card values change randomly, triggered by electronic impulses sent out by the dealer. There are four suits in the deck: sabers, staves, flasks and coins. Each suit consists of eleven numbered cards (marked 1-11) and four ranked cards: the Commander, the Mistress, the Master and the Ace (numbered 12-15). There are also sixteen face cards (two each of eight different cards), with special names, symbols and values. The cards are as follows: the Idiot (O), the Queen of Air and Darkness (-2), Endurance (-8), Balance (-11), Demise (-13), Moderation (-14), the Evil One (-15), and the Star (-17)."
+										},
+										{
+											"type": "paragraph",
+											"text": "When a hand is dealt, the dealer pushes a button on the table which sends out a series of random electronic pulses, which shift the values of the cards. Card values can change at any time and this wild randomness has been credited with making sabacc so popular."
+										},
+										{
+											"type": "paragraph",
+											"text": "Through several rounds of bluffing and betting, players watch and wait for their cardchips to shift. They can lock any or all of their card-chip values by placing them in the table's interference field (located at the center of the playing surface) - the card is \"frozen\" at that value."
+										},
+										{
+											"type": "paragraph",
+											"text": "Sabacc is played in both hands and games (a game can have many hands). The object of sabacc is to have the highest card total which is less than or equal to twenty-three. A total which is more than twenty-three, less than negative twenty-three, or equal to zero is a bomb out. Each player is dealt two card-chips to start and must always have at least two card-chips in his hand."
+										},
+										{
+											"type": "paragraph",
+											"text": "Sabacc has two different pots. The first pot, called the hand pot, the second pot is the sabacc pot."
+										},
+										{
+											"type": "paragraph",
+											"text": "With sabacc hands, a player wins if everyone else folds or if he locks in the highest card total less than twenty-three. If two or more players tie. they participate in a sudden demise - each player is dealt one cardchip from the deck which must be added to their locked-in hand. The best hand after this deal takes the hand pot. If there is still a tie, the pot is split."
+										},
+										{
+											"type": "paragraph",
+											"text": "There are two ways to win the sabacc pot. The first, when a player has a total of exactly 23, is called a pure sabacc. The second is an idiot's array, which means the player has an Idiot face card (O), and a two value card and a three value card - a literal twenty-three! At most tables, an idiot's array beats a pure sabacc. The game is over when the sabacc pot has been won."
+										},
+										{
+											"type": "paragraph",
+											"text": "Some players have found a way to cheat at sabacc by using a rigged card-chip called a skifter. A skifter allows the player to change its value by tapping the corner of the card. The player waits until it produces the exact value he desires. Of course. being caught using a skifter is a good way to end up on the wrong end of a blaster..."
+										}
+									]
+								},
+								{
+									"id": "skill.investigation",
+									"type": "skill",
+									"title": "Investigation",
+									"source": {
+										"page_start": 55
+									},
+									"fields": {
+										"time_taken": "One round to several days",
+										"specializations": "Locale or field of investigation",
+										"examples": "Mos Eisley, Imperial City, property estates, criminal records"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Investigation is a character's ability to find and gather information regarding someone else's activities, and then draw a conclusion about what the target has done or where she has gone. Investigation is useful for finding out about the target's ship reservations and following her to a specific planet, or figuring out what shady business dealings she has undertaken. Just as with other skills, investigation is often more fun when you use roleplaying over skill rolls; when a player makes a good investigation roll, gamemasters can provide additional hints and clues rather than just giving the player the answer to a puzzle."
+										}
+									]
+								},
+								{
+									"id": "skill.persuasion",
+									"type": "skill",
+									"title": "Persuasion",
+									"source": {
+										"page_start": 55
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Specific form of persuasion",
+										"examples": "debate, storytelling, flirt, oration"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Persuasion is similar to con and bargain - and is a little bit of both. A character using persuasion is trying to convince someone to go along with them - but they aren't tricking the person (that would be con), and they aren't paying them (as in a bargain)."
+										},
+										{
+											"type": "description",
+											"text": "However, potential rewards can be offered - talking someone into rescuing a princess from an Imperial holding cell is definitely a persuasion attempt. And stating that the reward would be \"bigger than anything you can imagine\" without going into details is not unusual."
+										},
+										{
+											"type": "paragraph",
+											"text": "The difficulty ranges for persuasion are the same as for con on page 51 - except they should be modified as follows:"
+										},
+										{
+											"type": "paragraph",
+											"text": "If the character making the persuasion actually means what he says about a situation (as Luke Skywalker did when he convinced Han Solo about rescuing Leia), decrease the difficulty range by one level."
+										},
+										{
+											"type": "paragraph",
+											"text": "If the character making the attempt is actually trying a low- level con on the target (as Greedo tried to when he told Han he'd \"lose\" him if Han turned over the money he owed Jabba), then increase the difficulty range by one level."
+										}
+									]
+								},
+								{
+									"id": "skill.search",
+									"type": "skill",
+									"title": "Search",
+									"source": {
+										"page_start": 55
+									},
+									"fields": {
+										"time_taken": "One round or longer",
+										"specializations": "Tracking"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill is used when the character is trying to spot hidden objects or individuals. If the subject of the search has been purposefully hidden, the searching character makes an opposed roll against the hiding character's hide skill. If the object hasn't been hidden, the character simply makes a roll against a difficulty."
+										},
+										{
+											"type": "description",
+											"text": "This skill is also used to spot characters using the sneak skill, such as a group of rebels moving into position to prepare an ambush, or someone attempting to conceal themselves. This is an opposed roll - the character sneaking around makes a roll, and anyone who might spot the character makes a search (or Perception) roll."
+										},
+										{
+											"type": "paragraph",
+											"text": "Here are some sample search difficulties:"
+										},
+										{
+											"type": "table",
+											"subtype": "difficulty",
+											"rows": [
+												[
+													1,
+													"Character knows object's exact location."
+												],
+												[
+													2,
+													"Character knows object's general location."
+												],
+												[
+													3,
+													"Character has only vague information, or has only a general idea regarding what he is looking for."
+												],
+												[
+													4,
+													"Character is conducting a general search, but doesn't know what he is looking for (looking for clues at a crime scene). Looking for objects that are very small, like coins."
+												],
+												[
+													5,
+													"Character doesn't know what he is looking for, or is searching for a very obscure or extremely small object."
+												],
+												[
+													6,
+													"Object is almost microscopic in size."
+												]
+											],
+											"source": {
+												"page_start": 55
+											}
+										},
+										{
+											"type": "table",
+											"subtype": "modifier",
+											"rows": [
+												[
+													"No Modifier",
+													"Grassland."
+												],
+												[
+													"+3 to search difficulty",
+													"If the trail is a day old."
+												],
+												[
+													"+6 to search difficulty:",
+													"If the trail is a few days old."
+												],
+												[
+													"+9 to search difficulty",
+													"If the trail is a week old."
+												],
+												[
+													"+6 to search difficulty",
+													"Tracking during bad weather."
+												],
+												[
+													"+3 to search difficulty",
+													"In a Forrest or thin crowd "
+												],
+												[
+													"+6 to search difficulty",
+													"In a rain forest or big crowd."
+												],
+												[
+													"+9 to search difficulty",
+													"In a desert, wasteland, or over a hard surface."
+												],
+												[
+													"-3 to search difficulty",
+													"Soft dirt, mud, or snow."
+												],
+												[
+													"-3 to search difficulty",
+													"For every two people in a party being tracked."
+												],
+												[
+													"-6 to search difficulty",
+													"If tracking wheeled/tracked vehicle."
+												],
+												[
+													"-3 to search difficulty",
+													"Per each additional vehicle being tracked."
+												]
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.sneak",
+									"type": "skill",
+									"title": "Sneak",
+									"source": {
+										"page_start": 55
+									},
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Specific type of terrain",
+										"examples": "jungle, urban"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Sneak represents the character's ability to move silently, hide from view, move in shadows and otherwise creep around without being noticed. This is an opposed roll - the character sneaking around makes a sneak roll, and anyone who might spot the character makes a search or Perception roll."
+										},
+										{
+											"type": "description",
+											"text": "This skill allows characters to hide themselves only - to conceal objects, they must use the hide skill."
+										},
+										{
+											"type": "paragraph",
+											"text": "This skill is also used when the character wants to make a long distance journey without leaving behind physical clues. The character makes a roll to leave behind false clues and paths and the tracking character must make an opposed search roll to follow the true path."
+										}
+									]
+								}
+							]
+						},
+						{
+							"id": "skill_group.strength",
+							"type": "skill_group",
+							"title": "Strength Skills",
+							"source": {
+								"page_start": 56,
+								"page_end": 57
+							},
+							"blocks": [
+								{
+									"type": "paragraph",
+									"text": "Strength represents a character's physical strength, endurance and health. Characters with a high Strength can lift heavy objects, push themselves for days without rest and are good at resisting disease and injury. A character with a low Strength gets winded very easily."
+								},
+								{
+									"id": "skill.brawling",
+									"type": "skill",
+									"title": "Brawling",
+									"source": {
+										"page_start": 56
+									},
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Specific brawling style",
+										"examples": "boxing, martial arts"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Brawling is the \"melee combat\" skill used for fighting hand-to-hand without any weapons. Most creatures have a good brawling skill."
+										},
+										{
+											"type": "description",
+											"text": "The base difficulty to make a brawling attack is Very Easy unless the target makes a brawling parry roll."
+										},
+										{
+											"type": "paragraph",
+											"text": "Characters may grapple with their opponents rather than simply slugging them. When grappling, a character is trying to subdue his foe by wrestling him to the ground, pinning his arms so he cannot fight back, or stop him in some other way. When a character attempts to grapple, increase the difficulty of his attack by +10 - if the attacker achieves a stun result or better, the opponent is at a disadvantage: pinned, in a headlock, or a similar situation. If the attacker wishes, he can automatically inflict normal damage for every round the victim is held at bay. The victim must make an opposed Strength roll to escape, with a +1 penalty for each point by which the character succeeded in his grapple attempt."
+										},
+										{
+											"type": "mechanic",
+											"title": "Martial Arts",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Martial arts is a specialization of the brawling skill. Each time the specialization is raised 1D above a character's Strength stat the player may choose a combat action (or technique) that their character knows. (see \"Martial Arts\" in the \"Combat & Injuries\" chapter)."
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.climbing_jumping",
+									"type": "skill",
+									"title": "Climbing/Jumping",
+									"source": {
+										"page_start": 56,
+										"page_end": 57
+									},
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Climbing, jumping"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Use this skill when a character attempts to climb a tree, wall or cliff, leap a wide gap, or jump up and grab an outcropping."
+										},
+										{
+											"type": "paragraph",
+											"text": "Characters who have the climbing/jumping skill can move up a surface at their normal Move (barring adverse environmental factors) with a base difficulty of Very Easy. Those without the climbing/jumping skill move at half their normal movement rate. Increasing the rate increases the difficulty by +10 for each additional one-half of the base climbing Move (rounded up)."
+										},
+										{
+											"type": "example",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "A character with a Move of 10 and without the climbing/jumping skill wants to move quickly up a tree. His base climbing Move is 5. To increase this to eight meters per round means a difficulty of 15 (5 to climb the tree plus +10 to increase the movement by one-half, or three meters, of his base climbing Move)."
+												}
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "A character's total leaping distance (vertically and horizontally) from a standing position equals one-quarter of his Move in meters (rounded up). The base difficulty is Very Easy to move this distance, and +10 for each additional two meters (vertically and horizontally) the character hopes to cover. If there is enough room, the character may try running before jumping. The character may add +5 to his skill total per round of the running start, up to a maximum of +10 (two rounds). The character must have beat the running difficulty in both rounds in order to get the full bonus."
+										},
+										{
+											"type": "paragraph",
+											"text": "Climbers usually move in groups and combine actions, with frequent rest breaks and patient, steady progress. Base difficulties for uses of this skill are described above. Note that taking care in climbing and carrying 50% or more of the character's body weight slows the character down by two meters or more per round."
+										},
+										{
+											"type": "table",
+											"title": "Climbing Modifiers",
+											"rows": [
+												[
+													"-10 to climber's difficulty",
+													"Many handholds."
+												],
+												[
+													"-6 to climber's difficulty",
+													"Prepared for climbing."
+												],
+												[
+													"-5 to climber's difficulty",
+													"Taking care in climbing."
+												],
+												[
+													"-3 to climber's difficulty",
+													"Less than a 90-degree angle."
+												],
+												[
+													"-6 to climber's difficulty",
+													"Less than a 60-degree angle."
+												],
+												[
+													"-9 to climber's difficulty",
+													"Less than a 45-degree angle."
+												],
+												[
+													"+3 to climber's difficulty",
+													"Carrying 25% of body weight."
+												],
+												[
+													"+6 to climber's difficulty",
+													"Carrying 50% of body weight."
+												],
+												[
+													"+15 to climber's difficulty",
+													"Carrying 100% of body weight."
+												],
+												[
+													"+5 to climber's difficulty",
+													"Slick or loose surface."
+												],
+												[
+													"+10 to climber's difficulty",
+													"Fewer than basic handholds and footholds."
+												]
+											]
+										},
+										{
+											"type": "table",
+											"title": "Jumping Modifiers",
+											"rows": [
+												[
+													"No Modifier",
+													"Performing the maneuver from a flat surface, to another flat surface."
+												],
+												[
+													"-5 to the jumper's difficulty",
+													"Unlimited landing area."
+												],
+												[
+													"+5 to the jumper's difficulty",
+													"Limited landing area."
+												],
+												[
+													"+10 to the jumper's difficulty",
+													"Almost no landing area."
+												],
+												[
+													"+3 or more to the jumper's difficulty",
+													"Rough, slick, or unsteady landing area."
+												],
+												[
+													"+6 to the jumper's difficulty",
+													"Uphill (more than 30-degrees)."
+												],
+												[
+													"+6 to jumper's difficulty",
+													"Carrying 50% of body weight."
+												],
+												[
+													"+9 to jumper's difficulty",
+													"Carrying 75% of body weight."
+												],
+												[
+													"+12 to jumper's difficulty",
+													"Carrying 100% of body weight."
+												]
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.lifting",
+									"type": "skill",
+									"title": "Lifting",
+									"source": {
+										"page_start": 57
+									},
+									"fields": {
+										"time_taken": "One round"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Lifting is a character's ability to lift heavy objects; it's also the character's ability to carry something for a long time. The difficulty depends on the weight of the object and how long it will be carried."
+										},
+										{
+											"type": "paragraph",
+											"text": "When a character first lifts an object, he must make a lifting check. At each interval listed on the chart below, the character has to make another check to see if he can continue to carry the object or is so exhausted that he must put it down."
+										},
+										{
+											"type": "paragraph",
+											"text": "If the character fails a roll, he must immediately put the object down. If the character matches the difficulty level, he can do nothing but concentrate on carrying the object for that time while walking."
+										},
+										{
+											"type": "paragraph",
+											"text": "If the character beats the difficulty by more than one level, the character can do other actions while carrying the weight, but lifting the object always counts as an action."
+										},
+										{
+											"type": "paragraph",
+											"text": "Please note that for repeated Heroic actions, the difficulty should escalate (for example, a first Heroic action might have a difficulty number of 30; the second one might have a difficulty of 35; the third might have a difficulty number of 45, and so forth)."
+										},
+										{
+											"type": "table",
+											"columns": [
+												"Weight",
+												"Difficulty Level"
+											],
+											"rows": [
+												[
+													"10 kg",
+													1
+												],
+												[
+													"50kg",
+													2
+												],
+												[
+													"100kg",
+													3
+												],
+												[
+													"200kg",
+													4
+												],
+												[
+													"500kg",
+													5
+												],
+												[
+													"750kg",
+													6
+												],
+												[
+													"1 metric ton",
+													"[[diff:6]] + 10"
+												],
+												[
+													"1.5 metric tons",
+													"[[diff:6]] + 20"
+												],
+												[
+													"2 metric tons",
+													"[[diff:6]] + 30"
+												],
+												[
+													"2.5 metric tons",
+													"[[diff:6]] + 40"
+												],
+												[
+													"3 metric tons",
+													"[[diff:6]] + 50"
+												]
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "Increase the difficulty based on how long the character wishes to lift the object:"
+										},
+										{
+											"type": "table",
+											"columns": [
+												"Time",
+												"Difficulty Level Increase"
+											],
+											"rows": [
+												[
+													"1-6 rounds",
+													"(up to 30 seconds)"
+												],
+												[
+													"7 rounds-3 minutes",
+													"+ 1 difficulty level"
+												],
+												[
+													"Up to 10 minutes",
+													"+2 difficulty levels"
+												],
+												[
+													"Up to 30 minutes",
+													"+3 difficulty levels"
+												],
+												[
+													"Up to 1 hour",
+													"+4 difficulty levels"
+												]
+											],
+											"source": {
+												"page_start": 57
+											}
+										},
+										{
+											"type": "paragraph",
+											"text": "After the first hour, the character must make a new lifting or Strength roll every hour at the same difficulty as for one hour. If the character fails the roll, the character must rest for twice as long as he was lifting the heavy weight."
+										}
+									]
+								},
+								{
+									"id": "skill.stamina",
+									"type": "skill",
+									"title": "Stamina",
+									"source": {
+										"page_start": 57
+									},
+									"fields": {
+										"time_taken": "Stamina checks are made when characters exert themselves over long periods of time"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Stamina checks reflect that a character is being pushed to his or her physical limits. They should be called for once in a while to show the strain on a character; only require them when a character does something out of the ordinary."
+										},
+										{
+											"type": "description",
+											"text": "Whenever a character fails a stamina roll, he is fatigued; all actions are at -1D for every stamina check failed until the character rests for as long as he exerted himself."
+										},
+										{
+											"type": "paragraph",
+											"text": "Characters can still continue if they are fatigued, until they fail a third stamina check. At this point, the character is completely exhausted and must rest for twice the amount of time that he exerted himself to remove the penalty."
+										},
+										{
+											"type": "example",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Platt Okeefe has crash-landed on a planet and must march over scorching badlands to reach the nearest village. The gamemaster decides to ask Platt's player to roll her stamina once, for each hour of game time (between various encounters with badland raiders, hungry sand lizards and a nasty swoop gang)."
+												},
+												{
+													"type": "paragraph",
+													"text": "Platt's stamina is 4D - the gamemaster determines that marching under the harsh wasteland sun is Difficult (with a difficulty number of 17). Platt fails her first stamina check by rolling only 14. She continues with a -1D penalty to all actions."
+												},
+												{
+													"type": "paragraph",
+													"text": "She fails her next roll (getting only a 9) and takes a -2D penalty to all rolls. Still she goes on. When she fails her third stamina roll, Platt drags herself to a shady rock outcropping and collapses in exhaustion."
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.swimming",
+									"type": "skill",
+									"title": "Swimming",
+									"source": {
+										"page_start": 57
+									},
+									"fields": {
+										"time_taken": "One round to several minutes or hours"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill represents the character's ability to stay afloat in aquatic environments - lakes, oceans, flooding rivers and luxury starliner swimming pools. Swimming difficulties are determined by the water conditions: the starliner pool is Very Easy, while a roaring river might be Very Difficult."
+										},
+										{
+											"type": "description",
+											"text": "When a character fails a swimming check, he begins to drown. Roll 2D at the beginning of each round; if the total is less than the number of rounds that the character has been drowning, the character drowns and dies. Characters can attempt other actions while drowning at a -3D penalty. Characters who are drowning may attempt to save themselves once per round. They must make a swimming total at one level of difficulty higher than the one in which they failed their swimming roll (the character doesn't suffer the -3D penalty when making this roll)."
 										}
 									]
 								}
