@@ -1891,11 +1891,14 @@
 										{
 											"type": "table",
 											"title": "Decoder Roll Chart",
-											"columns": [
-												"Coder's roll is &ge; decoder's roll",
-												"Decoder learns"
-											],
 											"rows": [
+												{
+													"type": "header",
+													"cells": [
+														"Coder's roll is &ge; decoder's roll by:",
+														"Decoder learns:"
+													]
+												},
 												[
 													"6",
 													"Nothing can be made out"
@@ -1903,17 +1906,14 @@
 												[
 													"1-5",
 													"Decoder makes out wrong message"
-												]
-											]
-										},
-										{
-											"type": "table",
-											"title": "Decoder Roll Chart",
-											"columns": [
-												"Decoder's roll is &ge; coder's roll",
-												"Decoder learns"
-											],
-											"rows": [
+												],
+												{
+													"type": "header",
+													"cells": [
+														"Decoder's roll is &ge; coder's roll by:",
+														"Decoder learns:"
+													]
+												},
 												[
 													"0-3",
 													"One or two garbled passages"
@@ -2567,6 +2567,471 @@
 										{
 											"type": "description",
 											"text": "Walker operation can be used for a vehicle dodge - a \"reaction skill\" - to avoid enemy fire."
+										}
+									]
+								}
+							]
+						},
+						{
+							"id": "skill_group.perception",
+							"type": "skill_group",
+							"title": "Perception Skills",
+							"source": {
+								"page_start": 51,
+								"page_end": 55
+							},
+							"blocks": [
+								{
+									"type": "paragraph",
+									"text": "Perception is the character's ability to notice things about his surroundings and other characters. Those with a high Perception are quick to spot concealed objects or people hiding behind a corner. They're also good at convincing other people to do favors for them, tricking or conning others, and bargaining to get a good price for goods or services. Characters with a low Perception get lost a lot."
+								},
+								{
+									"type": "paragraph",
+									"text": "Gamemasters often ask players to make search or Perception rolls to see how much their characters notice about their surroundings. The higher the roll, the more the character notices."
+								},
+								{
+									"type": "paragraph",
+									"text": "Here are some sample difficulties for search or Perception rolls:"
+								},
+								{
+									"type": "table",
+									"subtype": "difficulty",
+									"rows": [
+										[
+											1,
+											"Noticing something very obvious. A character is walking down a crowded starport avenue."
+										],
+										[
+											2,
+											"Making an obvious finding. The starport street crowd consists of spacers and aliens (a few Rodians, Duros and Sullustans)."
+										],
+										[
+											3,
+											"Finding something interesting. One of the aliens is a Wookiee, and one Sullustan is carrying an over-sized bag."
+										],
+										[
+											4,
+											"Spotting something very specific. The Wookiee seems to be walking along with another spacer. The bag bears SoroSuub markings."
+										],
+										[
+											5,
+											"Observing something requiring more than just casual glance. The spacer and the Wookiee are arguing about starship repairs. Somebody's tailing you."
+										],
+										[
+											6,
+											"You really have to look to notice this. The Wookiee has blue eyes, and his spacer friend's trousers have a Corellian Bloodstripe running down the side. The guy following you is trying to conceal an Imperial Security Bureau identification badge under his vest."
+										]
+									]
+								},
+								{
+									"type": "paragraph",
+									"text": "Several Perception skills are interaction skills - they are used to influence people the characters meet. Using these interactive skills often pits the character's skill against the other person's skill to resist it (often Perception or willpower)."
+								},
+								{
+									"type": "paragraph",
+									"text": "Interaction skills between player and gamemaster characters shouldn't be solely determined by the die roll. If a character is conning a customs agent, and the player rolls a high con score, he obviously succeeds - but how does his character do it? What does he say to influence the customs agent? This is up to the player. The better the player acts the role of his character, the greater his chance of success should be."
+								},
+								{
+									"type": "paragraph",
+									"text": "Interactive skill rolls shouldn't be used by players to influence other players' characters - instead, they should resolve the situation by roleplaying and coming to some kind of mutual agreement. By reducing player interaction to a series of skill rolls, the game turns from a fun exercise in social interaction to a die rolling contest, which isn't nearly as enjoyable."
+								},
+								{
+									"id": "skill.bargain",
+									"type": "skill",
+									"title": "Bargain",
+									"source": {
+										"page_start": 51,
+										"page_end": 52
+									},
+									"fields": {
+										"time_taken": "One minute to an hour",
+										"specializations": "Kind of merchandise to be purchased or sold",
+										"examples": "spice, weapons, droids, datapads"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters use this skill to haggle over prices for goods they want to purchase or sell. The difficulty is often an opposed roll against the gamemaster character's bargain skill."
+										},
+										{
+											"type": "paragraph",
+											"text": "The gamemaster should determine the local market value of the good. In general, the item's value should be near the value listed in the stat-block. (see \"Equipment & Weapons\"), but some goods in some marketplaces will be very expensive or very cheap compared to other locations. Likewise, some merchants will charge exorbitant fees, either as part of the \"bargaining process\" or because of the local situation."
+										},
+										{
+											"type": "paragraph",
+											"text": "This skill is designed to be roleplayed rather than simply rolled. The gamemaster may also use a mixture of roleplaying and die rolls to determine how the character is doing."
+										},
+										{
+											"type": "table",
+											"title": "Bargaining Results",
+											"rows": [
+												{
+													"type": "section",
+													"text": "Seller beats buyer"
+												},
+												[
+													"21+",
+													"Price is three times local market value."
+												],
+												[
+													"16-20",
+													"Price is two times local market value."
+												],
+												[
+													"11-15",
+													"Price is one and a half times local market value."
+												],
+												[
+													"6-10",
+													"Price is one and a quarter times local market value."
+												],
+												[
+													"3-5",
+													"Price is 110% of local market value."
+												],
+												{
+													"type": "note",
+													"text": "If rolls are within two points of each other either way, then purchase price is at local market value."
+												},
+												{
+													"type": "section",
+													"text": "Buyer rolls higher than seller"
+												},
+												[
+													"3-5",
+													"Price is about 90% of local market value."
+												],
+												[
+													"6-10",
+													"Price is about 85% of local market value."
+												],
+												[
+													"11-15",
+													"Price is about 75% of local market value."
+												],
+												[
+													"16-20",
+													"Price is about 65% of local market value."
+												],
+												[
+													"21+",
+													"Price is about 50% of local market value."
+												]
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "The player always has the choice to refuse a deal. If the gamemaster feels that the character's roll represents an unfair deal, without the player embellishing by roleplaying the situation, he should allow the gamemaster character to refuse the deal as well."
+										},
+										{
+											"type": "paragraph",
+											"text": "To resolve the haggling, make an opposed skill roll using any modifiers appropriate. Find the results on the \"Bargaining Results\" table above."
+										},
+										{
+											"type": "table",
+											"subtype": "modifier",
+											"rows": [
+												[
+													"No modifier",
+													"Bargainers who have never dealt before. +5 or more to purchaser: Buyer and seller have good relationship. The buyer is a frequent customer, pays on time and never has a serious complaint."
+												],
+												[
+													"+5 or more to seller",
+													"Customer has been a \"problem\" customer, so buyer has a vested interest in getting as good a price as possible, or even risk losing the sale in order to get personal satisfaction."
+												],
+												[
+													"+5 or more to purchaser",
+													"Local market is flooded with this good, and the prices have been driven down by easy availability."
+												],
+												[
+													"+5 or more to seller",
+													"Product isn't readily available, and thus has a high demand."
+												],
+												[
+													"+10 or more to seller",
+													"Local merchants work together to artificially inflate prices."
+												],
+												[
+													"+5 or more to buyer",
+													"Item is damaged. The seller will pretend to drive a hard bargain, but will let goods go at a lower price and hope that the buyer doesn't notice the damaged item. If the customer makes appropriate Perception check to notice that good is damaged, the modifier should increase to +10 at a minimum."
+												],
+												[
+													"+5 or more to seller",
+													"Seller makes up extravagant claims about abilities or qualities of good in hopes that customer will accept claims at face value. If customer makes an appropriate value skill check, customer will realize which claims are false."
+												]
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Bribery",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Bargain can also be used to bribe others. This skill use requires more than simply handing someone a stack of coins. The character must gain that person's confidence so that they will believe the bribe will remain their secret. Bribery may also take the form of having to do favors: \"You know, if you allow me to 'buy back' my blaster (slipping the inspector a 100 credit coin), I can find out when Jabba's smugglers are going to be delivering the next shipment of Kessel spice. I'm sure that anyone who could bust that kind of shipment would receive the admiration of his superior, and a large reward...\""
+												},
+												{
+													"type": "paragraph",
+													"text": "Note that there are few officials above accepting a bribe now and then - it's just a matter of figuring out how many credits or what favors will get the individual's attention. Characters make opposed bargain skill rolls when negotiating a bribe - if the recipient of the bribe rolls higher, he should be able to demand more money or favors for his cooperation."
+												},
+												{
+													"type": "paragraph",
+													"text": "The type and size of the bribe depends on the situation. Petty local officials may want 100 credits to get a confiscated blaster back or several thousand to get a ship out of the impound yard. A character may have to pay 15 or 20 credits to get a specific table at a restaurant, or possibly several hundred just to get a certain room at a fancy hotel. If the official is famous or very powerful, bribes will have to be correspondingly large or somehow subtle (for example, giving an official's wife a loan at a very favorable interest rate). Remember that some characters have no use for bribes and will be likely to report someone who attempts to bribe."
+												},
+												{
+													"type": "paragraph",
+													"text": "The size of the bribe also determines how well it is received."
+												},
+												{
+													"type": "table",
+													"subtype": "modifier",
+													"rows": [
+														[
+															"+10 or more to target's roll",
+															"Bribe is insultingly small (less than half of what is reasonable). The bribing character may be reported to local officials."
+														],
+														[
+															"+5 to target's roll",
+															"Bribe is small (less than 90% of what is reasonable)."
+														],
+														[
+															"+5 to bribing character's roll",
+															"Bribe is larger than expected."
+														],
+														[
+															"+10 or more to bribing character's roll",
+															"Bribe is much larger than is expected."
+														]
+													]
+												},
+												{
+													"type": "note",
+													"text": "Imperial stormtroopers and Republic clone-troopers generally (with gamemaster discretion of course) cannot be bribed. They can be tricked, conned, intimidated and, of course, killed, but bribing one is like trying to teach a rancor table manners."
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.command",
+									"type": "skill",
+									"title": "Command",
+									"source": {
+										"page_start": 52
+									},
+									"fields": {
+										"time_taken": "One round",
+										"specializations": "Leader's unit",
+										"examples": "Rogue Squadron, Imperial stormtroopers"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Command is a measure of a character's ability to convince gamemaster characters and subordinates to do what they're told. Command generally shouldn't be used against other player characters to force them to do something against their will - these situations should be handled through roleplaying interaction."
+										},
+										{
+											"type": "description",
+											"text": "A high command roll can complement individual participants' rolls in a group activity, while a low command roll can impose negative modifiers. It generally requires at least one round of planning to perform effectively."
+										},
+										{
+											"type": "description",
+											"text": "The skill is often used in combat situations, such as a squad leader commanding his troops or a Star Destroyer captain telling his gunners which enemy ship to target."
+										},
+										{
+											"type": "paragraph",
+											"text": "When a character uses command, determine a difficulty number."
+										},
+										{
+											"type": "table",
+											"subtype": "difficulty",
+											"rows": [
+												[
+													1,
+													"Characters have every reason to obey. (Stormtroopers taking orders from an Imperial admiral.)"
+												],
+												[
+													2,
+													"Characters have some reason to obey. (A bunch of Rebels from different units working together to fight off Imperial troops.)"
+												],
+												[
+													3,
+													"Characters have no reason to disobey. (A crowd of civilians being commanded to \"Move along\" at an accident scene.)"
+												],
+												[
+													4,
+													"Characters are skeptical or suspicious. (A bunch of Ewoks who are carrying you lashed to stakes.)"
+												],
+												[
+													5,
+													"Characters have every reason to be suspicious. (Imperial troops who think you're a Rebel agent.)"
+												],
+												[
+													6,
+													"Characters have no reason at all to listen to you. (Imperial troops when you're dressed like a Rebel.)"
+												]
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "Command is also used when coordinating projects with many workers, such as manufacturing ships in space dock and other complex operations. See the sections on \"Combined Actions\" in the chapter on \"The Rules.\""
+										}
+									]
+								},
+								{
+									"id": "skill.con",
+									"type": "skill",
+									"title": "Con",
+									"source": {
+										"page_start": 53
+									},
+									"fields": {
+										"time_taken": "One combat round to several minutes, depending upon how long it takes the character to say what is needed to pull off the con",
+										"specializations": "Particular method of conning",
+										"examples": "disguise, fast-talk"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Con is used to trick and deceive characters, or otherwise convince them to do something that isn't in their best interest. (Con is another interaction skill, so you'll often want to use roleplaying to resolve these situations.)"
+										},
+										{
+											"type": "paragraph",
+											"text": "The difficulty of the con depends upon who is being conned."
+										},
+										{
+											"type": "table",
+											"subtype": "difficulty",
+											"rows": [
+												[
+													1,
+													"A close friend or relative who has no reason to suspect a con."
+												],
+												[
+													2,
+													"Naive teenager, gullible person."
+												],
+												[
+													3,
+													"A stormtrooper when the con doesn't personally involve him."
+												],
+												[
+													4,
+													"A customs or law enforcement officer; stormtrooper when con will involve possible danger."
+												],
+												[
+													5,
+													"Someone who should know better. Jabba the Hutt, an Imperial general."
+												],
+												[
+													6,
+													"Someone who really knows better. A Jedi Knight, Emperor Palpatine."
+												]
+											]
+										},
+										{
+											"type": "table",
+											"subtype": "modifier",
+											"rows": [
+												[
+													"+10 or more to victim's roll",
+													"Con will cause victim to do something illegal or highly dangerous."
+												],
+												[
+													"+5 or more to victim's roll",
+													"Person knows the character is prone to pulling cons and has their guard up."
+												],
+												[
+													"No modifier",
+													"Con will convince victim to do something they might normally do anyway."
+												],
+												[
+													"+5 or more to conning character's roll",
+													"Victim generally likes character, but suspects something because of character's unusual behavior."
+												],
+												[
+													"+10 or more to conning character's roll",
+													"Victim has no reason to suspect dishonesty, and trusts and likes that character."
+												]
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "Characters can actively resist a con attempt by rolling their con or Perception dice against the opponent's con total. In that case, the con difficulty number is ignored, but the modifiers are not. Cons can only be resisted by characters who suspect one - the gamemaster should never say, \"Would you like to roll against a con attempt?\""
+										},
+										{
+											"type": "paragraph",
+											"text": "Some characters will be better off not resisting and just let the conning character roll against the difficulty number. If a character with a Perception of 2D \"calls\" a con - rolls against it - and the difficulty would have normally been Heroic, it's now whatever the Perception roll is... sometimes people outsmart themselves and fall for something even when they should know better."
+										}
+									]
+								},
+								{
+									"id": "skill.forgery",
+									"type": "skill",
+									"title": "Forgery",
+									"source": {
+										"page_start": 53
+									},
+									"fields": {
+										"time_taken": "One round to several days",
+										"specializations": "Specific kind of documentation to be forged",
+										"examples": "security codes, datapad scandocs, starship permits"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "The character has the ability to falsify electronic documents to say what the character wishes. Characters might forge bank codes to get someone else's credits out of an account, alter official Imperial cargo vouchers so they may appear to have the right permit to carry a certain type of restricted good, or create valid identification so they may impersonate New Republic inspectors."
+										},
+										{
+											"type": "paragraph",
+											"text": "A person inspecting a forged document may make an opposed forgery, search or Perception roll to spot the forgery. This is further modified by the difficulty in forging the document and familiarity with the type of document in question."
+										},
+										{
+											"type": "table",
+											"subtype": "modifier",
+											"rows": [
+												[
+													"+10 or more to forger's roll",
+													"Forger has had extensive experience with document type or inspector has had none."
+												],
+												[
+													"+5 to forger's roll",
+													"Forger has some experience with document type or inspector has had little."
+												],
+												[
+													"+3 to forger's roll",
+													"Forger has \"sample\" document to compare forgery to."
+												],
+												[
+													"+3 to forger's roll",
+													"Forger has all necessary materials to perform forgery."
+												],
+												[
+													"+3-15 to forger's roll",
+													"Forger has special assistance (droids, computers) designed to assist in forging documents."
+												]
+											],
+											"source": {
+												"page_start": 53
+											}
+										},
+										{
+											"type": "paragraph",
+											"text": "No modifier: Both characters have equal experience with document type."
+										},
+										{
+											"type": "paragraph",
+											"text": "+10 or more to difficulty or inspector's roll: Inspector has extensive experience with document type or forger has none."
+										},
+										{
+											"type": "paragraph",
+											"text": "+5 to difficulty or inspector's roll: Inspector has some experience with document type or forger has had little."
+										},
+										{
+											"type": "paragraph",
+											"text": "+3 to inspector's roll: Inspector has \"sample\" document to compare forgery to."
+										},
+										{
+											"type": "paragraph",
+											"text": "+3-15 to inspector's roll: Inspector has additional assistance (computers, droids, analyzers) designed to help spot forgeries."
 										}
 									]
 								}

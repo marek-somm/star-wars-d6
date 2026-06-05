@@ -534,11 +534,70 @@
 			]
 		},
 		"tableRow": {
-			"type": "array",
-			"minItems": 1,
-			"items": {
-				"$ref": "#/$defs/tableCell"
-			}
+			"oneOf": [
+				{
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"$ref": "#/$defs/tableCell"
+					}
+				},
+				{
+					"type": "object",
+					"required": [
+						"type",
+						"text"
+					],
+					"additionalProperties": false,
+					"properties": {
+						"type": {
+							"enum": [
+								"section",
+								"note"
+							]
+						},
+						"text": {
+							"$ref": "#/$defs/nonEmptyString"
+						}
+					}
+				},
+				{
+					"type": "object",
+					"required": [
+						"type",
+						"cells"
+					],
+					"additionalProperties": false,
+					"properties": {
+						"type": {
+							"const": "header"
+						},
+						"cells": {
+							"type": "array",
+							"minItems": 1,
+							"items": {
+								"$ref": "#/$defs/tableCell"
+							}
+						}
+					}
+				},
+				{
+					"type": "object",
+					"required": [
+						"cells"
+					],
+					"additionalProperties": false,
+					"properties": {
+						"cells": {
+							"type": "array",
+							"minItems": 1,
+							"items": {
+								"$ref": "#/$defs/tableCell"
+							}
+						}
+					}
+				}
+			]
 		},
 		"table": {
 			"type": "object",
