@@ -25,6 +25,15 @@
 			>
 				Regeln
 			</button>
+			<button
+				v-if="showTimeline"
+				class="view-button ui-button"
+				:class="{ active: data.view === 'timeline' }"
+				type="button"
+				@click="setView('timeline')"
+			>
+				Zeitstrahl
+			</button>
 		</nav>
 
 		<template v-if="data.view === 'sheet'">
@@ -33,20 +42,25 @@
 			<Navbar />
 		</template>
 		<ForceWiki v-else-if="data.view === 'wiki'" />
-		<Rulebook v-else />
+		<Rulebook v-else-if="data.view === 'rules'" />
+		<CampaignTimeline v-else-if="showTimeline && data.view === 'timeline'" />
 	</div>
 </template>
 
 <script>
 import { onBeforeUnmount, onMounted, reactive } from "vue";
+import CampaignTimeline from "./CampaignTimeline.vue";
 import CharacterPdfExport from "./CharacterPdfExport.vue";
 import Dicer from "./Dicer.vue";
 import ForceWiki from "./ForceWiki.vue";
 import Navbar from "./Navbar.vue";
 import Rulebook from "./Rulebook.vue";
 
+const SHOW_TIMELINE = false;
+
 export default {
 	components: {
+		CampaignTimeline,
 		CharacterPdfExport,
 		Dicer,
 		ForceWiki,
@@ -63,10 +77,15 @@ export default {
 			const hash = String(window.location.hash || "");
 			if (hash.startsWith("#/wiki")) return "wiki";
 			if (hash.startsWith("#/rules")) return "rules";
+			if (SHOW_TIMELINE && hash.startsWith("#/timeline")) return "timeline";
 			return "sheet";
 		}
 
 		function setView(view) {
+			if (view === "timeline" && !SHOW_TIMELINE) {
+				view = "sheet";
+			}
+
 			data.view = view;
 			if (typeof window === "undefined") return;
 
@@ -81,6 +100,13 @@ export default {
 			if (view === "rules") {
 				if (!currentHash.startsWith("#/rules")) {
 					window.location.hash = "#/rules";
+				}
+				return;
+			}
+
+			if (view === "timeline") {
+				if (!currentHash.startsWith("#/timeline")) {
+					window.location.hash = "#/timeline";
 				}
 				return;
 			}
@@ -107,7 +133,7 @@ export default {
 			}
 		});
 
-		return { data, setView };
+		return { data, setView, showTimeline: SHOW_TIMELINE };
 	},
 };
 </script>
@@ -149,7 +175,7 @@ export default {
 
 	.view-switch {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
 		width: 100%;
 	}
 

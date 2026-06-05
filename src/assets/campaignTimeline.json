@@ -1,0 +1,110 @@
+{
+	"chapters": [
+		{
+			"chapter": 1,
+			"label": "Kapitel I"
+		},
+		{
+			"chapter": 2,
+			"label": "Kapitel II"
+		},
+		{
+			"chapter": 3,
+			"label": "Kapitel III"
+		}
+	],
+	"sessions": [
+		{
+			"chapter": 1,
+			"date": "11.05.2020",
+			"title": "Start Kapitel 1",
+			"summary": "Gute Frage :D",
+			"highlights": [
+				"Es ging los"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "16.05.2020"
+		},
+		{
+			"chapter": 1,
+			"date": "01.07.2020"
+		},
+		{
+			"chapter": 1,
+			"date": "01.01.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "03.03.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "10.03.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "16.03.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "23.03.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "30.03.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "06.04.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "14.04.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "20.04.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "27.04.2021"
+		}
+	],
+	"events": [
+		{
+			"chapter": 1,
+			"time": "3 NSY, Tag 41",
+			"place": "Aeusserer Rand",
+			"title": "Eine Fracht verschwindet",
+			"summary": "Mehrere Lieferungen fallen aus den offiziellen Registern, bleiben aber in lokalen Geruechten sichtbar.",
+			"tags": [
+				"Auftrag",
+				"Unterwelt"
+			]
+		},
+		{
+			"chapter": 2,
+			"time": "3 NSY, Tag 44",
+			"place": "Handelsposten Varik",
+			"title": "Der Deal auf Varik eskaliert",
+			"summary": "Ein Treffen zwischen Mittelsmaennern wird durch imperiale Suchmuster und Verrat im Hintergrund gestoert.",
+			"tags": [
+				"Diplomatie",
+				"Gefahr"
+			]
+		},
+		{
+			"chapter": 3,
+			"time": "3 NSY, Tag 47",
+			"place": "Hydianische Nebenroute",
+			"title": "Die Crew stellt die Beobachter",
+			"summary": "Aus abgefangenen Daten entsteht ein groesseres Bild: Jemand sammelt Bewegungsprofile unabhaengiger Crews.",
+			"tags": [
+				"Ermittlung",
+				"Imperium"
+			]
+		}
+	]
+}
