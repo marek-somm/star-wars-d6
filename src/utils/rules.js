@@ -9,6 +9,7 @@ export const CONTAINER_BLOCK_TYPES = new Set([
 	"stat_block",
 	"rule",
 	"mechanic",
+	"subsection",
 ]);
 
 export const TABLE_BLOCK_TYPES = new Set([
@@ -25,6 +26,7 @@ export function formatRuleLabel(value) {
 	const labels = {
 		mechanic: "Game Mechanic",
 		rule: "Rule",
+		subsection: "Subsection",
 	};
 
 	if (labels[value]) return labels[value];
@@ -39,8 +41,12 @@ export function getBlockKey(block, index) {
 	return block?.id || `${block?.type || "block"}-${index}`;
 }
 
+export function isRulePageBlock(block) {
+	return Boolean(block?.title && PAGE_BLOCK_TYPES.has(block.type));
+}
+
 export function getChildContentBlocks(block) {
 	return Array.isArray(block?.blocks)
-		? block.blocks.filter((child) => !PAGE_BLOCK_TYPES.has(child.type))
+		? block.blocks.filter((child) => !isRulePageBlock(child))
 		: [];
 }

@@ -35,7 +35,7 @@ import RulebookHeader from "@/components/Rulebook/RulebookHeader.vue";
 import RuleIndexPanel from "@/components/Rulebook/RuleIndexPanel.vue";
 import RuleMobileIndexToggle from "@/components/Rulebook/RuleMobileIndexToggle.vue";
 import rulebookData from "@/assets/rules/rulebook.json";
-import { formatRuleLabel, getChildContentBlocks, PAGE_BLOCK_TYPES } from "@/utils/rules";
+import { formatRuleLabel, getChildContentBlocks, isRulePageBlock } from "@/utils/rules";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
 
 const RULE_FILTERS_STORAGE_KEY = "star-wars-d6:rule-filters";
@@ -289,7 +289,7 @@ export default {
 		},
 
 		isPageBlock(block) {
-			return Boolean(block?.title && PAGE_BLOCK_TYPES.has(block.type));
+			return isRulePageBlock(block);
 		},
 
 		createRuleEntry(block, parents, fallbackIndex) {

@@ -32,7 +32,6 @@
 import { injectDifficultyPills } from "@/utils/difficultyInline";
 import { sanitizeHtml } from "@/utils/html";
 import { formatRuleRichText } from "@/utils/ruleContent";
-import { formatRuleLabel } from "@/utils/rules";
 
 export default {
 	name: "TableBlock",
@@ -104,14 +103,13 @@ export default {
 			return {
 				[`is-${this.block.type}`]: true,
 				[`is-${this.block.subtype}`]: Boolean(this.block.subtype),
+				"has-title": Boolean(this.tableTitle),
+				"has-no-title": !this.tableTitle,
 			};
 		},
 
 		tableTitle() {
-			if (this.block.subtype === "difficulty") return this.block.title || "Difficulty";
-			if (this.block.subtype === "modifier") return this.block.title || "Modifiers";
-			if (this.block.title) return this.block.title;
-			return formatRuleLabel(this.block.subtype || this.block.type);
+			return String(this.block.title || "").trim();
 		},
 	},
 	methods: {
@@ -226,6 +224,19 @@ export default {
 	.strong-label-cell {
 		color: var(--color-text);
 		font-weight: 900;
+	}
+
+	&.has-no-title {
+		table {
+			border-radius: var(--radius-sm);
+			overflow: hidden;
+		}
+
+		thead:first-child tr:first-child th,
+		tbody:first-child tr:first-child th,
+		tbody:first-child tr:first-child td {
+			border-top: 0;
+		}
 	}
 }
 </style>

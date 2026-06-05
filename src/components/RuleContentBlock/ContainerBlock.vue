@@ -58,6 +58,38 @@ export default {
 		background: linear-gradient(180deg, rgba(103, 213, 200, 0.07), rgba(103, 213, 200, 0.025));
 	}
 
+	&.is-subsection {
+		margin-top: 0.2rem;
+		padding: 0.85rem 0 0 1rem;
+		border: 0;
+		border-left: 3px solid rgba(103, 213, 200, 0.58);
+		border-radius: 0;
+		background: transparent;
+
+		&+.is-subsection {
+			margin-top: 0.45rem;
+			padding-top: 1rem;
+		}
+
+		.block-section-header {
+			margin-bottom: 0.65rem;
+		}
+
+		.block-type {
+			color: var(--color-cyan);
+		}
+
+		h3 {
+			color: var(--color-text);
+			font-size: 1.32rem;
+			line-height: 1.25;
+		}
+
+		.nested-blocks {
+			gap: 0.65rem;
+		}
+	}
+
 	&.is-stat_block {
 		padding: 0;
 		overflow: hidden;
