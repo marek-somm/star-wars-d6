@@ -109,7 +109,10 @@ export default {
 		},
 
 		tableTitle() {
-			return String(this.block.title || "").trim();
+			const explicitTitle = String(this.block.title || "").trim();
+			if (explicitTitle) return explicitTitle;
+			if (this.block.subtype === "difficulty") return "Difficulty";
+			return this.block.subtype === "modifier" ? "Modifier" : "";
 		},
 	},
 	methods: {
