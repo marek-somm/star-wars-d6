@@ -34,5 +34,12 @@ export default {
 		font-size: 1.03rem;
 		font-weight: 700;
 	}
+
+	&.is-story {
+		padding: 0.15rem 0 0.15rem 0.95rem;
+		border-left: 3px solid rgba(242, 193, 78, 0.58);
+		color: rgba(244, 239, 229, 0.78);
+		font-style: italic;
+	}
 }
 </style>

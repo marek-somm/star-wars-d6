@@ -3,6 +3,7 @@ export const TEXT_BLOCK_TYPES = new Set([
 	"intro",
 	"paragraph",
 	"description",
+	"story",
 ]);
 
 export const CONTAINER_BLOCK_TYPES = new Set([
@@ -26,6 +27,7 @@ export function formatRuleLabel(value) {
 	const labels = {
 		mechanic: "Game Mechanic",
 		rule: "Rule",
+		story: "Story",
 		subsection: "Subsection",
 	};
 
