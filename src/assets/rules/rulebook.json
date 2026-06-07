@@ -43,7 +43,7 @@
 							"text": "By now you've probably figured out that characters in the Star Wars game have six attributes: Dexterity, Knowledge, Mechanical, Perception, Strength and Technical. Each attribute covers many skills."
 						},
 						{
-							"type": "intro",
+							"type": "story",
 							"text": "Using attributes and skills is easy if you follow one simple concept. It's called the \"Star Wars Rule of Thumb.\""
 						},
 						{
@@ -51,11 +51,11 @@
 							"text": "Pick a difficulty number. If the character's skill roll is equal or higher, she succeeds."
 						},
 						{
-							"type": "intro",
+							"type": "story",
 							"text": "When you want your character to do something, the gamemaster picks a difficulty number. (All the lists and explanations in this chapter tell him how to figure out what the difficulty number should be.) If you roll equal to or higher than the difficulty number, your character succeeded at what she was trying to do."
 						},
 						{
-							"type": "intro",
+							"type": "story",
 							"text": "Now you know the one major rule you need to play this game."
 						},
 						{
@@ -86,8 +86,8 @@
 									"text": "Dexterity is a measure of your character's eye-hand coordination and balance. Characters with a high Dexterity are good shots, can dodge blaster bolts, can walk balance beams with ease and even make good pick-pockets. Characters with a low Dexterity are clumsy."
 								},
 								{
-									"id": "rule.dexterity.ranged_combat_skills",
-									"type": "rule",
+									"id": "dexterity.subsection.ranged_combat_skills",
+									"type": "subsection",
 									"title": "Using Ranged Combat Skills",
 									"blocks": [
 										{
@@ -113,8 +113,8 @@
 									]
 								},
 								{
-									"id": "rule.dexterity.melee_combat_skills",
-									"type": "rule",
+									"id": "dexterity.subsection.melee_combat_skills",
+									"type": "subsection",
 									"title": "Using Melee Combat Skills",
 									"blocks": [
 										{
@@ -132,8 +132,8 @@
 									]
 								},
 								{
-									"id": "rule.dexterity.reaction_skills",
-									"type": "rule",
+									"id": "dexterity.subsection.reaction_skills",
+									"type": "subsection",
 									"title": "Using Reaction Skills",
 									"blocks": [
 										{
@@ -3100,7 +3100,7 @@
 									]
 								},
 								{
-									"id": "rule.attributes_and_skills.sabacc",
+									"id": "perception.rule.sabacc",
 									"type": "rule",
 									"title": "SABACC",
 									"source": {
@@ -3712,6 +3712,1885 @@
 											"text": "When a character fails a swimming check, he begins to drown. Roll 2D at the beginning of each round; if the total is less than the number of rounds that the character has been drowning, the character drowns and dies. Characters can attempt other actions while drowning at a -3D penalty. Characters who are drowning may attempt to save themselves once per round. They must make a swimming total at one level of difficulty higher than the one in which they failed their swimming roll (the character doesn't suffer the -3D penalty when making this roll)."
 										}
 									]
+								}
+							]
+						},
+						{
+							"id": "skill_group.technical",
+							"type": "skill_group",
+							"title": "Technical Skills",
+							"source": {
+								"page_start": 58,
+								"page_end": 67
+							},
+							"blocks": [
+								{
+									"type": "paragraph",
+									"text": "Technical stands for \"technical aptitude\" and represents a character's innate knowledge of how to take apart, repair and modify things. A character with a high Technical attribute can take apart a droid to repair a malfunction, fix a busted drive system on a landspeeder, and modify a blaster to have a longer range. Technical also reflects a character's knowledge of healing and medicine, skill setting explosives, and ability to figure out electronic security systems. Characters with a low Technical have trouble changing a power pack in a blaster."
+								},
+								{
+									"id": "technical.subsection.using_repair_skills",
+									"type": "subsection",
+									"title": "Using Repair Skills",
+									"source": {
+										"page_start": 58,
+										"page_end": 59
+									},
+									"blocks": [
+										{
+											"type": "paragraph",
+											"text": "The various repair skills follow similar patterns for time taken and difficulties. While the individual skills are explained below, some general rules regarding repair skills are outlined here for easy reference."
+										},
+										{
+											"type": "mechanic",
+											"title": "Time Taken",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Several repair skill rolls can be made when fixing damaged vehicles and equipment. The initial roll represents 15 minutes of work. Should that roll fail, additional repair rolls may be made after varying lengths of time."
+												},
+												{
+													"type": "paragraph",
+													"text": "High technology machinery is very complex, and requires extra maintenance to ensure it operates at optimum performance levels. While repair rolls can represent time taken to maintain vehicles and vessels, this type of activity can be done \"off-camera\" (outside of game play) rather than take place during adventures."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Damaged Systems",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Each damaged system aboard a vehicle or vessel (drives, shields, weapons, etc.) requires a separate repair roll to fix. No single repair roll will fix all the systems of any craft if multiple components are damaged; however, several characters with repair skills may dole out the work and try to fix different systems at the same time - it just requires separate rolls from different characters."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Repair Difficulties",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "The difficulty level for repair rolls depends on how much damage the item, vehicle or starship has taken."
+												},
+												{
+													"type": "paragraph",
+													"text": "For determining vehicle damage, see the chapter on \"Movement and Chases.\" Starship damage is discussed in the chapter on \"Space Travel and Combat.\""
+												},
+												{
+													"type": "paragraph",
+													"text": "Once you've determined how badly the starship, vehicle or item is damaged, check the appropriate sections below. They're divided by the different stats and systems that can be affected by damage - each lists the pertinent skills which can be used to repair such systems."
+												},
+												{
+													"type": "note",
+													"text": "As always, repair times, difficulties and costs are generalizations. Feel free to adjust them to suit the needs of your game. Particular situational modifiers are listed below:"
+												},
+												{
+													"type": "table",
+													"rows": [
+														[
+															"+7 to repair roll",
+															"Previously built or modified the item; intimately familiar with item."
+														],
+														[
+															"+5 to repair roll",
+															"Has the item's designs."
+														],
+														[
+															"No modifier",
+															"Common item, all parts available, character has a general tool kit (note: an enhanced tool kits may provide additional bonuses)."
+														],
+														[
+															"+5 to difficulty",
+															"Has seen but not used item."
+														],
+														[
+															"+10 to difficulty",
+															"Has never seen item, only some parts available."
+														],
+														[
+															"+15 to difficulty",
+															"Makeshift tools."
+														],
+														[
+															"+20 to difficulty",
+															"No parts available."
+														]
+													]
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Drives",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "The ion engines, repulsorlift generators and motors that power starships and vehicles are often known as \"drives.\" They can be destroyed in combat, resulting in the loss of propulsion. When a drive or generator is destroyed, a Difficult repair roll is necessary to replace it, and it costs 35% of the craft's original value."
+												},
+												{
+													"type": "paragraph",
+													"text": "Aquatic vehicle repair, capital ship repair, ground vehicle repair, hover vehicle repair, repulsorlift repair, space transports repair, starfighter repair, submersible vehicle repair and walker repair can be used to fix drives on their respective vehicles and vessels."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Hyperdrives",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "The machinery used to propel starships into hyperspace can be damaged in combat, preventing vessels from jumping. A Moderate repair roll is necessary to fix a damaged hyperdrive."
+												},
+												{
+													"type": "paragraph",
+													"text": "Skills used to fix hyperdrives include capital ship repair, space transports repair and starfighter repair. Individual skills can only repair hyperdrives on their respective starship types."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Maneuverability",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "When a craft's maneuver components are hit, it loses directional control. The difficulty to repair these systems depends on how many maneuverability dice were lost. Damage also reflects the cost for new parts and tools based on a percentage of the vehicle or vessel's original price."
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Maneuver Dice Lost",
+														"Repair Difficulty",
+														"Repair Cost"
+													],
+													"rows": [
+														[
+															"-1D",
+															2,
+															"10%"
+														],
+														[
+															"-2D",
+															3,
+															"15%"
+														],
+														[
+															"-3D or more",
+															4,
+															"20%"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Aquatic vehicle repair, capital ship repair, ground vehicle repair, hover vehicle repair, repulsorlift repair, space transports repair, starfighter repair, submersible vehicle repair and walker repair can be used to return maneuverability to normal on their respective vessels."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Move or Space",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "These stats reflect how fast vehicles and starships can travel. When drives take smaller increments of damage, a craft slows down, as represented by a loss of \"moves\" (whether it's a vehicle with a \"Move\" stat or a starship with a \"Space\" stat). To repair lost \"moves,\" check the chart below for difficulties and cost:"
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Moves Lost",
+														"Repair Difficulty",
+														"Repair Cost"
+													],
+													"rows": [
+														[
+															"1",
+															2,
+															"10%"
+														],
+														[
+															"2",
+															3,
+															"15%"
+														],
+														[
+															"3",
+															4,
+															"20%"
+														],
+														[
+															"4",
+															5,
+															"25%"
+														],
+														[
+															"5",
+															"Drive destroyed; must be replaced"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Use these skills when fixing damage from lost moves: aquatic vehicle repair, capital ship repair, ground vehicle repair, hover vehicle repair, repulsorlift repair, space transports repair, starfighter repair, submersible vehicle repair and walker repair. Individual skills can only replace moves on their respective vehicle or vessel types."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Shields",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Starship combat can blow out vessels' shield generators - difficulties and costs to repair this damage depends on how many shield dice were lost."
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Shield Dice Lost",
+														"Repair Difficulty",
+														"Repair Cost"
+													],
+													"rows": [
+														[
+															"1D",
+															2,
+															"5%"
+														],
+														[
+															"2D",
+															3,
+															"5%"
+														],
+														[
+															"3D",
+															4,
+															"5%"
+														],
+														[
+															"4D+",
+															5,
+															"10%"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Capital ship repair, space transports repair and starfighter repair are used to repair shields aboard their respective vessels."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Weapons",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Blaster pistols, turbolasers, quad laser cannons and other weapons can take damage in combat, and characters with weapons repair skills must step in to fix them. Difficulties and cost depend on how badly weapons are hit. The \"cost\" is based on the weapon's cost, not the ship's."
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Damage",
+														"Repair Difficulty",
+														"Repair Cost"
+													],
+													"rows": [
+														[
+															"Lightly",
+															2,
+															"15%"
+														],
+														[
+															"Heavily",
+															3,
+															"25%"
+														],
+														[
+															"Severely",
+															5,
+															"35%"
+														],
+														[
+															"Destroyed",
+															"May not be repaired"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Blaster repair is used to fix any character-, speeder-, or walker-scale blaster. (This includes everything from blaster pistols to heavy blaster weapons, and artillery batteries like the Golan Arms DF.9 anti-infantry battery used by Rebels at the Battle of Hoth.) Capital ship weapon repair is used to fix capital-scale ship weapons, while starship weapon repair is used to fix starfighter-scale weapons. Bows, slugthrowers, flamethrowers, vibroblades and other non-blaster equipment is fixed by using the equipment repair skill. Lightsabers are repaired using the lightsaber repair/engineering skill."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Armor and Equipment",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "The rules for repairing weapons also apply for repairing damaged armor (using the armor repair skill) and general equipment like comlinks and breath masks (using the equipment repair skill). Use the weapon repair table above to determine the difficulty and cost to repair damaged items and blasted armor."
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "technical.subsection.improving_vehicles_vessels_and_weapons",
+									"type": "subsection",
+									"title": "Improving Vehicle, Vessels and Weapons",
+									"source": {
+										"page_start": 59,
+										"page_end": 60
+									},
+									"blocks": [
+										{
+											"type": "paragraph",
+											"text": "During the course of a Star Wars game campaign, characters grow attached to their favorite starships, landspeeders and blasters. They want to tinker with them - characters can use their repair skills to improve the speed, damage, shields, or other stats of their vehicles, vessels and weapons."
+										},
+										{
+											"type": "paragraph",
+											"text": "Boosting these stats involves many different factors: cost of new materials, the technician's talent, and strain of modifications on existing parts and systems. Han Solo's freighter, the Millennium Falcon, is a good example. Han's improved the hyperdrives, weapons, shields - almost every system aboard his ship (and some more than once). Although this gives the Falcon great advantages (better speed, firepower and protection), there are many disadvantages. The hyperdrives are twitchy, the droid brains argue all the time, and the interior looks like a mess. Sometimes the Falcon just doesn't want to work at all - and needs a persuasive nudge (or a banged control panel) to get going."
+										},
+										{
+											"type": "paragraph",
+											"text": "Gamemasters, beware: the more you let players improve their characters' vehicles and ships, the more powerful they become. Characters failing modification repair rolls might permanently damage or destroy the system they're working on. Feel free to give successfully modified systems occasional quirks or problems. They're good plot devices, balance out game play, and give the vehicle or vessel a personality of sorts."
+										},
+										{
+											"type": "example",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Bob the gamemaster wants to give his players a modified light freighter with a cool and powerful weapon - his players have been bothering him for months about this, and he's finally caving in. His solution? A banged-up Ghtroc freighter called the Lumpy Bantha. Although the Bantha has a regular laser cannon in one gun mount, Bob has given the players a really cool quad laser cannon in the other mount. The players are happy. There's only one problem. To balance out game play, Bob decides that the previous owner did a slipshod job installing the quad laser cannon. Every time the characters power it up, it randomly draws off power from one other ship's system (life support, maneuverability, ion drives, hyperdrives, or shields) shutting that system down! The first time the characters use the weapon - while fleeing from a swarm of TIE fighters - the Lumpy Bantha's shields go down! Although they have better firepower when using the quad laser cannons, they'll think more carefully next time before powering up the weapon."
+												}
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "Here are some general rules for modifying vehicles, vessels and weapons. They are in no way comprehensive, but they provide a basic framework. The notes are broken down by system (just like \"Using Repair Skills\" above) which discusses difficulties, costs and skills your characters can use."
+										},
+										{
+											"type": "mechanic",
+											"title": "Modification Limit",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Stats may only be increased one \"pip,\" one Move level or one hyperdrive level at a time. For instance, a maneuverability of 1D must be improved to 1D+1 and 1D+2 before it can be modified to 2D."
+												},
+												{
+													"type": "paragraph",
+													"text": "Increases shown in the charts below reflect the modification above the original stat: the owner is constantly replacing and upgrading parts of the original ship's systems."
+												},
+												{
+													"type": "paragraph",
+													"text": "Using these rules, no system may be improved more than +1D+2, or more than 4 moves."
+												},
+												{
+													"type": "paragraph",
+													"text": "A new repair improvement roll can be made every month of game time. Use the charts below for guidelines on difficulties and costs. The costs are always a percentage of the item's original value. Should characters find someone else capable of implementing modifications, double or triple the cost."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Mishaps",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Modified equipment has a chance of failure. The more a piece of equipment is pushed past its original design specifications, the greater the chance of failure. When someone is using a modified piece of equipment, the gamemaster may use the following rules."
+												},
+												{
+													"type": "paragraph",
+													"text": "First, the gamemaster should determine what type of modification has been used: Weapon, Vehicle (for starships and vehicles) or Non-Lethal (for anything else, like jetpacks, datapads, sensors and so forth)."
+												},
+												{
+													"type": "table",
+													"title": "Weapon Mishap",
+													"columns": [
+														"1D",
+														"Result"
+													],
+													"rows": [
+														[
+															"1-3",
+															"The weapon is fine."
+														],
+														[
+															"4",
+															"The weapon stops working, but need only be slammed hard against something to work again, or re-calibrated in the case of a starship or heavy weapon. It takes an action to do this."
+														],
+														[
+															"5",
+															"The weapon is broken and cannot be repaired."
+														],
+														[
+															"6",
+															"The weapon explodes, doing damage equal to the amount of the modification bonus."
+														]
+													]
+												},
+												{
+													"type": "table",
+													"title": "Vehicle Mishap",
+													"columns": [
+														"1D",
+														"Result"
+													],
+													"rows": [
+														[
+															"1-3",
+															"The vehicle is fine."
+														],
+														[
+															"4",
+															"The system which fails or the vehicle suffers a temporary power loss (maintains speed and heading for this round). The problem is fixed if the operator kicks or hits one random control panel; it takes an action to do this."
+														],
+														[
+															"5",
+															"The vehicle bucks, or the system affected begins to spark and smoke. An Easy skill roll is necessary to keep the vehicle from careening out of control and an Easy repair roll to fix the smoking system."
+														],
+														[
+															"6",
+															"All power systems shut down and the vehicle drops like a stone. A Moderate skill roll for the vehicle is necessary for a safe emergency landing, otherwise the vehicle crashes."
+														]
+													]
+												},
+												{
+													"type": "table",
+													"title": "Non-Lethal Mishap",
+													"columns": [
+														"1D",
+														"Result"
+													],
+													"rows": [
+														[
+															"1-4",
+															"The item is fine."
+														],
+														[
+															"5",
+															"The item stops working, but if slammed hard against something, it works again. It takes an action to do this."
+														],
+														[
+															"6",
+															"The item is broken and cannot be repaired."
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Whenever the player rolls a 1 on the Wild Die while using the modified device, the gamemaster should roll a 1D \"mishap roll\", adding the Mishap Modifier column as indicated on the modified system table. Reference the tables above to determine the type of complication."
+												},
+												{
+													"type": "paragraph",
+													"text": "The tables above are designed to present baseline failures and are intentionally general in nature. The gamemaster is encouraged to be creative in determining the specifics of the mishap based on the ship, vehicle, or equipment involved, and the system experiencing the mishap."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Hyperdrives",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "These sensitive engines can be improved to speed travel through hyperspace. The difficulty and cost for improvement depends on the level of the old hyperdrive engine compared to the new one."
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Old/New",
+														"Difficulty",
+														"Cost",
+														"Mishap Modifier"
+													],
+													"rows": [
+														[
+															"x4/x3",
+															2,
+															"10%",
+															"+1"
+														],
+														[
+															"x3/x2",
+															3,
+															"15%",
+															"+1"
+														],
+														[
+															"x2/x1",
+															5,
+															"25%",
+															"+2"
+														],
+														[
+															"x1/x½",
+															6,
+															"35%",
+															"+3"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Failure on these modification repair rolls could permanently damage hyperdrives, or cause them to function sporadically."
+												},
+												{
+													"type": "paragraph",
+													"text": "Skills used to improve hyperdrives include capital ship repair, space transports repair and starfighter repair. Individual skills can only modify hyperdrives on their respective starship types."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Maneuverability",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "This stat can be increased by adding new lateral and variable thrusters to the craft. Use the difficulties and the percentage of original cost indicated on the chart in the next column:"
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Pip Increase",
+														"Difficulty",
+														"Cost",
+														"Mishap Modifier"
+													],
+													"rows": [
+														[
+															"+1",
+															2,
+															"5%",
+															"+1"
+														],
+														[
+															"+2",
+															3,
+															"10%",
+															"+1"
+														],
+														[
+															"+1D",
+															4,
+															"15%",
+															"+1"
+														],
+														[
+															"+1D+1",
+															5,
+															"20%",
+															"+2"
+														],
+														[
+															"+1D+2",
+															6,
+															"25%",
+															"+3"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Failing any modification repair roll can result in loss of some or all maneuverability. It could also have some serious side-effects, such as reversing controls (left jets turn the ship right, right jets veer left) or misfiring thrusters (zigging when the craft should have zagged)."
+												},
+												{
+													"type": "paragraph",
+													"text": "Improvements to maneuverability can be made using the skill appropriate to the craft modified: aquatic vehicle repair, capital ship repair, ground vehicle repair, hover vehicle repair, repulsorlift repair, space transports repair, starfighter repair, submersible vehicle repair and walker repair."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Move or Space",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "By improving a vehicle or vessel's drives, characters can improve its Move or Space stat. To add to a vehicle's Move, check the chart below for difficulties and cost:"
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Move Increase",
+														"Difficulty",
+														"Cost",
+														"Mishap Modifier"
+													],
+													"rows": [
+														[
+															"+5",
+															3,
+															"10%",
+															"+1"
+														],
+														[
+															"+10",
+															4,
+															"15%",
+															"+1"
+														],
+														[
+															"+15",
+															5,
+															"20%",
+															"+2"
+														],
+														[
+															"+20",
+															6,
+															"25%",
+															"+3"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "To boost a starship's Space stat, use the chart on the next page. (The ship's new Move can be found on the \"Ships in an Atmosphere\" chart in the chapter on \"Space Travel & Combat.\")"
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Space Increase",
+														"Difficulty",
+														"Cost",
+														"Mishap Modifier"
+													],
+													"rows": [
+														[
+															"+1",
+															3,
+															"10%",
+															"+1"
+														],
+														[
+															"+2",
+															4,
+															"15%",
+															"+1"
+														],
+														[
+															"+3",
+															5,
+															"20%",
+															"+2"
+														],
+														[
+															"+4",
+															6,
+															"25%",
+															"+3"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Characters failing repair rolls to increase moves might seriously damage their ship's drives, possibly reducing the Move or Space of their craft. A failure may also periodic malfunctions or cause \"jumpy\" movement, stalls or slow starts."
+												},
+												{
+													"type": "paragraph",
+													"text": "These skills are used to improve vehicle and starship speeds: aquatic vehicle repair, capital ship repair, ground vehicle repair hover vehicle repair, repulsorlift repair, space transports repair, starfighter repair, submersible vehicle repair and walker repair. Individual skills can only improve moves on their respective vehicle or vessel types."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Shields",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "A starship may add protection by boosting its shield die code. Improvements often reflect additional shield generators or boosters - although only so many may be added effectively before overloading the ship's power core."
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Pip Increase",
+														"Difficulty",
+														"Cost",
+														"Mishap Modifier"
+													],
+													"rows": [
+														[
+															"+1",
+															2,
+															"15%",
+															"+1"
+														],
+														[
+															"+2",
+															3,
+															"25%",
+															"+1"
+														],
+														[
+															"+1D",
+															4,
+															"30%",
+															"+1"
+														],
+														[
+															"+1D+1",
+															5,
+															"35%",
+															"+2"
+														],
+														[
+															"+1D+2",
+															6,
+															"50%",
+															"+3"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Failed modification repair rolls might permanently blow out a ship's shield generator, could foul shield controls (adding +5 or more to all difficulties when deploying shields) or could cause random shield malfunctions."
+												},
+												{
+													"type": "paragraph",
+													"text": "Capital ship repair, space transports repair and starfighter repair may be used to improve shields aboard their respective vessels."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Weapons",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Characters may wish to improve the fire control and damage for certain weapons, including personal sidearms (blaster pistols) and ordnance mounted on vessels. (The cost is based on the original cost of the weapon itself, not the ship or vehicle it's mounted on.)"
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Pip Increase",
+														"Difficulty",
+														"Cost",
+														"Mishap Modifier"
+													],
+													"rows": [
+														[
+															"+1",
+															2,
+															"15%",
+															"+1"
+														],
+														[
+															"+2",
+															3,
+															"25%",
+															"+1"
+														],
+														[
+															"+1D",
+															4,
+															"30%",
+															"+1"
+														],
+														[
+															"+1D+1",
+															5,
+															"35%",
+															"+2"
+														],
+														[
+															"+1D+2",
+															6,
+															"50%",
+															"+3"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "Character may also improve the ranges of their weapons, see the chart below:"
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Range Increase",
+														"Difficulty",
+														"Cost",
+														"Mishap Modifier"
+													],
+													"rows": [
+														[
+															"+5%",
+															2,
+															"5%",
+															"+1"
+														],
+														[
+															"+10%",
+															3,
+															"10%",
+															"+1"
+														],
+														[
+															"+15%",
+															4,
+															"15%",
+															"+1"
+														],
+														[
+															"+20%",
+															5,
+															"20%",
+															"+2"
+														],
+														[
+															"+25%",
+															6,
+															"25%",
+															"+3"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "A failed modification repair roll could result in the weapon's destruction, or might cause a recurring quirk (weapon loses power after each shot), reduced damage or fire control."
+												},
+												{
+													"type": "paragraph",
+													"text": "Blaster repair can modify all character-, speeder- or walker-scale blasters. Capital ship weapon repair is required for capital-scale weapons, while starship weapon repair is required for starfighter-scale weapons. Bows, slugthrowers, flamethrowers, vibroblades and other non-blaster weapons are modified by using the equipment repair skill. Lightsabers are modified by using the lightsaber repair/engineering skill."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Armor and Equipment",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "The rules for modifying weapons also apply for improving personal armor (using the armor repair skill) and general equipment like comlinks and breath masks (using the equipment repair skill). Use the charts above to determine the difficulty and cost to boost armor and equipment die codes."
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.aquatic_vehicle_repair",
+									"type": "skill",
+									"title": "Aquatic Vehicle Repair",
+									"source": {
+										"page_start": 61
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Particular ship type or class",
+										"examples": "Oceanic transport, coastal runabout, skiff. sailboat"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill represents a character's familiarity with the workings of aquatic vehicles, and his ability to repair and modify them. Each roll may repair one damaged system aboard a particular vessel. The cost and difficulty to repair a vessel depends on how badly it is damaged, and what systems have been hit. See \"Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "skill.armor_repair",
+									"type": "skill",
+									"title": "Armor Repair",
+									"source": {
+										"page_start": 62
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then two hours. May be customized to circumstances",
+										"specializations": "Armor Type",
+										"examples": "Stormtrooper armor"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Armor repair reflects the character's ability to fix and modify armor that has been damaged. The cost and difficulty to repair armor depends upon how badly damaged it is. See \"Weapons\" in \"Using Repair Skills\" above."
+										}
+									]
+								},
+								{
+									"id": "skill.blaster_repair",
+									"type": "skill",
+									"title": "Blaster Repair",
+									"source": {
+										"page_start": 62
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then two hours. May be customized to circumstances",
+										"specializations": "Type or model blaster",
+										"examples": "blaster pistols, surface-to-surface blaster artillery, heavy blaster cannon"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "A character's ability to fix and modify blaster weapons (character-, speeder- and walker-scale) is represented by his blaster repair skill. The cost and difficulty to repair weapons depends upon how badly it is damaged - see \"Weapons\" in \"Using Repair Skills\" above."
+										},
+										{
+											"type": "paragraph",
+											"text": "Note vibroblades, slugthrowers, and other non-blaster weapons are repaired and modified using the equipment repair skill."
+										}
+									]
+								},
+								{
+									"id": "skill.capital_ship_repair",
+									"type": "skill",
+									"title": "Capital Ship Repair",
+									"source": {
+										"page_start": 62
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Type or class of capital ship",
+										"examples": "Imperial Star Destroyer, Victory Star Destroyer, Nebulon-B frigate"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill represents a character's familiarity with the workings of capital ships, and his ability to repair them. Each roll may repair one damaged component aboard a particular vessel. The cost and difficulty to repair a system depends on how badly it is damaged, and what systems have been damaged. See \"Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "skill.capital_ship_weapon_repair",
+									"type": "skill",
+									"title": "Capital Ship Weapon Repair",
+									"source": {
+										"page_start": 62
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Weapon type or model",
+										"examples": "concussion missiles, gravity well projectors, ion cannons, laser cannon, proton torpedoes, tractor beams, turbolaser"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Capital ship weapon repair is used to repair capital -scale ship weapons. The cost and difficulty to repair a weapon depends upon how badly it is damaged - see \"Weapons\" in \"Using Repair Skills\" above for exact difficulties and costs associated with fixing capital ship weapons."
+										}
+									]
+								},
+								{
+									"id": "skill.computer_programming_repair",
+									"type": "skill",
+									"title": "Computer Programming/Repair",
+									"source": {
+										"page_start": 62,
+										"page_end": 63
+									},
+									"fields": {
+										"time_taken": "One round to several minutes, hours or days",
+										"specializations": "Type or model computer",
+										"examples": "portable computer, mainframe, datapad, YT1300- computer"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters use this skill to repair, modify, and program computers - it also covers a character's familiarity with computer security procedures, his ability to evade them, and the ability to get secure information."
+										},
+										{
+											"type": "paragraph",
+											"text": "Getting information through a computer requires you to connect to the appropriate network (such as the HoloNet, or its equivalent in other eras) and locate the files you seek. Connecting to a network (generally takes 1 whole round) doesn't require a skill roll if you use a computer that's already linked to it. However, establishing a connection to a network using a remote computer requires an Easy computer programming/ repair skill roll. Most secure computer connections in the Star Wars universe require a physical connection jack or plug in. Generally HoloNet and networked connections are only available on larger worlds, but you can also get information without connecting to a network if you use a computer whose memory contains that information; the gamemaster decides what information a computer's memory actually holds."
+										},
+										{
+											"type": "paragraph",
+											"text": "Finding information on a single topic requires a set amount of time (see below); at the end of this time, you must make a computer programming/ repair skill roll. The time required and the Difficulty of are determined by the type of information sought."
+										},
+										{
+											"type": "table",
+											"subtype": "difficulty",
+											"rows": [
+												[
+													1,
+													"Public data. Your character's credit balance. (1 minute)"
+												],
+												[
+													2,
+													"Public data, but finding it may take a little more research. Who owns a building or starship. (10 minutes)"
+												],
+												[
+													3,
+													"Private data. A person's diary, or their credit balance. (1 hour)"
+												],
+												[
+													4,
+													"Secret data. A corporation's records, military plans. (8 hours)"
+												],
+												[
+													5,
+													"Top-secret data. The Navy's cloaking device plans, a Grand Moff's itinerary (gamemaster discretion)."
+												],
+												[
+													6,
+													"Information that only a select few individuals would know. The location of all of Emperor Palpatine's secret weapons vaults (gamemaster discretion)."
+												]
+											]
+										},
+										{
+											"type": "paragraph",
+											"text": "If the character beats the difficulty number, he retrieves the information he was looking for. If the roll is less than half the difficulty number, the computer's security system becomes aware of the intruder and triggers all alarms."
+										}
+									]
+								},
+								{
+									"id": "skill.demolitions",
+									"type": "skill",
+									"title": "Demolitions",
+									"source": {
+										"page_start": 63
+									},
+									"fields": {
+										"time_taken": "One round to several minutes",
+										"specializations": "Specific target type",
+										"examples": "bridges, walls, vehicles"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Demolitions reflects a character's ability to set explosives for both destructive purposes and to accomplish specific special effects."
+										},
+										{
+											"type": "paragraph",
+											"text": "The most common explosive is detonite, and a fist sized cube does 1D speeder-scale damage. The damage in the charts below is figured for one cube of detonite. Additional detonite cubes increase the base damage by +1D. If characters aren't using a high-grade explosive like detonite, reduce damage. Making explosives out of readily available materials (blaster power packs, reactant chemicals, power converters) is a handy skill in the field; however, these alternative explosives are often not as effective as detonite."
+										},
+										{
+											"type": "paragraph",
+											"text": "When a character sets charges, he can either try to set the explosive to cause extra damage or create some special effects."
+										},
+										{
+											"type": "mechanic",
+											"title": "Extra Damage",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Use the following difficulties when setting explosives to cause extra damage. The difficulty depends on the object being destroyed:"
+												},
+												{
+													"type": "table",
+													"subtype": "difficulty",
+													"rows": [
+														[
+															1,
+															"A plywood door."
+														],
+														[
+															2,
+															"A hard wooden door."
+														],
+														[
+															3,
+															"A bolted steel door."
+														],
+														[
+															4,
+															"A lightly armored door such as a blast door."
+														],
+														[
+															5,
+															"A heavily armored object, such as the hull of a starship."
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "If the character beats the difficulty, he adds extra damage dice past the detonite's 1D. Find the number of points by which the character beat the difficulty:"
+												},
+												{
+													"type": "table",
+													"columns": [
+														"Points Above Difficulty",
+														"Extra Damage"
+													],
+													"rows": [
+														[
+															"1-5",
+															"+1D"
+														],
+														[
+															"6-10",
+															"+2D"
+														],
+														[
+															"11-15",
+															"+3D"
+														],
+														[
+															"16-20",
+															"+4D"
+														],
+														[
+															"21-30",
+															"+5D"
+														],
+														[
+															"31+",
+															"+6D"
+														]
+													]
+												},
+												{
+													"type": "paragraph",
+													"text": "This bonus is added to the explosive's base damage. Roll the damage against the object's body strength. (See the chapter on \"Combat and Injuries.\")"
+												},
+												{
+													"type": "paragraph",
+													"text": "If that damage penetrates the obstacle, then the attempt succeeded. Note that, if enough explosive is used, the roll becomes almost irrelevant (except in checking for mishaps)."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Special Effects",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Characters may also try achieving special effects with explosives. The difficulty depends on the specific type of result:"
+												},
+												{
+													"type": "table",
+													"subtype": "difficulty",
+													"rows": [
+														[
+															1,
+															"Rigging a bomb so the next time a speeder is put into drive the bomb goes off, destroying the vehicle."
+														],
+														[
+															2,
+															"Blowing off the back hatch of a computer without leaving any permanent marks or burns."
+														],
+														[
+															3,
+															"Rigging and hiding explosives on blast doors so the next time they are closed the explosive goes off, funneling the explosion down a specific hall. This takes five minutes to prepare."
+														],
+														[
+															4,
+															"Setting off an explosive charge on the leg of an AT- AT walker so the drive cords are severed and the walker topples over when it tries to take a step."
+														]
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.droid_programming",
+									"type": "skill",
+									"title": "Droid Programming",
+									"source": {
+										"page_start": 63,
+										"page_end": 64
+									},
+									"fields": {
+										"time_taken": "15 minutes to several hours or days",
+										"specializations": "Type or model droid",
+										"examples": "astromech droid, protocol droid, probe droid"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters may use this skill to program a droid to learn a new skill or task. While droids can \"learn\" through trial and error, or by drawing conclusions, it is often easier and faster to program the activity into the droid's memory."
+										},
+										{
+											"type": "description",
+											"text": "The programmer must have access to a computer or datapad, which must be jacked directly into the droid's memory for programming."
+										},
+										{
+											"type": "paragraph",
+											"text": "The difficulty depends on the task's sophistication, but can be modified by other factors. The time taken also depends upon the complexity of the task - a Very Easy task might take only half an hour to program, but a Very Difficult task might take days or weeks to program."
+										},
+										{
+											"type": "paragraph",
+											"text": "Droid owners often wipe their more intelligent droids' memories - their intelligence and creative capabilities often allow droid personalities to develop over time. A memory wipe eliminates all of the droid's memory, including all learned skills and tasks which aren't directly hard-wired into the droid's permanent memory (normally, this is only done by the manufacturer; if a skill is directly hardwired into a droid's permanent memory, increase the programming difficulty by +30)."
+										},
+										{
+											"type": "paragraph",
+											"text": "When a new skill is programmed into the droid, it begins at one pip over the attribute. Once the droid has learned the basic skill, it may pay Character Points or buy skill cartridges to increase its skill."
+										},
+										{
+											"type": "paragraph",
+											"text": "Note that many extremely difficult tasks are broken down into a series of steps of lesser difficulty, but this requires more time-consuming droid programming rolls to reflect that the programmer is tackling the job one problem at a time."
+										},
+										{
+											"type": "table",
+											"subtype": "difficulty",
+											"rows": [
+												[
+													1,
+													"Move any boxes from one area to another area, one at a time, making neat stacks."
+												],
+												[
+													2,
+													"Patrol an area in a particular pattern at regular intervals, and report or stop any unauthorized intruders. Performing a memory wipe."
+												],
+												[
+													3,
+													"To handle the front desk of a hotel, and be courteous to all customers, as well as to solve customer service problems."
+												],
+												[
+													4,
+													"To teach droid a rudimentary skill use (see the chapter on \"Droids\")."
+												],
+												[
+													5,
+													"To modify vehicles or other equipment for better performance by making assumptions rather than relying on pure, established fact."
+												],
+												[
+													6,
+													"To design a factory-made droid in a manner that overrides its core programming - to change a protocol droid into a droid that can fight in combat effectively; to reprogram a droid's preset \"personality.\""
+												]
+											],
+											"source": {
+												"page_start": 63,
+												"page_end": 64
+											}
+										},
+										{
+											"type": "table",
+											"subtype": "modifier",
+											"rows": [
+												[
+													"+5-30 to the difficulty",
+													"Droid type is completely unfamiliar to programmer (modifier depends upon how unfamiliar)."
+												],
+												[
+													"+15 or more to the difficulty",
+													"Task is not related to kinds of tasks that droid is designed to undertake."
+												],
+												[
+													"+10 or more to the difficulty",
+													"Droid is of very low intelligence, and is incapable of creative thought (messenger droid, power generator droid)."
+												],
+												[
+													"+10 to the difficulty",
+													"Task is distantly related to droid's designated functions."
+												],
+												[
+													"+5 to the difficulty",
+													"Task is close to, but not exactly, the type of task or skill that the droid is designed for."
+												],
+												[
+													"+5 to the difficulty",
+													"Droid is of low intelligence, such as a labor droid, and isn't intended to be capable of creative thought."
+												],
+												[
+													"+5-10 to the character's roll",
+													"Droid model is familiar to programmer."
+												],
+												[
+													"+5 or more to the character's roll",
+													"Droid is fully sapient and is intended to make independent conclusions and decisions (astromech or protocol droid)."
+												],
+												[
+													"+5 or more to the character's roll",
+													"Droid has been operating \"independently\" for a long time."
+												]
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.droid_repair",
+									"type": "skill",
+									"title": "Droid Repair",
+									"source": {
+										"page_start": 64
+									},
+									"fields": {
+										"time_taken": "15 minutes, then one hour, then two hours; may be several hours or days depending upon the level of repair",
+										"specializations": "Type or model droid",
+										"examples": "astromech droid, protocol droid, probe droid"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill represents a character's talent to repair, modify, and maintain droids. The repair difficulty depends on how badly damaged the droid is - the cost reflects the price of replacement parts based on the droid's original value."
+										},
+										{
+											"type": "table",
+											"columns": [
+												"Droid Was",
+												"Difficulty",
+												"Cost"
+											],
+											"rows": [
+												[
+													"Lightly damaged",
+													2,
+													"15%"
+												],
+												[
+													"Heavily damaged",
+													4,
+													"25%"
+												],
+												[
+													"Severely damaged",
+													5,
+													"35%"
+												],
+												[
+													"Nearly obliterated",
+													6,
+													"65%"
+												]
+											],
+											"source": {
+												"page_start": 64
+											}
+										},
+										{
+											"type": "paragraph",
+											"text": "As with droid programming, droid repair tasks can be broken down into several smaller, easier, but more time-consuming tasks, so that unless a droid was destroyed it can often be repaired given enough time, patience and money."
+										},
+										{
+											"type": "paragraph",
+											"text": "Gamemasters should discuss any modifications characters want to make to droids. Difficulties and costs can vary, and may be based on parts availability, complexity of an attachment, and the configuration of the droid. For instance, a fourth-degree droid designed for combat can much more readily accept an interior mounted grenade launcher than a first-degree droid, such as a 2-1B surgical unit. The fourth-degree droid's shell is properly reinforced and its software nodes are designed around the appropriate programs to operate the launcher. Most attachments come with software which must be programmed or hardwired into the droid's memory by using the droid programming skill."
+										}
+									]
+								},
+								{
+									"id": "skill.engineering",
+									"type": "skill",
+									"title": "Engineering",
+									"source": {
+										"page_start": 64,
+										"page_end": 65
+									},
+									"fields": {
+										"time_taken": "Minutes or Hours",
+										"advanced": "requires prerequisite skills (see below)"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Like other advanced skills, (A) engineering has a higher Character Point cost-double the cost of advancing a normal skill-and requires certain prerequisite skills."
+										},
+										{
+											"type": "description",
+											"text": "Each specialization of (A) engineering has different prerequisites. Some specializations have fewer requirements than others (since some areas are more limited than others)."
+										},
+										{
+											"type": "description",
+											"text": "The (A) engineering skill involves many separate and complex activities and fields of study. An engineer must be versed in a number of skill disciplines and will likely be called upon to perform a wide range of tasks. Part architect, part technician, part repairman, part inventor, and part scientist, the engineer needs to be familiar with every aspect of his specialization."
+										},
+										{
+											"type": "description",
+											"text": "Using (A) engineering specializations allows a character to perform anyone of the following tasks; build, maintain, repair, or modify."
+										},
+										{
+											"type": "paragraph",
+											"text": "The (A) engineering skill is one that is left generally to gamemaster discretion. The core rules are intentionally vague regarding the application of the (A) engineering skill rules (with the exception of (A) droid engineering). Characters will inevitably attempt to design very powerful and unbalanced designs. The gamemaster should be cautions about allowing certain design types to be constructed and should require multiple rolls at varying difficulties in order to complete a design. The construction of the design will take a lot of time and possibly (for larger designs) require a work crew to build the prototype. The costs associated with custom design are generally much than with a \"stock\" purchase. This is due to the fact that many of the parts and structure may have to be fabricated. The players and gamemaster should work together to set the \"ground rules\" for cost, time to complete, and difficulty prior to a player character taking this skill."
+										},
+										{
+											"type": "mechanic",
+											"title": "Engineering Modification Option",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "At gamemaster discretion, if the player is using the appropriate (A) engineering skill to modify a component, instead of the repair skill, the system being modified is no longer considered \"jury-rigged.\" In this case, \"mishap modifiers\" may be ignored if a roll on the Mishap Modifier table is required. When a complication (rolling \"1\" on the Wild Die) occurs, the gamemaster simply handle this according to normal Wild Die rules, or the gamemaster may opt to roll on the mishap tables, although no \"mishap modifiers\" should be applied in this case. Additionally the player using the (A) engineering skill may be able to modify the system at one Difficulty Level lower than indicated."
+												},
+												{
+													"type": "paragraph",
+													"text": "For example a character modifying a vehicle's Move by +5 (See the Move Increase chart) would be able to do so at a Difficulty of Easy and would not take a Mishap Modifier penalty when a mishap roll was required."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Engineering Prerequisites",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "The following lists the various (A) engineering specializations that are recommended, and the prerequisite skills needed to purchase and utilize them. Each prerequisite skill has a die code associated with it (for example, \"4D armor repair\"); the character must have the indicated skill at the indicated die code before purchasing the specialization."
+												},
+												{
+													"type": "table",
+													"rows": [
+														[
+															"(A) Aquatic Vehicle Engineering",
+															"Requires 4D in aquatic vehicle repair, and allows the design of various aquatic vehicles and aquatic vehicle systems."
+														],
+														[
+															"(A) Armor Engineering",
+															"Requires 4D in armor repair. Allows the design of various types of personal armor."
+														],
+														[
+															"(A) Capital Ship Engineering",
+															"Requires 5D in capital ship repair, 4D capital ship weapon repair, and 2D computer programming/repair. It is possible to take this skill without the required die codes in capital ship weapon repair and computer programming/repair, but the bonus effects from engineering would not apply to those areas. This skill allows the design of various capital ships, and capital ship systems."
+														],
+														[
+															"(A) Civil/Industrial Engineering",
+															"Requires 1D in bureaucracy, 2D business, 3D demolitions, 1D law enforcement, and 2D in any two repair skills. This is a skill that relates to the building, maintenance, and modification of settlements, civic projects, businesses, and factories."
+														],
+														[
+															"(A) Computer Engineering",
+															"Requires 5D in computer programming/repair. This skill allows the design and construction of various computers, computer software, and complex computer networks."
+														],
+														[
+															"(A) Droid Engineering",
+															"Requires Requires 5D in droid repair or 5D in droid programming. This skill allows the design and construction of droids, See the \"Droids\" chapter for rules pertaining to the use of this skill."
+														],
+														[
+															"(A) Equipment Engineering",
+															"Requires 5D in equipment repair. This skill allows for the design and construction of various small equipment items and non-blaster weapons (e.g. vibroblades, breath masks, slugthrowers, comlinks)."
+														],
+														[
+															"(A) Ground Vehicle Engineering",
+															"Requires 4D in ground vehicle repair. This skill allows the design of various vehicles and vehicle systems."
+														],
+														[
+															"(A) Hover Vehicle Engineering",
+															"Requires 4D in hover vehicle repair. This skill allows the design of various hover vehicles and hover vehicle systems."
+														],
+														[
+															"(A) Installation Engineering",
+															"Requires 2D computer programming/repair, 2D demolitions, and 1D in any two of the following - (A) capital ship engineering, (A) civil/industrial engineering, (A) space transports engineering, (A) starfighter engineering, or (A) weapons engineering. This skill allows for the construction of fortified bases, strong holds, and other military installations."
+														],
+														[
+															"(A) Repulsorlift Engineering",
+															"Requires 4D in repulsorlift repair. This skill allows the design of various repulsorlift vehicles and repulsorlift vehicle systems."
+														],
+														[
+															"(A) Space Transport Engineering",
+															"Requires 5D in space transports repair. This skill allows the design of various space transports and space transport systems."
+														],
+														[
+															"(A) Starfighter Engineering",
+															"Requires 5D starfighter repair and 3D starship weapons repair. It is possible to take this skill without the required die code in starship weapons repair, but the bonus effects from engineering would only apply to non- weapon functions. This skill allows the design of various starfighters and starfighter systems."
+														],
+														[
+															"(A) Submersible Vehicle Engineering",
+															"Requires 4D in submersible vehicle repair. This skill allows the design of various submersible vehicles and submersible vehicle systems."
+														],
+														[
+															"(A) Walker Engineering",
+															"Requires 4D in walker repair. This skill allows the design of various walkers and walker systems."
+														],
+														[
+															"(A) Weapon Engineering",
+															"Requires 5D in any two of the following - blaster repair, capital ship weapon repair, demolitions, equipment repair, starship weapon repair. This skill allows for the design and construction of various weapons systems and blasters."
+														],
+														[
+															"(A) Aquatic Vehicle Engineering",
+															"Requires 4D in aquatic vehicle repair, and allows the design of various aquatic vehicles and aquatic vehicle systems."
+														],
+														[
+															"(A) Armor Engineering",
+															"Requires 4D in armor repair. Allows the design of various types of personal armor"
+														],
+														[
+															"(A) Capital Ship Engineering",
+															"Requires 5D in capital ship repair, 4D capital ship weapon repair, and 2D computer programming/repair. It is possible to take this skill without the required die codes in capital ship weapon repair and computer programming/repair, but the bonus effects from engineering would not apply to those areas. This skill allows the design of various capital ships, and capital ship systems."
+														],
+														[
+															"(A) Civil/Industrial Engineering",
+															"Requires 1D in bureaucracy, 2D business, 3D demolitions, 1D law enforcement, and 2D in any two repair skills. This is a skill that relates to the building, maintenance, and modification of settlements, civic projects, businesses, and factories."
+														],
+														[
+															"(A) Computer Engineering",
+															"Requires 5D in computer programming/repair. This skill allows the design and construction of various computers, computer software, and complex computer networks."
+														],
+														[
+															"(A) Droid Engineering",
+															"Requires Requires 5D in droid repair or 5D in droid programming. This skill allows the design and construction of droids, See the \"Droids\" chapter for rules pertaining to the use of this skill."
+														],
+														[
+															"(A) Equipment Engineering",
+															"Requires 5D in equipment repair. This skill allows for the design and construction of various small equipment items and non-blaster weapons (e.g. vibroblades, breath masks, slugthrowers, comlinks)."
+														],
+														[
+															"(A) Ground Vehicle Engineering",
+															"Requires 4D in ground vehicle repair. This skill allows the design of various vehicles and vehicle systems."
+														],
+														[
+															"(A) Hover Vehicle Engineering",
+															"Requires 4D in hover vehicle repair. This skill allows the design of various hover vehicles and hover vehicle systems."
+														],
+														[
+															"(A) Installation Engineering",
+															"Requires 2D computer programming/repair, 2D demolitions, and 1D in any two of the following - (A) capital ship engineering, (A) civil/industrial engineering, (A) space transports engineering, (A) starfighter engineering, or (A) weapons engineering. This skill allows for the construction of fortified bases, strong holds, and other military installations."
+														],
+														[
+															"(A) Repulsorlift Engineering",
+															"Requires 4D in repulsorlift repair. This skill allows the design of various repulsorlift vehicles and repulsorlift vehicle systems."
+														],
+														[
+															"(A) Space Transport Engineering",
+															"Requires 5D in space transports repair. This skill allows the design of various space transports and space transport systems."
+														],
+														[
+															"(A) Starfighter Engineering",
+															"Requires 5D starfighter repair and 3D starship weapons repair. It is possible to take this skill without the required die code in starship weapons repair, but the bonus effects from engineering would only apply to non- weapon functions. This skill allows the design of various starfighters and starfighter systems."
+														],
+														[
+															"(A) Submersible Vehicle Engineering",
+															"Requires 4D in submersible vehicle repair. This skill allows the design of various submersible vehicles and submersible vehicle systems."
+														],
+														[
+															"(A) Walker Engineering",
+															"Requires 4D in walker repair. This skill allows the design of various walkers and walker systems."
+														],
+														[
+															"(A) Weapon Engineering",
+															"Requires 5D in any two of the following - blaster repair, capital ship weapon repair, demolitions, equipment repair, starship weapon repair. This skill allows for the design and construction of various weapons systems and blasters."
+														]
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.equipment_repair",
+									"type": "skill",
+									"title": "Equipment Repair",
+									"source": {
+										"page_start": 65
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then two hours. May be customized to circumstances",
+										"specializations": "Type or model equipment",
+										"examples": "breath mask, comlink, slugthrower, vibroblade"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "A character's ability to fix and modify various character-, speeder-, and walker-scale equipment items (including non-blaster, and non-energy beam weapons). The cost and difficulty to repair equipment depends upon how badly it is damaged - see \"Weapons\" in \"Using Repair Skills\" above."
+										},
+										{
+											"type": "note",
+											"text": "Note blasters and other energy weapons are repaired and modified using the blaster repair skill. Computers and small sensors are repaired using the computer programming/repair skill."
+										}
+									]
+								},
+								{
+									"id": "skill.first_aid",
+									"type": "skill",
+									"title": "First Aid",
+									"source": {
+										"page_start": 65
+									},
+									"fields": {
+										"time_taken": "One combat round",
+										"specializations": "Species of patient",
+										"examples": "humans, Ewoks, Wookiees"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "First aid reflects a character's ability to perform emergency life saving procedures in the field. For rules on the use of first aid, see \"Combat and Injuries.\""
+										}
+									]
+								},
+								{
+									"id": "skill.ground_vehicle_repair",
+									"type": "skill",
+									"title": "Ground Vehicle Repair",
+									"source": {
+										"page_start": 65
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Type or model ground vehicle",
+										"examples": "compact assault vehicle, Juggernaut"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill represents a character's familiarity with the workings of ground vehicles, and his ability to modify or repair them. Each roll may repair one damaged system aboard a particular craft. The cost and difficulty to repair a vehicle depends on how badly it is damaged, and what systems have been damaged. See \"Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "skill.hover_vehicle_repair",
+									"type": "skill",
+									"title": "Hover Vehicle Repair",
+									"source": {
+										"page_start": 66
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Type or model hover vehicle",
+										"examples": "hoverscout"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters use this skill when repairing or modifying hover vehicle systems. Each roll may repair one damaged component aboard a particular craft. The cost and difficulty to repair a hover vehicle depends on how badly it is hit, and what systems have been damaged. See \"Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "skill.lightsaber_repair_engineering",
+									"type": "skill",
+									"title": "Lightsaber Repair/Engineering",
+									"source": {
+										"page_start": 66
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. Construction takes approximately one month",
+										"specializations": "Specific type or model lightsaber - double-bladed lightsaber, light-whip."
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters use this skill when repairing, modifying, or building a lightsaber, the weapon of the Jedi. This skill is generally restricted to Jedi Knights who learned it from their master. Lightsaber repair/engineering combines the repair and design skills into one, due to the special nature of the skill. The cost and difficulty to repair equipment depends upon how badly it is damaged - see \"Weapons\" in \"Using Repair Skills\" above."
+										},
+										{
+											"type": "mechanic",
+											"title": "Lightsaber Construction",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "To construct a Iightsaber from its basic components parts takes a minimum of one month and requires a successful lightsaber repair roll against a Very Difficult difficulty."
+												},
+												{
+													"type": "paragraph",
+													"text": "Decrease the difficulty by one level for each extra month spent building the saber, to a minimum of Easy. Jedi characters may adjust a Iightsaber's base damage die code through modifications (as indicated in the \"Improving Vehicles, Vessels, and Weapons\" section). Characters rely on their lightsaber repair/engineering skill to make such improvements."
+												},
+												{
+													"type": "paragraph",
+													"text": "Note that lightsaber repair/engineering is not an advanced skill, however it should be judiciously governed by the gamemaster and generally used only by Jedi characters."
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.medicine",
+									"type": "skill",
+									"title": "Medicine",
+									"source": {
+										"page_start": 66
+									},
+									"fields": {
+										"time_taken": "Minutes or hours",
+										"specializations": "Specific field known",
+										"examples": "medicines, cyborging, surgery",
+										"advanced": "requires first aid of at least 5D"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters with this skill can perform complex medical procedures such as surgery, operation of bacta tanks, and the installation of cybernetic replacements and enhancements. They are also familiar with all types of medicines and are capable of using them to best effect."
+										}
+									]
+								},
+								{
+									"id": "skill.repulsorlift_repair",
+									"type": "skill",
+									"title": "Repulsorlift Repair",
+									"source": {
+										"page_start": 66
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Type or model repulsorlift vehicle",
+										"examples": "XP-38 landspeeder, Incom T-16 Skyhopper, Rebel Alliance combat snowspeeder"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Repulsorlift repair represents a character's affinity for repairing and modifying vehicles with repulsorlift generators. Each roll may repair one damaged system aboard a particular vehicle. The cost and difficulty to repair a vehicle depends on how badly it is damaged, and what systems have been hit. See \"Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "skill.security",
+									"type": "skill",
+									"title": "Security",
+									"source": {
+										"page_start": 66
+									},
+									"fields": {
+										"time_taken": "One round to several minutes",
+										"specializations": "Type or model security device",
+										"examples": "magna lock, blast door, retinal lock"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This skill represents a character's knowledge of physical security systems: locks, alarm systems and other detection devices. It does not govern computer security procedures."
+										},
+										{
+											"type": "paragraph",
+											"text": "The difficulty depends on the sophistication of the lock or alarm:"
+										},
+										{
+											"type": "table",
+											"subtype": "difficulty",
+											"rows": [
+												[
+													1,
+													"Standard lock, no special protection."
+												],
+												[
+													2,
+													"Regular security lock, civilian."
+												],
+												[
+													3,
+													"High-quality lock, standard military."
+												],
+												[
+													4,
+													"Bank vault lock, upper military."
+												],
+												[
+													5,
+													"Super-security lock, Imperial governor, Fleet captain, rare collectible dealer, Jabba the Hutt's locks."
+												],
+												[
+													6,
+													"If Darth Vader or Emperor Palpatine locked things up, this is what they'd use."
+												]
+											]
+										}
+									]
+								},
+								{
+									"id": "skill.space_transport_repair",
+									"type": "skill",
+									"title": "Space Transport Repair",
+									"source": {
+										"page_start": 66,
+										"page_end": 67
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized by circumstances",
+										"specializations": "Type or model transport",
+										"examples": "YT-1300 transport, Gallofree medium transport, Corellian Action VI transport"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters with this skill can repair and modify space transports. Each roll may repair one damaged component aboard a particular transport. The cost and difficulty to repair a vessel depends on how badly it is damaged, and what systems have been hit. See Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "skill.starfighter_repair",
+									"type": "skill",
+									"title": "Starfighter Repair",
+									"source": {
+										"page_start": 67
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Type or model starfighter",
+										"examples": "X-wing, TIE/In, TIE interceptor, Z-95 Headhunter"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This repair skill represents a character's ability to fix and modify starfighters. Each roll may repair one damaged system aboard a particular fighter. The cost and difficulty to repair a ship depends on how badly it is damaged, and what systems have been hit. See \"Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "skill.starship_weapon_repair",
+									"type": "skill",
+									"title": "Starship Weapon Repair",
+									"source": {
+										"page_start": 67
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Specific type or model weapon",
+										"examples": "concussion missiles, ion cannons, laser cannon, proton torpedoes, turbolasers"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Starship weapon repair covers a character's ability to fix and modify starfighter-scale weapons. The cost and difficulty to repair weapons depends upon how badly it is damaged - see \"Weapons\" in \"Using Repair Skills.\""
+										}
+									]
+								},
+								{
+									"id": "skill.submersible_vehicle_repair",
+									"type": "skill",
+									"title": "Submersible Vehicle Repair",
+									"source": {
+										"page_start": 67
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then one hour, then one day, then two days. May be customized to circumstances",
+										"specializations": "Particular submersible type or class",
+										"examples": "Bongo, electric submarine"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "This repair skill represents a character's ability to fix and modify submersible vehicles. Each roll may repair one damaged system aboard a particular submersible. The cost and difficulty to repair depends on how badly it is damaged, and what systems have been hit. See \"Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "skill.walker_repair",
+									"type": "skill",
+									"title": "Walker Repair",
+									"source": {
+										"page_start": 67
+									},
+									"fields": {
+										"time_taken": "In general, 15 minutes, then six hours, then one day, then two days. May be customized to circumstances",
+										"specializations": "Particular kind of walker",
+										"examples": "AT-AT, AT- ST, AT-PT"
+									},
+									"blocks": [
+										{
+											"type": "description",
+											"text": "Characters use this skill when repairing or modifying walker systems. Each roll may fix one damaged component aboard a particular walker. The cost and difficulty to repair a walker depends on how badly it is hit, and what systems have been damaged. See \"Using Repair Skills\" above for difficulties and costs associated with various systems which may be damaged."
+										}
+									]
+								},
+								{
+									"id": "technical.subsection.other_skills",
+									"type": "subsection",
+									"title": "Other Skills",
+									"source": {
+										"page_start": 67
+									},
+									"blocks": [
+										{
+											"type": "paragraph",
+											"text": "There are plenty of other skills in the galaxy, but most of them don't directly affect the game, so they're not covered here. When a character wants to do something not covered by a skill, the gamemaster can simply assign the action to an attribute; if the player wants his character to get better at the task, the gamemaster can invent a new skill."
+										},
+										{
+											"type": "paragraph",
+											"text": "For example, what if the character wants to get better at a sport called nega-ball? There's no nega-ball skill... but the game involves a lot of running around and throwing a ball at a small target, so the gamemaster decides that the character should use his Dexterity attribute. If the player decides that he wants his character to get better at nega-ball, the gamemaster can invent a nega-ball skill."
+										},
+										{
+											"type": "mechanic",
+											"title": "Interpreting the System",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "The Star Wars game system is very flexible and the gamemaster should interpret the rules as needed. For example, even though there's not a nega-ball skill, the gamemaster could have chosen to use several skills: thrown weapons or even grenade whenever the character throws the ball, running when the character tries to move around other players on the nega-ball court and stamina to see how the character holds up. All of these choices are just as \"right\" as choosing to create the nega-ball skill - it depends on what the gamemaster and the players feel is fair."
+												}
+											]
+										},
+										{
+											"type": "mechanic",
+											"title": "Controlling Skills",
+											"blocks": [
+												{
+													"type": "paragraph",
+													"text": "Some players may try to come up with some ridiculously powerful skills or specializations - for example, communications: Imperial secret codes. Granted, this skill may exist, but no character could have the skill without a really good reason. Gamemasters may reject any new skill or specialization they think is unbalanced - or better yet, they may give the character some unexpected complications from having this kind of skill. You can give the players what they want... but remind them to be careful what they wish for because they may get it and all the consequences, too."
+												},
+												{
+													"type": "paragraph",
+													"text": "With communications: Imperial secret codes, for example, the Empire might know that this character has in-depth knowledge of Imperial security procedures, and decides that he has to be \"eliminated.\" Yes, this characters gets the skill, but his life has just been made a lot more interesting..."
+												}
+											]
+										}
+									]
+								},
+								{
+									"type": "story",
+									"text": "Now you know how to use all those skills. If you're a player, you are all set. You have some idea of what skills your character has and what he can do with those talents."
+								},
+								{
+									"type": "story",
+									"text": "If you're a gamemaster, your job's not over yet. Your players have just learned how to \"operate\" their characters, just like pilots learn how to fly their starships. Now you get to figure out where the characters are going... sort of like creating the system where the pilot flies her starship."
+								},
+								{
+									"type": "story",
+									"text": "You have the opportunity to actually create your own Star Wars stories for your players to stumble through. Sure, you'll need to know about these skills but don't let all the modifiers and details slow down the game. Fall back on the rule of thumb... quick, what's the difficulty to scan fora human and a Wookiee who are hiding in a Noghri village? Moderate? Difficult? Yeah, that sounds good. Roll your sensors skill. Have fun and clear skies!"
 								}
 							]
 						}
