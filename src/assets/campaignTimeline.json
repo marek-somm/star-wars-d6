@@ -70,6 +70,20 @@
 		{
 			"chapter": 1,
 			"date": "27.04.2021"
+		},
+		{
+			"chapter": 3,
+			"date": "07.06.2026",
+			"summary": "",
+			"highlights": [
+				"Scrape, Vrom und Inigo fliehen vor den imperiellen Besetzern",
+				"Vos und Zebron fliegen zurück nach Ordo",
+				"Inigo lernt neuen Freund kennen, Grenk",
+				"Vos bringt Kiste mit Lon-Mel zu Venkor, Tar und Iola",
+				"Vos lernt von Iola (Darth Vestus), das seine Stimmen sich als Darth Voh heraus stellen",
+				"Der Inhalt der Kiste wird enthüllt. Es ist die Maske von Darth Nihilus",
+				"Die Gruppe, bis auf Vos findet wieder zusammen"
+			]
 		}
 	],
 	"events": [
