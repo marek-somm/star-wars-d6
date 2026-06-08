@@ -94,16 +94,29 @@
 						</div>
 						<div class="quick-section" v-if="recentSkills.length">
 							<h3>{{ t("ui.characterPowers.recent") }}</h3>
-							<button
-							class="quick-item ui-button"
-								:class="{ active: isCurrentSkill(skill) }"
-								type="button"
+							<div
+								class="quick-item-row"
 								v-for="skill in recentSkills"
 								:key="`recent-${skill.name}`"
-								@click="showSkill(skill)"
 							>
-								{{ skill.name }}
-							</button>
+								<button
+									class="quick-item ui-button"
+									:class="{ active: isCurrentSkill(skill) }"
+									type="button"
+									@click="showSkill(skill)"
+								>
+									{{ skill.name }}
+								</button>
+								<button
+									class="quick-remove ui-button"
+									type="button"
+									:aria-label="t('ui.characterPowers.removeRecent', { power: skill.name })"
+									:title="t('ui.characterPowers.removeRecent', { power: skill.name })"
+									@click="removeRecentSkill(skill)"
+								>
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
 						</div>
 					</div>
 					<div class="label-group" v-for="powerLabel in filteredPowerLabels" :key="powerLabel.name">
@@ -410,6 +423,13 @@ export default {
 					!this.matchesSkillReference(skill, item)
 				)
 			].slice(0, RECENT_LIMIT);
+			this.saveNameList(RECENT_STORAGE_KEY, this.data.recent);
+		},
+
+		removeRecentSkill(skill) {
+			this.data.recent = this.data.recent.filter((item) =>
+				!this.matchesSkillReference(skill, item)
+			);
 			this.saveNameList(RECENT_STORAGE_KEY, this.data.recent);
 		},
 
@@ -784,6 +804,37 @@ export default {
 				&.kept {
 					border-color: rgba(103, 213, 200, 0.18);
 					background: rgba(103, 213, 200, 0.07);
+				}
+			}
+
+			.quick-item-row {
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) 2rem;
+				gap: 0.35rem;
+				align-items: stretch;
+				margin-top: 0.25rem;
+
+				.quick-item {
+					margin-top: 0;
+				}
+			}
+
+			.quick-remove {
+				width: 2rem;
+				min-height: 2rem;
+				padding: 0;
+				border-color: rgba(244, 239, 229, 0.1);
+				background: rgba(255, 255, 255, 0.025);
+				color: var(--color-subtle);
+				font-size: 1.1rem;
+				font-weight: 900;
+				line-height: 1;
+
+				&:hover,
+				&:focus-visible {
+					border-color: rgba(217, 95, 67, 0.52);
+					background: var(--surface-danger);
+					color: var(--color-danger);
 				}
 			}
 		}

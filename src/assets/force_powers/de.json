@@ -1089,6 +1089,7 @@
 	"ui.characterPowers.favorites": "Favoriten",
 	"ui.characterPowers.keptUp": "Aufrechterhalten",
 	"ui.characterPowers.recent": "Zuletzt",
+	"ui.characterPowers.removeRecent": "{power} aus Zuletzt entfernen",
 	"ui.characterPowers.fanMade": "Fanmade",
 	"ui.characterPowers.favoriteShort": "Fav",
 	"ui.characterPowers.keptShort": "Aktiv",
