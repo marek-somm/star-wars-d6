@@ -563,6 +563,7 @@ export default {
 	grid-template-columns: minmax(16rem, 23rem) minmax(0, 1fr);
 	gap: 1rem;
 	align-items: stretch;
+	transition: grid-template-columns 0.24s ease;
 
 	&:has(.list.collapsed) {
 		grid-template-columns: 2.75rem minmax(0, 1fr);
@@ -581,14 +582,22 @@ export default {
 		padding: 1rem;
 		position: relative;
 		min-height: 0;
-		overflow: visible;
+		overflow: hidden;
+		transition:
+			padding 0.24s ease,
+			min-height 0.24s ease;
 
 		&.collapsed {
 			min-height: 4rem;
 			padding-inline: 0.5rem;
 
 			.list-content {
-				display: none;
+				opacity: 0;
+				pointer-events: none;
+				transition:
+					opacity 0.1s ease,
+					visibility 0s linear 0.1s;
+				visibility: hidden;
 			}
 		}
 
@@ -608,6 +617,11 @@ export default {
 			background: rgba(22, 20, 17, 0.9);
 			color: var(--color-accent);
 			box-shadow: var(--shadow-control);
+			transition:
+				right 0.24s ease,
+				transform 0.24s ease,
+				background 0.18s ease,
+				border-color 0.18s ease;
 
 			&:hover {
 				border-color: rgba(242, 193, 78, 0.48);
@@ -621,6 +635,7 @@ export default {
 				border: solid currentColor;
 				border-width: 0 2px 2px 0;
 				transform: translateX(0.12rem) rotate(135deg);
+				transition: transform 0.24s ease;
 			}
 		}
 
@@ -638,6 +653,11 @@ export default {
 			flex: 1 1 auto;
 			flex-direction: column;
 			min-height: 0;
+			opacity: 1;
+			visibility: visible;
+			transition:
+				opacity 0.14s ease 0.12s,
+				visibility 0s linear 0.12s;
 		}
 
 		.list-header {
@@ -1040,6 +1060,9 @@ export default {
 
 				.list-content {
 					display: flex;
+					opacity: 1;
+					pointer-events: auto;
+					visibility: visible;
 				}
 			}
 

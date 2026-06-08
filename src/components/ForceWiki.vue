@@ -79,7 +79,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="index-heading" v-show="!data.indexCollapsed">
+				<div class="index-heading" :aria-hidden="data.indexCollapsed">
 					<span>{{ t("ui.forceWiki.powerIndex") }}</span>
 					<strong>{{ filteredSkills.length }}</strong>
 				</div>
@@ -89,7 +89,7 @@
 					@click="data.indexCollapsed = !data.indexCollapsed">
 					<span class="index-toggle-icon" aria-hidden="true"></span>
 				</button>
-				<div class="index-scroll" v-show="!data.indexCollapsed">
+				<div class="index-scroll" :aria-hidden="data.indexCollapsed">
 					<div class="index-group" v-for="group in groupedSkills" :key="group.letter">
 						<h2>{{ group.letter }}</h2>
 						<button v-for="skill in group.skills" :key="skill.id || skill.name" class="index-item ui-button"
@@ -782,6 +782,7 @@ export default {
 	grid-template-columns: minmax(14rem, 19rem) minmax(0, 1fr);
 	gap: 1rem;
 	align-items: stretch;
+	transition: grid-template-columns 0.24s ease;
 
 	&:has(.wiki-index.collapsed) {
 		grid-template-columns: 2.75rem minmax(0, 1fr);
@@ -794,12 +795,25 @@ export default {
 	flex-direction: column;
 	min-height: 0;
 	padding: 0.9rem;
-	overflow: visible;
+	overflow: hidden;
+	transition:
+		padding 0.24s ease,
+		min-height 0.24s ease;
 
 	&.collapsed {
 		align-self: stretch;
 		min-height: 4rem;
 		padding-inline: 0.5rem;
+
+		.index-heading,
+		.index-scroll {
+			opacity: 0;
+			pointer-events: none;
+			transition:
+				opacity 0.1s ease,
+				visibility 0s linear 0.1s;
+			visibility: hidden;
+		}
 	}
 
 	.index-heading {
@@ -808,6 +822,12 @@ export default {
 		justify-content: space-between;
 		min-height: 2rem;
 		padding-right: 2.65rem;
+		opacity: 1;
+		overflow: hidden;
+		visibility: visible;
+		transition:
+			opacity 0.14s ease 0.12s,
+			visibility 0s linear 0.12s;
 
 		span {
 			color: var(--color-muted);
@@ -847,6 +867,11 @@ export default {
 		background: rgba(22, 20, 17, 0.9);
 		color: var(--color-accent);
 		box-shadow: var(--shadow-control);
+		transition:
+			right 0.24s ease,
+			transform 0.24s ease,
+			background 0.18s ease,
+			border-color 0.18s ease;
 
 		&:hover {
 			border-color: rgba(242, 193, 78, 0.48);
@@ -860,6 +885,7 @@ export default {
 			border: solid currentColor;
 			border-width: 0 2px 2px 0;
 			transform: translateX(0.12rem) rotate(135deg);
+			transition: transform 0.24s ease;
 		}
 	}
 
@@ -879,8 +905,13 @@ export default {
 		margin-top: 0.55rem;
 		padding: 0.15rem 2.35rem 0.4rem 0.25rem;
 		overflow: auto;
+		opacity: 1;
+		visibility: visible;
 		scrollbar-color: rgba(242, 193, 78, 0.52) rgba(244, 239, 229, 0.06);
 		scrollbar-width: thin;
+		transition:
+			opacity 0.14s ease 0.12s,
+			visibility 0s linear 0.12s;
 
 		&::-webkit-scrollbar {
 			width: 0.55rem;
@@ -1204,6 +1235,14 @@ export default {
 
 		&.mobile-open {
 			transform: translateY(0);
+		}
+
+		&.collapsed {
+			.index-scroll {
+				opacity: 1;
+				pointer-events: auto;
+				visibility: visible;
+			}
 		}
 
 		.index-toggle {

@@ -20,7 +20,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="index-heading" v-show="!collapsed">
+		<div class="index-heading" :aria-hidden="collapsed">
 			<span>Regelindex</span>
 			<strong>{{ filteredCount }}</strong>
 		</div>
@@ -29,7 +29,7 @@
 			:title="collapsed ? 'Regelindex anzeigen' : 'Regelindex ausblenden'" @click="$emit('toggle-collapse')">
 			<span class="index-toggle-icon" aria-hidden="true"></span>
 		</button>
-		<div class="index-scroll" v-show="!collapsed">
+		<div class="index-scroll" :aria-hidden="collapsed">
 			<div class="rule-tree" role="tree" aria-label="Regelstruktur">
 				<RuleTreeNode v-for="node in ruleTree" :key="node.key" :node="node"
 					:expanded-keys="expandedKeys" :current-rule-id="currentRuleId"
@@ -109,11 +109,24 @@ export default {
 	flex-direction: column;
 	min-height: max(34rem, calc(100vh - 17rem));
 	padding: 0.9rem;
-	overflow: visible;
+	overflow: hidden;
+	transition:
+		padding 0.24s ease,
+		min-height 0.24s ease;
 
 	&.collapsed {
 		align-self: stretch;
 		padding-inline: 0.5rem;
+
+		.index-heading,
+		.index-scroll {
+			opacity: 0;
+			pointer-events: none;
+			transition:
+				opacity 0.1s ease,
+				visibility 0s linear 0.1s;
+			visibility: hidden;
+		}
 	}
 
 	.index-heading {
@@ -122,6 +135,12 @@ export default {
 		justify-content: space-between;
 		min-height: 2rem;
 		padding-right: 2.65rem;
+		opacity: 1;
+		overflow: hidden;
+		visibility: visible;
+		transition:
+			opacity 0.14s ease 0.12s,
+			visibility 0s linear 0.12s;
 
 		span {
 			color: var(--color-muted);
@@ -152,6 +171,11 @@ export default {
 		background: rgba(22, 20, 17, 0.9);
 		color: var(--color-accent);
 		box-shadow: var(--shadow-control);
+		transition:
+			right 0.24s ease,
+			transform 0.24s ease,
+			background 0.18s ease,
+			border-color 0.18s ease;
 
 		&:hover {
 			border-color: rgba(242, 193, 78, 0.48);
@@ -165,6 +189,7 @@ export default {
 			border: solid currentColor;
 			border-width: 0 2px 2px 0;
 			transform: translateX(0.12rem) rotate(135deg);
+			transition: transform 0.24s ease;
 		}
 	}
 
@@ -184,8 +209,13 @@ export default {
 		margin-top: 0.55rem;
 		padding-right: 0.25rem;
 		overflow: auto;
+		opacity: 1;
+		visibility: visible;
 		scrollbar-color: rgba(242, 193, 78, 0.52) rgba(244, 239, 229, 0.06);
 		scrollbar-width: thin;
+		transition:
+			opacity 0.14s ease 0.12s,
+			visibility 0s linear 0.12s;
 	}
 }
 
@@ -214,6 +244,12 @@ export default {
 
 		&.collapsed {
 			padding-inline: 1rem;
+
+			.index-scroll {
+				opacity: 1;
+				pointer-events: auto;
+				visibility: visible;
+			}
 		}
 
 		.index-toggle {

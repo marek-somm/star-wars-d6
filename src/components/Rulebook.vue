@@ -449,6 +449,7 @@ export default {
 	grid-template-columns: minmax(17rem, 23rem) minmax(0, 1fr);
 	gap: 1rem;
 	align-items: stretch;
+	transition: grid-template-columns 0.24s ease;
 
 	&:has(.rule-index.collapsed) {
 		grid-template-columns: 2.75rem minmax(0, 1fr);
