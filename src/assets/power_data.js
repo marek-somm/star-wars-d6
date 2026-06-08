@@ -3001,8 +3001,7 @@ export const rawPowerItemStructures = [
 				"text": [
 					"powers.control_mind.content.2.text.0",
 					"powers.control_mind.content.2.text.1",
-					"powers.control_mind.content.2.text.2",
-					"powers.control_mind.content.2.text.3"
+					"powers.control_mind.content.2.text.2"
 				]
 			}
 		]
