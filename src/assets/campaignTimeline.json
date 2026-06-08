@@ -72,10 +72,165 @@
 			"date": "27.04.2021"
 		},
 		{
+			"chapter": 1,
+			"date": "04.05.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "11.05.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "17.08.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "07.09.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "15.09.2021",
+			"notes": [
+				"Tempel auf Yarvin 4"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "28.09.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "05.10.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "20.10.2021",
+			"notes": [
+				"nur DU5-T1-N und Scrape"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "27.10.2021",
+			"notes": [
+				"nur DU5-T1-N und Scrape"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "02.11.2021",
+			"notes": [
+				"nur DU5-T1-N und Scrape"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "03.11.2021",
+			"notes": [
+				"maybe nur Vos? aber wahrscheinlich auch Zebron und Harland"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "09.11.2021",
+			"notes": "nur Zebron, Vos und Harland"
+		},
+		{
+			"chapter": 1,
+			"date": "10.11.2021",
+			"notes": [
+				"nur DU5-T1-N und Scrape"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "16.11.2021",
+			"notes": "Zebron, Vos und Harland - DU5-T1-N und Scrape getrennt"
+		},
+		{
+			"chapter": 1,
+			"date": "27.11.2021",
+			"notes": "nur ein einziger Wurf von Harland?"
+		},
+		{
+			"chapter": 1,
+			"date": "30.11.2021",
+			"notes": [
+				"nur DU5-T1-N und Scrape"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "02.12.2021",
+			"notes": [
+				"nur DU5-T1-N und Scrape"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "05.12.2021",
+			"notes": [
+				"nur DU5-T1-N und Scrape"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "07.12.2021",
+			"notes": "Zebron, Vos und (Harland?)"
+		},
+		{
+			"chapter": 1,
+			"date": "08.12.2021",
+			"notes": [
+				"nur DU5-T1-N und Scrape"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "14.12.2021",
+			"notes": [
+				"Kevin existiert"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "21.12.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "28.12.2021"
+		},
+		{
+			"chapter": 1,
+			"date": "31.12.2022"
+		},
+		{
+			"chapter": 1,
+			"date": "03.01.2023",
+			"notes": [
+				"Elmer Biri und Vrom existieren"
+			]
+		},
+		{
+			"chapter": 1,
+			"date": "12.07.2023",
+			"notes": [
+				"Elmer scheint hier wieder Scrape zu sein"
+			]
+		},
+		{
 			"chapter": 3,
 			"date": "07.06.2026",
-			"summary": "",
+			"title": "Flucht, Offenbarungen und die Maske",
+			"summary": "Während Scrape, Vrom und Inigo den imperialen Besatzern entkommen, kehren Vos und Zebron nach Ordo zurück. Inigo findet mit Grenk einen neuen Verbündeten, während Vos die Kiste mit Lon-Mel zu Venkor, Tar und Iola bringt. Dort offenbart Iola, dass die Stimmen in Vos mit Darth Voh verbunden sind, bevor der Inhalt der Kiste enthüllt wird: die Maske von Darth Nihilus. Am Ende findet die Gruppe ohne Vos wieder zusammen.",
 			"highlights": [
+				"Flucht vor dem Imperium",
+				"Rückkehr nach Ordo",
+				"Grenk wird Verbündeter",
+				"Darth Voh wird offenbart",
+				"Maske von Darth Nihilus"
+			],
+			"notes": [
 				"Scrape, Vrom und Inigo fliehen vor den imperiellen Besetzern",
 				"Vos und Zebron fliegen zurück nach Ordo",
 				"Inigo lernt neuen Freund kennen, Grenk",
@@ -83,6 +238,25 @@
 				"Vos lernt von Iola (Darth Vestus), das seine Stimmen sich als Darth Voh heraus stellen",
 				"Der Inhalt der Kiste wird enthüllt. Es ist die Maske von Darth Nihilus",
 				"Die Gruppe, bis auf Vos findet wieder zusammen"
+			]
+		},
+		{
+			"chapter": 3,
+			"date": "08.06.2026",
+			"title": "Angriff auf das Haus",
+			"summary": "Scrape, Vrom, Inigo, Zebron, Shin und Grenk geraten unter mandalorianischen Beschuss. Vier Angreifer rücken auf das Haus vor, während ein Scharfschütze Scrape ins Visier nimmt. Inigo und Vrom stoppen den Vormarsch mit einer Granate, Scrape schaltet den Sniper aus. Grenk überlebt schwer verletzt und wird in Hibernation versetzt.",
+			"highlights": [
+				"Mandalorianischer Angriff",
+				"Granate stoppt den Vorstoß",
+				"Scrape trifft den Sniper",
+				"Grenk in Hibernation"
+			],
+			"notes": [
+				"Scrape, Vrom, Inigo, Zebron, Shin und Grenk werden Angegriffen",
+				"4 Mandelorianer marschieren auf das Haus zu, ein Sniper schießt auf Scrape",
+				"Inigo und Vrom werfen eine Granate auf die 4 Mandelorianer und schalten sie alle aus",
+				"Scrape schaltet den Scharfschützen mit einem Schuss aus",
+				"Grenk ist angeschlagen und liegt jetzt mortally wounded in Hibernation"
 			]
 		}
 	],
