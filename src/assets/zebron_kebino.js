@@ -4,7 +4,7 @@ export const points = {
 	force: 6,
 	force_temp: 0,
 	darkside: 0,
-	character: 214,
+	character: 215,
 	spent: 197,
 };
 
