@@ -3,6 +3,18 @@
 		<details class="power" v-for="(group, index) in difficultyGroups" :key="group.key || index" open>
 			<summary class="title">
 				<span class="name">{{ getGroupPowerLabel(group.powers) }}</span>
+				<span class="force-rolls">
+					<button
+						class="force-roll ui-button"
+						type="button"
+						v-for="power in group.powers"
+						:key="power"
+						:title="getForceRollTitle(power)"
+						@click.stop.prevent="copyForceRoll(power)"
+					>
+						{{ getPowerName(power) }} {{ getAdjustedForceDice(power) }}
+					</button>
+				</span>
 				<span class="summary-badges">
 					<span class="summary-badge-group" v-for="(item, itemIndex) in group.difficulty.level"
 						:key="itemIndex">
@@ -210,6 +222,9 @@
 import { Skill } from '../../../assets/powers';
 import { sanitizeHtml } from "@/utils/html";
 import { defaultPowerLanguage, getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
+import { forceStats } from "@/assets/zebron_kebino.js";
+import { copyToClipboard } from "@/utils/clipboard";
+import { formatDiceParts, getRollCommandFromDice } from "@/utils/dice";
 
 export default {
 	props: {
@@ -287,6 +302,35 @@ export default {
 			return powers
 				.map((power) => this.getPowerName(power))
 				.join(" + ");
+		},
+
+		getForceSkillPenalty() {
+			const count = Array.isArray(this.skill?.powers) ? this.skill.powers.length : 0;
+			return Math.max(0, count - 1);
+		},
+
+		getAdjustedForceParts(power) {
+			const stat = forceStats[power] || {};
+			return {
+				dice: Math.max(1, Number(stat.dice || 0) - this.getForceSkillPenalty()),
+				pips: Number(stat.pips || 0),
+			};
+		},
+
+		getAdjustedForceDice(power) {
+			const { dice, pips } = this.getAdjustedForceParts(power);
+			return formatDiceParts(dice, pips);
+		},
+
+		getForceRollTitle(power) {
+			const penalty = this.getForceSkillPenalty();
+			const penaltyText = penalty > 0 ? ` (-${penalty}D)` : "";
+			return `Copy ${this.getPowerName(power)} roll${penaltyText}`;
+		},
+
+		copyForceRoll(power) {
+			const { dice, pips } = this.getAdjustedForceParts(power);
+			copyToClipboard(getRollCommandFromDice(dice, pips, `${this.skill.name} - ${this.getPowerName(power)}`));
 		},
 
 		hasIncreasedDifficulty(difficulty = {}) {
@@ -758,6 +802,29 @@ export default {
 				font-size: 1.25rem;
 				font-weight: bold;
 				margin-right: 0.4rem;
+			}
+
+			.force-rolls {
+				display: inline-flex;
+				flex-wrap: wrap;
+				gap: 0.35rem;
+				align-items: center;
+			}
+
+			.force-roll {
+				min-height: 1.75rem;
+				padding: 0.18rem 0.48rem;
+				border: 1px solid rgba(103, 213, 200, 0.28);
+				border-radius: var(--radius-sm);
+				background: rgba(103, 213, 200, 0.09);
+				color: var(--color-cyan);
+				font-size: 0.76rem;
+				font-weight: 900;
+
+				&:hover {
+					border-color: var(--color-accent);
+					color: var(--color-accent);
+				}
 			}
 
 			.summary-badges {

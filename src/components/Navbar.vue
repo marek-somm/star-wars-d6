@@ -3,9 +3,12 @@
 		<header class="nav">
 			<section class="filler force-panel ui-panel" aria-label="Force skills and points">
 				<div class="force-stats">
-					<p><span>Control</span>{{ forceStats.control.dice }}D+{{ forceStats.control.pips }}</p>
-					<p><span>Sense</span>{{ forceStats.sense.dice }}D+{{ forceStats.sense.pips }}</p>
-					<p><span>Alter</span>{{ forceStats.alter.dice }}D+{{ forceStats.alter.pips }}</p>
+					<p v-for="forceSkill in forceSkillButtons" :key="forceSkill.power">
+						<span>{{ forceSkill.label }}</span>
+						<button class="force-copy hover" type="button" @click="copyForceRoll(forceSkill.power)">
+							{{ forceSkill.dice }}
+						</button>
+					</p>
 				</div>
 				<div class="right-align points">
 					<p><span>Force</span>{{ points.force }}</p>
@@ -51,11 +54,18 @@ import Powers from "./Zebron Kebino/Powers/Powers";
 
 import { points, forceStats } from "@/assets/zebron_kebino.js";
 import Zebron from "@/assets/zebron_kebino.js";
+import { copyToClipboard } from "@/utils/clipboard";
+import { formatDiceParts, getRollCommandFromDice } from "@/utils/dice";
 import { readNumber, writeNumber } from "@/utils/storage";
 import { powerLanguageState } from "@/utils/powerLanguage";
 
 const TEMP_FORCE_STORAGE_KEY = "star-wars-d6:temporary-force-points";
 const SHEET_SECTIONS = ["stats", "powers", "background"];
+const FORCE_SKILL_BUTTONS = [
+	{ power: "control", label: "Control" },
+	{ power: "sense", label: "Sense" },
+	{ power: "alter", label: "Alter" },
+];
 
 function getSheetSectionFromHash() {
 	if (typeof window === "undefined") return "stats";
@@ -93,6 +103,12 @@ export default {
 		});
 		const characterPowerLabels = computed(() =>
 			new Zebron(powerLanguageState.language).getPowerLabels()
+		);
+		const forceSkillButtons = computed(() =>
+			FORCE_SKILL_BUTTONS.map((entry) => ({
+				...entry,
+				dice: formatDiceParts(forceStats[entry.power]?.dice || 0, forceStats[entry.power]?.pips || 0),
+			}))
 		);
 
 		const force_temp = ref(loadTemporaryForcePoints());
@@ -150,6 +166,12 @@ export default {
 			writeNumber(TEMP_FORCE_STORAGE_KEY, value);
 		}
 
+		function copyForceRoll(power) {
+			const stat = forceStats[power] || {};
+			const label = FORCE_SKILL_BUTTONS.find((entry) => entry.power === power)?.label || power;
+			copyToClipboard(getRollCommandFromDice(stat.dice, stat.pips, label));
+		}
+
 		onMounted(() => {
 			syncSectionWithHash();
 			if (typeof window !== "undefined") {
@@ -167,11 +189,13 @@ export default {
 			data,
 			points,
 			forceStats,
+			forceSkillButtons,
 			powerLanguageState,
 			characterPowerLabels,
 			showStats,
 			showPowers,
 			showBackground,
+			copyForceRoll,
 			addTemporaryForce,
 			removeTemporaryForce,
 			force_temp
@@ -316,6 +340,34 @@ export default {
 				color: var(--color-accent);
 			}
 		}
+
+		button {
+			font: inherit;
+		}
+
+		.force-copy {
+			width: max-content;
+			min-height: 1.7rem;
+			border: 1px solid rgba(103, 213, 200, 0.28);
+			border-radius: var(--radius-sm);
+			background: rgba(103, 213, 200, 0.09);
+			color: var(--color-cyan);
+			font-weight: 900;
+			padding: 0.18rem 0.45rem;
+		}
+
+		.hover {
+			cursor: pointer;
+			transition:
+				color 0.2s ease,
+				border-color 0.2s ease,
+				background 0.2s ease;
+
+			&:hover {
+				border-color: var(--color-accent);
+				color: var(--color-accent);
+			}
+		}
 	}
 
 	.content-shell {
@@ -398,6 +450,10 @@ export default {
 					p {
 						justify-content: space-between;
 						width: 100%;
+					}
+
+					.force-copy {
+						min-height: 2.35rem;
 					}
 				}
 			}

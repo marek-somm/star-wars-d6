@@ -13,7 +13,7 @@ function normalizeDiceParts(diceValue, pipsValue, minDice = 0) {
 	};
 }
 
-function formatDiceParts(dice, pips) {
+export function formatDiceParts(dice, pips) {
 	return pips > 0 ? `${dice}D+${pips}` : `${dice}D`;
 }
 
