@@ -2,32 +2,29 @@
 	<section class="campaign-timeline">
 		<header class="timeline-hero">
 			<div class="hero-copy">
-				<p class="eyebrow">Kampagnenchronik</p>
-				<h1>Zeitstrahl der Crew</h1>
-				<p>
-					Reale Spielabende der Kampagne, nach Kapiteln sortiert. Der Fokus liegt aktuell auf
-					den gespielten Sessions und ihren Mitschnitten.
-				</p>
+				<p class="eyebrow">{{ ui.hero.eyebrow }}</p>
+				<h1>{{ ui.hero.title }}</h1>
+				<p>{{ ui.hero.description }}</p>
 			</div>
-			<div class="hero-stats" aria-label="Timeline overview">
+			<div class="hero-stats" :aria-label="ui.aria.overview">
 				<div>
 					<strong>{{ sessions.length }}</strong>
-					<span>Sessions</span>
+					<span>{{ ui.stats.sessions }}</span>
 				</div>
 				<div>
 					<strong>{{ chapters.length }}</strong>
-					<span>Kapitel</span>
+					<span>{{ ui.stats.chapters }}</span>
 				</div>
 				<div>
 					<strong>{{ latestSessionDate }}</strong>
-					<span>Letzte Session</span>
+					<span>{{ ui.stats.latestSession }}</span>
 				</div>
 			</div>
 		</header>
 
-		<section class="timeline-grid" aria-label="Session timeline">
+		<section class="timeline-grid" :aria-label="ui.aria.timeline">
 			<div class="lane-header">
-				<span>Spielabende</span>
+				<span>{{ ui.timeline.laneHeader }}</span>
 			</div>
 
 			<template v-for="chapter in chapters" :key="chapter.id">
@@ -43,7 +40,7 @@
 					>
 						<div class="card-meta">
 							<span>{{ session.date }}</span>
-							<span>Session {{ session.numberLabel }}</span>
+							<span>{{ ui.timeline.sessionPrefix }} {{ session.numberLabel }}</span>
 						</div>
 						<h2 v-if="session.title">{{ session.title }}</h2>
 						<p v-if="session.summary">{{ session.summary }}</p>
@@ -51,7 +48,7 @@
 							<li v-for="highlight in session.highlights" :key="highlight">{{ highlight }}</li>
 						</ul>
 					</div>
-					<p v-if="!chapter.sessions.length" class="empty-lane">Keine Session eingetragen</p>
+					<p v-if="!chapter.sessions.length" class="empty-lane">{{ ui.timeline.emptyChapter }}</p>
 				</article>
 			</template>
 		</section>
@@ -64,6 +61,7 @@ import timelineData from "@/assets/campaignTimeline.json";
 export default {
 	name: "CampaignTimeline",
 	setup() {
+		const ui = timelineData.ui;
 		const sessions = timelineData.sessions.map((session, index) => ({
 			...session,
 			numberLabel: index + 1,
@@ -79,12 +77,15 @@ export default {
 		const chapters = chapterNumbers.map((chapter) => ({
 			id: `chapter-${chapter}`,
 			chapter,
-			label: chapterLabels.get(chapter) || `Kapitel ${chapter}`,
+			label: chapterLabels.get(chapter) || `${ui.timeline.chapterFallbackPrefix} ${chapter}`,
 			sessions: sessions.filter((session) => session.chapter === chapter)
 		}));
-		const latestSessionDate = sessions.length ? sessions[sessions.length - 1].date : "-";
+		const latestSessionDate = sessions.length
+			? sessions[sessions.length - 1].date
+			: ui.stats.latestSessionFallback;
 
 		return {
+			ui,
 			sessions,
 			latestSessionDate,
 			chapters

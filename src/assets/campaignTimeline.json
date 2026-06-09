@@ -1,4 +1,27 @@
 {
+	"ui": {
+		"hero": {
+			"eyebrow": "Kampagnenchronik",
+			"title": "Zeitstrahl der Shrimpy Boys",
+			"description": "Reale Spielabende der Kampagne, nach Kapiteln sortiert. Der Fokus liegt aktuell auf den gespielten Sessions und ihren Mitschnitten."
+		},
+		"stats": {
+			"sessions": "Sessions",
+			"chapters": "Kapitel",
+			"latestSession": "Letzte Session",
+			"latestSessionFallback": "-"
+		},
+		"timeline": {
+			"laneHeader": "Spielabende",
+			"sessionPrefix": "Session",
+			"emptyChapter": "Keine Session eingetragen",
+			"chapterFallbackPrefix": "Kapitel"
+		},
+		"aria": {
+			"overview": "Timeline overview",
+			"timeline": "Session timeline"
+		}
+	},
 	"chapters": [
 		{
 			"chapter": 1,
