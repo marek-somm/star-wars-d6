@@ -17,303 +17,528 @@
 		{
 			"chapter": 1,
 			"date": "11.05.2020",
+			"title": "Willkommen auf NTP-1",
+			"summary": "Die Crew beginnt auf der Raumstation NTP-1. In der Shrimp-Bude tauchen Captain Ahab und ein randalierender Wookie auf, und der erste Abend kippt schnell von harmloser Stationsatmosphäre in echtes Chaos. Scrape steckt dabei bereits schwer ein.",
+			"highlights": [
+				"Shrimp-Bude auf NTP-1",
+				"Captain Ahab isst Shrimps",
+				"Ein Wookie macht Krawall",
+				"Scrape geht schwer zu Boden"
+			],
 			"notes": [
-				"Erste große Star-Wars-D6-Session im Discord-Log. Zebron, Harland, Vos, Scrape und DU5 würfeln; es wird mit dem D6/Wild-Die-System experimentiert. Ingame-Hinweise: Coruscant-Spaceport-Musik, später GM-Bilder/Notizen zu Jedi-Tempel auf Yavin, NTP-01 Space Station und dem Schiff der Shrimp-Bude. Außerdem Statusmeldungen zu Scrape: erst incapacitated, dann wounded twice/wounded."
+				"Kapitel 1 / Act 1 basiert auf dem späteren Recap: Sith-Fanatiker, Kiste und Raumstation NTP-1 über Naboo.",
+				"GM-Announce nennt Bilder/Orte: Jedi-Tempel auf Yavin, NTP-01 Space Station und Schiff der Shrimp-Bude.",
+				"Scrapes Zustand ist aus GM-Announce belegt: erst incapacitated, später wounded twice/wounded.",
+				"Teilnahme und Figuren aus Dice-Maiden-Antworten abgeleitet, nicht aus aktuellen Discord-Namen: Zebron, Vos, Scrape, DU5-T1-N, Harland."
 			]
 		},
 		{
 			"chapter": 1,
 			"date": "16.05.2020",
+			"title": "Kek Grinks verschwindet",
+			"summary": "Die Gruppe geht dem Verschwinden von Kek Grinks nach, der Besitzerin der Station. Hinweise führen zu Blasterschüssen, einem A-Wing als Fluchtspur und mehreren möglichen Schuldigen: den Krayt-Spicern, Rancor-Pit und einer Terrorgruppe, die Schiffe an den Piers sprengt.",
+			"highlights": [
+				"Kek Grinks wird vermisst",
+				"A-Wing als Fluchtspur",
+				"Krayt-Spicer und Rancor-Pit",
+				"Anschläge auf Schiffe"
+			],
 			"notes": [
-				"Fortsetzung des frühen NTP-01-Abenteuers. Notepad fasst den Vermisstenfall Kek Grinks zusammen: Besitzerin der Station, ehemalige Rebellen-Schocktrupplerin, entführt vor vier Tagen; Blasterschüsse, A-Wing als Fluchtfahrzeug Richtung Sektor 4. Außerdem werden Fraktionen eingeführt: Krayt-Spicer um Nash Riversnake, Rancor-Pit um Silvia Vergas und Terroristen, die Schiffe an Piers sprengen."
+				"Notepad enthält an diesem Datum die ausführlichen Ermittlungsnotizen zum Vermisstenfall Kek Grinks.",
+				"Kek Grinks: Besitzerin der Station, vor vier Tagen entführt, ehemalige Schocktrupplerin der Rebellen-Allianz.",
+				"Tatort-/Spurenlage aus Notepad: Blasterschüsse, Täter drangen durch Fenster ein, Fluchtfahrzeug war ein A-Wing Richtung Sektor 4.",
+				"Fraktionen aus Notepad: Krayt-Spicer um Nash Riversnake, Rancor-Pit um Silvia Vergas und Terroristen mit Anschlägen auf Schiffe an Piers."
 			]
 		},
 		{
 			"chapter": 1,
 			"date": "01.07.2020",
+			"title": "Spuren in Distrikt 4",
+			"summary": "Die Ermittlungen auf NTP-1 führen zu Dave Stardust, mehreren Technikern, der Crew der Depression und zur toten Abschlepperin Arntreos. Die Spur des A-Wings verdichtet sich rund um Hangar 2 und die unteren Ebenen der Station.",
+			"highlights": [
+				"Dave Stardust wird wichtig",
+				"Arntreos wird tot gefunden",
+				"Die Depression taucht auf",
+				"Hangar 2 rückt in den Fokus"
+			],
 			"notes": [
-				"NTP-01-/Stationsphase mit vielen NPCs. Notepad listet u. a. Dave Stardust, Rank Shapro-oro, Techniker, Arntreos/Athenus Rettichus, RP6, Crew der „Depression“, Yola, Gar Verde, Shin und einen verletzten Padawan. Orte: NTP-1, Dave-Stardust-Haus, Zerks, Hangar 2, die Depression und Jedi-Tempel Yavin 4."
+				"Notepad listet an diesem Datum viele NPCs und Orte der NTP-1-Ermittlung.",
+				"Relevante NPCs: Dave Stardust, Rank Shapro-oro, Wolta Vergul, Beda Ulk, Vimptor Bombon, Serren Kindif, Arntreos/Athenus Rettichus.",
+				"Orte/Spuren: Distrikt 4, Daves Wohnort, Zerks, Hangar 2, die Depression und Hinweise Richtung Jedi-Tempel Yavin 4.",
+				"Der 02.07.2020 wirkt im Würfellog eher wie Bot-/Würfeltest mit Zebron und wurde deshalb nicht als eigene Story-Session gezählt."
 			]
 		},
 		{
 			"chapter": 1,
-			"date": "01.01.2021",
-			"notes": [
-				"Lange Neujahrs-Session. Viele Würfe und Musikwechsel; Musik u. a. Death Trooper, Doom, Star-Wars-Themes, Cantina-/Coruscant-/Outer-Rim-Ambience. GM erwähnt Food Break. Ingame-Happenings sind aus den Textnotizen nur bruchstückhaft rekonstruierbar; vermutlich größere Action-/Reise-/Kampfsequenz."
-			]
+			"date": "01.01.2021"
 		},
 		{
 			"chapter": 1,
-			"date": "03.03.2021",
-			"notes": [
-				"Große Session nach Telegram-Abstimmung. Sehr viele Würfe von Zebron, Vos, Harland, Scrape, DU5-T1-N. Musik deutet auf Mandalorian-/Republic-Commando-/The-Hu-/Revan-/Cantina-/Raumschiff-Stimmung. Inhaltlich vermutlich Beginn oder starker Ausbau des Mandalorian-/Ordo-Arcs."
-			]
+			"date": "03.03.2021"
 		},
 		{
 			"chapter": 1,
-			"date": "05.03.2021",
-			"notes": [
-				"GM-Announce nennt explizit eine „dreieinhalb 1-on-1 Session mit Mattis“ und dass sein Teil fertig sei. Hauptsächlich Scrape-Aktivität; sehr wahrscheinlich ein separater Scrape-Handlungsstrang."
-			]
+			"date": "05.03.2021"
 		},
 		{
 			"chapter": 1,
-			"date": "10.03.2021",
-			"notes": [
-				"Weitere Star-Wars-Session. Um diese Zeit tauchen GM-Bilder/Notizen zur Mandalorianer-Rüstung auf. Inhaltlich wahrscheinlich Vorbereitung/Einführung der Mando-Ästhetik und Figuren rund um Tar/Ordo."
-			]
+			"date": "10.03.2021"
 		},
 		{
 			"chapter": 1,
-			"date": "16.03.2021",
-			"notes": [
-				"Große Session oder Split-Session. Telegram davor spricht von individuellen Sessions/VCs. GM-Notizen um diese Tage: Sylvia Wergas als Rancor-Pit-Anführerin, Mando-Bilder, Helm/Schal und viele Referenzen. Vermutlich persönliche Szenen plus Kampf/Ermittlung."
-			]
+			"date": "16.03.2021"
 		},
 		{
 			"chapter": 1,
-			"date": "23.03.2021",
-			"notes": [
-				"GM kündigt „shrimps and depression time“ an. Würfel von Zebron, Harland, Vos, Scrape etc. Inhaltlich keine klare Zusammenfassung, aber sicher Spielbetrieb."
-			]
+			"date": "23.03.2021"
 		},
 		{
 			"chapter": 1,
-			"date": "30.03.2021",
-			"notes": [
-				"Große Session mit vielen Würfen aller Hauptfiguren. Keine klare Notepad-Zusammenfassung gefunden."
-			]
+			"date": "30.03.2021"
 		},
 		{
 			"chapter": 1,
 			"date": "06.04.2021",
+			"title": "Sektion 3, Anlegestelle B37",
+			"summary": "Die Spur führt tiefer in die Station: Gar Verde bleibt ein Name, der nicht verschwindet, und Sektion 3 mit Anlegestelle B37 wird als nächster konkreter Ort festgehalten.",
+			"highlights": [
+				"Gar Verde bleibt auf der Spur",
+				"Sektion 3",
+				"Anlegestelle B37"
+			],
 			"notes": [
-				"Große Session. Notepad-Hinweise: Gar Verde und Sektion 3, Anlegestelle B37. Vermutlich Dock-/Hangar-/Gar-Verde-Handlung, mit viel Action."
+				"In Notizen/Würfelumfeld stehen Gar Verde sowie Sektion 3, Anlegestelle B37 als konkrete Spurorte.",
+				"Die Session lief nach Würfellog in den 07.04. hinein; gezählt wird nach Vorgabe das Startdatum 06.04.2021.",
+				"Storytext bleibt allgemein, weil außer den genannten Spurpunkten keine zusammenhängende Szenenbeschreibung im Textlog steht."
 			]
 		},
 		{
 			"chapter": 1,
 			"date": "14.04.2021",
+			"title": "Humpelnd zur Kiste",
+			"summary": "Harland ist angeschlagen genug, dass er notfalls auf Autopilot zur Kiste humpeln müsste. Die Gruppe bleibt in der Nähe des zentralen Fundstücks des NTP-1-Plots, während die Lage weiter eskaliert.",
+			"highlights": [
+				"Harland ist angeschlagen",
+				"Die Kiste bleibt zentral",
+				"Die Lage spitzt sich zu"
+			],
 			"notes": [
-				"Viele Würfe, u. a. Vos, DU5-T1-N, Scrape, Harland, Zebron. Inhaltlich unklar, aber eindeutig Star Wars."
+				"Der Titel basiert auf fragmentarischen Notizen zu Harland, Autopilot und der Kiste.",
+				"Konkrete Szenen sind nur bruchstückhaft belegt; deshalb ist die Zusammenfassung bewusst vorsichtig formuliert.",
+				"Die Kiste wird hier als zentraler Gegenstand erwähnt, weil sie laut Act-1-Recap der Kern des NTP-1-Plots ist."
 			]
 		},
 		{
 			"chapter": 1,
-			"date": "20.04.2021",
-			"notes": [
-				"Session mit Würfen und parallel Regelklärungen zu Bewegung, Wild Die, Damage Resist und Dark-Side-Homebrew. GM-Notiz „250 Meter“ deutet auf Distanz-/Chase-/Kampfpositionierung."
-			]
+			"date": "20.04.2021"
 		},
 		{
 			"chapter": 1,
 			"date": "27.04.2021",
+			"title": "Der Plan auf NTP-1 scheitert",
+			"summary": "Der erste große Bogen auf der Station findet seinen Abschluss. Die Crew vereitelt den Plan des Sith-Fanatikers, der auf NTP-1 nach der Kiste gesucht hat, und lässt Gar Verde und seine Auftraggeber nicht mit dem davonkommen, was sie wollten.",
+			"highlights": [
+				"Der Sith-Fanatiker wird gestoppt",
+				"Die Kiste bleibt außer Reichweite",
+				"Gar Verdes Plan scheitert"
+			],
 			"notes": [
-				"Große Session, viele Würfe. Inhaltlich keine gute Textzusammenfassung, aber sehr eindeutig."
+				"Kapitel-/Act-Grenze: Inhaltliches Finale von Kapitel 1 hier angesetzt; spätere Yavin-/Praxeum-Einträge gehören zu Kapitel 2.",
+				"Diese Datierung folgt aus späteren Telegram-/Recap-Hinweisen: Main Quest war beendet, danach folgten noch Jedi-Tempel-/Yavin-Sessions.",
+				"Der genaue Ablauf des Finales ist nicht vollständig protokolliert; die Summary fasst daher den aus Recaps bekannten Abschluss des NTP-1/Kisten-Plots zusammen."
 			]
 		},
 		{
 			"chapter": 1,
-			"date": "04.05.2021",
-			"notes": [
-				"Star-Wars-Session trotz Telegram-Hinweis, dass Rico eventuell nicht fit sei. Würfe von Harland, Scrape, Zebron, DU5-T1-N. GM-Announce kurz vorher zeigt neues Design/Mando-Rüstung für Mattis’ Figur."
-			]
+			"date": "04.05.2021"
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "11.05.2021",
+			"title": "Volka’iru und Shin",
+			"summary": "Auf Yavin 4 wird der neue Abschnitt greifbarer. Die Gruppe stößt auf Volka’iru und Shintunka Gunda, genannt Shin, und die Reise zum Jedi-Praxeum bekommt dadurch ein persönlicheres Gesicht.",
+			"highlights": [
+				"Volka’iru",
+				"Shintunka Gunda",
+				"Shin tritt auf",
+				"Yavin 4"
+			],
 			"notes": [
-				"Wichtig: Hier tauchen Star-Wars-Rolls im Midgard-Würfelchannel auf, aber mit klaren Star-Wars-Namen wie Vos und Scrape. GM-Notizen nennen volka’iru und Shintunka Gunda / Shin. Das zählt für mich klar als Star Wars, nicht Midgard."
+				"Star-Wars-Würfe tauchen teilweise im Midgard-Würfelchannel auf; maßgeblich sind die Dice-Maiden-Antwortnamen.",
+				"Belegte Star-Wars-Namen in Bot-Antworten: Vos Amura, Scrape Thunderdream, Harland David Sanders, DU5-T1-N und Zebron.",
+				"GM-/Notizkontext nennt Volka’iru sowie Shintunka Gunda / Shin.",
+				"Kapitel 2 ist hier gesetzt, weil der Yavin-/Jedi-Praxeum-Teil nach dem NTP-1-Finale liegt."
 			]
 		},
 		{
 			"chapter": 2,
-			"date": "17.08.2021",
-			"notes": [
-				"Star-Wars-Session nach längerer Pause. Musik/GM-Hinweise: Jedi-Tempel Great Hall auf Coruscant, mysteriöser Dschungel, End Credits, außerdem GM-Notiz „vincent“. Vermutlich Jedi-/Yavin-/Dschungel- oder Übergangsstoff."
-			]
+			"date": "17.08.2021"
 		},
 		{
 			"chapter": 2,
-			"date": "07.09.2021",
-			"notes": [
-				"Ordo-/Tar-Arc scheint aktiv zu werden. GM-Announce kurz davor zeigt Tars kanonische Mando-Rüstung, Schulter-Symbol, ein gefundenes Shuttle und eine Kopfgeldjägerin, die ihr bereits zweimal gesehen habt."
-			]
+			"date": "07.09.2021"
 		},
 		{
 			"chapter": 2,
 			"date": "15.09.2021",
+			"title": "Tionne Solusar",
+			"summary": "Im Jedi-Praxeum fällt der Name Tionne Solusar. Die Verbindung zu den Jedi und zu Yavin 4 wird damit konkreter, während die Gruppe weiter versucht, die offenen Spuren einzuordnen.",
+			"highlights": [
+				"Tionne Solusar",
+				"Jedi-Praxeum",
+				"Yavin 4"
+			],
 			"notes": [
-				"Fackeln bauen",
-				"Notepad nennt Tionne Solusar. Wahrscheinlich Jedi-/Praxeum-/Lore-Bezug. Viele Star-Wars-Würfe."
+				"Notepad/Log nennt Tionne Solusar; die ursprüngliche Notiz “Tempel auf Yarvin 4” wurde als Yavin 4 / Jedi-Praxeum normalisiert.",
+				"Die Zusammenfassung beschränkt sich auf die belegte Jedi-/Praxeum-Verbindung und vermeidet spätere Konsequenzen."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "28.09.2021",
+			"title": "Nicht auffliegen",
+			"summary": "Harland versucht, seine Tarnung zu wahren, während Shin in eine heikle Szene hineingerät. Die Situation bleibt angespannt genug, dass ein falsches Wort die Gruppe verraten könnte.",
+			"highlights": [
+				"Harlands Tarnung",
+				"Shin im Mittelpunkt",
+				"Bloß nicht auffliegen"
+			],
 			"notes": [
-				"Wenige Würfe, aber klare Star-Wars-Bezüge: Harland mit „Convert Shintunka“ und „Plz dont blow my cover“, Zebron Knowledge, Vos Will. Vermutlich soziale Szene/Infiltration/Cover um Shin/Shintunka."
+				"Wenige, aber klare Star-Wars-Würfe im Botlog; u. a. Harland mit “Convert Shintunka” und “Plz dont blow my cover”.",
+				"Shin/Shintunka wird aus diesen Würfelgründen und dem vorigen Yavin-/Praxeum-Kontext abgeleitet.",
+				"Die Session ist vermutlich eher eine kurze soziale/infiltrative Szene; deshalb ist die Summary knapp."
 			]
 		},
 		{
 			"chapter": 2,
-			"date": "05.10.2021",
-			"notes": [
-				"Würfelcluster abends. Wenig Inhalt rekonstruierbar; zählt als Session."
-			]
-		},
-		{
-			"chapter": 2,
-			"date": "19.10.2021",
-			"notes": [
-				"Telegram-Nachbesprechung am nächsten Tag spricht klar davon, dass ihr Party Split gemacht habt: Tar nach Nar Shaddaa oder ähnlich, Scrape und Dustin nach Ordo, Zebron/Shin/Harland/Vos nach Tatooine. Außerdem wird Rey diskutiert und Dustin als Heiler/Slicer/Techniker mit fliegendem Affen-/Piloten-Ding erwähnt. Keine starke Würfelspur, aber die Nachbesprechung ist ziemlich eindeutig."
-			]
+			"date": "05.10.2021"
 		},
 		{
 			"chapter": 2,
 			"date": "20.10.2021",
+			"title": "Getrennte Gruppen, offene Frequenz",
+			"summary": "Die getrennten Gruppen bekommen einen gemeinsamen Commlink-Kanal. Harland, Vos, Scrape und DU5-T1-N versuchen, über die offene Frequenz in Verbindung zu bleiben, während die Wege der Crew auseinanderliegen.",
+			"highlights": [
+				"Commlink-Kanal entsteht",
+				"Die Gruppe bleibt getrennt",
+				"Harland, Vos und Scrape verbunden"
+			],
 			"notes": [
-				"nur DU5-T1-N und Scrape würfeln",
-				"Der Ingame-Commlink-Channel anti-shield wird erstellt, u. a. mit Scrape, Vos und Klontruppler 36422. Es gibt Scan-/Technik-Würfe von DU5-T1-N/Scrape. Inhaltlich vermutlich Fortsetzung der getrennten Gruppen/Commlink-Kommunikation."
+				"Anti-shield-Channel wurde an diesem Datum als Ingame-Commlink-Channel erstellt.",
+				"Channel enthält Scrape Thunderdream, Vos Amura und Klontruppler 36422; später schreiben auch Harland/Vos/Scrape im Ingame-Stil.",
+				"Im Ausgangs-JSON stand “nur DU5-T1-N und Scrape”; Ingame-Chat belegt aber zusätzlich Kommunikation mit Harland und Vos.",
+				"Die getrennten Gruppen ergeben sich aus der vorherigen Telegram-Nachbesprechung zum Party Split."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "27.10.2021",
+			"title": "Cassus und Thudar Ordo",
+			"summary": "Auf Ordo werden die Namen Cassus Ordo und Thudar Ordo festgehalten. Der mandalorianische Teil der Geschichte gewinnt damit klarere Gesichter.",
+			"highlights": [
+				"Cassus Ordo",
+				"Thudar Ordo",
+				"Ordo rückt näher"
+			],
 			"notes": [
-				"nur DU5-T1-N und Scrape würfeln",
-				"GM-Announce nennt Cassus Ordo und Thudar Ordo. Vermutlich Mandalorianer-/Ordo-Politik oder Familien-/Clan-Hintergrund."
+				"GM-Announce nennt an/um dieses Datum Cassus Ordo und Thudar Ordo.",
+				"Würfellog ist überwiegend Scrape/DU5-lastig; die Storyformulierung konzentriert sich daher nur auf die belegten Ordo-Namen.",
+				"Mandalorianischer Kontext stammt aus Ordo-/Tar-/Anti-shield-Umfeld."
 			]
 		},
 		{
 			"chapter": 2,
-			"date": "02.11.2021",
-			"notes": [
-				"nur DU5-T1-N und Scrape würfeln"
-			]
+			"date": "02.11.2021"
 		},
 		{
 			"chapter": 2,
 			"date": "03.11.2021",
+			"title": "Scrape vor Gericht",
+			"summary": "Scrape wird nach einer Auseinandersetzung mit einem Betrunkenen angeklagt und vor Gericht geschleppt. Harland und Vos reagieren über den Commlink; Vos bietet an, Scrape zu verteidigen, doch am Ende wird Scrape freigesprochen.",
+			"highlights": [
+				"Scrape wird angeklagt",
+				"Mandalorianisches Gericht",
+				"Vos bietet Hilfe an",
+				"Scrape wird freigesprochen"
+			],
 			"notes": [
-				"Anti-shield liefert Ingame-Inhalte: Vos ist beim Shoppen im „Tropenparadies“ seiner Heimat; Scrape wurde nach einer Pöbelei durch einen Betrunkenen angeklagt, landet offenbar vor Gericht und wird am Ende freigesprochen bzw. gewinnt. Harland/andere kommentieren Mandalorianer-Recht, Gefangenschaft/Fesselung und Vos bietet Verteidigung per Hologramm an."
+				"Anti-shield enthält den Ingame-Dialog über Scrapes Anklage und Freispruch.",
+				"Harland erwähnt, dass sie erst eingesperrt und dann vor Gericht geschleppt wurden; Vos bietet Verteidigung an.",
+				"Im Ausgangs-JSON stand “maybe nur Vos”; der Ingame-Chat belegt aber Scrape, Harland und Vos als relevante Figuren der Szene.",
+				"Der Gerichtskontext ist mandalorianisch aus dem Ordo-/Anti-shield-Kontext abgeleitet."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "09.11.2021",
+			"title": "Kopfgelder in Mos Eisley",
+			"summary": "Die Gruppe sammelt mögliche Ziele: Jatt Beastreli, Sharon Vebi, Wus Edra und Juck Korr stehen mit hohen Kopfgeldern im Raum. Mos Eisley wird als Treffpunkt mit Tars Leuten wichtig.",
+			"highlights": [
+				"Kopfgelder werden notiert",
+				"Juck Korr ist viel wert",
+				"Treffen in Mos Eisley"
+			],
 			"notes": [
-				"nur Zebron, Vos und Harland würfeln",
-				"Sandpad listet Kopfgelder: Jatt Beastreli 75.000, Sharon Vebi 30.000, Wus Edra 80.000, Juck Korr 123.000. Sehr wahrscheinlich Kopfgeld-/Hunt-Prep oder Auswahl eines Ziels."
+				"Sandpad listet Kopfgelder: Jatt Beastreli 75.000, Sharon Vebi 30.000, Wus Edra 80.000, Juck Korr 123.000.",
+				"Sandpad nennt außerdem: “Nicht vergessen: Treffen in Mos Eisley mit Tars Leuten”.",
+				"Würfellog/Notizlage legt Zebron, Vos und Harland als aktive Gruppe nahe; nicht aus Discord-Namen abgeleitet."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "10.11.2021",
+			"title": "Der Kugelkiller",
+			"summary": "Im Ordo-Teil taucht der Kugelkiller auf, und ein Varactyl wird festgehalten. Die Szene wirkt nach Jagd, Bewegung und mandalorianischer Wildnis.",
+			"highlights": [
+				"Der Kugelkiller",
+				"Ein Varactyl",
+				"Mandalorianische Wildnis"
+			],
 			"notes": [
-				"nur DU5-T1-N und Scrape würfeln",
-				"GM-Announce nennt Der Kugelkiller und Varactyl. Musik/Atmosphäre Richtung Mandalorian/Mos Eisley/Tatooine. Vermutlich Tatooine-/Jagd-/Reittier- oder Begegnungsszene."
+				"GM-Announce/Log nennt “Der Kugelkiller” und “Varactyl”.",
+				"Würfellog ist fast ausschließlich Scrape- und DU5-T1-N-lastig.",
+				"Da keine ausführliche Szenenzusammenfassung vorliegt, bleibt der Storytext bei den direkt belegten Motiven."
 			]
 		},
 		{
 			"chapter": 2,
-			"date": "16.11.2021",
-			"notes": [
-				"Zebron, Vos und Harland - DU5-T1-N und Scrape getrennt",
-				"Lange Session mit vielen Würfen, u. a. Zebron, Vos, Harland. Würfelgründe wie Strength/Door/Dodge deuten auf körperliche Hindernisse/Kampf/Flucht hin, aber keine klare Zusammenfassung."
-			]
+			"date": "16.11.2021"
+		},
+		{
+			"chapter": 2,
+			"date": "27.11.2021"
 		},
 		{
 			"chapter": 2,
 			"date": "30.11.2021",
+			"title": "Bers und die Huntress",
+			"summary": "Bers und die Huntress treten in den Vordergrund. Der Druck auf Scrapes und DU5-T1-Ns Teil der Geschichte nimmt weiter zu.",
+			"highlights": [
+				"Bers",
+				"The Huntress",
+				"Druck auf Scrape und DU5"
+			],
 			"notes": [
-				"nur DU5-T1-N und Scrape würfeln",
-				"GM-Announce nennt Bers und the huntress. Wahrscheinlich Begegnung mit Jägerin/Kopfgeldjägerin oder related NPC."
+				"GM-Announce nennt Bers und “the huntress”.",
+				"Würfellog belegt vor allem Scrape und DU5-T1-N.",
+				"Der Druck auf diesen Gruppenstrang ist aus der Einordnung als getrennte Ordo-/Jagd-Szene abgeleitet, nicht als exakt protokollierter Satz belegt."
 			]
 		},
 		{
 			"chapter": 2,
-			"date": "02.12.2021",
-			"notes": [
-				"nur DU5-T1-N und Scrape würfeln"
-			]
+			"date": "02.12.2021"
 		},
 		{
 			"chapter": 2,
 			"date": "05.12.2021",
+			"title": "Ein Fremder im Schatten",
+			"summary": "Ein mysteriöser Fremder taucht auf und mischt sich in den Ordo-Strang ein. Noch ist unklar, ob er Hilfe, Gefahr oder beides bedeutet.",
+			"highlights": [
+				"Mysterious Stranger",
+				"Ordo-Strang",
+				"Unklare Absichten"
+			],
 			"notes": [
-				"nur DU5-T1-N und Scrape würfeln"
+				"GM-Announce nennt einen “mysterious stranger”.",
+				"Im Ausgangs-JSON stand “nur DU5-T1-N und Scrape”; der Würfellog bestätigt das weitgehend.",
+				"Rolle und Absichten des Fremden sind im Textlog nicht genauer geklärt; deshalb bleibt die Summary bewusst offen."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "07.12.2021",
+			"title": "Harlands Opfer",
+			"summary": "Der Tatooine-Strang endet tragisch. Harland stirbt, nachdem er durch die Explosion des Schiffes die Flucht ermöglicht. Tar hatte diesen Tag bereits in einer Vision gesehen und muss nun mit dem leben, was er nicht verhindert hat.",
+			"highlights": [
+				"Harland stirbt",
+				"Das Schiff explodiert",
+				"Die Flucht gelingt",
+				"Tars Vision wird wahr"
+			],
 			"notes": [
-				"Zebron, Vos würfeln",
-				"Sandpad-Notizen: Treffen in Mos Eisley mit Tars Leuten nicht vergessen. Tar ärgert sich darüber, „ihn“ nicht getötet zu haben; Harland ist tot; Tar hatte den Tag in seiner Zelle in einer Vision vorausgesehen; Harland war verantwortlich dafür, dass das Schiff explodiert ist, wodurch die Flucht möglich wurde."
+				"Sandpad enthält die zentralen Notizen zu Tar, Harland und der Schiffsexplosion.",
+				"Belegt: Tar ärgert sich, “ihn” nicht getötet zu haben; Harland ist tot; Tar hatte den Tag in seiner Zelle in einer Vision vorausgesehen.",
+				"Belegt: Harland war dafür verantwortlich, dass das Schiff explodiert ist; nur dadurch konnte die Flucht gelingen.",
+				"Unklar bleibt in den Notizen, wer genau mit “ihn” gemeint ist; die Summary vermeidet eine Festlegung."
 			]
 		},
 		{
 			"chapter": 2,
-			"date": "08.12.2021",
-			"notes": [
-				"nur DU5-T1-N und Scrape würfeln",
-				"Viele Würfe am Abend; wahrscheinlich direkte Fortsetzung der Ereignisse vom 07.12. Sandpad danach: „Ich hoffe ich habe nichts weiteres wichtiges vergessen“"
-			]
+			"date": "08.12.2021"
 		},
 		{
 			"chapter": 2,
 			"date": "14.12.2021",
+			"title": "Ein Kom’rk am Horizont",
+			"summary": "Ein Kom’rk-class ship wird Teil der Lage. Die getrennten Wege der Gruppe bekommen damit eine neue mandalorianische Reisemöglichkeit oder Bedrohung.",
+			"highlights": [
+				"Kom’rk-class ship",
+				"Mandalorianischer Kurs",
+				"Neue Bewegung"
+			],
 			"notes": [
-				"Kevin existiert",
-				"GM-Announce zeigt/nennt ein Kom’rk-class ship. Vermutlich Schiff-/Flucht-/Mando-Bezug."
+				"GM-Announce zeigt/nennt ein Kom’rk-class ship.",
+				"Die ursprüngliche Notiz “Kevin existiert” ist als Hintergrund für die Reisegruppe relevant, wird aber nicht sichtbar in Summary/Highlights verwendet.",
+				"Ob das Schiff konkret Hilfe, Fluchtmittel oder Bedrohung war, ist aus den Textlogs nicht eindeutig; daher vorsichtige Formulierung."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "21.12.2021",
+			"title": "Frequenzen und offene Fragen",
+			"summary": "Die Gruppe hält Iolas Coruscant-Frequenz und Terrences Tatooine-Frequenz fest. Gleichzeitig bleibt die Frage nach Harland im Raum und belastet besonders Zebron.",
+			"highlights": [
+				"Iolas Frequenz",
+				"Terrences Frequenz",
+				"Wo ist Harland?",
+				"Zebron ringt mit dem Verlust"
+			],
 			"notes": [
-				"Sandpad: Iolas Coruscant-Frequenz und Terrences Tatooine-Frequenz werden gemerkt; später fragt jemand „Wo ist Harland?“. GM erwähnt „lightstick“. Vermutlich Suche/Kommunikation rund um Harland/Iola/Terrence."
+				"Sandpad notiert Iolas Coruscant-Frequenz und Terrences Tatooine-Frequenz.",
+				"Sandpad fragt später: “Wo ist Harland?”",
+				"Session lief in den 22.12. hinein; Startdatum bleibt 21.12.2021.",
+				"Zebrons Belastung ist aus dem Harland-Verlustkontext abgeleitet und nicht als wörtliche Notiz protokolliert."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "28.12.2021",
+			"title": "Mayday über Ordo",
+			"summary": "Dustin sendet einen Notruf aus dem Vet-Katar-Land: Er und Scrape werden von einem Lancer Class Pursuit Craft angegriffen und stürzen schwer beschädigt ab. Währenddessen fliegen Nartes, Kevin und Shin nach Scerva.",
+			"highlights": [
+				"Dustin sendet MAYDAY",
+				"Angriff durch Pursuit Craft",
+				"Absturz im Vet-Katar-Land",
+				"Nartes, Kevin und Shin nach Scerva"
+			],
 			"notes": [
-				"Sandpad: Nartes, Kevin und Shin sind nach Scerva, der Hauptstadt, geflogen. GM-Announce: Dustin sendet ein MAYDAY; er wurde über Ordo von einem Lancer Class Pursuit Craft angegriffen, ist schwer beschädigt und stürzt bei Vet-Katar-Landkoordinaten ab."
+				"Sandpad: Nartes, Kevin und Shin sind nach Scerva, der Hauptstadt, geflogen.",
+				"GM-Announce: Dustin sendet MAYDAY; Angriff über Ordo durch ein Lancer Class Pursuit Craft; schwer beschädigter Absturz bei Vet-Katar-Landkoordinaten.",
+				"Session lief in den 29.12. hinein; Startdatum bleibt 28.12.2021."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "31.12.2022",
+			"title": "Elmer Biri auf Ordo",
+			"summary": "Auf Ordo taucht Elmer Biri auf, ein achtzehnjähriger Junge im Umfeld der Mandalorianer. Auch die Farmtiere der Mandos werden Teil der Szene.",
+			"highlights": [
+				"Elmer Biri",
+				"Ordo",
+				"Farmtiere der Mandos"
+			],
 			"notes": [
-				"Würfel sind teils mit Midgard-Namen gelabelt, aber die Gründe sind eindeutig Star Wars: Mechanical, Sense, Alter, Control, Sneak, Perception. GM-Announce/General um die Zeit nennt Elmer Biri, Mando-Farmtiere etc. Ich würde das als Star-Wars-Silvester-Session zählen."
+				"Als Star-Wars-Session gewertet trotz teils irreführender Dice-Maiden-Namen, weil Würfelgründe Star-Wars-Skills wie Mechanical, Sense, Alter und Control enthalten.",
+				"GM-/General-Kontext um den Termin nennt Elmer Biri und Mando-Farmtiere.",
+				"Die Summary bleibt auf diese belegten Motive beschränkt; keine späteren Elmer-/Scrape-Deutungen im sichtbaren Text."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "03.01.2023",
+			"title": "Ankunft im Vet-Katar-Land",
+			"summary": "Die Gruppe erreicht Ordo erneut sichtbar: Das Vet-Katar-Land und Ordo selbst werden kartiert, und die Welt liegt zum ersten Mal groß vor dem Fenster des Raumschiffs. Taar und Thrix Ordo bleiben als offene Namen stehen.",
+			"highlights": [
+				"Vet-Katar-Land",
+				"Ordo-Karte",
+				"Taar",
+				"Thrix Ordo"
+			],
 			"notes": [
-				"Elmer Biri und Vrom existieren"
+				"Würfellog belegt Elmer Biri, Zebron, Vos und Vrom; daneben einzelne irrelevante Midgard-/Testwürfe.",
+				"GM-/General-Kontext enthält Ordo- und Vet-Katar-Land-Karten/Bilder.",
+				"Notizen nennen Taar und Thrix Ordo; die Summary deutet keine späteren Konsequenzen an."
 			]
 		},
 		{
 			"chapter": 2,
 			"date": "12.07.2023",
+			"title": "Vrom und Inigo",
+			"summary": "Vrom Dronkic steht stark im Mittelpunkt, und Inigo Montoya betritt die Bühne. Der Ordo-Strang bekommt damit neue, sehr persönliche Figuren und einen klaren Racheton.",
+			"highlights": [
+				"Vrom Dronkic",
+				"Inigo Montoya",
+				"Ordo-Strang",
+				"Rachemotiv"
+			],
 			"notes": [
-				"Elmer scheint hier wieder Scrape zu sein"
+				"Würfellog zeigt starke Aktivität von Vrom Dronkic sowie Inigo Montoya.",
+				"Session lief in den 13.07. hinein; Startdatum bleibt 12.07.2023.",
+				"Ausgangsnotiz “Elmer scheint hier wieder Scrape zu sein” bleibt technische Hintergrundinfo, wurde aber nicht sichtbar als Storybehauptung übernommen."
+			]
+		},
+		{
+			"chapter": 2,
+			"date": "21.10.2023",
+			"title": "Weska fällt",
+			"summary": "Die Crew befreit sich aus Gar Verdes Falle. Vrom und Weska schlagen sich zu den Gefangenen durch, Gar Verde und seine Leute werden besiegt, doch Weska wird tödlich verletzt. Ty wird später von Vrom erschossen, Inigos Herkunft wird offengelegt, und Vos bricht zusammen, als er Weska tot in seinem Bett findet.",
+			"highlights": [
+				"Flucht aus Gar Verdes Falle",
+				"Weska wird tödlich verletzt",
+				"Ty wird erschossen",
+				"Inigos Herkunft",
+				"Vos findet Weska"
+			],
+			"notes": [
+				"Datum aus Telegram-Planung/Nachbesprechung abgeleitet; die Details stammen vor allem aus der Nachbesprechung kurz danach.",
+				"Belegte Nachbesprechungspunkte: Gar-Verde-Falle, Weska, Ty, Vrom, Inigo, Vos und Zebron.",
+				"Die Summary erzählt nur das, was als Ergebnis dieser Session rekonstruiert wurde; spätere Konsequenzen werden nicht vorweggenommen.",
+				"Der Recap vom 20.10.2023 wurde als Vorbereitung/Nachtrag behandelt, nicht als eigener Spieltermin."
+			]
+		},
+		{
+			"chapter": 2,
+			"date": "23.12.2023"
+		},
+		{
+			"chapter": 2,
+			"date": "31.12.2023"
+		},
+		{
+			"chapter": 2,
+			"date": "07.04.2024",
+			"title": "Thrix’ Wachen",
+			"summary": "Im Ordo-Konflikt geraten Thrix’ Wachen in den Fokus. Vector, Vhia und Zithun werden als tot festgehalten, während Tiva als Verbrecher notiert wird.",
+			"highlights": [
+				"Thrix’ Wachen",
+				"Vector, Vhia und Zithun tot",
+				"Tiva ist kriminell"
+			],
+			"notes": [
+				"Telegram vor der Session nennt Sonntag als Star-Wars-Day und beschreibt die Ausgangslage im Palast/Speeder-Garage-Kontext.",
+				"Notepad listet Captain Vekart, Maica, Corax, Vector, Vhia, Zithun und Tiva.",
+				"Die sichtbare Summary wurde stark reduziert, weil viele Palast-/Verratsdetails nur als Setup oder spätere Einordnung vorliegen.",
+				"Vector, Vhia und Zithun sind als tot notiert; Tiva ist als kriminell notiert."
+			]
+		},
+		{
+			"chapter": 2,
+			"date": "15.06.2024",
+			"title": "Aufstand unter der Festung",
+			"summary": "Vrom und Scrape entfachen unter der Festung einen Aufstand. Während Inigo mit Vroms Vater den Fischmenschen Iola stellt, fliegen Zebron und Vos nach Yavin 4, um die Kiste aus dem Jedi-Praxeum zu holen.",
+			"highlights": [
+				"Aufstand unter der Festung",
+				"Inigo stellt Iola",
+				"Zebron und Vos nach Yavin 4",
+				"Die Kiste im Praxeum"
+			],
+			"notes": [
+				"Marten schreibt am 14.06.2024 ausdrücklich, dass die Session am nächsten Tag die letzte Session des zweiten Aktes / das Ende des Kapitels sein soll.",
+				"Spätere Recaps bestätigen: letzte Star-Wars-Session vor der langen Pause war am 15.06.2024.",
+				"Vorbereitungs-/Recap-Lage: Vrom und Scrape unter der Festung, Inigo beim Fischmenschen/Iola, Zebron und Vos auf dem Weg zur Jedi-Praxeum-Box.",
+				"Die Storyzusammenfassung enthält nur die rekonstruierbaren Ereignisse dieser Session: Aufstand, Iola-Konfrontation, Yavin-4-/Box-Strang."
 			]
 		},
 		{
 			"chapter": 3,
 			"date": "07.06.2026",
-			"title": "Flucht, Offenbarungen und die Maske",
-			"summary": "Während Scrape, Vrom und Inigo den imperialen Besatzern entkommen, kehren Vos und Zebron nach Ordo zurück. Inigo findet mit Grenk einen neuen Verbündeten, während Vos die Kiste mit Lon-Mel zu Venkor, Tar und Iola bringt. Dort offenbart Iola, dass die Stimmen in Vos mit Darth Voh verbunden sind, bevor der Inhalt der Kiste enthüllt wird: die Maske von Darth Nihilus. Am Ende findet die Gruppe ohne Vos wieder zusammen.",
+			"title": "Die Maske in der Kiste",
+			"summary": "Scrape, Vrom und Inigo entkommen den imperialen Besatzern, während Vos und Zebron nach Ordo zurückkehren. Inigo gewinnt Grenk als neuen Verbündeten. Vos bringt die Kiste mit Lon-Mel zu Venkor, Tar und Iola, wo Iola die Stimmen in Vos mit Darth Voh verbindet. Dann wird der Inhalt der Kiste enthüllt: die Maske von Darth Nihilus.",
 			"highlights": [
 				"Flucht vor dem Imperium",
-				"Rückkehr nach Ordo",
 				"Grenk wird Verbündeter",
-				"Darth Voh wird offenbart",
+				"Vos bringt die Kiste zu Iola",
+				"Darth Voh wird benannt",
 				"Maske von Darth Nihilus"
 			],
 			"notes": [
@@ -330,10 +555,10 @@
 			"chapter": 3,
 			"date": "08.06.2026",
 			"title": "Angriff auf das Haus",
-			"summary": "Scrape, Vrom, Inigo, Zebron, Shin und Grenk geraten unter mandalorianischen Beschuss. Vier Angreifer rücken auf das Haus vor, während ein Scharfschütze Scrape ins Visier nimmt. Inigo und Vrom stoppen den Vormarsch mit einer Granate, Scrape schaltet den Sniper aus. Grenk überlebt schwer verletzt und wird in Hibernation versetzt.",
+			"summary": "Scrape, Vrom, Inigo, Zebron, Shin und Grenk geraten unter mandalorianischen Beschuss. Vier Angreifer rücken auf das Haus vor, während ein Scharfschütze Scrape ins Visier nimmt. Inigo und Vrom stoppen den Vorstoß mit einer Granate, Scrape schaltet den Sniper aus, und Grenk wird schwer verletzt in Hibernation versetzt.",
 			"highlights": [
 				"Mandalorianischer Angriff",
-				"Granate stoppt den Vorstoß",
+				"Granate gegen den Vorstoß",
 				"Scrape trifft den Sniper",
 				"Grenk in Hibernation"
 			],
