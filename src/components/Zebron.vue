@@ -56,7 +56,7 @@ import ForceWiki from "./ForceWiki.vue";
 import Navbar from "./Navbar.vue";
 import Rulebook from "./Rulebook.vue";
 
-const SHOW_TIMELINE = false;
+const SHOW_TIMELINE = true;
 
 export default {
 	components: {
