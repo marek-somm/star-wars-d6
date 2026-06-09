@@ -259,40 +259,5 @@
 				"Grenk ist angeschlagen und liegt jetzt mortally wounded in Hibernation"
 			]
 		}
-	],
-	"events": [
-		{
-			"chapter": 1,
-			"time": "3 NSY, Tag 41",
-			"place": "Aeusserer Rand",
-			"title": "Eine Fracht verschwindet",
-			"summary": "Mehrere Lieferungen fallen aus den offiziellen Registern, bleiben aber in lokalen Geruechten sichtbar.",
-			"tags": [
-				"Auftrag",
-				"Unterwelt"
-			]
-		},
-		{
-			"chapter": 2,
-			"time": "3 NSY, Tag 44",
-			"place": "Handelsposten Varik",
-			"title": "Der Deal auf Varik eskaliert",
-			"summary": "Ein Treffen zwischen Mittelsmaennern wird durch imperiale Suchmuster und Verrat im Hintergrund gestoert.",
-			"tags": [
-				"Diplomatie",
-				"Gefahr"
-			]
-		},
-		{
-			"chapter": 3,
-			"time": "3 NSY, Tag 47",
-			"place": "Hydianische Nebenroute",
-			"title": "Die Crew stellt die Beobachter",
-			"summary": "Aus abgefangenen Daten entsteht ein groesseres Bild: Jemand sammelt Bewegungsprofile unabhaengiger Crews.",
-			"tags": [
-				"Ermittlung",
-				"Imperium"
-			]
-		}
 	]
 }

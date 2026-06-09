@@ -5,8 +5,8 @@
 				<p class="eyebrow">Kampagnenchronik</p>
 				<h1>Zeitstrahl der Crew</h1>
 				<p>
-					Reale Spielabende und Ereignisse in der Galaxis werden gemeinsam dargestellt, damit
-					jeder Sessionbericht direkt in die Ingame-Zeit eingeordnet werden kann.
+					Reale Spielabende der Kampagne, nach Kapiteln sortiert. Der Fokus liegt aktuell auf
+					den gespielten Sessions und ihren Mitschnitten.
 				</p>
 			</div>
 			<div class="hero-stats" aria-label="Timeline overview">
@@ -15,33 +15,27 @@
 					<span>Sessions</span>
 				</div>
 				<div>
-					<strong>{{ ingameEvents.length }}</strong>
-					<span>Ingame-Events</span>
-				</div>
-				<div>
 					<strong>{{ chapters.length }}</strong>
 					<span>Kapitel</span>
+				</div>
+				<div>
+					<strong>{{ latestSessionDate }}</strong>
+					<span>Letzte Session</span>
 				</div>
 			</div>
 		</header>
 
-		<div class="timeline-legend" aria-label="Timeline legend">
-			<span><i class="real"></i> Reallife-Session</span>
-			<span><i class="ingame"></i> Ingame-Ereignis</span>
-			<span><i class="link"></i> Gemeinsamer Kampagnenabschnitt</span>
-		</div>
-
-		<section class="timeline-grid" aria-label="Campaign timeline">
-			<div class="lane-header real-header">
+		<section class="timeline-grid" aria-label="Session timeline">
+			<div class="lane-header">
 				<span>Spielabende</span>
-			</div>
-			<div class="spine-header" aria-hidden="true"></div>
-			<div class="lane-header ingame-header">
-				<span>Galaktische Zeit</span>
 			</div>
 
 			<template v-for="chapter in chapters" :key="chapter.id">
-				<article class="lane real-lane">
+				<div class="chapter-heading">
+					<span>{{ chapter.label }}</span>
+				</div>
+
+				<article class="session-list">
 					<div
 						v-for="session in chapter.sessions"
 						:key="session._key"
@@ -59,31 +53,6 @@
 					</div>
 					<p v-if="!chapter.sessions.length" class="empty-lane">Keine Session eingetragen</p>
 				</article>
-
-				<div class="chapter-spine">
-					<div class="chapter-marker">
-						<span>{{ chapter.label }}</span>
-					</div>
-				</div>
-
-				<article class="lane ingame-lane">
-					<div
-						v-for="event in chapter.events"
-						:key="event._key"
-						class="timeline-card ingame-card"
-					>
-						<div class="card-meta">
-							<span>{{ event.time }}</span>
-							<span>{{ event.place }}</span>
-						</div>
-						<h2>{{ event.title }}</h2>
-						<p>{{ event.summary }}</p>
-						<div class="event-tags">
-							<span v-for="tag in event.tags" :key="tag">{{ tag }}</span>
-						</div>
-					</div>
-					<p v-if="!chapter.events.length" class="empty-lane">Kein Ingame-Ereignis eingetragen</p>
-				</article>
 			</template>
 		</section>
 	</section>
@@ -100,29 +69,24 @@ export default {
 			numberLabel: index + 1,
 			_key: `session-${session.chapter}-${index}`
 		}));
-		const ingameEvents = timelineData.events.map((event, index) => ({
-			...event,
-			_key: `event-${event.chapter}-${index}`
-		}));
 		const chapterLabels = new Map(
 			timelineData.chapters.map((chapter) => [chapter.chapter, chapter.label])
 		);
 		const chapterNumbers = Array.from(new Set([
 			...timelineData.chapters.map((chapter) => chapter.chapter),
-			...sessions.map((session) => session.chapter),
-			...ingameEvents.map((event) => event.chapter)
+			...sessions.map((session) => session.chapter)
 		])).sort((left, right) => left - right);
 		const chapters = chapterNumbers.map((chapter) => ({
 			id: `chapter-${chapter}`,
 			chapter,
 			label: chapterLabels.get(chapter) || `Kapitel ${chapter}`,
-			sessions: sessions.filter((session) => session.chapter === chapter),
-			events: ingameEvents.filter((event) => event.chapter === chapter)
+			sessions: sessions.filter((session) => session.chapter === chapter)
 		}));
+		const latestSessionDate = sessions.length ? sessions[sessions.length - 1].date : "-";
 
 		return {
 			sessions,
-			ingameEvents,
+			latestSessionDate,
 			chapters
 		};
 	}
@@ -207,64 +171,26 @@ export default {
 	}
 }
 
-.timeline-legend {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.55rem;
-	margin-bottom: 1rem;
-
-	span {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.45rem;
-		min-height: 2rem;
-		padding: 0.25rem 0.65rem;
-		border: 1px solid var(--color-border-muted);
-		border-radius: var(--radius-sm);
-		background: var(--surface-control);
-		color: var(--color-muted);
-		font-size: 0.82rem;
-		font-weight: 800;
-	}
-
-	i {
-		width: 0.65rem;
-		height: 0.65rem;
-		border-radius: 50%;
-	}
-
-	.real {
-		background: var(--color-accent);
-	}
-
-	.ingame {
-		background: var(--color-cyan);
-	}
-
-	.link {
-		border: 2px solid var(--color-muted);
-	}
-}
-
 .timeline-grid {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) 5.25rem minmax(0, 1fr);
-	column-gap: 0.9rem;
-	row-gap: 0;
-	align-items: stretch;
+	grid-template-columns: minmax(7rem, 0.16fr) minmax(0, 1fr);
+	column-gap: 1rem;
+	row-gap: 0.8rem;
+	align-items: start;
 }
 
 .lane-header {
 	position: sticky;
 	top: 0;
 	z-index: 2;
-	margin-bottom: 0.8rem;
+	grid-column: 2;
 
 	span {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-start;
 		min-height: 2.4rem;
+		padding: 0 1rem;
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-sm);
 		background: rgba(29, 27, 24, 0.96);
@@ -273,58 +199,37 @@ export default {
 	}
 }
 
-.spine-header {
-	margin-bottom: 0.8rem;
-}
-
-.lane {
+.session-list {
 	display: flex;
 	flex-direction: column;
 	gap: 0.8rem;
 	padding-bottom: 1rem;
 }
 
-.chapter-spine {
-	position: relative;
-	display: flex;
-	justify-content: center;
-	min-height: 100%;
-	padding-bottom: 1rem;
-
-	&::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		width: 2px;
-		background: linear-gradient(180deg, transparent, rgba(242, 193, 78, 0.58), rgba(103, 213, 200, 0.5), transparent);
-	}
-}
-
-.chapter-marker {
+.chapter-heading {
 	position: sticky;
-	top: 3.1rem;
+	top: 3.05rem;
 	z-index: 1;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 4.7rem;
-	height: 4.7rem;
-	margin-top: 0.15rem;
-	border: 1px solid rgba(244, 239, 229, 0.18);
-	border-radius: 50%;
-	background:
-		radial-gradient(circle at 50% 40%, rgba(242, 193, 78, 0.22), rgba(29, 27, 24, 0.96) 68%),
-		var(--color-panel);
-	box-shadow: 0 0 0 0.45rem rgba(17, 16, 15, 0.88);
+	justify-content: flex-end;
+	padding-top: 0.15rem;
 
 	span {
-		display: block;
-		max-width: 3.55rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.35rem;
+		width: 100%;
+		padding: 0.25rem 0.65rem;
+		border: 1px solid rgba(244, 239, 229, 0.18);
+		border-radius: var(--radius-sm);
+		background:
+			linear-gradient(135deg, rgba(242, 193, 78, 0.16), rgba(29, 27, 24, 0.94)),
+			var(--color-panel);
 		color: var(--color-accent);
-		font-size: 0.68rem;
+		font-size: 0.76rem;
 		font-weight: 900;
-		line-height: 1.08;
+		line-height: 1.2;
 		text-align: center;
 		text-transform: uppercase;
 		overflow-wrap: anywhere;
@@ -370,8 +275,7 @@ export default {
 		list-style: none;
 	}
 
-	li,
-	.event-tags span {
+	li {
 		display: inline-flex;
 		align-items: center;
 		min-height: 1.55rem;
@@ -384,10 +288,6 @@ export default {
 
 .session-card {
 	border-left: 3px solid var(--color-accent);
-}
-
-.ingame-card {
-	border-left: 3px solid var(--color-cyan);
 }
 
 .card-meta {
@@ -405,19 +305,6 @@ export default {
 	border: 1px solid rgba(242, 193, 78, 0.28);
 	background: rgba(242, 193, 78, 0.09);
 	color: var(--color-accent);
-}
-
-.event-tags {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.35rem;
-	margin-top: 0.75rem;
-
-	span {
-		border: 1px solid rgba(103, 213, 200, 0.28);
-		background: rgba(103, 213, 200, 0.09);
-		color: var(--color-cyan);
-	}
 }
 
 @media (max-width: 860px) {
@@ -439,33 +326,15 @@ export default {
 		grid-template-columns: 1fr;
 	}
 
-	.lane-header,
-	.spine-header {
+	.lane-header {
 		display: none;
 	}
 
-	.chapter-spine {
-		order: -1;
-		justify-content: flex-start;
-		min-height: auto;
-		padding: 1.15rem 0 0.75rem;
-
-		&::before {
-			left: 2.2rem;
-			top: 0;
-			bottom: 0;
-		}
-	}
-
-	.chapter-marker {
+	.chapter-heading {
 		position: relative;
 		top: auto;
-		margin: 0;
-	}
-
-	.real-lane,
-	.ingame-lane {
-		padding-left: 0;
+		justify-content: flex-start;
+		padding-top: 0.35rem;
 	}
 }
 
