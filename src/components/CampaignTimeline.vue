@@ -73,12 +73,12 @@ export default {
 		const chapterNumbers = Array.from(new Set([
 			...timelineData.chapters.map((chapter) => chapter.chapter),
 			...sessions.map((session) => session.chapter)
-		])).sort((left, right) => left - right);
+		])).sort((left, right) => right - left);
 		const chapters = chapterNumbers.map((chapter) => ({
 			id: `chapter-${chapter}`,
 			chapter,
 			label: chapterLabels.get(chapter) || `${ui.timeline.chapterFallbackPrefix} ${chapter}`,
-			sessions: sessions.filter((session) => session.chapter === chapter)
+			sessions: sessions.filter((session) => session.chapter === chapter).reverse()
 		}));
 		const latestSessionDate = sessions.length
 			? sessions[sessions.length - 1].date
