@@ -17,202 +17,288 @@
 		{
 			"chapter": 1,
 			"date": "11.05.2020",
-			"title": "Start Kapitel 1",
-			"summary": "Gute Frage :D",
-			"highlights": [
-				"Es ging los"
+			"notes": [
+				"Erste große Star-Wars-D6-Session im Discord-Log. Zebron, Harland, Vos, Scrape und DU5 würfeln; es wird mit dem D6/Wild-Die-System experimentiert. Ingame-Hinweise: Coruscant-Spaceport-Musik, später GM-Bilder/Notizen zu Jedi-Tempel auf Yavin, NTP-01 Space Station und dem Schiff der Shrimp-Bude. Außerdem Statusmeldungen zu Scrape: erst incapacitated, dann wounded twice/wounded."
 			]
 		},
 		{
 			"chapter": 1,
-			"date": "16.05.2020"
+			"date": "16.05.2020",
+			"notes": [
+				"Fortsetzung des frühen NTP-01-Abenteuers. Notepad fasst den Vermisstenfall Kek Grinks zusammen: Besitzerin der Station, ehemalige Rebellen-Schocktrupplerin, entführt vor vier Tagen; Blasterschüsse, A-Wing als Fluchtfahrzeug Richtung Sektor 4. Außerdem werden Fraktionen eingeführt: Krayt-Spicer um Nash Riversnake, Rancor-Pit um Silvia Vergas und Terroristen, die Schiffe an Piers sprengen."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "01.07.2020"
+			"date": "01.07.2020",
+			"notes": [
+				"NTP-01-/Stationsphase mit vielen NPCs. Notepad listet u. a. Dave Stardust, Rank Shapro-oro, Techniker, Arntreos/Athenus Rettichus, RP6, Crew der „Depression“, Yola, Gar Verde, Shin und einen verletzten Padawan. Orte: NTP-1, Dave-Stardust-Haus, Zerks, Hangar 2, die Depression und Jedi-Tempel Yavin 4."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "01.01.2021"
+			"date": "01.01.2021",
+			"notes": [
+				"Lange Neujahrs-Session. Viele Würfe und Musikwechsel; Musik u. a. Death Trooper, Doom, Star-Wars-Themes, Cantina-/Coruscant-/Outer-Rim-Ambience. GM erwähnt Food Break. Ingame-Happenings sind aus den Textnotizen nur bruchstückhaft rekonstruierbar; vermutlich größere Action-/Reise-/Kampfsequenz."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "03.03.2021"
+			"date": "03.03.2021",
+			"notes": [
+				"Große Session nach Telegram-Abstimmung. Sehr viele Würfe von Zebron, Vos, Harland, Scrape, DU5-T1-N. Musik deutet auf Mandalorian-/Republic-Commando-/The-Hu-/Revan-/Cantina-/Raumschiff-Stimmung. Inhaltlich vermutlich Beginn oder starker Ausbau des Mandalorian-/Ordo-Arcs."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "10.03.2021"
+			"date": "05.03.2021",
+			"notes": [
+				"GM-Announce nennt explizit eine „dreieinhalb 1-on-1 Session mit Mattis“ und dass sein Teil fertig sei. Hauptsächlich Scrape-Aktivität; sehr wahrscheinlich ein separater Scrape-Handlungsstrang."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "16.03.2021"
+			"date": "10.03.2021",
+			"notes": [
+				"Weitere Star-Wars-Session. Um diese Zeit tauchen GM-Bilder/Notizen zur Mandalorianer-Rüstung auf. Inhaltlich wahrscheinlich Vorbereitung/Einführung der Mando-Ästhetik und Figuren rund um Tar/Ordo."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "23.03.2021"
+			"date": "16.03.2021",
+			"notes": [
+				"Große Session oder Split-Session. Telegram davor spricht von individuellen Sessions/VCs. GM-Notizen um diese Tage: Sylvia Wergas als Rancor-Pit-Anführerin, Mando-Bilder, Helm/Schal und viele Referenzen. Vermutlich persönliche Szenen plus Kampf/Ermittlung."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "30.03.2021"
+			"date": "23.03.2021",
+			"notes": [
+				"GM kündigt „shrimps and depression time“ an. Würfel von Zebron, Harland, Vos, Scrape etc. Inhaltlich keine klare Zusammenfassung, aber sicher Spielbetrieb."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "06.04.2021"
+			"date": "30.03.2021",
+			"notes": [
+				"Große Session mit vielen Würfen aller Hauptfiguren. Keine klare Notepad-Zusammenfassung gefunden."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "14.04.2021"
+			"date": "06.04.2021",
+			"notes": [
+				"Große Session. Notepad-Hinweise: Gar Verde und Sektion 3, Anlegestelle B37. Vermutlich Dock-/Hangar-/Gar-Verde-Handlung, mit viel Action."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "20.04.2021"
+			"date": "14.04.2021",
+			"notes": [
+				"Viele Würfe, u. a. Vos, DU5-T1-N, Scrape, Harland, Zebron. Inhaltlich unklar, aber eindeutig Star Wars."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "27.04.2021"
+			"date": "20.04.2021",
+			"notes": [
+				"Session mit Würfen und parallel Regelklärungen zu Bewegung, Wild Die, Damage Resist und Dark-Side-Homebrew. GM-Notiz „250 Meter“ deutet auf Distanz-/Chase-/Kampfpositionierung."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "04.05.2021"
+			"date": "27.04.2021",
+			"notes": [
+				"Große Session, viele Würfe. Inhaltlich keine gute Textzusammenfassung, aber sehr eindeutig."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "11.05.2021"
+			"date": "04.05.2021",
+			"notes": [
+				"Star-Wars-Session trotz Telegram-Hinweis, dass Rico eventuell nicht fit sei. Würfe von Harland, Scrape, Zebron, DU5-T1-N. GM-Announce kurz vorher zeigt neues Design/Mando-Rüstung für Mattis’ Figur."
+			]
 		},
 		{
 			"chapter": 1,
-			"date": "17.08.2021"
+			"date": "11.05.2021",
+			"notes": [
+				"Wichtig: Hier tauchen Star-Wars-Rolls im Midgard-Würfelchannel auf, aber mit klaren Star-Wars-Namen wie Vos und Scrape. GM-Notizen nennen volka’iru und Shintunka Gunda / Shin. Das zählt für mich klar als Star Wars, nicht Midgard."
+			]
 		},
 		{
-			"chapter": 1,
-			"date": "07.09.2021"
+			"chapter": 2,
+			"date": "17.08.2021",
+			"notes": [
+				"Star-Wars-Session nach längerer Pause. Musik/GM-Hinweise: Jedi-Tempel Great Hall auf Coruscant, mysteriöser Dschungel, End Credits, außerdem GM-Notiz „vincent“. Vermutlich Jedi-/Yavin-/Dschungel- oder Übergangsstoff."
+			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
+			"date": "07.09.2021",
+			"notes": [
+				"Ordo-/Tar-Arc scheint aktiv zu werden. GM-Announce kurz davor zeigt Tars kanonische Mando-Rüstung, Schulter-Symbol, ein gefundenes Shuttle und eine Kopfgeldjägerin, die ihr bereits zweimal gesehen habt."
+			]
+		},
+		{
+			"chapter": 2,
 			"date": "15.09.2021",
 			"notes": [
-				"Tempel auf Yarvin 4"
+				"Fackeln bauen",
+				"Notepad nennt Tionne Solusar. Wahrscheinlich Jedi-/Praxeum-/Lore-Bezug. Viele Star-Wars-Würfe."
 			]
 		},
 		{
-			"chapter": 1,
-			"date": "28.09.2021"
+			"chapter": 2,
+			"date": "28.09.2021",
+			"notes": [
+				"Wenige Würfe, aber klare Star-Wars-Bezüge: Harland mit „Convert Shintunka“ und „Plz dont blow my cover“, Zebron Knowledge, Vos Will. Vermutlich soziale Szene/Infiltration/Cover um Shin/Shintunka."
+			]
 		},
 		{
-			"chapter": 1,
-			"date": "05.10.2021"
+			"chapter": 2,
+			"date": "05.10.2021",
+			"notes": [
+				"Würfelcluster abends. Wenig Inhalt rekonstruierbar; zählt als Session."
+			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
+			"date": "19.10.2021",
+			"notes": [
+				"Telegram-Nachbesprechung am nächsten Tag spricht klar davon, dass ihr Party Split gemacht habt: Tar nach Nar Shaddaa oder ähnlich, Scrape und Dustin nach Ordo, Zebron/Shin/Harland/Vos nach Tatooine. Außerdem wird Rey diskutiert und Dustin als Heiler/Slicer/Techniker mit fliegendem Affen-/Piloten-Ding erwähnt. Keine starke Würfelspur, aber die Nachbesprechung ist ziemlich eindeutig."
+			]
+		},
+		{
+			"chapter": 2,
 			"date": "20.10.2021",
 			"notes": [
-				"nur DU5-T1-N und Scrape"
+				"nur DU5-T1-N und Scrape würfeln",
+				"Der Ingame-Commlink-Channel anti-shield wird erstellt, u. a. mit Scrape, Vos und Klontruppler 36422. Es gibt Scan-/Technik-Würfe von DU5-T1-N/Scrape. Inhaltlich vermutlich Fortsetzung der getrennten Gruppen/Commlink-Kommunikation."
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "27.10.2021",
 			"notes": [
-				"nur DU5-T1-N und Scrape"
+				"nur DU5-T1-N und Scrape würfeln",
+				"GM-Announce nennt Cassus Ordo und Thudar Ordo. Vermutlich Mandalorianer-/Ordo-Politik oder Familien-/Clan-Hintergrund."
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "02.11.2021",
 			"notes": [
-				"nur DU5-T1-N und Scrape"
+				"nur DU5-T1-N und Scrape würfeln"
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "03.11.2021",
 			"notes": [
-				"maybe nur Vos? aber wahrscheinlich auch Zebron und Harland"
+				"Anti-shield liefert Ingame-Inhalte: Vos ist beim Shoppen im „Tropenparadies“ seiner Heimat; Scrape wurde nach einer Pöbelei durch einen Betrunkenen angeklagt, landet offenbar vor Gericht und wird am Ende freigesprochen bzw. gewinnt. Harland/andere kommentieren Mandalorianer-Recht, Gefangenschaft/Fesselung und Vos bietet Verteidigung per Hologramm an."
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "09.11.2021",
-			"notes": "nur Zebron, Vos und Harland"
+			"notes": [
+				"nur Zebron, Vos und Harland würfeln",
+				"Sandpad listet Kopfgelder: Jatt Beastreli 75.000, Sharon Vebi 30.000, Wus Edra 80.000, Juck Korr 123.000. Sehr wahrscheinlich Kopfgeld-/Hunt-Prep oder Auswahl eines Ziels."
+			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "10.11.2021",
 			"notes": [
-				"nur DU5-T1-N und Scrape"
+				"nur DU5-T1-N und Scrape würfeln",
+				"GM-Announce nennt Der Kugelkiller und Varactyl. Musik/Atmosphäre Richtung Mandalorian/Mos Eisley/Tatooine. Vermutlich Tatooine-/Jagd-/Reittier- oder Begegnungsszene."
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "16.11.2021",
-			"notes": "Zebron, Vos und Harland - DU5-T1-N und Scrape getrennt"
+			"notes": [
+				"Zebron, Vos und Harland - DU5-T1-N und Scrape getrennt",
+				"Lange Session mit vielen Würfen, u. a. Zebron, Vos, Harland. Würfelgründe wie Strength/Door/Dodge deuten auf körperliche Hindernisse/Kampf/Flucht hin, aber keine klare Zusammenfassung."
+			]
 		},
 		{
-			"chapter": 1,
-			"date": "27.11.2021",
-			"notes": "nur ein einziger Wurf von Harland?"
-		},
-		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "30.11.2021",
 			"notes": [
-				"nur DU5-T1-N und Scrape"
+				"nur DU5-T1-N und Scrape würfeln",
+				"GM-Announce nennt Bers und the huntress. Wahrscheinlich Begegnung mit Jägerin/Kopfgeldjägerin oder related NPC."
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "02.12.2021",
 			"notes": [
-				"nur DU5-T1-N und Scrape"
+				"nur DU5-T1-N und Scrape würfeln"
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "05.12.2021",
 			"notes": [
-				"nur DU5-T1-N und Scrape"
+				"nur DU5-T1-N und Scrape würfeln"
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "07.12.2021",
-			"notes": "Zebron, Vos und (Harland?)"
+			"notes": [
+				"Zebron, Vos würfeln",
+				"Sandpad-Notizen: Treffen in Mos Eisley mit Tars Leuten nicht vergessen. Tar ärgert sich darüber, „ihn“ nicht getötet zu haben; Harland ist tot; Tar hatte den Tag in seiner Zelle in einer Vision vorausgesehen; Harland war verantwortlich dafür, dass das Schiff explodiert ist, wodurch die Flucht möglich wurde."
+			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "08.12.2021",
 			"notes": [
-				"nur DU5-T1-N und Scrape"
+				"nur DU5-T1-N und Scrape würfeln",
+				"Viele Würfe am Abend; wahrscheinlich direkte Fortsetzung der Ereignisse vom 07.12. Sandpad danach: „Ich hoffe ich habe nichts weiteres wichtiges vergessen“"
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "14.12.2021",
 			"notes": [
-				"Kevin existiert"
+				"Kevin existiert",
+				"GM-Announce zeigt/nennt ein Kom’rk-class ship. Vermutlich Schiff-/Flucht-/Mando-Bezug."
 			]
 		},
 		{
-			"chapter": 1,
-			"date": "21.12.2021"
+			"chapter": 2,
+			"date": "21.12.2021",
+			"notes": [
+				"Sandpad: Iolas Coruscant-Frequenz und Terrences Tatooine-Frequenz werden gemerkt; später fragt jemand „Wo ist Harland?“. GM erwähnt „lightstick“. Vermutlich Suche/Kommunikation rund um Harland/Iola/Terrence."
+			]
 		},
 		{
-			"chapter": 1,
-			"date": "28.12.2021"
+			"chapter": 2,
+			"date": "28.12.2021",
+			"notes": [
+				"Sandpad: Nartes, Kevin und Shin sind nach Scerva, der Hauptstadt, geflogen. GM-Announce: Dustin sendet ein MAYDAY; er wurde über Ordo von einem Lancer Class Pursuit Craft angegriffen, ist schwer beschädigt und stürzt bei Vet-Katar-Landkoordinaten ab."
+			]
 		},
 		{
-			"chapter": 1,
-			"date": "31.12.2022"
+			"chapter": 2,
+			"date": "31.12.2022",
+			"notes": [
+				"Würfel sind teils mit Midgard-Namen gelabelt, aber die Gründe sind eindeutig Star Wars: Mechanical, Sense, Alter, Control, Sneak, Perception. GM-Announce/General um die Zeit nennt Elmer Biri, Mando-Farmtiere etc. Ich würde das als Star-Wars-Silvester-Session zählen."
+			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "03.01.2023",
 			"notes": [
 				"Elmer Biri und Vrom existieren"
 			]
 		},
 		{
-			"chapter": 1,
+			"chapter": 2,
 			"date": "12.07.2023",
 			"notes": [
 				"Elmer scheint hier wieder Scrape zu sein"
