@@ -128,7 +128,7 @@
 
 				<section class="difficulty">
 					<h3>{{ t("ui.forceWiki.rules") }}</h3>
-					<Difficulty :skill="data.currentSkill" :language="language" />
+					<Difficulty :skill="data.currentSkill" :language="language" :show-force-rolls="false" />
 				</section>
 			</article>
 			<section class="wiki-entry wiki-empty-state ui-panel" v-else>

@@ -3,7 +3,7 @@
 		<details class="power" v-for="(group, index) in difficultyGroups" :key="group.key || index" open>
 			<summary class="title">
 				<span class="name">{{ getGroupPowerLabel(group.powers) }}</span>
-				<span class="force-rolls">
+				<span class="force-rolls" v-if="showForceRolls">
 					<button
 						class="force-roll ui-button"
 						type="button"
@@ -239,6 +239,10 @@ export default {
 		forceStats: {
 			type: Object,
 			default: () => characters[0].forceStats,
+		},
+		showForceRolls: {
+			type: Boolean,
+			default: true,
 		},
 	},
 	data() {
