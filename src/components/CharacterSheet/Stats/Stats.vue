@@ -15,11 +15,14 @@
 						:key="getName(skill)"
 					>
 						<button
-							class="name hover"
+							class="name skill-detail-button hover"
+							:class="{ active: data.currentSkill === skill }"
 							type="button"
+							:title="`Details zu ${getName(skill)} anzeigen`"
+							:aria-label="`Details zu ${getName(skill)} anzeigen`"
 							@click="selectSkill(stat, skill)"
 						>
-							{{ getName(skill) }}
+							<span>{{ getName(skill) }}</span>
 						</button>
 						<button class="copy hover" type="button" @click="copyRoll(stat, skill)">
 							{{ getDice(stat, skill) }}
@@ -181,6 +184,60 @@ export default {
 					.name {
 						color: var(--color-muted);
 						line-height: 1.3;
+					}
+
+					.skill-detail-button {
+						position: relative;
+						display: grid;
+						grid-template-columns: minmax(0, 1fr) 1.45rem;
+						align-items: center;
+						gap: 0.5rem;
+						width: 100%;
+						min-height: 2rem;
+						padding: 0.32rem 0.35rem 0.32rem 0.55rem;
+						border: 1px solid transparent;
+						border-radius: var(--radius-sm);
+						background: transparent;
+						color: var(--color-muted);
+
+						span {
+							min-width: 0;
+							overflow-wrap: anywhere;
+						}
+
+						&::after {
+							content: "i";
+							display: inline-flex;
+							align-items: center;
+							justify-content: center;
+							width: 1.35rem;
+							height: 1.35rem;
+							border: 1px solid rgba(103, 213, 200, 0.3);
+							border-radius: 50%;
+							background: rgba(103, 213, 200, 0.08);
+							color: var(--color-cyan);
+							font-size: 0.78rem;
+							font-weight: 900;
+							line-height: 1;
+							opacity: 0.75;
+						}
+
+						&:hover,
+						&:focus-visible,
+						&.active {
+							border-color: rgba(242, 193, 78, 0.34);
+							background: rgba(242, 193, 78, 0.08);
+							color: var(--color-text);
+						}
+
+						&:hover::after,
+						&:focus-visible::after,
+						&.active::after {
+							border-color: rgba(242, 193, 78, 0.58);
+							background: rgba(242, 193, 78, 0.16);
+							color: var(--color-accent);
+							opacity: 1;
+						}
 					}
 
 					.copy {
