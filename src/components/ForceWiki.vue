@@ -147,42 +147,15 @@ import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import Difficulty from "./CharacterSheet/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
 import { toParagraphHtml } from "@/utils/powerContent";
+import {
+	collectSearchText,
+	getSkillPowerKey,
+	normalizeSearchTerm,
+	normalizeSearchText,
+	normalizeSkillName,
+} from "@/utils/forcePowerSkills";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
 import { powerLanguageState } from "@/utils/powerLanguage";
-
-function normalizeSkillName(name) {
-	return String(name || "")
-		.toLowerCase()
-		.replace(/[\u2019']/g, "")
-		.replace(/\u00e2\u20ac\u2122/g, "")
-		.replace(/\s+/g, " ")
-		.trim();
-}
-
-function normalizeSearchTerm(value) {
-	const normalized = normalizeSearchText(value);
-	return normalized === "altar" ? "alter" : normalized;
-}
-
-function normalizeSearchText(value) {
-	return String(value || "")
-		.toLowerCase()
-		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, "")
-		.trim();
-}
-
-function collectSearchText(value) {
-	if (Array.isArray(value)) {
-		return value.map((entry) => collectSearchText(entry)).join(" ");
-	}
-
-	if (value && typeof value === "object") {
-		return Object.values(value).map((entry) => collectSearchText(entry)).join(" ");
-	}
-
-	return value == null ? "" : String(value);
-}
 
 function getSkillIdFromHash() {
 	if (typeof window === "undefined") return "";
@@ -405,12 +378,6 @@ export default {
 			this.data.difficultyFilter = defaultWikiFilters.difficultyFilter;
 		},
 
-		getSkillPowerKey(skill) {
-			const order = [Power.control, Power.sense, Power.alter];
-			const powers = Array.isArray(skill?.powers) ? skill.powers : [];
-			return order.filter((power) => powers.includes(power)).join("+");
-		},
-
 		matchesPowerFilter(skill) {
 			const filter = String(this.data.powerFilter || "all");
 			if (filter === "all") return true;
@@ -420,7 +387,7 @@ export default {
 				return powers.includes(filter.replace("uses:", ""));
 			}
 			if (filter.startsWith("exact:")) {
-				return this.getSkillPowerKey(skill) === filter.replace("exact:", "");
+				return getSkillPowerKey(skill) === filter.replace("exact:", "");
 			}
 			return true;
 		},

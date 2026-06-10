@@ -177,6 +177,15 @@ import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import ForceSkill from "./Force Skill";
+import {
+	findSkill,
+	findSkillByName,
+	findSkillReference,
+	getSkillStorageKey,
+	getSkillsFromReferences,
+	matchesSkillReference,
+	normalizeSkillName,
+} from "@/utils/forcePowerSkills";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
 
 const FAVORITES_STORAGE_KEY = "star-wars-d6:favorites";
@@ -327,7 +336,7 @@ export default {
 		},
 
 		showSkill(skill, options = {}) {
-			const resolvedSkill = this.findSkill(skill) || skill;
+			const resolvedSkill = findSkill(this.allSkills, skill) || skill;
 
 			if (!resolvedSkill) return;
 
@@ -335,7 +344,7 @@ export default {
 			this.closeMobileList();
 
 			if (options.updateHash !== false && this.active) {
-				setPowerHash(this.getSkillStorageKey(resolvedSkill));
+				setPowerHash(getSkillStorageKey(resolvedSkill));
 			}
 
 			if (options.trackRecent !== false) {
@@ -367,7 +376,7 @@ export default {
 		},
 
 		isCurrentSkill(skill) {
-			return this.normalizeSkillName(this.data.currentSkill?.name) === this.normalizeSkillName(skill?.name);
+			return normalizeSkillName(this.data.currentSkill?.name) === normalizeSkillName(skill?.name);
 		},
 
 		filterSkills(powerLabel, search) {
@@ -391,26 +400,26 @@ export default {
 		},
 
 		toggleFavorite(skill) {
-			this.data.favorites = this.toggleName(this.data.favorites, this.getSkillStorageKey(skill));
+			this.data.favorites = this.toggleName(this.data.favorites, getSkillStorageKey(skill));
 			this.saveNameList(FAVORITES_STORAGE_KEY, this.data.favorites);
 		},
 
 		isFavorite(skill) {
 			return this.data.favorites
-				.some((item) => this.matchesSkillReference(skill, item));
+				.some((item) => matchesSkillReference(skill, item));
 		},
 
 		toggleKeptUp(skill) {
 			if (!this.isKeptUpPower(skill)) return;
 
 			const isAlreadyActive = this.isKeptUpActive(skill);
-			this.data.keptUp = isAlreadyActive ? [] : [this.getSkillStorageKey(skill)];
+			this.data.keptUp = isAlreadyActive ? [] : [getSkillStorageKey(skill)];
 			this.saveNameList(KEPT_UP_STORAGE_KEY, this.data.keptUp);
 		},
 
 		isKeptUpActive(skill) {
 			return this.data.keptUp
-				.some((item) => this.matchesSkillReference(skill, item));
+				.some((item) => matchesSkillReference(skill, item));
 		},
 
 		isKeptUpPower(skill) {
@@ -423,9 +432,9 @@ export default {
 
 		trackRecentSkill(skill) {
 			this.data.recent = [
-				this.getSkillStorageKey(skill),
+				getSkillStorageKey(skill),
 				...this.data.recent.filter((item) =>
-					!this.matchesSkillReference(skill, item)
+					!matchesSkillReference(skill, item)
 				)
 			].slice(0, RECENT_LIMIT);
 			this.saveNameList(RECENT_STORAGE_KEY, this.data.recent);
@@ -433,64 +442,33 @@ export default {
 
 		removeRecentSkill(skill) {
 			this.data.recent = this.data.recent.filter((item) =>
-				!this.matchesSkillReference(skill, item)
+				!matchesSkillReference(skill, item)
 			);
 			this.saveNameList(RECENT_STORAGE_KEY, this.data.recent);
 		},
 
 		toggleName(list, name) {
-			if (list.some((item) => this.normalizeSkillName(item) === this.normalizeSkillName(name))) {
-				return list.filter((item) => this.normalizeSkillName(item) !== this.normalizeSkillName(name));
+			if (list.some((item) => normalizeSkillName(item) === normalizeSkillName(name))) {
+				return list.filter((item) => normalizeSkillName(item) !== normalizeSkillName(name));
 			}
 
 			return [name, ...list];
 		},
 
 		getSkillsFromNames(names) {
-			return names
-				.map((name) => this.findSkillReference(name))
-				.filter(Boolean);
+			return getSkillsFromReferences(this.allSkills, names);
 		},
 
 		findSkillReference(reference) {
-			const value = String(reference || "").trim();
-			return this.allSkills.find((skill) => this.matchesSkillReference(skill, value)) || null;
+			return findSkillReference(this.allSkills, reference);
 		},
 
 		findSkill(skill) {
-			if (!skill) return null;
-			if (skill.id) {
-				const byId = this.allSkills.find((entry) => entry.id === skill.id);
-				if (byId) return byId;
-			}
-			return this.findSkillByName(skill.name);
+			return findSkill(this.allSkills, skill);
 		},
 
 		findSkillByName(name) {
-			const normalizedName = this.normalizeSkillName(name);
-			return this.allSkills.find((skill) => this.normalizeSkillName(skill.name) === normalizedName);
-		},
-
-		normalizeSkillName(name) {
-			return String(name || "")
-				.toLowerCase()
-				.replace(/[\u2019']/g, "")
-				.replace(/\u00e2\u20ac\u2122/g, "")
-				.replace(/\s+/g, " ")
-				.trim();
-		},
-
-		getSkillStorageKey(skill) {
-			return String(skill?.id || skill?.name || "").trim();
-		},
-
-		matchesSkillReference(skill, reference) {
-			if (!skill || !reference) return false;
-			const value = String(reference || "").trim();
-			return Boolean(
-				(skill.id && value === skill.id)
-				|| this.normalizeSkillName(value) === this.normalizeSkillName(skill.name)
-			);
+			return findSkillByName(this.allSkills, name);
 		},
 
 		getPowerShortName(power) {
@@ -502,7 +480,7 @@ export default {
 			for (const name of names) {
 				const skill = this.findSkillReference(name);
 				if (skill && this.isKeptUpPower(skill)) {
-					return [this.getSkillStorageKey(skill)];
+					return [getSkillStorageKey(skill)];
 				}
 			}
 			return [];
@@ -546,7 +524,7 @@ export default {
 
 		active(isActive) {
 			if (isActive && this.data.currentSkill) {
-				setPowerHash(this.getSkillStorageKey(this.data.currentSkill));
+				setPowerHash(getSkillStorageKey(this.data.currentSkill));
 			}
 		}
 	},

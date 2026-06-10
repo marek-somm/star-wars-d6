@@ -96,6 +96,7 @@ import pdfMakeModule from "pdfmake/build/pdfmake";
 import pdfFontsModule from "pdfmake/build/vfs_fonts";
 import { characters } from "@/assets/characters";
 import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
+import { normalizeSkillName } from "@/utils/forcePowerSkills";
 
 const MAX_SKILL_ROWS = 30;
 const ATTRIBUTE_SHORTCODE = {
@@ -134,15 +135,6 @@ function registerPdfFonts() {
 }
 
 registerPdfFonts();
-
-function normalizeSkillName(name) {
-	return String(name || "")
-		.toLowerCase()
-		.replace(/[\u2019']/g, "")
-		.replace(/\u00e2\u20ac\u2122/g, "")
-		.replace(/\s+/g, " ")
-		.trim();
-}
 
 function formatDice(dice, pips) {
 	if (!Number.isFinite(dice)) return "-";
