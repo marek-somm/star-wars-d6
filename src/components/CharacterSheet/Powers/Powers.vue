@@ -161,6 +161,7 @@
 				:is-favorite="isFavorite(data.currentSkill)"
 				:kept-up-active="isKeptUpActive(data.currentSkill)"
 				:language="language"
+				:force-stats="forceStats"
 				class="shown"
 				@select-skill="showSkill"
 				@toggle-favorite="toggleFavorite"
@@ -224,6 +225,10 @@ export default {
 		active: {
 			type: Boolean,
 			default: false
+		},
+		forceStats: {
+			type: Object,
+			default: () => ({})
 		}
 	},
 	data() {

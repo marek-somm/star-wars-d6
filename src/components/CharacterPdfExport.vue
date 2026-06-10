@@ -94,7 +94,7 @@
 import { nextTick, ref } from "vue";
 import pdfMakeModule from "pdfmake/build/pdfmake";
 import pdfFontsModule from "pdfmake/build/vfs_fonts";
-import Zebron, { forceStats, points, stats as characterStats } from "@/assets/zebron_kebino.js";
+import { characters } from "@/assets/characters";
 import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 
 const MAX_SKILL_ROWS = 30;
@@ -155,6 +155,13 @@ function formatLocalDateForFilename(date) {
 	const month = String(date.getMonth() + 1).padStart(2, "0");
 	const day = String(date.getDate()).padStart(2, "0");
 	return `${year}-${month}-${day}`;
+}
+
+function slugifyFilename(value) {
+	return String(value || "character")
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-+|-+$/g, "") || "character";
 }
 
 function toSkillArray(stat) {
@@ -273,7 +280,7 @@ function formatModifierText(modifier = {}) {
 	return label.replace(/^Modified by\s+/i, "").trim();
 }
 
-function formatPowerDifficulty(skill) {
+function formatPowerDifficulty(skill, forceStats) {
 	const powers = Array.isArray(skill?.powers) ? skill.powers : [];
 	if (powers.length === 0) return "-";
 
@@ -306,7 +313,7 @@ function formatPowerDifficulty(skill) {
 			if (increasedText.length > 0) segments.push(...increasedText);
 			if (segments.length === 0) return null;
 
-			return `${getForcePowerSkillName(PDF_POWER_LANGUAGE, power)} (${formatDice(forceStats[power]?.dice, forceStats[power]?.pips)})\n${segments.join("\n")}`;
+			return `${getForcePowerSkillName(PDF_POWER_LANGUAGE, power)} (${formatDice(forceStats?.[power]?.dice, forceStats?.[power]?.pips)})\n${segments.join("\n")}`;
 		})
 		.filter(Boolean);
 
@@ -369,6 +376,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		character: {
+			type: Object,
+			default: () => characters[0],
+		},
 	},
 	setup(props) {
 		const isExporting = ref(false);
@@ -391,7 +402,7 @@ export default {
 
 		function buildSkillRows() {
 			const rows = [];
-			for (const stat of characterStats) {
+			for (const stat of props.character?.stats || []) {
 				const attributeCode = getAttributeShortCode(stat.name);
 				for (const skill of toSkillArray(stat)) {
 					const combined = sumDice(stat.dice, stat.pips, skill.dice, skill.pips);
@@ -405,8 +416,8 @@ export default {
 		}
 
 		function buildPowerRows() {
-			const zebron = new Zebron();
-			const allPowers = zebron.getPowerLabels().flatMap((label) => label.getSkills());
+			const powerLabels = props.character?.createPowerProfile?.(PDF_POWER_LANGUAGE)?.getPowerLabels?.() || [];
+			const allPowers = powerLabels.flatMap((label) => label.getSkills());
 			const powerByName = new Map();
 
 			for (const skill of allPowers) {
@@ -420,7 +431,7 @@ export default {
 				.map((skill) => ({
 					name: htmlToReadableText(skill.name),
 					summary: htmlToReadableText(skill.summary || ""),
-					difficulty: formatPowerDifficulty(skill),
+					difficulty: formatPowerDifficulty(skill, props.character?.forceStats || {}),
 					time: htmlToReadableText([
 						skill.timeToUse || getForcePowerText(PDF_POWER_LANGUAGE, "ui.difficulty.defaultTimeToUse"),
 						skill.timeToUseNote,
@@ -437,6 +448,8 @@ export default {
 			const visibleSkills = skillRows.slice(0, MAX_SKILL_ROWS);
 			const skillColumns = splitIntoColumns(visibleSkills, 2);
 			const powerRows = buildPowerRows();
+			const points = props.character?.points || {};
+			const forceStats = props.character?.forceStats || {};
 			const powerNames = powerRows.map((row) => row.name);
 			const powerNameColumns = splitIntoColumns(powerNames, 2);
 
@@ -446,13 +459,13 @@ export default {
 					{ label: "Character Points", value: String(points.character) },
 					{ label: "Spent Points", value: String(points.spent) },
 					{ label: "Force Points", value: String(points.force) },
-					{ label: "Temporary Force", value: "" },
+					{ label: "Temporary Force", value: String(points.force_temp ?? "") },
 					{ label: "Dark Side Points", value: String(points.darkside) },
 				],
 				forceRows: [
-					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "control"), value: formatDice(forceStats.control.dice, forceStats.control.pips) },
-					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "sense"), value: formatDice(forceStats.sense.dice, forceStats.sense.pips) },
-					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "alter"), value: formatDice(forceStats.alter.dice, forceStats.alter.pips) },
+					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "control"), value: formatDice(forceStats.control?.dice, forceStats.control?.pips) },
+					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "sense"), value: formatDice(forceStats.sense?.dice, forceStats.sense?.pips) },
+					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "alter"), value: formatDice(forceStats.alter?.dice, forceStats.alter?.pips) },
 				],
 				skillRows: visibleSkills,
 				skillColumns,
@@ -704,7 +717,7 @@ export default {
 
 				const pdf = pdfMake.createPdf(docDefinition);
 				console.log("PDF object created:", !!pdf);
-				const filename = `zebron-kebino-character-sheet-${filenameDate}.pdf`;
+				const filename = `${slugifyFilename(props.characterName)}-character-sheet-${filenameDate}.pdf`;
 				console.log("Attempting download with filename:", filename);
 				const blob = pdf.getBlob.length === 0
 					? await pdf.getBlob()

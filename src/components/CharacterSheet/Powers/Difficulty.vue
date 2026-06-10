@@ -220,9 +220,9 @@
 
 <script>
 import { Skill } from '../../../assets/powers';
+import { characters } from "@/assets/characters";
 import { sanitizeHtml } from "@/utils/html";
 import { defaultPowerLanguage, getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
-import { forceStats } from "@/assets/zebron_kebino.js";
 import { copyToClipboard } from "@/utils/clipboard";
 import { formatDiceParts, getRollCommandFromDice } from "@/utils/dice";
 
@@ -235,6 +235,10 @@ export default {
 		language: {
 			type: String,
 			default: defaultPowerLanguage,
+		},
+		forceStats: {
+			type: Object,
+			default: () => characters[0].forceStats,
 		},
 	},
 	data() {
@@ -310,7 +314,7 @@ export default {
 		},
 
 		getAdjustedForceParts(power) {
-			const stat = forceStats[power] || {};
+			const stat = this.forceStats[power] || {};
 			return {
 				dice: Math.max(1, Number(stat.dice || 0) - this.getForceSkillPenalty()),
 				pips: Number(stat.pips || 0),

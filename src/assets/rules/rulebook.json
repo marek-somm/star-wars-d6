@@ -26,9 +26,6 @@
 						"page_start": 34,
 						"page_end": 35
 					},
-					"tags": [
-						"skills"
-					],
 					"blocks": [
 						{
 							"type": "chapter_intro",
@@ -5593,6 +5590,78 @@
 									"text": "You have the opportunity to actually create your own Star Wars stories for your players to stumble through. Sure, you'll need to know about these skills but don't let all the modifiers and details slow down the game. Fall back on the rule of thumb... quick, what's the difficulty to scan fora human and a Wookiee who are hiding in a Noghri village? Moderate? Difficult? Yeah, that sounds good. Roll your sensors skill. Have fun and clear skies!"
 								}
 							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "section.gamemaster",
+			"type": "section",
+			"title": "Gamemaster Section",
+			"blocks": [
+				{
+					"id": "chapter.05.the_rules",
+					"type": "chapter",
+					"number": 5,
+					"title": "The Rules",
+					"label": "Chapter Five",
+					"source": {
+						"page_start": 74,
+						"page_end": 89
+					},
+					"blocks": [
+						{
+							"type": "chapter_intro",
+							"text": "If you're going to be the gamemaster, you need to know the rules. That's where I come in."
+						},
+						{
+							"type": "chapter_intro",
+							"text": "Let me tell you about myself. I've been an Imperial Admiral for nearly a decade. People like Shae and Risha don't think too much of people like me. You know what? I don't care. I do my job right and if some outlaw or smuggler doesn't like it, they just better not cross me."
+						},
+						{
+							"type": "chapter_intro",
+							"text": "In my line of work, you have to play hardball with people like them or they'll walk all over you. That's where the rules come in. The set of rules I have to play by - Imperial laws - explain exactly what I'm supposed to do when I'm working."
+						},
+						{
+							"type": "chapter_intro",
+							"text": "The game rules do the same thing for you. They tell you how to run your game. They make sure everyone gets treated fairly. You need them to keep control."
+						},
+						{
+							"type": "chapter_intro",
+							"text": "Now, let me tell you how to use these rules. In my job, I'm allowed what's called \"discretion\" - sure, I may play the tough one and give lip service to following the letter of the law, but if I think someone deserves a break, I might let them off with a warning for a minor infraction. I follow the law when someone's giving me a hard time: I'll bust them on every minor charge I can think of if they give me attitude."
+						},
+						{
+							"type": "chapter_intro",
+							"text": "You've got even more latitude in your game. First, you only have to use rules you feel like using. Why? Because it's your game. Run it the way you want to."
+						},
+						{
+							"type": "chapter_intro",
+							"text": "Next, if you don't like the rules here, go ahead and make up your own."
+						},
+						{
+							"type": "chapter_intro",
+							"text": "When you're running your game, you can choose which rules to follow strictly, which to overlook... and which to make up when you think they're needed."
+						},
+						{
+							"type": "story",
+							"text": "But, let me warn you, you've got to be firm with the people who're going to try to bend the rules to suit themselves."
+						},
+						{
+							"type": "story",
+							"text": "So let's begin. The rules are divided into three major sections. The first is \"Rolling Actions.\" You already know that the players roll skill dice when they want their characters to try to do something... now you'll learn how to decide difficulty numbers so you know how well the players have to roll. You'll also find out how to decide what happens when a character succeeds or fails."
+						},
+						{
+							"type": "story",
+							"text": "Section two covers \"Scenes and Rounds.\" Scenes are used when characters are doing \"ordinary\" things like meeting a contact in a cantina and traveling by starship to a distant planet. You'll use rounds when things get \"intense\" like when the characters get into a battle or go on a frantic chase through an asteroid belt."
+						},
+						{
+							"type": "paragraph",
+							"text": "The final section of this chapter is \"Character Information.\" It covers Character Points, Force Points and other things that characters use during the game."
+						},
+						{
+							"type": "paragraph",
+							"text": "Tan boxes highlight the essential rules. The rest of the chapter has examples and explanations - you can read them right away or come back to read them later."
 						}
 					]
 				}

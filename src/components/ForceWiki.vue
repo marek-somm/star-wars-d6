@@ -144,7 +144,7 @@ import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import { Power } from "@/assets/powers";
 import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
-import Difficulty from "./Zebron Kebino/Powers/Difficulty.vue";
+import Difficulty from "./CharacterSheet/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
 import { toParagraphHtml } from "@/utils/powerContent";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";

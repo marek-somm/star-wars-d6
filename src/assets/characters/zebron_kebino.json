@@ -1,0 +1,221 @@
+{
+	"id": "zebron-kebino",
+	"name": "Zebron Kebino",
+	"points": {
+		"force": 6,
+		"force_temp": 0,
+		"darkside": 0,
+		"character": 215,
+		"spent": 197
+	},
+	"forceStats": {
+		"control": {
+			"dice": 6,
+			"pips": 1
+		},
+		"sense": {
+			"dice": 6,
+			"pips": 0
+		},
+		"alter": {
+			"dice": 6,
+			"pips": 0
+		}
+	},
+	"powers": {
+		"groups": [
+			{
+				"name": "Combat",
+				"powerIds": [
+					"lightsaber_combat",
+					"kinetic_combat",
+					"force_push",
+					"absorb_dissipate_energy",
+					"lesser_force_shield",
+					"greater_force_shield",
+					"guided_attack"
+				]
+			},
+			{
+				"name": "Utils",
+				"powerIds": [
+					"telekinesis",
+					"contort_escape"
+				]
+			},
+			{
+				"name": "Buffs",
+				"powerIds": [
+					"concentration",
+					"enhance_attribute",
+					"force_jump",
+					"emptiness",
+					"burst_of_speed",
+					"empower_force"
+				]
+			},
+			{
+				"name": "Self-Control",
+				"powerIds": [
+					"control_pain",
+					"remain_conscious",
+					"hibernation_trance",
+					"accelerate_healing",
+					"control_breathing"
+				]
+			},
+			{
+				"name": "Enhance Senses",
+				"powerIds": [
+					"merge_senses",
+					"magnify_senses",
+					"life_sense",
+					"life_detection",
+					"danger_sense",
+					"combat_sense",
+					"direction_sense",
+					"farseeing"
+				]
+			},
+			{
+				"name": "Communication",
+				"powerIds": [
+					"affect_mind",
+					"translation",
+					"receptive_telepathy",
+					"projective_telepathy"
+				]
+			},
+			{
+				"name": "Party",
+				"powerIds": [
+					"control_another_s_pain",
+					"accelerate_another_s_healing",
+					"transfer_force"
+				]
+			}
+		]
+	},
+	"stats": [
+		{
+			"name": "Dexterity",
+			"dice": 3,
+			"pips": 0,
+			"skills": [
+				{
+					"name": "Lightsaber",
+					"dice": 1,
+					"pips": 0
+				},
+				{
+					"name": "Lightsaber",
+					"root": "Lightsaber",
+					"spez": true,
+					"dice": 4,
+					"pips": 0
+				},
+				{
+					"name": "Acrobatics",
+					"dice": 1,
+					"pips": 0
+				},
+				{
+					"name": "Dodge",
+					"dice": 2,
+					"pips": 0
+				},
+				{
+					"name": "Sprinting",
+					"root": "Running",
+					"spez": true,
+					"dice": 1,
+					"pips": 0
+				}
+			]
+		},
+		{
+			"name": "Perception",
+			"dice": 3,
+			"pips": 0,
+			"skills": [
+				{
+					"name": "Sneak",
+					"dice": 1,
+					"pips": 0
+				}
+			]
+		},
+		{
+			"name": "Knowledge",
+			"dice": 2,
+			"pips": 0,
+			"skills": [
+				{
+					"name": "Cultures",
+					"dice": 1,
+					"pips": 0
+				}
+			]
+		},
+		{
+			"name": "Strength",
+			"dice": 3,
+			"pips": 0,
+			"skills": [
+				{
+					"name": "Climbing/Jumping",
+					"dice": 1,
+					"pips": 0
+				},
+				{
+					"name": "Swimming",
+					"dice": 1,
+					"pips": 0
+				}
+			]
+		},
+		{
+			"name": "Mechanical",
+			"dice": 2,
+			"pips": 0
+		},
+		{
+			"name": "Technical",
+			"dice": 2,
+			"pips": 0,
+			"skills": [
+				{
+					"name": "Lightsaber Engineering",
+					"adv": true,
+					"dice": 1,
+					"pips": 0
+				}
+			]
+		}
+	],
+	"family": [
+		{
+			"title": "John Kebino",
+			"info": "Tot",
+			"label": "Vater - Mensch",
+			"content": "John erblickte zum ersten mal auf Coruscant das Licht der Welt. Seine Menschlichen Eltern..."
+		},
+		{
+			"title": "Damaya Kebino",
+			"info": "geb. Tadro",
+			"label": "Mutter - Miraluka",
+			"content": "Damaya ist eine..."
+		},
+		{
+			"title": "Zira Kebino",
+			"label": "Schwester - Miraluka",
+			"content": "Zira ist meine Schwester."
+		},
+		{
+			"title": "Ben / Harland David Sanders",
+			"info": "Sebastian",
+			"label": "Onkel - Mensch",
+			"content": "???"
+		}
+	]
+}

@@ -38,8 +38,26 @@
 
 		<template v-if="data.view === 'sheet'">
 			<Dicer />
-			<CharacterPdfExport character-name="Zebron Kebino" />
-			<Navbar />
+			<section class="character-selector ui-panel" aria-label="Character selection">
+				<div>
+					<p class="selector-eyebrow">Character Sheets</p>
+					<h2>{{ selectedCharacter.name }}</h2>
+				</div>
+				<div class="character-list" role="list">
+					<button
+						class="character-button ui-button"
+						:class="{ active: character.id === data.characterId }"
+						type="button"
+						v-for="character in characters"
+						:key="character.id"
+						@click="selectCharacter(character.id)"
+					>
+						{{ character.name }}
+					</button>
+				</div>
+			</section>
+			<CharacterPdfExport :character="selectedCharacter" :character-name="selectedCharacter.name" />
+			<Navbar :character="selectedCharacter" />
 		</template>
 		<ForceWiki v-else-if="data.view === 'wiki'" />
 		<Rulebook v-else-if="data.view === 'rules'" />
@@ -48,7 +66,8 @@
 </template>
 
 <script>
-import { onBeforeUnmount, onMounted, reactive } from "vue";
+import { computed, onBeforeUnmount, onMounted, reactive } from "vue";
+import { characters, getCharacterById } from "@/assets/characters";
 import CampaignTimeline from "./CampaignTimeline.vue";
 import CharacterPdfExport from "./CharacterPdfExport.vue";
 import Dicer from "./Dicer.vue";
@@ -59,6 +78,7 @@ import Rulebook from "./Rulebook.vue";
 const SHOW_TIMELINE = true;
 
 export default {
+	name: "CharacterSheets",
 	components: {
 		CampaignTimeline,
 		CharacterPdfExport,
@@ -69,8 +89,10 @@ export default {
 	},
 	setup() {
 		const data = reactive({
-			view: "sheet"
+			view: "sheet",
+			characterId: getCharacterById(loadCharacterId()).id,
 		});
+		const selectedCharacter = computed(() => getCharacterById(data.characterId));
 
 		function parseViewFromHash() {
 			if (typeof window === "undefined") return "sheet";
@@ -116,6 +138,19 @@ export default {
 			}
 		}
 
+		function loadCharacterId() {
+			if (typeof window === "undefined") return "";
+			return window.localStorage.getItem("star-wars-d6:selected-character") || "";
+		}
+
+		function selectCharacter(characterId) {
+			const character = getCharacterById(characterId);
+			data.characterId = character.id;
+			if (typeof window !== "undefined") {
+				window.localStorage.setItem("star-wars-d6:selected-character", character.id);
+			}
+		}
+
 		function syncViewWithHash() {
 			data.view = parseViewFromHash();
 		}
@@ -133,7 +168,7 @@ export default {
 			}
 		});
 
-		return { data, setView, showTimeline: SHOW_TIMELINE };
+		return { characters, data, selectedCharacter, selectCharacter, setView, showTimeline: SHOW_TIMELINE };
 	},
 };
 </script>
@@ -168,6 +203,46 @@ export default {
 	}
 }
 
+.character-selector {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	width: 100%;
+	margin: 0.75rem 0 0;
+	padding: 1rem;
+}
+
+.selector-eyebrow {
+	margin: 0 0 0.25rem;
+	color: var(--color-cyan);
+	font-size: 0.72rem;
+	font-weight: 900;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+.character-selector h2 {
+	margin: 0;
+	color: var(--color-text);
+	font-size: 1.45rem;
+	line-height: 1.1;
+}
+
+.character-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.45rem;
+	min-width: min(28rem, 100%);
+}
+
+.character-button {
+	min-width: 0;
+	padding: 0.4rem 0.85rem;
+	color: var(--color-muted);
+}
+
 @media (max-width: 560px) {
 	.container {
 		padding: 0.75rem 0.7rem 2rem;
@@ -180,6 +255,24 @@ export default {
 	}
 
 	.view-button {
+		width: 100%;
+		min-height: 2.65rem;
+	}
+
+	.character-selector {
+		align-items: stretch;
+		flex-direction: column;
+		margin-top: 0.75rem;
+	}
+
+	.character-list {
+		display: grid;
+		grid-template-columns: 1fr;
+		justify-content: stretch;
+		min-width: 0;
+	}
+
+	.character-button {
 		width: 100%;
 		min-height: 2.65rem;
 	}

@@ -1,6 +1,6 @@
 <template>
 	<div class="stats--container">
-		<div class="stats ui-panel" v-for="stat in zebron" :key="stat.name">
+		<div class="stats ui-panel" v-for="stat in stats" :key="stat.name">
 			<div class="flex-item">
 				<div class="name main">{{ getName(stat) }}</div>
 				<button class="copy main hover" type="button" @click="copyRoll(stat)">
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import * as zebron from "@/assets/zebron_kebino.js";
 import { reactive } from "vue";
 import StatInfo from "./StatInfo";
 import { copyToClipboard } from "@/utils/clipboard";
@@ -43,6 +42,12 @@ import { formatDice, getRollCommand } from "@/utils/dice";
 export default {
 	components: {
 		StatInfo
+	},
+	props: {
+		stats: {
+			type: Array,
+			default: () => [],
+		},
 	},
 	setup() {
 		const data = reactive({
@@ -79,7 +84,6 @@ export default {
 		};
 
 		return {
-			zebron: zebron.stats,
 			data,
 			getName,
 			getDice,

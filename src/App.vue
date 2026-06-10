@@ -1,14 +1,14 @@
 <template>
-	<Zebron />
+	<CharacterSheets />
 </template>
 
 <script>
-import Zebron from "@/components/Zebron";
+import CharacterSheets from "@/components/CharacterSheets";
 
 export default {
 	name: "App",
 	components: {
-		Zebron,
+		CharacterSheets,
 	},
 };
 </script>

@@ -11,19 +11,19 @@
 					</p>
 				</div>
 				<div class="right-align points">
-					<p><span>Force</span>{{ points.force }}</p>
+					<p><span>Force</span>{{ characterPoints.force }}</p>
 					<p class="temporary-force">
 						<span>Temporary</span>
 						<button class="number-button ui-button" type="button" @click="addTemporaryForce">+</button>
 						<button class="number-button ui-button" type="button" @click="removeTemporaryForce">-</button>
 						<strong>{{ force_temp }}</strong>
 					</p>
-					<p><span>Darkside</span>{{ points.darkside }}</p>
+					<p><span>Darkside</span>{{ characterPoints.darkside }}</p>
 				</div>
 			</section>
 			<section class="main ui-panel" aria-label="Character navigation">
 				<p class="eyebrow">Star Wars D6</p>
-				<h1>{{ data.name }}</h1>
+				<h1>{{ character.name }}</h1>
 				<div class="nav-list">
 					<button class="item ui-button" :class="{ active: data.stats }" type="button" @click="showStats">Stats</button>
 					<button class="item ui-button" :class="{ active: data.powers }" type="button" @click="showPowers">Powers</button>
@@ -32,28 +32,27 @@
 			</section>
 			<section class="filler character-panel ui-panel" aria-label="Character points">
 				<div>
-					<p><span>Character Points</span>{{ points.character }}</p>
-					<p><span>Spent Points</span>{{ points.spent }}</p>
+					<p><span>Character Points</span>{{ characterPoints.character }}</p>
+					<p><span>Spent Points</span>{{ characterPoints.spent }}</p>
 				</div>
 			</section>
 		</header>
 		<main class="content-shell">
-			<Stats class="content-item" v-show="data.stats" />
-			<Background class="content-item" v-show="data.background" />
+			<Stats class="content-item" v-show="data.stats" :stats="character.stats" />
+			<Background class="content-item" v-show="data.background" :family="character.family" />
 			<Powers class="content-item" v-show="data.powers" :language="powerLanguageState.language"
-				:power-labels="characterPowerLabels" :active="data.powers" />
+				:power-labels="characterPowerLabels" :force-stats="characterForceStats" :active="data.powers" />
 		</main>
 	</div>
 </template>
 
 <script>
-import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue";
-import Stats from "./Zebron Kebino/Stats/Stats";
-import Background from "./Zebron Kebino/Background";
-import Powers from "./Zebron Kebino/Powers/Powers";
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
+import { characters } from "@/assets/characters";
+import Stats from "./CharacterSheet/Stats/Stats";
+import Background from "./CharacterSheet/Background";
+import Powers from "./CharacterSheet/Powers/Powers";
 
-import { points, forceStats } from "@/assets/zebron_kebino.js";
-import Zebron from "@/assets/zebron_kebino.js";
 import { copyToClipboard } from "@/utils/clipboard";
 import { formatDiceParts, getRollCommandFromDice } from "@/utils/dice";
 import { readNumber, writeNumber } from "@/utils/storage";
@@ -94,24 +93,31 @@ export default {
 		Background,
 		Powers,
 	},
-	setup() {
+	props: {
+		character: {
+			type: Object,
+			default: () => characters[0],
+		},
+	},
+	setup(props) {
 		const data = reactive({
-			name: "Zebron Kebino",
 			stats: true,
 			powers: false,
 			background: false,
 		});
+		const characterPoints = computed(() => props.character?.points || {});
+		const characterForceStats = computed(() => props.character?.forceStats || {});
 		const characterPowerLabels = computed(() =>
-			new Zebron(powerLanguageState.language).getPowerLabels()
+			props.character?.createPowerProfile?.(powerLanguageState.language)?.getPowerLabels?.() || []
 		);
 		const forceSkillButtons = computed(() =>
 			FORCE_SKILL_BUTTONS.map((entry) => ({
 				...entry,
-				dice: formatDiceParts(forceStats[entry.power]?.dice || 0, forceStats[entry.power]?.pips || 0),
+				dice: formatDiceParts(characterForceStats.value[entry.power]?.dice || 0, characterForceStats.value[entry.power]?.pips || 0),
 			}))
 		);
 
-		const force_temp = ref(loadTemporaryForcePoints());
+		const force_temp = ref(loadTemporaryForcePoints(props.character));
 
 		function showSection(section, options = {}) {
 			data.stats = section === "stats";
@@ -152,25 +158,36 @@ export default {
 		}
 
 		function loadTemporaryForcePoints() {
-			const value = readNumber(TEMP_FORCE_STORAGE_KEY, points.force_temp);
+			const value = readNumber(getTemporaryForceStorageKey(props.character), characterPoints.value.force_temp);
 			if (value < 0) {
-				return points.force_temp;
+				return characterPoints.value.force_temp;
 			}
 
-			points.force_temp = value;
+			characterPoints.value.force_temp = value;
 			return value;
 		}
 
 		function saveTemporaryForcePoints(value) {
-			points.force_temp = value;
-			writeNumber(TEMP_FORCE_STORAGE_KEY, value);
+			characterPoints.value.force_temp = value;
+			writeNumber(getTemporaryForceStorageKey(props.character), value);
 		}
 
 		function copyForceRoll(power) {
-			const stat = forceStats[power] || {};
+			const stat = characterForceStats.value[power] || {};
 			const label = FORCE_SKILL_BUTTONS.find((entry) => entry.power === power)?.label || power;
 			copyToClipboard(getRollCommandFromDice(stat.dice, stat.pips, label));
 		}
+
+		function getTemporaryForceStorageKey(character) {
+			return `${TEMP_FORCE_STORAGE_KEY}:${character?.id || "default"}`;
+		}
+
+		watch(
+			() => props.character?.id,
+			() => {
+				force_temp.value = loadTemporaryForcePoints();
+			}
+		);
 
 		onMounted(() => {
 			syncSectionWithHash();
@@ -187,8 +204,8 @@ export default {
 
 		return {
 			data,
-			points,
-			forceStats,
+			characterPoints,
+			characterForceStats,
 			forceSkillButtons,
 			powerLanguageState,
 			characterPowerLabels,

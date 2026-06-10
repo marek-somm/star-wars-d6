@@ -42,7 +42,7 @@
 				<PowerContentBlocks :blocks="contentBlocks" :language="language" />
 			</div>
 			<div class="details">
-				<Difficulty :skill="skill" :language="language" />
+				<Difficulty :skill="skill" :language="language" :force-stats="forceStats" />
 			</div>
 		</div>
 	</div>
@@ -81,6 +81,10 @@ export default {
 		language: {
 			default: defaultPowerLanguage,
 			type: String
+		},
+		forceStats: {
+			default: () => ({}),
+			type: Object
 		}
 	},
 	computed: {

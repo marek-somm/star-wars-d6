@@ -16,13 +16,17 @@
 </template>
 
 <script>
-import { family } from "@/assets/zebron_kebino.js";
 import { sanitizeHtml } from "@/utils/html";
 
 export default {
+	props: {
+		family: {
+			type: Array,
+			default: () => [],
+		},
+	},
 	setup () {
 		return {
-			family,
 			sanitizeHtml
 		}
 	}
