@@ -35,7 +35,6 @@
 						<h2>{{ t("ui.characterPowers.title") }}</h2>
 					</div>
 					<div class="header-actions">
-						<PowerLanguageToggle compact />
 						<span class="power-count ui-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
 						<button class="list-close ui-button" type="button" @click="closeMobileList">{{ t("ui.characterPowers.close") }}</button>
 					</div>
@@ -173,7 +172,6 @@ import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
 import MobileDrawerBackdrop from "@/components/shared/MobileDrawerBackdrop.vue";
 import MobileDrawerToggle from "@/components/shared/MobileDrawerToggle.vue";
-import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import ForceSkill from "./Force Skill";
 import {
 	findSkill,
@@ -220,7 +218,6 @@ export default {
 		ForceSkill,
 		MobileDrawerBackdrop,
 		MobileDrawerToggle,
-		PowerLanguageToggle,
 	},
 	props: {
 		powerLabels: {

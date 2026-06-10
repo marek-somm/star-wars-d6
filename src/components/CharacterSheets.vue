@@ -1,39 +1,42 @@
 <template>
 	<div class="container">
 		<nav class="view-switch" aria-label="App navigation">
-			<button
-				class="view-button ui-button"
-				:class="{ active: data.view === 'sheet' }"
-				type="button"
-				@click="setView('sheet')"
-			>
-				Charakter-Sheet
-			</button>
-			<button
-				class="view-button ui-button"
-				:class="{ active: data.view === 'wiki' }"
-				type="button"
-				@click="setView('wiki')"
-			>
-				Force-Wiki
-			</button>
-			<button
-				class="view-button ui-button"
-				:class="{ active: data.view === 'rules' }"
-				type="button"
-				@click="setView('rules')"
-			>
-				Regeln
-			</button>
-			<button
-				v-if="showTimeline"
-				class="view-button ui-button"
-				:class="{ active: data.view === 'timeline' }"
-				type="button"
-				@click="setView('timeline')"
-			>
-				Zeitstrahl
-			</button>
+			<div class="view-links">
+				<button
+					class="view-button ui-button"
+					:class="{ active: data.view === 'sheet' }"
+					type="button"
+					@click="setView('sheet')"
+				>
+					Charakter-Sheet
+				</button>
+				<button
+					class="view-button ui-button"
+					:class="{ active: data.view === 'wiki' }"
+					type="button"
+					@click="setView('wiki')"
+				>
+					Force-Wiki
+				</button>
+				<button
+					class="view-button ui-button"
+					:class="{ active: data.view === 'rules' }"
+					type="button"
+					@click="setView('rules')"
+				>
+					Regeln
+				</button>
+				<button
+					v-if="showTimeline"
+					class="view-button ui-button"
+					:class="{ active: data.view === 'timeline' }"
+					type="button"
+					@click="setView('timeline')"
+				>
+					Zeitstrahl
+				</button>
+			</div>
+			<PowerLanguageToggle class="global-language-toggle" />
 		</nav>
 
 		<template v-if="data.view === 'sheet'">
@@ -71,6 +74,7 @@ import { characters, getCharacterById } from "@/assets/characters";
 import CharacterPdfExport from "./CharacterPdfExport.vue";
 import Dicer from "./Dicer.vue";
 import Navbar from "./Navbar.vue";
+import PowerLanguageToggle from "./PowerLanguageToggle.vue";
 
 const CampaignTimeline = defineAsyncComponent(() => import("./CampaignTimeline.vue"));
 const ForceWiki = defineAsyncComponent(() => import("./ForceWiki.vue"));
@@ -86,6 +90,7 @@ export default {
 		Dicer,
 		ForceWiki,
 		Navbar,
+		PowerLanguageToggle,
 		Rulebook,
 	},
 	setup() {
@@ -185,8 +190,20 @@ export default {
 .view-switch {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
 	gap: 0.55rem;
 	margin-bottom: 0.95rem;
+}
+
+.view-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.55rem;
+}
+
+.global-language-toggle {
+	flex: 0 0 auto;
 }
 
 .view-button {
@@ -270,13 +287,29 @@ export default {
 
 	.view-switch {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+		grid-template-columns: 1fr auto;
 		width: 100%;
+	}
+
+	.view-links {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
 	}
 
 	.view-button {
 		width: 100%;
 		min-height: 2.65rem;
+	}
+
+	.global-language-toggle {
+		align-self: stretch;
+		justify-content: center;
+		width: 4.15rem;
+		min-height: 2.65rem;
+
+		:deep(.language-label) {
+			display: none;
+		}
 	}
 
 	.character-selector {

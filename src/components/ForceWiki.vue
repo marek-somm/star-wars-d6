@@ -6,7 +6,6 @@
 				:fallback-title="t('ui.forceWiki.selectPower')"
 				:count-label="`${t('ui.forceWiki.browse')} ${filteredSkills.length}`" controls="wiki-index-panel" nested
 				@open="openMobileIndex" />
-			<PowerLanguageToggle class="mobile-language-toggle" compact />
 		</div>
 		<MobileDrawerBackdrop v-if="data.mobileIndexOpen" :aria-label="t('ui.forceWiki.closeIndex')"
 			@close="closeMobileIndex" />
@@ -19,7 +18,6 @@
 				<ForcePowerSearch v-model.trim="data.search" class="header-search" :placeholder="t('ui.forceWiki.searchPlaceholder')"
 					:aria-label="t('ui.forceWiki.searchAriaLabel')" />
 				<p class="count ui-count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
-				<PowerLanguageToggle />
 			</div>
 		</header>
 
@@ -145,7 +143,6 @@ import { Power } from "@/assets/powers";
 import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
 import MobileDrawerBackdrop from "@/components/shared/MobileDrawerBackdrop.vue";
 import MobileDrawerToggle from "@/components/shared/MobileDrawerToggle.vue";
-import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import Difficulty from "./CharacterSheet/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
 import { toParagraphHtml } from "@/utils/powerContent";
@@ -218,7 +215,6 @@ export default {
 		MobileDrawerBackdrop,
 		MobileDrawerToggle,
 		PowerContentBlocks,
-		PowerLanguageToggle,
 	},
 	data() {
 		const savedFilters = loadWikiFilters();
@@ -679,10 +675,6 @@ export default {
 		gap: 0.5rem;
 	}
 
-	.language-toggle {
-		flex: 0 0 auto;
-	}
-
 	.header-search {
 		min-width: min(22rem, 56vw);
 	}
@@ -1104,28 +1096,10 @@ export default {
 		}
 
 		.mobile-toolbar {
-			display: grid;
+			display: block;
 			position: sticky;
 			top: 0.65rem;
 			z-index: 7;
-			grid-template-columns: minmax(0, 1fr) auto;
-			gap: 0.55rem;
-			align-items: stretch;
-		}
-
-		.mobile-language-toggle {
-			display: inline-flex;
-			position: sticky;
-			top: 0;
-			z-index: 8;
-			justify-content: center;
-			width: 4.15rem;
-			min-height: 3.1rem;
-			padding: 0.55rem;
-
-			.language-label {
-				display: none;
-			}
 		}
 	}
 
@@ -1342,10 +1316,6 @@ export default {
 @media (max-width: 520px) {
 	.wiki .mobile-toolbar {
 		top: 0.5rem;
-	}
-
-	.wiki .mobile-language-toggle {
-		min-height: 3.3rem;
 	}
 
 	.wiki-index {
