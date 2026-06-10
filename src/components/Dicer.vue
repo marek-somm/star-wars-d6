@@ -105,7 +105,7 @@ export default {
 
 	.title {
 		width: auto;
-		font-weight: bold;
+		font-weight: 900;
 		font-size: 0.9rem;
 		letter-spacing: 0;
 		text-transform: uppercase;
@@ -147,11 +147,12 @@ export default {
 			min-height: 2.25rem;
 			border: 1px solid rgba(242, 193, 78, 0.55);
 			background: var(--color-accent);
-			color: #1a1712;
+			color: var(--color-on-accent);
 			padding: 0.35rem 0.85rem;
 
 			&:hover {
 				background: #ffd56a;
+				color: var(--color-on-accent);
 			}
 		}
 	}

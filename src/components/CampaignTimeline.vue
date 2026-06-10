@@ -129,7 +129,7 @@ export default {
 	h1 {
 		margin: 0;
 		color: var(--color-text);
-		font-size: clamp(2rem, 4vw, 4rem);
+		font-size: 3.65rem;
 		line-height: 1;
 	}
 
@@ -367,6 +367,12 @@ export default {
 		grid-template-columns: 1fr;
 	}
 
+	.hero-copy {
+		h1 {
+			font-size: 3rem;
+		}
+	}
+
 	.hero-stats {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 
@@ -413,6 +419,12 @@ export default {
 
 	.timeline-card {
 		padding: 0.9rem;
+	}
+
+	.hero-copy {
+		h1 {
+			font-size: 2.45rem;
+		}
 	}
 }
 </style>

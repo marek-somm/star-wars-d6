@@ -5,9 +5,9 @@
 			<h1>Rules Reference</h1>
 		</div>
 		<div class="header-meta">
-			<input :value="search" class="search" type="search" placeholder="Regeln durchsuchen"
+			<input :value="search" class="search ui-control" type="search" placeholder="Regeln durchsuchen"
 				aria-label="Regeln durchsuchen" @input="$emit('update:search', $event.target.value.trim())">
-			<p class="count">{{ filteredCount }} / {{ totalCount }}</p>
+			<p class="count ui-count">{{ filteredCount }} / {{ totalCount }}</p>
 		</div>
 	</header>
 </template>
@@ -40,6 +40,9 @@ export default {
 	justify-content: space-between;
 	gap: 1rem;
 	padding: 1rem 1.2rem;
+	background:
+		linear-gradient(135deg, rgba(242, 193, 78, 0.08), rgba(103, 213, 200, 0.035)),
+		var(--color-panel);
 
 	.eyebrow {
 		margin: 0 0 0.35rem;
@@ -64,21 +67,11 @@ export default {
 		min-height: 2.5rem;
 		min-width: min(24rem, 56vw);
 		padding: 0.5rem 0.65rem;
-		border: 1px solid rgba(244, 239, 229, 0.12);
-		border-radius: var(--radius-sm);
-		background: var(--color-panel-soft);
-		color: var(--color-text);
 	}
 
 	.count {
 		margin: 0;
 		min-width: 5.5rem;
-		padding: 0.45rem 0.55rem;
-		border: 1px solid rgba(103, 213, 200, 0.28);
-		border-radius: var(--radius-sm);
-		color: var(--color-cyan);
-		font-weight: 900;
-		text-align: center;
 	}
 }
 

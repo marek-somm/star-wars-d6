@@ -13,8 +13,10 @@
 	--color-subtle: #8f877c;
 	--color-accent: #f2c14e;
 	--color-accent-dark: #8b6421;
+	--color-on-accent: #1a1712;
 	--color-cyan: #67d5c8;
 	--color-danger: #d95f43;
+	--surface-panel-raised: rgba(29, 27, 24, 0.86);
 	--surface-hover: rgba(244, 239, 229, 0.06);
 	--surface-accent: rgba(242, 193, 78, 0.12);
 	--surface-cyan: rgba(103, 213, 200, 0.09);
@@ -141,6 +143,22 @@ table {
 	border-color: rgba(103, 213, 200, 0.44);
 	background: rgba(103, 213, 200, 0.15);
 	color: var(--color-cyan);
+}
+
+.ui-count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 3.4rem;
+	min-height: 2.35rem;
+	padding: 0.35rem 0.55rem;
+	border: 1px solid rgba(103, 213, 200, 0.28);
+	border-radius: var(--radius-sm);
+	background: rgba(103, 213, 200, 0.1);
+	color: var(--color-cyan);
+	font-weight: 900;
+	line-height: 1.2;
+	text-align: center;
 }
 
 .ui-pill {

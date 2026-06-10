@@ -22,7 +22,7 @@
 		</div>
 		<div class="index-heading" :aria-hidden="collapsed">
 			<span>Regelindex</span>
-			<strong>{{ filteredCount }}</strong>
+			<strong class="ui-count">{{ filteredCount }}</strong>
 		</div>
 		<button class="index-toggle ui-button" type="button" :aria-expanded="!collapsed"
 			:aria-label="collapsed ? 'Regelindex anzeigen' : 'Regelindex ausblenden'"
@@ -150,7 +150,9 @@ export default {
 		}
 
 		strong {
-			color: var(--color-accent);
+			min-width: 2.05rem;
+			min-height: 1.45rem;
+			padding: 0.1rem 0.45rem;
 			font-size: 0.82rem;
 		}
 	}

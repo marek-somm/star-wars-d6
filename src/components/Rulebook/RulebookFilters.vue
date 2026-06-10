@@ -84,6 +84,20 @@ export default {
 	select {
 		padding: 0.45rem 0.6rem;
 	}
+
+	.clear-filters {
+		padding: 0.45rem 0.75rem;
+
+		&:hover:not(:disabled) {
+			border-color: rgba(103, 213, 200, 0.38);
+			color: var(--color-cyan);
+		}
+
+		&:disabled {
+			opacity: 0.45;
+			cursor: default;
+		}
+	}
 }
 
 @media (max-width: 980px) {

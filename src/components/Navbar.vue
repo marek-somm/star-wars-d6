@@ -293,7 +293,7 @@ export default {
 					&.active {
 						border-color: rgba(242, 193, 78, 0.78);
 						background: var(--color-accent);
-						color: #1a1712;
+						color: var(--color-on-accent);
 					}
 				}
 			}

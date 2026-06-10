@@ -36,7 +36,7 @@
 					</div>
 					<div class="header-actions">
 						<PowerLanguageToggle compact />
-						<span class="power-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
+						<span class="power-count ui-count">{{ filteredPowerCount }}/{{ totalPowerCount }}</span>
 						<button class="list-close ui-button" type="button" @click="closeMobileList">{{ t("ui.characterPowers.close") }}</button>
 					</div>
 				</div>
@@ -664,13 +664,6 @@ export default {
 
 			.power-count {
 				min-width: 4rem;
-				padding: 0.35rem 0.55rem;
-				border: 1px solid rgba(103, 213, 200, 0.28);
-				border-radius: var(--radius-sm);
-				background: rgba(103, 213, 200, 0.1);
-				color: var(--color-cyan);
-				font-weight: 900;
-				text-align: center;
 			}
 
 			.header-actions {

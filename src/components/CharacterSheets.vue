@@ -191,15 +191,21 @@ export default {
 
 .view-button {
 	min-width: 0;
-	padding: 0.35rem 0.85rem;
+	padding: 0.45rem 0.9rem;
+	border-color: var(--color-border-muted);
+	background: var(--surface-panel-raised);
 	color: var(--color-muted);
+	font-weight: 900;
 	white-space: normal;
 
 	&:hover {
+		border-color: var(--color-border-strong);
 		color: var(--color-text);
 	}
 
 	&.active {
+		border-color: rgba(242, 193, 78, 0.68);
+		background: var(--surface-accent);
 		color: var(--color-accent);
 	}
 }
@@ -241,7 +247,20 @@ export default {
 .character-button {
 	min-width: 0;
 	padding: 0.4rem 0.85rem;
+	border-color: var(--color-border-muted);
+	background: var(--surface-control);
 	color: var(--color-muted);
+
+	&:hover {
+		border-color: var(--color-border-strong);
+		color: var(--color-text);
+	}
+
+	&.active {
+		border-color: rgba(242, 193, 78, 0.64);
+		background: var(--surface-accent);
+		color: var(--color-accent);
+	}
 }
 
 @media (max-width: 560px) {

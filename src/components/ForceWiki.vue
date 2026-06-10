@@ -18,7 +18,7 @@
 			<div class="header-meta">
 				<ForcePowerSearch v-model.trim="data.search" class="header-search" :placeholder="t('ui.forceWiki.searchPlaceholder')"
 					:aria-label="t('ui.forceWiki.searchAriaLabel')" />
-				<p class="count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
+				<p class="count ui-count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
 				<PowerLanguageToggle />
 			</div>
 		</header>
@@ -81,7 +81,7 @@
 				</div>
 				<div class="index-heading" :aria-hidden="data.indexCollapsed">
 					<span>{{ t("ui.forceWiki.powerIndex") }}</span>
-					<strong>{{ filteredSkills.length }}</strong>
+					<strong class="ui-count">{{ filteredSkills.length }}</strong>
 				</div>
 				<button class="index-toggle ui-button" type="button" :aria-expanded="!data.indexCollapsed"
 					:aria-label="data.indexCollapsed ? t('ui.forceWiki.showPowers') : t('ui.forceWiki.hidePowers')"
@@ -656,6 +656,9 @@ export default {
 	justify-content: space-between;
 	gap: 1rem;
 	padding: 1rem 1.2rem;
+	background:
+		linear-gradient(135deg, rgba(242, 193, 78, 0.08), rgba(103, 213, 200, 0.035)),
+		var(--color-panel);
 
 	.eyebrow {
 		margin: 0 0 0.35rem;
@@ -686,13 +689,7 @@ export default {
 
 	.count {
 		margin: 0;
-		min-width: 5rem;
-		text-align: center;
-		padding: 0.45rem 0.55rem;
-		border: 1px solid rgba(103, 213, 200, 0.28);
-		border-radius: var(--radius-sm);
-		color: var(--color-cyan);
-		font-weight: 800;
+		min-width: 5.4rem;
 	}
 }
 
@@ -702,10 +699,6 @@ export default {
 	gap: 0.7rem;
 	align-items: end;
 	padding: 0.85rem 1rem;
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-md);
-	background: var(--color-panel);
-	box-shadow: var(--shadow-panel);
 
 	.filter-control {
 		display: flex;
@@ -806,17 +799,10 @@ export default {
 		}
 
 		strong {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			min-width: 1.9rem;
+			min-width: 2.05rem;
 			min-height: 1.45rem;
-			padding: 0 0.4rem;
-			border: 1px solid rgba(242, 193, 78, 0.26);
-			border-radius: var(--radius-sm);
-			color: var(--color-accent);
+			padding: 0.1rem 0.45rem;
 			font-size: 0.78rem;
-			font-weight: 900;
 		}
 	}
 
