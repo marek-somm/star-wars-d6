@@ -1,15 +1,15 @@
 <template>
 	<section class="wiki">
 		<div class="mobile-toolbar">
-			<button class="mobile-list-toggle ui-button" type="button" :aria-expanded="data.mobileIndexOpen"
-				aria-controls="wiki-index-panel" @click="openMobileIndex">
-				<span>{{ data.currentSkill ? data.currentSkill.name : t("ui.forceWiki.selectPower") }}</span>
-				<strong>{{ t("ui.forceWiki.browse") }} {{ filteredSkills.length }}</strong>
-			</button>
+			<MobileDrawerToggle :is-open="data.mobileIndexOpen"
+				:current-title="data.currentSkill ? data.currentSkill.name : ''"
+				:fallback-title="t('ui.forceWiki.selectPower')"
+				:count-label="`${t('ui.forceWiki.browse')} ${filteredSkills.length}`" controls="wiki-index-panel" nested
+				@open="openMobileIndex" />
 			<PowerLanguageToggle class="mobile-language-toggle" compact />
 		</div>
-		<button class="mobile-backdrop" type="button" :aria-label="t('ui.forceWiki.closeIndex')" v-if="data.mobileIndexOpen"
-			@click="closeMobileIndex"></button>
+		<MobileDrawerBackdrop v-if="data.mobileIndexOpen" :aria-label="t('ui.forceWiki.closeIndex')"
+			@close="closeMobileIndex" />
 		<header class="wiki-header ui-panel">
 			<div>
 				<p class="eyebrow">{{ t("ui.forceWiki.titleEyebrow") }}</p>
@@ -143,6 +143,8 @@ import { createPowerSkills, getForcePowerLanguages } from "@/assets/data";
 import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import { Power } from "@/assets/powers";
 import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
+import MobileDrawerBackdrop from "@/components/shared/MobileDrawerBackdrop.vue";
+import MobileDrawerToggle from "@/components/shared/MobileDrawerToggle.vue";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import Difficulty from "./CharacterSheet/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
@@ -213,6 +215,8 @@ export default {
 	components: {
 		Difficulty,
 		ForcePowerSearch,
+		MobileDrawerBackdrop,
+		MobileDrawerToggle,
 		PowerContentBlocks,
 		PowerLanguageToggle,
 	},
@@ -642,8 +646,6 @@ export default {
 
 /* mobile controls hidden by default */
 .mobile-toolbar,
-.mobile-list-toggle,
-.mobile-backdrop,
 .index-panel-header {
 	display: none;
 }
@@ -1125,32 +1127,6 @@ export default {
 			align-items: stretch;
 		}
 
-		.mobile-list-toggle {
-			display: flex;
-			position: sticky;
-			top: 0;
-			z-index: 7;
-			align-items: center;
-			justify-content: space-between;
-			gap: 0.8rem;
-			width: 100%;
-			min-width: 0;
-			min-height: 3.1rem;
-			padding: 0.65rem 0.8rem;
-			border: 1px solid var(--color-border-strong);
-			background: var(--color-panel-soft);
-			color: var(--color-text);
-			font-weight: 900;
-			text-align: left;
-
-			span {
-				min-width: 0;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-		}
-
 		.mobile-language-toggle {
 			display: inline-flex;
 			position: sticky;
@@ -1165,26 +1141,6 @@ export default {
 				display: none;
 			}
 		}
-
-		.mobile-list-toggle strong {
-			flex: 0 0 auto;
-			max-width: 42%;
-			padding: 0.25rem 0.5rem;
-			border-radius: var(--radius-sm);
-			background: rgba(242, 193, 78, 0.16);
-			color: var(--color-accent);
-			font-size: 0.82rem;
-		}
-	}
-
-	.mobile-backdrop {
-		position: fixed;
-		inset: 0;
-		z-index: 10;
-		display: block;
-		border: 0;
-		background: var(--overlay-backdrop);
-		cursor: pointer;
 	}
 
 	.wiki-index {
@@ -1402,7 +1358,6 @@ export default {
 		top: 0.5rem;
 	}
 
-	.wiki .mobile-list-toggle,
 	.wiki .mobile-language-toggle {
 		min-height: 3.3rem;
 	}

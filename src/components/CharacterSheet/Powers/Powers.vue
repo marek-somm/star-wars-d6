@@ -1,22 +1,18 @@
 <template>
 	<section class="powers--container" @keyup.esc="closeMobileList">
-		<button
-			class="mobile-list-toggle ui-button"
-			type="button"
-			:aria-expanded="data.mobileListOpen"
-			aria-controls="power-list-panel"
-			@click="openMobileList"
-		>
-			<span>{{ data.currentSkill ? data.currentSkill.name : t("ui.characterPowers.selectPower") }}</span>
-			<strong>{{ t("ui.characterPowers.browse") }} {{ filteredPowerCount }}</strong>
-		</button>
-		<button
-			class="mobile-backdrop"
-			type="button"
-			:aria-label="t('ui.characterPowers.closePowerList')"
+		<MobileDrawerToggle
+			:is-open="data.mobileListOpen"
+			:current-title="data.currentSkill ? data.currentSkill.name : ''"
+			:fallback-title="t('ui.characterPowers.selectPower')"
+			:count-label="`${t('ui.characterPowers.browse')} ${filteredPowerCount}`"
+			controls="power-list-panel"
+			@open="openMobileList"
+		/>
+		<MobileDrawerBackdrop
 			v-if="data.mobileListOpen"
-			@click="closeMobileList"
-		></button>
+			:aria-label="t('ui.characterPowers.closePowerList')"
+			@close="closeMobileList"
+		/>
 		<aside
 			id="power-list-panel"
 			class="list ui-panel"
@@ -175,6 +171,8 @@
 import { Power } from "@/assets/powers";
 import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
+import MobileDrawerBackdrop from "@/components/shared/MobileDrawerBackdrop.vue";
+import MobileDrawerToggle from "@/components/shared/MobileDrawerToggle.vue";
 import PowerLanguageToggle from "@/components/PowerLanguageToggle.vue";
 import ForceSkill from "./Force Skill";
 import {
@@ -220,6 +218,8 @@ export default {
 	components: {
 		ForcePowerSearch,
 		ForceSkill,
+		MobileDrawerBackdrop,
+		MobileDrawerToggle,
 		PowerLanguageToggle,
 	},
 	props: {
@@ -550,11 +550,6 @@ export default {
 
 	&:has(.list.collapsed) {
 		grid-template-columns: 2.75rem minmax(0, 1fr);
-	}
-
-	.mobile-list-toggle,
-	.mobile-backdrop {
-		display: none;
 	}
 
 	.list {
@@ -974,52 +969,6 @@ export default {
 			grid-template-columns: 1fr;
 		}
 
-		.mobile-list-toggle {
-			position: sticky;
-			top: 0.65rem;
-			z-index: 7;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 0.8rem;
-			width: 100%;
-			min-width: 0;
-			min-height: 3.1rem;
-			padding: 0.65rem 0.8rem;
-			border: 1px solid var(--color-border-strong);
-			background: var(--color-panel-soft);
-			color: var(--color-text);
-			font-weight: 900;
-			text-align: left;
-
-			span {
-				min-width: 0;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-
-			strong {
-				flex: 0 0 auto;
-				max-width: 42%;
-				padding: 0.25rem 0.5rem;
-				border-radius: var(--radius-sm);
-				background: rgba(242, 193, 78, 0.16);
-				color: var(--color-accent);
-				font-size: 0.82rem;
-			}
-		}
-
-		.mobile-backdrop {
-			position: fixed;
-			inset: 0;
-			z-index: 10;
-			display: block;
-			border: 0;
-			background: var(--overlay-backdrop);
-			cursor: pointer;
-		}
-
 		.list {
 			position: fixed;
 			inset: auto 0 0;
@@ -1094,11 +1043,6 @@ export default {
 
 @media (max-width: 520px) {
 	.powers--container {
-		.mobile-list-toggle {
-			top: 0.5rem;
-			min-height: 3.3rem;
-		}
-
 		.list {
 			height: min(90svh, 48rem);
 			max-height: 90vh;

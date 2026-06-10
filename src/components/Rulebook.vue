@@ -1,9 +1,9 @@
 <template>
 	<section class="rulebook">
-		<RuleMobileIndexToggle :is-open="data.mobileIndexOpen" :current-title="data.currentRule?.title || ''"
-			:filtered-count="filteredRules.length" @open="openMobileIndex" />
-		<button class="mobile-backdrop" type="button" aria-label="Index schliessen" v-if="data.mobileIndexOpen"
-			@click="closeMobileIndex"></button>
+		<MobileDrawerToggle :is-open="data.mobileIndexOpen" :current-title="data.currentRule?.title || ''"
+			fallback-title="Regel auswaehlen" :count="filteredRules.length" controls="rule-index-panel"
+			@open="openMobileIndex" />
+		<MobileDrawerBackdrop v-if="data.mobileIndexOpen" aria-label="Index schliessen" @close="closeMobileIndex" />
 
 		<RulebookHeader :search="data.search" :filtered-count="filteredRules.length" :total-count="allRules.length"
 			@update:search="data.search = $event" />
@@ -33,7 +33,8 @@ import RuleEntry from "@/components/Rulebook/RuleEntry.vue";
 import RulebookFilters from "@/components/Rulebook/RulebookFilters.vue";
 import RulebookHeader from "@/components/Rulebook/RulebookHeader.vue";
 import RuleIndexPanel from "@/components/Rulebook/RuleIndexPanel.vue";
-import RuleMobileIndexToggle from "@/components/Rulebook/RuleMobileIndexToggle.vue";
+import MobileDrawerBackdrop from "@/components/shared/MobileDrawerBackdrop.vue";
+import MobileDrawerToggle from "@/components/shared/MobileDrawerToggle.vue";
 import rulebookData from "@/assets/rules/rulebook.json";
 import { formatRuleLabel, getChildContentBlocks, isRulePageBlock } from "@/utils/rules";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
@@ -97,7 +98,8 @@ export default {
 		RulebookFilters,
 		RulebookHeader,
 		RuleIndexPanel,
-		RuleMobileIndexToggle,
+		MobileDrawerBackdrop,
+		MobileDrawerToggle,
 	},
 	data() {
 		const savedFilters = loadRuleFilters();
@@ -440,10 +442,6 @@ export default {
 	gap: 1rem;
 }
 
-.mobile-backdrop {
-	display: none;
-}
-
 .rulebook-layout {
 	display: grid;
 	grid-template-columns: minmax(17rem, 23rem) minmax(0, 1fr);
@@ -464,15 +462,6 @@ export default {
 		&:has(.rule-index.collapsed) {
 			grid-template-columns: 1fr;
 		}
-	}
-
-	.mobile-backdrop {
-		position: fixed;
-		inset: 0;
-		z-index: 10;
-		display: block;
-		border: 0;
-		background: var(--overlay-backdrop);
 	}
 }
 </style>
