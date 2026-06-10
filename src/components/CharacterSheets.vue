@@ -66,14 +66,15 @@
 </template>
 
 <script>
-import { computed, onBeforeUnmount, onMounted, reactive } from "vue";
+import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, reactive } from "vue";
 import { characters, getCharacterById } from "@/assets/characters";
-import CampaignTimeline from "./CampaignTimeline.vue";
 import CharacterPdfExport from "./CharacterPdfExport.vue";
 import Dicer from "./Dicer.vue";
-import ForceWiki from "./ForceWiki.vue";
 import Navbar from "./Navbar.vue";
-import Rulebook from "./Rulebook.vue";
+
+const CampaignTimeline = defineAsyncComponent(() => import("./CampaignTimeline.vue"));
+const ForceWiki = defineAsyncComponent(() => import("./ForceWiki.vue"));
+const Rulebook = defineAsyncComponent(() => import("./Rulebook.vue"));
 
 const SHOW_TIMELINE = true;
 

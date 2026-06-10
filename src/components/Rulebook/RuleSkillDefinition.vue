@@ -29,9 +29,11 @@
 </template>
 
 <script>
-import RuleContentBlock from "@/components/RuleContentBlock.vue";
+import { defineAsyncComponent } from "vue";
 import { formatRuleRichText } from "@/utils/ruleContent";
 import { getBlockKey } from "@/utils/rules";
+
+const RuleContentBlock = defineAsyncComponent(() => import("@/components/RuleContentBlock.vue"));
 
 export default {
 	name: "RuleSkillDefinition",

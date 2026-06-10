@@ -92,8 +92,6 @@
 
 <script>
 import { nextTick, ref } from "vue";
-import pdfMakeModule from "pdfmake/build/pdfmake";
-import pdfFontsModule from "pdfmake/build/vfs_fonts";
 import { characters } from "@/assets/characters";
 import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import { normalizeSkillName } from "@/utils/forcePowerSkills";
@@ -108,10 +106,10 @@ const ATTRIBUTE_SHORTCODE = {
 	Technical: "TEC",
 };
 
-const pdfMake = pdfMakeModule?.default || pdfMakeModule;
 const PDF_POWER_LANGUAGE = "en";
+let pdfMakeLoadPromise = null;
 
-function registerPdfFonts() {
+function registerPdfFonts(pdfMake, pdfFontsModule) {
 	const vfsCandidates = [
 		pdfFontsModule?.default?.pdfMake?.vfs,
 		pdfFontsModule?.pdfMake?.vfs,
@@ -134,7 +132,20 @@ function registerPdfFonts() {
 	return false;
 }
 
-registerPdfFonts();
+async function loadPdfMake() {
+	if (!pdfMakeLoadPromise) {
+		pdfMakeLoadPromise = Promise.all([
+			import("pdfmake/build/pdfmake"),
+			import("pdfmake/build/vfs_fonts"),
+		]).then(([pdfMakeModule, pdfFontsModule]) => {
+			const pdfMake = pdfMakeModule?.default || pdfMakeModule;
+			registerPdfFonts(pdfMake, pdfFontsModule);
+			return pdfMake;
+		});
+	}
+
+	return pdfMakeLoadPromise;
+}
 
 function formatDice(dice, pips) {
 	if (!Number.isFinite(dice)) return "-";
@@ -475,7 +486,8 @@ export default {
 		async function createPdfNative(filenameDate) {
 			try {
 				console.log("Starting PDF creation...");
-				const vfsLoaded = Boolean(pdfMake?.vfs) || registerPdfFonts();
+				const pdfMake = await loadPdfMake();
+				const vfsLoaded = Boolean(pdfMake?.vfs);
 				if (!vfsLoaded) console.warn("VFS fonts could not be registered. PDF generation may fail.");
 
 				console.log("pdfMake object ready:", !!pdfMake);

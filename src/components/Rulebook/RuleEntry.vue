@@ -20,9 +20,11 @@
 </template>
 
 <script>
-import RuleContentBlock from "@/components/RuleContentBlock.vue";
+import { defineAsyncComponent } from "vue";
 import RuleSkillDefinition from "@/components/Rulebook/RuleSkillDefinition.vue";
 import { formatRuleLabel, getBlockKey } from "@/utils/rules";
+
+const RuleContentBlock = defineAsyncComponent(() => import("@/components/RuleContentBlock.vue"));
 
 export default {
 	name: "RuleEntry",
