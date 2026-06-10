@@ -27,7 +27,7 @@
 				<span>{{ ui.timeline.laneHeader }}</span>
 			</div>
 
-			<template v-for="chapter in chapters" :key="chapter.id">
+			<section v-for="chapter in chapters" :key="chapter.id" class="chapter-section">
 				<div class="chapter-heading">
 					<span>{{ chapter.label }}</span>
 				</div>
@@ -50,7 +50,7 @@
 					</div>
 					<p v-if="!chapter.sessions.length" class="empty-lane">{{ ui.timeline.emptyChapter }}</p>
 				</article>
-			</template>
+			</section>
 		</section>
 	</section>
 </template>
@@ -207,6 +207,16 @@ export default {
 	padding-bottom: 1rem;
 }
 
+.chapter-section {
+	grid-column: 1 / -1;
+	display: grid;
+	grid-template-columns: minmax(7rem, 0.16fr) minmax(0, 1fr);
+	column-gap: 1rem;
+	position: relative;
+	min-height: clamp(14rem, 38vh, 24rem);
+	scroll-margin-top: 4rem;
+}
+
 .chapter-heading {
 	position: sticky;
 	top: 3.05rem;
@@ -214,6 +224,7 @@ export default {
 	display: flex;
 	justify-content: flex-end;
 	padding-top: 0.15rem;
+	align-self: start;
 
 	span {
 		display: inline-flex;
@@ -233,7 +244,50 @@ export default {
 		line-height: 1.2;
 		text-align: center;
 		text-transform: uppercase;
+		box-shadow: 0 0.7rem 1.6rem rgba(0, 0, 0, 0.24);
+		transform-origin: 100% 50%;
+		transition:
+			background 0.24s ease,
+			border-color 0.24s ease,
+			box-shadow 0.24s ease,
+			transform 0.24s ease;
 		overflow-wrap: anywhere;
+	}
+}
+
+.chapter-section:hover .chapter-heading span,
+.chapter-heading:focus-within span {
+	border-color: rgba(242, 193, 78, 0.46);
+	background:
+		linear-gradient(135deg, rgba(242, 193, 78, 0.24), rgba(103, 213, 200, 0.1)),
+		var(--color-panel);
+	box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.32);
+	transform: translateX(-0.12rem);
+}
+
+@supports (animation-timeline: view()) {
+	.chapter-heading span {
+		animation: chapter-release both linear;
+		animation-timeline: view(block);
+		animation-range: entry 0% exit 100%;
+	}
+}
+
+@keyframes chapter-release {
+	0% {
+		opacity: 0.48;
+		transform: translateY(0.45rem) scale(0.97);
+	}
+
+	14%,
+	78% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+
+	100% {
+		opacity: 0.56;
+		transform: translateY(-0.35rem) scale(0.98);
 	}
 }
 
@@ -331,11 +385,24 @@ export default {
 		display: none;
 	}
 
+	.chapter-section {
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+
 	.chapter-heading {
 		position: relative;
 		top: auto;
 		justify-content: flex-start;
 		padding-top: 0.35rem;
+
+		span {
+			justify-content: flex-start;
+			width: auto;
+			min-width: min(11rem, 100%);
+			transform-origin: 0 50%;
+		}
 	}
 }
 
