@@ -8,7 +8,7 @@
 					type="button"
 					@click="setView('sheet')"
 				>
-					Charakter-Sheet
+					{{ t("ui.app.view.sheet") }}
 				</button>
 				<button
 					class="view-button ui-button"
@@ -16,7 +16,7 @@
 					type="button"
 					@click="setView('wiki')"
 				>
-					Force-Wiki
+					{{ t("ui.app.view.wiki") }}
 				</button>
 				<button
 					class="view-button ui-button"
@@ -24,7 +24,7 @@
 					type="button"
 					@click="setView('rules')"
 				>
-					Regeln
+					{{ t("ui.app.view.rules") }}
 				</button>
 				<button
 					v-if="showTimeline"
@@ -33,7 +33,7 @@
 					type="button"
 					@click="setView('timeline')"
 				>
-					Zeitstrahl
+					{{ t("ui.app.view.timeline") }}
 				</button>
 			</div>
 			<PowerLanguageToggle class="global-language-toggle" />
@@ -41,9 +41,9 @@
 
 		<template v-if="data.view === 'sheet'">
 			<Dicer />
-			<section class="character-selector ui-panel" aria-label="Character selection">
+			<section class="character-selector ui-panel" :aria-label="t('ui.app.characterSelector.aria')">
 				<div>
-					<p class="selector-eyebrow">Character Sheets</p>
+					<p class="selector-eyebrow">{{ t("ui.app.characterSelector.eyebrow") }}</p>
 					<h2>{{ selectedCharacter.name }}</h2>
 				</div>
 				<div class="character-list" role="list">
@@ -75,6 +75,7 @@ import CharacterPdfExport from "./CharacterPdfExport.vue";
 import Dicer from "./Dicer.vue";
 import Navbar from "./Navbar.vue";
 import PowerLanguageToggle from "./PowerLanguageToggle.vue";
+import { tUi } from "@/utils/uiText";
 
 const CampaignTimeline = defineAsyncComponent(() => import("./CampaignTimeline.vue"));
 const ForceWiki = defineAsyncComponent(() => import("./ForceWiki.vue"));
@@ -174,7 +175,7 @@ export default {
 			}
 		});
 
-		return { characters, data, selectedCharacter, selectCharacter, setView, showTimeline: SHOW_TIMELINE };
+		return { characters, data, selectedCharacter, selectCharacter, setView, showTimeline: SHOW_TIMELINE, t: tUi };
 	},
 };
 </script>

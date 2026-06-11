@@ -1,9 +1,9 @@
 <template>
 	<section class="rulebook">
 		<MobileDrawerToggle :is-open="data.mobileIndexOpen" :current-title="data.currentRule?.title || ''"
-			fallback-title="Regel auswaehlen" :count="filteredRules.length" controls="rule-index-panel"
+			:fallback-title="t('ui.rulebook.selectRule')" :count-label="`${t('ui.rulebook.browse')} ${filteredRules.length}`" controls="rule-index-panel"
 			@open="openMobileIndex" />
-		<MobileDrawerBackdrop v-if="data.mobileIndexOpen" aria-label="Index schliessen" @close="closeMobileIndex" />
+		<MobileDrawerBackdrop v-if="data.mobileIndexOpen" :aria-label="t('ui.rulebook.closeIndex')" @close="closeMobileIndex" />
 
 		<RulebookHeader :search="data.search" :filtered-count="filteredRules.length" :total-count="allRules.length"
 			@update:search="data.search = $event" />
@@ -36,8 +36,9 @@ import RuleIndexPanel from "@/components/Rulebook/RuleIndexPanel.vue";
 import MobileDrawerBackdrop from "@/components/shared/MobileDrawerBackdrop.vue";
 import MobileDrawerToggle from "@/components/shared/MobileDrawerToggle.vue";
 import rulebookData from "@/assets/rules/rulebook.json";
-import { formatRuleLabel, getChildContentBlocks, isRulePageBlock } from "@/utils/rules";
+import { getChildContentBlocks, isRulePageBlock } from "@/utils/rules";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
+import { getRuleTypeLabel, tUi } from "@/utils/uiText";
 
 const RULE_FILTERS_STORAGE_KEY = "star-wars-d6:rule-filters";
 const RULE_INDEX_COLLAPSED_STORAGE_KEY = "star-wars-d6:rule-index-collapsed";
@@ -149,8 +150,8 @@ export default {
 				counts.set(rule.type, (counts.get(rule.type) || 0) + 1);
 			}
 			return [...counts.entries()]
-				.sort(([a], [b]) => formatRuleLabel(a).localeCompare(formatRuleLabel(b)))
-				.map(([value, count]) => ({ value, count, label: formatRuleLabel(value) }));
+				.sort(([a], [b]) => getRuleTypeLabel(a).localeCompare(getRuleTypeLabel(b)))
+				.map(([value, count]) => ({ value, count, label: getRuleTypeLabel(value) }));
 		},
 
 		availableChapters() {
@@ -368,7 +369,7 @@ export default {
 					node.count += 1;
 					if (index === path.length - 1) {
 						node.rule = rule;
-						node.typeLabel = formatRuleLabel(rule.type);
+						node.typeLabel = getRuleTypeLabel(rule.type);
 					}
 
 					siblings = node.children;
@@ -397,6 +398,8 @@ export default {
 
 			this.data.expandedTreeKeys = nextExpandedKeys;
 		},
+
+		t: tUi,
 
 	},
 	watch: {

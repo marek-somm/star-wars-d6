@@ -18,8 +18,8 @@
 							class="name skill-detail-button hover"
 							:class="{ active: data.currentSkill === skill }"
 							type="button"
-							:title="`Details zu ${getName(skill)} anzeigen`"
-							:aria-label="`Details zu ${getName(skill)} anzeigen`"
+							:title="t('ui.stats.showDetailsFor', { skill: getName(skill) })"
+							:aria-label="t('ui.stats.showDetailsFor', { skill: getName(skill) })"
 							@click="selectSkill(stat, skill)"
 						>
 							<span>{{ getName(skill) }}</span>
@@ -30,7 +30,7 @@
 					</li>
 				</ul>
 			</div>
-			<p class="empty-skills" v-else>No trained skills</p>
+			<p class="empty-skills" v-else>{{ t("ui.stats.noTrainedSkills") }}</p>
 		</div>
 		<StatInfo class="selected-stat" :stat="data.currentStat" :skill="data.currentSkill" v-if="data.currentSkill !== ''"/>
 	</div>
@@ -41,6 +41,7 @@ import { reactive } from "vue";
 import StatInfo from "./StatInfo";
 import { copyToClipboard } from "@/utils/clipboard";
 import { formatDice, getRollCommand } from "@/utils/dice";
+import { tUi } from "@/utils/uiText";
 
 export default {
 	components: {
@@ -94,6 +95,7 @@ export default {
 			getSuffix,
 			selectSkill,
 			copyRoll,
+			t: tUi,
 		};
 	},
 };

@@ -2,18 +2,18 @@
 	<aside id="rule-index-panel" class="rule-index ui-panel" :class="{ collapsed, 'mobile-open': mobileIndexOpen }">
 		<div class="index-panel-header">
 			<div class="index-panel-title">
-				<span>Regelindex</span>
-				<button class="index-close ui-button" type="button" @click="$emit('close')">Schliessen</button>
+				<span>{{ t("ui.rulebook.ruleIndex") }}</span>
+				<button class="index-close ui-button" type="button" @click="$emit('close')">{{ t("ui.rulebook.close") }}</button>
 			</div>
-			<input :value="search" class="search mobile-search" type="search" placeholder="Regeln durchsuchen"
-				aria-label="Regeln durchsuchen" @input="$emit('update:search', $event.target.value.trim())">
+			<input :value="search" class="search mobile-search ui-control" type="search" :placeholder="t('ui.rulebook.searchPlaceholder')"
+				:aria-label="t('ui.rulebook.searchAriaLabel')" @input="$emit('update:search', $event.target.value.trim())">
 			<div class="mobile-filters">
 				<select class="ui-control" :value="typeFilter" @change="$emit('update:typeFilter', $event.target.value)">
-					<option value="all">Alle Typen</option>
+					<option value="all">{{ t("ui.rulebook.allTypes") }}</option>
 					<option v-for="type in availableTypes" :key="type.value" :value="type.value">{{ type.label }}</option>
 				</select>
 				<select class="ui-control" :value="chapterFilter" @change="$emit('update:chapterFilter', $event.target.value)">
-					<option value="all">Alle Kapitel</option>
+					<option value="all">{{ t("ui.rulebook.allChapters") }}</option>
 					<option v-for="chapter in availableChapters" :key="chapter.value" :value="chapter.value">
 						{{ chapter.label }}
 					</option>
@@ -21,27 +21,28 @@
 			</div>
 		</div>
 		<div class="index-heading" :aria-hidden="collapsed">
-			<span>Regelindex</span>
+			<span>{{ t("ui.rulebook.ruleIndex") }}</span>
 			<strong class="ui-count">{{ filteredCount }}</strong>
 		</div>
 		<button class="index-toggle ui-button" type="button" :aria-expanded="!collapsed"
-			:aria-label="collapsed ? 'Regelindex anzeigen' : 'Regelindex ausblenden'"
-			:title="collapsed ? 'Regelindex anzeigen' : 'Regelindex ausblenden'" @click="$emit('toggle-collapse')">
+			:aria-label="collapsed ? t('ui.rulebook.showIndex') : t('ui.rulebook.hideIndex')"
+			:title="collapsed ? t('ui.rulebook.showIndex') : t('ui.rulebook.hideIndex')" @click="$emit('toggle-collapse')">
 			<span class="index-toggle-icon" aria-hidden="true"></span>
 		</button>
 		<div class="index-scroll" :aria-hidden="collapsed">
-			<div class="rule-tree" role="tree" aria-label="Regelstruktur">
+			<div class="rule-tree" role="tree" :aria-label="t('ui.rulebook.structureAria')">
 				<RuleTreeNode v-for="node in ruleTree" :key="node.key" :node="node"
 					:expanded-keys="expandedKeys" :current-rule-id="currentRuleId"
 					@toggle="$emit('toggle', $event)" @select="$emit('select', $event)" />
 			</div>
-			<p class="empty" v-if="ruleTree.length === 0">Keine Regeln gefunden.</p>
+			<p class="empty" v-if="ruleTree.length === 0">{{ t("ui.rulebook.noRulesFound") }}</p>
 		</div>
 	</aside>
 </template>
 
 <script>
 import RuleTreeNode from "@/components/RuleTreeNode.vue";
+import { tUi } from "@/utils/uiText";
 
 export default {
 	name: "RuleIndexPanel",
@@ -95,6 +96,9 @@ export default {
 		},
 	},
 	emits: ["close", "select", "toggle", "toggle-collapse", "update:search", "update:typeFilter", "update:chapterFilter"],
+	methods: {
+		t: tUi,
+	},
 };
 </script>
 

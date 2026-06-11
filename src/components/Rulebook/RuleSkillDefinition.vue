@@ -1,16 +1,16 @@
 <template>
-	<section class="skill-definition" v-if="hasDefinition" aria-label="Skill definition">
+	<section class="skill-definition" v-if="hasDefinition" :aria-label="t('ui.statInfo.skillEyebrow', { stat: rule?.attribute || '' })">
 		<div class="definition-fields" v-if="hasMeta">
 			<div class="definition-field" v-if="timeTaken">
-				<span class="definition-label">Time Taken</span>
+				<span class="definition-label">{{ t("ui.statInfo.timeTaken") }}</span>
 				<strong v-html="timeTaken"></strong>
 			</div>
 			<div class="definition-field" v-if="specializations">
-				<span class="definition-label">Specializations</span>
+				<span class="definition-label">{{ t("ui.statInfo.specializations") }}</span>
 				<p v-html="specializations"></p>
 			</div>
 			<div class="definition-field examples-field" v-if="examples.length">
-				<span class="definition-label">Examples</span>
+				<span class="definition-label">{{ t("ui.statInfo.examples") }}</span>
 				<p>
 					<em v-for="(example, index) in examples" :key="example">
 						{{ example }}<span v-if="index < examples.length - 1">, </span>
@@ -18,7 +18,7 @@
 				</p>
 			</div>
 			<div class="definition-field is-advanced" v-if="advancedRequirements">
-				<span class="definition-label">Advanced Skill</span>
+				<span class="definition-label">{{ t("ui.statInfo.advancedSkill") }}</span>
 				<p v-html="advancedRequirements"></p>
 			</div>
 		</div>
@@ -32,6 +32,7 @@
 import { defineAsyncComponent } from "vue";
 import { formatRuleRichText } from "@/utils/ruleContent";
 import { getBlockKey } from "@/utils/rules";
+import { tUi } from "@/utils/uiText";
 
 const RuleContentBlock = defineAsyncComponent(() => import("@/components/RuleContentBlock.vue"));
 
@@ -83,6 +84,7 @@ export default {
 		},
 	},
 	methods: {
+		t: tUi,
 		getBlockKey,
 
 		getFieldValue(key) {

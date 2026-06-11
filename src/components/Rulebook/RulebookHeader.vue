@@ -1,18 +1,20 @@
 <template>
 	<header class="rulebook-header ui-panel">
 		<div>
-			<p class="eyebrow">Regelwerk</p>
-			<h1>Rules Reference</h1>
+			<p class="eyebrow">{{ t("ui.rulebook.titleEyebrow") }}</p>
+			<h1>{{ t("ui.rulebook.title") }}</h1>
 		</div>
 		<div class="header-meta">
-			<input :value="search" class="search ui-control" type="search" placeholder="Regeln durchsuchen"
-				aria-label="Regeln durchsuchen" @input="$emit('update:search', $event.target.value.trim())">
+			<input :value="search" class="search ui-control" type="search" :placeholder="t('ui.rulebook.searchPlaceholder')"
+				:aria-label="t('ui.rulebook.searchAriaLabel')" @input="$emit('update:search', $event.target.value.trim())">
 			<p class="count ui-count">{{ filteredCount }} / {{ totalCount }}</p>
 		</div>
 	</header>
 </template>
 
 <script>
+import { tUi } from "@/utils/uiText";
+
 export default {
 	name: "RulebookHeader",
 	props: {
@@ -30,6 +32,9 @@ export default {
 		},
 	},
 	emits: ["update:search"],
+	methods: {
+		t: tUi,
+	},
 };
 </script>
 

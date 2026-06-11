@@ -1,7 +1,7 @@
 <template>
 	<div class="navbar--container">
 		<header class="nav">
-			<section class="filler force-panel ui-panel" aria-label="Force skills and points">
+			<section class="filler force-panel ui-panel" :aria-label="t('ui.sheet.forceSkillsAndPoints')">
 				<div class="force-stats">
 					<p v-for="forceSkill in forceSkillButtons" :key="forceSkill.power">
 						<span>{{ forceSkill.label }}</span>
@@ -11,29 +11,29 @@
 					</p>
 				</div>
 				<div class="right-align points">
-					<p><span>Force</span>{{ characterPoints.force }}</p>
+					<p><span>{{ t("ui.sheet.force") }}</span>{{ characterPoints.force }}</p>
 					<p class="temporary-force">
-						<span>Temporary</span>
+						<span>{{ t("ui.sheet.temporary") }}</span>
 						<button class="number-button ui-button" type="button" @click="addTemporaryForce">+</button>
 						<button class="number-button ui-button" type="button" @click="removeTemporaryForce">-</button>
 						<strong>{{ force_temp }}</strong>
 					</p>
-					<p><span>Darkside</span>{{ characterPoints.darkside }}</p>
+					<p><span>{{ t("ui.sheet.darkside") }}</span>{{ characterPoints.darkside }}</p>
 				</div>
 			</section>
-			<section class="main ui-panel" aria-label="Character navigation">
+			<section class="main ui-panel" :aria-label="t('ui.sheet.characterNavigation')">
 				<p class="eyebrow">Star Wars D6</p>
 				<h1>{{ character.name }}</h1>
 				<div class="nav-list">
-					<button class="item ui-button" :class="{ active: data.stats }" type="button" @click="showStats">Stats</button>
-					<button class="item ui-button" :class="{ active: data.powers }" type="button" @click="showPowers">Powers</button>
-					<button class="item ui-button" :class="{ active: data.background }" type="button" @click="showBackground">Background</button>
+					<button class="item ui-button" :class="{ active: data.stats }" type="button" @click="showStats">{{ t("ui.sheet.stats") }}</button>
+					<button class="item ui-button" :class="{ active: data.powers }" type="button" @click="showPowers">{{ t("ui.sheet.powers") }}</button>
+					<button class="item ui-button" :class="{ active: data.background }" type="button" @click="showBackground">{{ t("ui.sheet.background") }}</button>
 				</div>
 			</section>
-			<section class="filler character-panel ui-panel" aria-label="Character points">
+			<section class="filler character-panel ui-panel" :aria-label="t('ui.sheet.characterPointsAria')">
 				<div>
-					<p><span>Character Points</span>{{ characterPoints.character }}</p>
-					<p><span>Spent Points</span>{{ characterPoints.spent }}</p>
+					<p><span>{{ t("ui.sheet.characterPoints") }}</span>{{ characterPoints.character }}</p>
+					<p><span>{{ t("ui.sheet.spentPoints") }}</span>{{ characterPoints.spent }}</p>
 				</div>
 			</section>
 		</header>
@@ -57,13 +57,14 @@ import { copyToClipboard } from "@/utils/clipboard";
 import { formatDiceParts, getRollCommandFromDice } from "@/utils/dice";
 import { readNumber, writeNumber } from "@/utils/storage";
 import { powerLanguageState } from "@/utils/powerLanguage";
+import { tUi } from "@/utils/uiText";
 
 const TEMP_FORCE_STORAGE_KEY = "star-wars-d6:temporary-force-points";
 const SHEET_SECTIONS = ["stats", "powers", "background"];
 const FORCE_SKILL_BUTTONS = [
-	{ power: "control", label: "Control" },
-	{ power: "sense", label: "Sense" },
-	{ power: "alter", label: "Alter" },
+	{ power: "control" },
+	{ power: "sense" },
+	{ power: "alter" },
 ];
 
 function getSheetSectionFromHash() {
@@ -113,6 +114,7 @@ export default {
 		const forceSkillButtons = computed(() =>
 			FORCE_SKILL_BUTTONS.map((entry) => ({
 				...entry,
+				label: tUi(`ui.powers.${entry.power}`),
 				dice: formatDiceParts(characterForceStats.value[entry.power]?.dice || 0, characterForceStats.value[entry.power]?.pips || 0),
 			}))
 		);
@@ -174,7 +176,7 @@ export default {
 
 		function copyForceRoll(power) {
 			const stat = characterForceStats.value[power] || {};
-			const label = FORCE_SKILL_BUTTONS.find((entry) => entry.power === power)?.label || power;
+			const label = tUi(`ui.powers.${power}`);
 			copyToClipboard(getRollCommandFromDice(stat.dice, stat.pips, label));
 		}
 
@@ -212,6 +214,7 @@ export default {
 			showStats,
 			showPowers,
 			showBackground,
+			t: tUi,
 			copyForceRoll,
 			addTemporaryForce,
 			removeTemporaryForce,

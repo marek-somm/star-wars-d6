@@ -1,7 +1,7 @@
 <template>
-	<section class="character-pdf-export" aria-label="Character sheet export">
+	<section class="character-pdf-export" :aria-label="t('ui.pdf.exportAria')">
 		<button class="export-button ui-button is-cyan" type="button" :disabled="isExporting" @click="exportCharacterSheet">
-			{{ isExporting ? "Exporting..." : "Export PDF (A4)" }}
+			{{ isExporting ? t("ui.pdf.exportingButton") : t("ui.pdf.exportButton") }}
 		</button>
 	</section>
 		<section class="pdf-export-overlay" v-if="isExporting" aria-live="polite">
@@ -10,15 +10,15 @@
 				<article ref="pdfExportSheet" class="pdf-export-sheet">
 					<header class="pdf-sheet-header">
 						<div>
-							<p class="sheet-eyebrow">Star Wars D6 Character Sheet</p>
+							<p class="sheet-eyebrow">{{ t("ui.pdf.sheetTitle") }}</p>
 							<h2>{{ characterName }}</h2>
-							<p class="generated">Generated: {{ pdfExportData.generatedAt }}</p>
+							<p class="generated">{{ t("ui.pdf.generated", { date: pdfExportData.generatedAt }) }}</p>
 						</div>
 					</header>
 
 					<div class="pdf-grid-two overview-grid">
 						<section class="pdf-section">
-							<h3>Overview</h3>
+							<h3>{{ t("ui.pdf.overview") }}</h3>
 							<dl class="pdf-stat-list">
 								<div class="pdf-stat-row" v-for="row in pdfExportData.coreRows" :key="row.label">
 									<dt>{{ row.label }}</dt>
@@ -28,7 +28,7 @@
 						</section>
 
 						<section class="pdf-section">
-							<h3>Force Skills</h3>
+							<h3>{{ t("ui.pdf.forceSkills") }}</h3>
 							<dl class="pdf-stat-list force-list">
 								<div class="pdf-stat-row" v-for="row in pdfExportData.forceRows" :key="row.name">
 									<dt>{{ row.name }}</dt>
@@ -39,7 +39,7 @@
 					</div>
 
 					<section class="pdf-section">
-						<h3>Trained Skills</h3>
+						<h3>{{ t("ui.pdf.trainedSkills") }}</h3>
 						<div class="pdf-grid-two trained-skills-grid">
 							<ul class="pdf-chip-list" v-for="(column, columnIndex) in pdfExportData.skillColumns"
 								:key="`skills-col-${columnIndex}`">
@@ -50,12 +50,12 @@
 							</ul>
 						</div>
 						<p class="section-note" v-if="pdfExportData.skillOmitted > 0">
-							{{ pdfExportData.skillOmitted }} additional skills omitted for compact layout.
+							{{ t("ui.pdf.additionalSkillsOmitted", { count: pdfExportData.skillOmitted }) }}
 						</p>
 					</section>
 
 					<section class="pdf-section">
-						<h3>Force Powers (Names)</h3>
+						<h3>{{ t("ui.pdf.forcePowerNames") }}</h3>
 						<div class="pdf-grid-two power-name-grid">
 							<ul class="pdf-name-list" v-for="(column, columnIndex) in pdfExportData.powerNameColumns"
 								:key="`power-names-${columnIndex}`">
@@ -65,7 +65,7 @@
 					</section>
 
 					<section class="pdf-section power-details-section">
-						<h3>Force Power Details</h3>
+						<h3>{{ t("ui.pdf.forcePowerDetails") }}</h3>
 						<article class="pdf-power-card" v-for="row in pdfExportData.powerRows" :key="row.name">
 							<header>
 								<h4>{{ row.name }}</h4>
@@ -74,11 +74,11 @@
 							<p class="power-summary" v-if="row.summary">{{ row.summary }}</p>
 							<div class="power-detail-grid">
 								<div>
-									<strong>Difficulty</strong>
+									<strong>{{ t("ui.pdf.difficulty") }}</strong>
 									<p class="pre-line">{{ row.difficulty }}</p>
 								</div>
 								<div v-if="row.extras !== '-'">
-									<strong>Tags</strong>
+									<strong>{{ t("ui.pdf.tags") }}</strong>
 									<p class="pre-line">{{ row.extras }}</p>
 								</div>
 							</div>
@@ -93,8 +93,9 @@
 <script>
 import { nextTick, ref } from "vue";
 import { characters } from "@/assets/characters";
-import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
+import { getForcePowerSkillName } from "@/assets/power_data";
 import { normalizeSkillName } from "@/utils/forcePowerSkills";
+import { getUiLanguage, tUi } from "@/utils/uiText";
 
 const MAX_SKILL_ROWS = 30;
 const ATTRIBUTE_SHORTCODE = {
@@ -106,7 +107,6 @@ const ATTRIBUTE_SHORTCODE = {
 	Technical: "TEC",
 };
 
-const PDF_POWER_LANGUAGE = "en";
 let pdfMakeLoadPromise = null;
 
 function registerPdfFonts(pdfMake, pdfFontsModule) {
@@ -208,12 +208,12 @@ function getDifficultyLevelTitle(item = {}) {
 	}
 
 	let title = String(item.level ?? "-");
-	if (level === 1) title = "Very Easy";
-	else if (level === 2) title = "Easy";
-	else if (level === 3) title = "Moderate";
-	else if (level === 4) title = "Difficult";
-	else if (level === 5) title = "Very Difficult";
-	else if (level === 6) title = "Heroic";
+	if (level === 1) title = tUi("ui.difficulty.veryEasy");
+	else if (level === 2) title = tUi("ui.difficulty.easy");
+	else if (level === 3) title = tUi("ui.difficulty.moderate");
+	else if (level === 4) title = tUi("ui.difficulty.difficult");
+	else if (level === 5) title = tUi("ui.difficulty.veryDifficult");
+	else if (level === 6) title = tUi("ui.difficulty.heroic");
 
 	return plusSuffix ? `${title}+` : title;
 }
@@ -264,26 +264,26 @@ function createPowerTagText(item) {
 	const normalized = readable.toLowerCase();
 	if (normalized.startsWith("power can be kept up")) {
 		const detail = readable.replace(/^Power can be kept up:?\s*/i, "").trim();
-		return detail ? `Kept Up: ${detail}` : "Kept Up";
+		return detail ? `${tUi("ui.pdf.keptUp")}: ${detail}` : tUi("ui.pdf.keptUp");
 	}
-	if (normalized.includes("may be kept up") || normalized.includes("kept up as long as")) return `Kept Up: ${readable}`;
-	if (normalized.includes("target must be in sight")) return "Requirement: target must be in sight";
-	if (normalized.includes("only be used by characters who have been consumed by the dark side")) return "Dark Side Only";
-	if (normalized.includes("consumed by the dark side") && normalized.includes("may not use")) return "Light Side Only";
-	if (normalized.includes("sith discipline")) return "Sith Discipline";
-	if (normalized.startsWith("homebrew:")) return `Homebrew: ${readable.replace(/^Homebrew:\s*/i, "").trim()}`;
-	if (normalized.includes("must make a new") || normalized.includes("new roll")) return `New Roll: ${readable}`;
-	if (normalized.includes("can only affect")) return `Limited Scope: ${readable}`;
-	return `Note: ${readable}`;
+	if (normalized.includes("may be kept up") || normalized.includes("kept up as long as") || normalized.includes("aufrechterhalten")) return `${tUi("ui.pdf.keptUp")}: ${readable}`;
+	if (normalized.includes("target must be in sight") || normalized.includes("ziel muss")) return `${tUi("ui.pdf.requirement")}: ${tUi("ui.pdf.targetMustBeInSight")}`;
+	if (normalized.includes("only be used by characters who have been consumed by the dark side") || normalized.includes("nur von charakteren eingesetzt")) return tUi("ui.pdf.darkSideOnly");
+	if (normalized.includes("consumed by the dark side") && (normalized.includes("may not use") || normalized.includes("nicht einsetzen"))) return tUi("ui.pdf.lightSideOnly");
+	if (normalized.includes("sith discipline") || normalized.includes("sith-disziplin")) return tUi("ui.pdf.sithDiscipline");
+	if (normalized.startsWith("homebrew:")) return `${tUi("ui.pdf.homebrew")}: ${readable.replace(/^Homebrew:\s*/i, "").trim()}`;
+	if (normalized.includes("must make a new") || normalized.includes("new roll") || normalized.includes("neuer") || normalized.includes("erneut")) return `${tUi("ui.pdf.newRoll")}: ${readable}`;
+	if (normalized.includes("can only affect")) return `${tUi("ui.pdf.limitedScope")}: ${readable}`;
+	return `${tUi("ui.pdf.note")}: ${readable}`;
 }
 
 function formatModifierText(modifier = {}) {
 	const label = htmlToReadableText(modifier?.text || "");
 
-	return label.replace(/^Modified by\s+/i, "").trim();
+	return label.replace(/^Modified by\s+/i, "").replace(/^Modifiziert durch\s+/i, "").trim();
 }
 
-function formatPowerDifficulty(skill, forceStats) {
+function formatPowerDifficulty(skill, forceStats, language) {
 	const powers = Array.isArray(skill?.powers) ? skill.powers : [];
 	if (powers.length === 0) return "-";
 
@@ -312,11 +312,11 @@ function formatPowerDifficulty(skill, forceStats) {
 
 			const segments = [];
 			if (base.length > 0) segments.push(...base);
-			if (modifierText.length > 0) segments.push(`Modifiers: ${modifierText.join("; ")}`);
+			if (modifierText.length > 0) segments.push(`${tUi("ui.pdf.modifiers")}: ${modifierText.join("; ")}`);
 			if (increasedText.length > 0) segments.push(...increasedText);
 			if (segments.length === 0) return null;
 
-			return `${getForcePowerSkillName(PDF_POWER_LANGUAGE, power)} (${formatDice(forceStats?.[power]?.dice, forceStats?.[power]?.pips)})\n${segments.join("\n")}`;
+			return `${getForcePowerSkillName(language, power)} (${formatDice(forceStats?.[power]?.dice, forceStats?.[power]?.pips)})\n${segments.join("\n")}`;
 		})
 		.filter(Boolean);
 
@@ -324,7 +324,14 @@ function formatPowerDifficulty(skill, forceStats) {
 }
 
 function buildPowerDifficultyBlocks(difficultyText) {
-	const levelTitles = new Set(["Very Easy", "Easy", "Moderate", "Difficult", "Very Difficult", "Heroic"]);
+	const levelTitles = new Set([
+		tUi("ui.difficulty.veryEasy"),
+		tUi("ui.difficulty.easy"),
+		tUi("ui.difficulty.moderate"),
+		tUi("ui.difficulty.difficult"),
+		tUi("ui.difficulty.veryDifficult"),
+		tUi("ui.difficulty.heroic"),
+	]);
 
 	return String(difficultyText || "-")
 		.split(/\n{2,}/)
@@ -335,8 +342,9 @@ function buildPowerDifficultyBlocks(difficultyText) {
 			return {
 				title,
 				details: details.map((detail) => {
-					if (detail.startsWith("Modifiers:")) {
-						return { type: "meta", label: "Modifiers", text: detail.replace(/^Modifiers:\s*/, "") };
+					const modifiersPrefix = `${tUi("ui.pdf.modifiers")}:`;
+					if (detail.startsWith(modifiersPrefix)) {
+						return { type: "meta", label: tUi("ui.pdf.modifiers"), text: detail.replace(modifiersPrefix, "").trim() };
 					}
 
 					if (detail.startsWith("Increase|")) {
@@ -386,7 +394,7 @@ export default {
 	},
 	setup(props) {
 		const isExporting = ref(false);
-		const exportStatus = ref("Preparing export...");
+		const exportStatus = ref(tUi("ui.pdf.preparing"));
 		const pdfExportSheet = ref(null);
 		const pdfExportData = ref(createEmptyExportData());
 
@@ -419,7 +427,8 @@ export default {
 		}
 
 		function buildPowerRows() {
-			const powerLabels = props.character?.createPowerProfile?.(PDF_POWER_LANGUAGE)?.getPowerLabels?.() || [];
+			const language = getUiLanguage();
+			const powerLabels = props.character?.createPowerProfile?.(language)?.getPowerLabels?.() || [];
 			const allPowers = powerLabels.flatMap((label) => label.getSkills());
 			const powerByName = new Map();
 
@@ -434,9 +443,9 @@ export default {
 				.map((skill) => ({
 					name: htmlToReadableText(skill.name),
 					summary: htmlToReadableText(skill.summary || ""),
-					difficulty: formatPowerDifficulty(skill, props.character?.forceStats || {}),
+					difficulty: formatPowerDifficulty(skill, props.character?.forceStats || {}, language),
 					time: htmlToReadableText([
-						skill.timeToUse || getForcePowerText(PDF_POWER_LANGUAGE, "ui.difficulty.defaultTimeToUse"),
+						skill.timeToUse || tUi("ui.difficulty.defaultTimeToUse"),
 						skill.timeToUseNote,
 					].filter(Boolean).join(" - ")),
 					extras: Array.isArray(skill.extra) && skill.extra.length > 0
@@ -453,22 +462,23 @@ export default {
 			const powerRows = buildPowerRows();
 			const points = props.character?.points || {};
 			const forceStats = props.character?.forceStats || {};
+			const language = getUiLanguage();
 			const powerNames = powerRows.map((row) => row.name);
 			const powerNameColumns = splitIntoColumns(powerNames, 2);
 
 			return {
 				generatedAt: now.toLocaleString(),
 				coreRows: [
-					{ label: "Character Points", value: String(points.character) },
-					{ label: "Spent Points", value: String(points.spent) },
-					{ label: "Force Points", value: String(points.force) },
-					{ label: "Temporary Force", value: String(points.force_temp ?? "") },
-					{ label: "Dark Side Points", value: String(points.darkside) },
+					{ label: tUi("ui.pdf.characterPoints"), value: String(points.character) },
+					{ label: tUi("ui.pdf.spentPoints"), value: String(points.spent) },
+					{ label: tUi("ui.pdf.forcePoints"), value: String(points.force) },
+					{ label: tUi("ui.pdf.temporaryForce"), value: String(points.force_temp ?? "") },
+					{ label: tUi("ui.pdf.darkSidePoints"), value: String(points.darkside) },
 				],
 				forceRows: [
-					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "control"), value: formatDice(forceStats.control?.dice, forceStats.control?.pips) },
-					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "sense"), value: formatDice(forceStats.sense?.dice, forceStats.sense?.pips) },
-					{ name: getForcePowerSkillName(PDF_POWER_LANGUAGE, "alter"), value: formatDice(forceStats.alter?.dice, forceStats.alter?.pips) },
+					{ name: getForcePowerSkillName(language, "control"), value: formatDice(forceStats.control?.dice, forceStats.control?.pips) },
+					{ name: getForcePowerSkillName(language, "sense"), value: formatDice(forceStats.sense?.dice, forceStats.sense?.pips) },
+					{ name: getForcePowerSkillName(language, "alter"), value: formatDice(forceStats.alter?.dice, forceStats.alter?.pips) },
 				],
 				skillRows: visibleSkills,
 				skillColumns,
@@ -635,7 +645,7 @@ export default {
 					},
 					content: [
 						{
-							text: "Star Wars D6 Character Sheet",
+							text: tUi("ui.pdf.sheetTitle"),
 							fontSize: 9,
 							color: "#666666",
 							margin: [0, 0, 0, 2]
@@ -648,7 +658,7 @@ export default {
 							margin: [0, 0, 0, 3]
 						},
 						{
-							text: `Generated: ${pdfExportData.value.generatedAt}`,
+							text: tUi("ui.pdf.generated", { date: pdfExportData.value.generatedAt }),
 							fontSize: 9,
 							color: "#666666",
 							margin: [0, 0, 0, 8]
@@ -658,14 +668,14 @@ export default {
 								{
 									width: 306,
 									stack: [
-										sectionTitle("Overview"),
+										sectionTitle(tUi("ui.pdf.overview")),
 										...labelValueLines(pdfExportData.value.coreRows),
 									]
 								},
 								{
 									width: 223,
 									stack: [
-										sectionTitle("Force Skills", [0, 6, 0, 4], 205),
+										sectionTitle(tUi("ui.pdf.forceSkills"), [0, 6, 0, 4], 205),
 										...labelValueLines(pdfExportData.value.forceRows),
 									]
 								}
@@ -673,7 +683,7 @@ export default {
 							columnGap: 10,
 							margin: [0, 0, 0, 6]
 						},
-						sectionTitle("Trained Skills", [0, 6, 0, 3]),
+						sectionTitle(tUi("ui.pdf.trainedSkills"), [0, 6, 0, 3]),
 						{
 							columns: pdfExportData.value.skillColumns.map((column) => ({
 								width: 264.5,
@@ -684,13 +694,13 @@ export default {
 						},
 						...(pdfExportData.value.skillOmitted > 0
 							? [{
-								text: `${pdfExportData.value.skillOmitted} additional skills omitted.`,
+								text: tUi("ui.pdf.additionalSkillsOmittedShort", { count: pdfExportData.value.skillOmitted }),
 								fontSize: 8,
 								color: "#666666",
 								margin: [0, 0, 0, 8]
 							}]
 							: []),
-						sectionTitle("Force Powers (Names)", [0, 6, 0, 2]),
+						sectionTitle(tUi("ui.pdf.forcePowerNames"), [0, 6, 0, 2]),
 						{
 							columns: pdfExportData.value.powerNameColumns.map((column) => ({
 								width: 264.5,
@@ -702,7 +712,7 @@ export default {
 						{
 							stack: [
 								{
-									text: "Force Power Details",
+									text: tUi("ui.pdf.forcePowerDetails"),
 									fontSize: 11,
 									bold: true,
 									color: "#000000",
@@ -746,21 +756,21 @@ export default {
 			if (isExporting.value) return;
 
 			isExporting.value = true;
-			exportStatus.value = "Building native PDF...";
+			exportStatus.value = tUi("ui.pdf.building");
 
 			try {
 				const filenameDate = formatLocalDateForFilename(new Date());
 				pdfExportData.value = buildExportData();
 				await waitForRender();
 
-				exportStatus.value = "Generating PDF...";
+				exportStatus.value = tUi("ui.pdf.generating");
 				await createPdfNative(filenameDate);
 			} catch (error) {
 				console.error("PDF export failed", error);
-				window.alert("PDF export failed. Please try again.");
+				window.alert(tUi("ui.pdf.failedAlert"));
 			} finally {
 				isExporting.value = false;
-				exportStatus.value = "Preparing export...";
+				exportStatus.value = tUi("ui.pdf.preparing");
 			}
 		}
 
@@ -770,6 +780,7 @@ export default {
 			pdfExportData,
 			exportStatus,
 			isExporting,
+			t: tUi,
 		};
 	},
 };

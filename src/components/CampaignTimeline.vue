@@ -2,29 +2,29 @@
 	<section class="campaign-timeline">
 		<header class="timeline-hero">
 			<div class="hero-copy">
-				<p class="eyebrow">{{ ui.hero.eyebrow }}</p>
-				<h1>{{ ui.hero.title }}</h1>
-				<p>{{ ui.hero.description }}</p>
+				<p class="eyebrow">{{ t("ui.timeline.eyebrow") }}</p>
+				<h1>{{ t("ui.timeline.title") }}</h1>
+				<p>{{ t("ui.timeline.description") }}</p>
 			</div>
-			<div class="hero-stats" :aria-label="ui.aria.overview">
+			<div class="hero-stats" :aria-label="t('ui.timeline.overviewAria')">
 				<div>
 					<strong>{{ sessions.length }}</strong>
-					<span>{{ ui.stats.sessions }}</span>
+					<span>{{ t("ui.timeline.sessions") }}</span>
 				</div>
 				<div>
 					<strong>{{ chapters.length }}</strong>
-					<span>{{ ui.stats.chapters }}</span>
+					<span>{{ t("ui.timeline.chapters") }}</span>
 				</div>
 				<div>
 					<strong>{{ latestSessionDate }}</strong>
-					<span>{{ ui.stats.latestSession }}</span>
+					<span>{{ t("ui.timeline.latestSession") }}</span>
 				</div>
 			</div>
 		</header>
 
-		<section class="timeline-grid" :aria-label="ui.aria.timeline">
+		<section class="timeline-grid" :aria-label="t('ui.timeline.timelineAria')">
 			<div class="lane-header">
-				<span>{{ ui.timeline.laneHeader }}</span>
+				<span>{{ t("ui.timeline.laneHeader") }}</span>
 			</div>
 
 			<section v-for="chapter in chapters" :key="chapter.id" class="chapter-section">
@@ -40,7 +40,7 @@
 					>
 						<div class="card-meta">
 							<span>{{ session.date }}</span>
-							<span>{{ ui.timeline.sessionPrefix }} {{ session.numberLabel }}</span>
+							<span>{{ t("ui.timeline.sessionPrefix") }} {{ session.numberLabel }}</span>
 						</div>
 						<h2 v-if="session.title">{{ session.title }}</h2>
 						<p v-if="session.summary">{{ session.summary }}</p>
@@ -48,7 +48,7 @@
 							<li v-for="highlight in session.highlights" :key="highlight">{{ highlight }}</li>
 						</ul>
 					</div>
-					<p v-if="!chapter.sessions.length" class="empty-lane">{{ ui.timeline.emptyChapter }}</p>
+					<p v-if="!chapter.sessions.length" class="empty-lane">{{ t("ui.timeline.emptyChapter") }}</p>
 				</article>
 			</section>
 		</section>
@@ -56,12 +56,50 @@
 </template>
 
 <script>
+import { computed } from "vue";
 import timelineData from "@/assets/campaignTimeline.json";
+import { tUi } from "@/utils/uiText";
+
+function toRomanNumeral(value) {
+	const numerals = [
+		[1000, "M"],
+		[900, "CM"],
+		[500, "D"],
+		[400, "CD"],
+		[100, "C"],
+		[90, "XC"],
+		[50, "L"],
+		[40, "XL"],
+		[10, "X"],
+		[9, "IX"],
+		[5, "V"],
+		[4, "IV"],
+		[1, "I"],
+	];
+	let number = Math.max(0, Number(value) || 0);
+	let result = "";
+
+	for (const [amount, numeral] of numerals) {
+		while (number >= amount) {
+			result += numeral;
+			number -= amount;
+		}
+	}
+
+	return result || String(value || "");
+}
+
+function getChapterLabel(chapter, fallbackLabel) {
+	if (String(fallbackLabel || "").match(/^Kapitel\s+[IVXLCDM]+$/i)) {
+		return `${tUi("ui.timeline.chapterFallbackPrefix")} ${toRomanNumeral(chapter)}`;
+	}
+
+	return fallbackLabel || `${tUi("ui.timeline.chapterFallbackPrefix")} ${toRomanNumeral(chapter)}`;
+}
 
 export default {
 	name: "CampaignTimeline",
 	setup() {
-		const ui = timelineData.ui;
 		const sessions = timelineData.sessions.map((session, index) => ({
 			...session,
 			numberLabel: index + 1,
@@ -74,18 +112,18 @@ export default {
 			...timelineData.chapters.map((chapter) => chapter.chapter),
 			...sessions.map((session) => session.chapter)
 		])).sort((left, right) => right - left);
-		const chapters = chapterNumbers.map((chapter) => ({
+		const chapters = computed(() => chapterNumbers.map((chapter) => ({
 			id: `chapter-${chapter}`,
 			chapter,
-			label: chapterLabels.get(chapter) || `${ui.timeline.chapterFallbackPrefix} ${chapter}`,
+			label: getChapterLabel(chapter, chapterLabels.get(chapter)),
 			sessions: sessions.filter((session) => session.chapter === chapter).reverse()
-		}));
-		const latestSessionDate = sessions.length
+		})));
+		const latestSessionDate = computed(() => sessions.length
 			? sessions[sessions.length - 1].date
-			: ui.stats.latestSessionFallback;
+			: tUi("ui.timeline.latestSessionFallback"));
 
 		return {
-			ui,
+			t: tUi,
 			sessions,
 			latestSessionDate,
 			chapters

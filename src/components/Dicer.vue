@@ -1,6 +1,6 @@
 <template>
 	<div class="dicer--container ui-panel">
-		<span class="title">Nicer Dicer</span>
+		<span class="title">{{ t("ui.dicer.title") }}</span>
 		<div class="generator">
 			<input
 				class="dice ui-control"
@@ -12,7 +12,7 @@
 				@keyup.enter="generateRoll()"
 				min="1"
 				step="1"
-				aria-label="Dice"
+				:aria-label="t('ui.dicer.diceAria')"
 			/>D+
 			<input
 				class="pips ui-control"
@@ -25,19 +25,19 @@
 				min="0"
 				max="2"
 				step="1"
-				aria-label="Pips"
+				:aria-label="t('ui.dicer.pipsAria')"
 			/>
 			<input
 				class="comment ui-control"
 				id="comment"
 				name="comment"
 				v-model="generate.comment"
-				placeholder="Reason"
+				:placeholder="t('ui.dicer.reasonPlaceholder')"
 				@keyup.enter="generateRoll()"
-				aria-label="Roll reason"
+				:aria-label="t('ui.dicer.reasonAria')"
 			/>
 			<button class="generate ui-button" type="button" @click="generateRoll()">
-				{{ copyStatus || "Generate" }}
+				{{ copyStatus || t("ui.dicer.generate") }}
 			</button>
 		</div>
 	</div>
@@ -47,6 +47,7 @@
 import { onBeforeUnmount, reactive, ref } from "vue";
 import { copyToClipboard } from "@/utils/clipboard";
 import { getRollCommandFromDice } from "@/utils/dice";
+import { tUi } from "@/utils/uiText";
 
 export default {
 	setup() {
@@ -77,14 +78,15 @@ export default {
 				generate.comment
 			));
 
-			copyStatus.value = copied ? "Copied" : "Copy failed";
+			copyStatus.value = copied ? tUi("ui.dicer.copied") : tUi("ui.dicer.copyFailed");
 			clearStatusLater();
 		}
 
 		return {
 			generate,
 			generateRoll,
-			copyStatus
+			copyStatus,
+			t: tUi
 		};
 	},
 };

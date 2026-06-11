@@ -7,7 +7,7 @@
 				<p class="source-line" v-if="sourceLabel">{{ sourceLabel }}</p>
 			</div>
 			<div class="meta">
-				<span class="ui-pill">{{ formatRuleLabel(rule.type) }}</span>
+				<span class="ui-pill">{{ getRuleTypeLabel(rule.type) }}</span>
 			</div>
 		</header>
 
@@ -22,7 +22,8 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import RuleSkillDefinition from "@/components/Rulebook/RuleSkillDefinition.vue";
-import { formatRuleLabel, getBlockKey } from "@/utils/rules";
+import { getBlockKey } from "@/utils/rules";
+import { getRuleTypeLabel, tUi } from "@/utils/uiText";
 
 const RuleContentBlock = defineAsyncComponent(() => import("@/components/RuleContentBlock.vue"));
 
@@ -51,14 +52,18 @@ export default {
 			const pageLabel = this.pageLabel;
 			if (!pageLabel) return "";
 
-			return this.sourceDocument ? `Quelle: ${this.sourceDocument}, ${pageLabel}` : `Quelle: ${pageLabel}`;
+			return this.sourceDocument
+				? this.t("ui.statInfo.sourceWithPage", { source: this.sourceDocument, page: pageLabel })
+				: this.t("ui.statInfo.source", { source: pageLabel });
 		},
 
 		pageLabel() {
 			const start = this.rule?.source?.page_start;
 			const end = this.rule?.source?.page_end;
 			if (!start) return "";
-			return end && end !== start ? `S. ${start}-${end}` : `S. ${start}`;
+			return end && end !== start
+				? this.t("ui.statInfo.pageRange", { start, end })
+				: this.t("ui.statInfo.page", { page: start });
 		},
 
 		bodyBlocks() {
@@ -68,8 +73,9 @@ export default {
 		},
 	},
 	methods: {
-		formatRuleLabel,
+		getRuleTypeLabel,
 		getBlockKey,
+		t: tUi,
 	},
 };
 </script>

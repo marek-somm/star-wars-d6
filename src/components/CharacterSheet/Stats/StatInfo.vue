@@ -2,12 +2,12 @@
 	<article class="stat-info--container ui-panel" :class="{ 'has-rulebook-entry': rulebookSkill }">
 		<header class="skill-header">
 			<div class="skill-heading">
-				<p class="eyebrow">{{ statName }} Skill</p>
+				<p class="eyebrow">{{ t("ui.statInfo.skillEyebrow", { stat: statName }) }}</p>
 				<h2>{{ skillName }}</h2>
 				<div class="skill-tags">
-					<span class="ui-pill is-cyan" v-if="skill?.spez">Specialization</span>
-					<span class="ui-pill is-danger" v-if="skill?.adv">Advanced</span>
-					<span class="ui-pill" v-if="rootName">Root: {{ rootName }}</span>
+					<span class="ui-pill is-cyan" v-if="skill?.spez">{{ t("ui.statInfo.specialization") }}</span>
+					<span class="ui-pill is-danger" v-if="skill?.adv">{{ t("ui.statInfo.advanced") }}</span>
+					<span class="ui-pill" v-if="rootName">{{ t("ui.statInfo.root", { root: rootName }) }}</span>
 					<span class="ui-pill" v-if="rulebookSkill?.attribute">{{ rulebookSkill.attribute }}</span>
 				</div>
 			</div>
@@ -29,7 +29,7 @@
 					<dd v-html="field.value"></dd>
 				</div>
 				<div class="meta-field examples-field" v-if="examples.length">
-					<dt>Examples</dt>
+					<dt>{{ t("ui.statInfo.examples") }}</dt>
 					<dd>
 						<em v-for="(example, index) in examples" :key="example">
 							{{ example }}<span v-if="index < examples.length - 1">, </span>
@@ -45,7 +45,7 @@
 
 		<details class="more-rules" v-if="additionalBlocks.length">
 			<summary>
-				<span>Regelwerksdetails</span>
+				<span>{{ t("ui.statInfo.moreRules") }}</span>
 				<strong>{{ additionalBlocks.length }}</strong>
 			</summary>
 			<div class="rule-content extra-content">
@@ -54,7 +54,7 @@
 		</details>
 
 		<p class="missing-rule" v-if="!rulebookSkill">
-			Kein Regelwerkseintrag fuer {{ rootName || skillName }} gefunden.
+			{{ t("ui.statInfo.missingRule", { skill: rootName || skillName }) }}
 		</p>
 	</article>
 </template>
@@ -65,9 +65,9 @@ import { copyToClipboard } from "@/utils/clipboard";
 import { formatDice, getRollCommand } from "@/utils/dice";
 import { formatRuleRichText } from "@/utils/ruleContent";
 import { getBlockKey } from "@/utils/rules";
+import { tUi } from "@/utils/uiText";
 import {
 	findRulebookSkill,
-	getRulebookSkillSourceLabel,
 	rulebookSkillSourceDocument,
 } from "@/utils/rulebookSkills";
 
@@ -107,16 +107,27 @@ export default {
 		},
 
 		sourceLabel() {
-			const pageLabel = getRulebookSkillSourceLabel(this.rulebookSkill);
+			const pageLabel = this.pageLabel;
 			if (!pageLabel) return "";
-			return rulebookSkillSourceDocument ? `Quelle: ${rulebookSkillSourceDocument}, ${pageLabel}` : `Quelle: ${pageLabel}`;
+			return rulebookSkillSourceDocument
+				? this.t("ui.statInfo.sourceWithPage", { source: rulebookSkillSourceDocument, page: pageLabel })
+				: this.t("ui.statInfo.source", { source: pageLabel });
+		},
+
+		pageLabel() {
+			const start = this.rulebookSkill?.source?.page_start;
+			const end = this.rulebookSkill?.source?.page_end;
+			if (!start) return "";
+			return end && end !== start
+				? this.t("ui.statInfo.pageRange", { start, end })
+				: this.t("ui.statInfo.page", { page: start });
 		},
 
 		metaFields() {
 			return [
-				{ key: "time_taken", label: "Time Taken" },
-				{ key: "specializations", label: "Specializations" },
-				{ key: "advanced", label: "Advanced Skill" },
+				{ key: "time_taken", label: this.t("ui.statInfo.timeTaken") },
+				{ key: "specializations", label: this.t("ui.statInfo.specializations") },
+				{ key: "advanced", label: this.t("ui.statInfo.advancedSkill") },
 			]
 				.map((field) => ({
 					...field,
@@ -148,6 +159,7 @@ export default {
 		},
 	},
 	methods: {
+		t: tUi,
 		getBlockKey,
 
 		getSuffix(skill) {

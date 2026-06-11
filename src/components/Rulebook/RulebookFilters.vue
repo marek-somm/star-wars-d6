@@ -1,30 +1,32 @@
 <template>
-	<section class="rule-filters ui-panel" aria-label="Regelfilter">
+	<section class="rule-filters ui-panel" :aria-label="t('ui.rulebook.filtersAriaLabel')">
 		<label class="filter-control">
-			<span>Typ</span>
+			<span>{{ t("ui.rulebook.type") }}</span>
 			<select class="ui-control" :value="typeFilter" @change="$emit('update:typeFilter', $event.target.value)">
-				<option value="all">Alle Typen</option>
+				<option value="all">{{ t("ui.rulebook.allTypes") }}</option>
 				<option v-for="type in availableTypes" :key="type.value" :value="type.value">
 					{{ type.label }} ({{ type.count }})
 				</option>
 			</select>
 		</label>
 		<label class="filter-control">
-			<span>Kapitel</span>
+			<span>{{ t("ui.rulebook.chapter") }}</span>
 			<select class="ui-control" :value="chapterFilter" @change="$emit('update:chapterFilter', $event.target.value)">
-				<option value="all">Alle Kapitel</option>
+				<option value="all">{{ t("ui.rulebook.allChapters") }}</option>
 				<option v-for="chapter in availableChapters" :key="chapter.value" :value="chapter.value">
 					{{ chapter.label }}
 				</option>
 			</select>
 		</label>
 		<button class="clear-filters ui-button" type="button" :disabled="!hasActiveFilters" @click="$emit('clear')">
-			Filter loeschen
+			{{ t("ui.rulebook.clearFilters") }}
 		</button>
 	</section>
 </template>
 
 <script>
+import { tUi } from "@/utils/uiText";
+
 export default {
 	name: "RulebookFilters",
 	props: {
@@ -50,6 +52,9 @@ export default {
 		},
 	},
 	emits: ["clear", "update:typeFilter", "update:chapterFilter"],
+	methods: {
+		t: tUi,
+	},
 };
 </script>
 

@@ -3,7 +3,7 @@
 		<div class="tree-row" :class="{ active: isActive, selectable: node.rule }"
 			:style="{ '--tree-depth': node.depth }">
 			<button class="tree-toggle" type="button" :disabled="!hasChildren"
-				:aria-label="isExpanded ? 'Ordner schliessen' : 'Ordner oeffnen'" @click="toggleNode">
+				:aria-label="isExpanded ? t('ui.rulebook.closeFolder') : t('ui.rulebook.openFolder')" @click="toggleNode">
 				<span aria-hidden="true"></span>
 			</button>
 			<button class="tree-label" type="button" @click="selectNode">
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { tUi } from "@/utils/uiText";
+
 export default {
 	name: "RuleTreeNode",
 	props: {
@@ -54,6 +56,8 @@ export default {
 		},
 	},
 	methods: {
+		t: tUi,
+
 		toggleNode() {
 			if (this.hasChildren) {
 				this.$emit("toggle", this.node.key);
