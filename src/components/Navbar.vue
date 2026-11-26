@@ -51,7 +51,7 @@
 			<Background class="content-item" v-show="data.background" :family="character.family" />
 			<Powers class="content-item" v-show="data.powers" :language="powerLanguageState.language"
 				:power-labels="characterPowerLabels" :force-stats="characterForceStats" :active="data.powers" />
-			<SessionPoints v-if="data.sessionPoints" :key="character.id" :character="character" />
+			<SessionPoints v-if="data.sessionPoints" :character="character" />
 		</main>
 	</div>
 </template>

@@ -63,10 +63,9 @@
 
 <script>
 import { computed } from "vue";
-import { campaignSessions } from "@/assets/campaignSessions";
+import { campaignSessions, getSessionPoints } from "@/assets/campaignSessions";
 import timelineData from "@/assets/campaignTimeline.json";
 import { characters } from "@/assets/characters";
-import { useSessionPoints } from "@/utils/sessionPoints";
 import { tUi } from "@/utils/uiText";
 
 function toRomanNumeral(value) {
@@ -110,18 +109,14 @@ export default {
 	name: "CampaignTimeline",
 	setup() {
 		const sessions = campaignSessions;
-		const { getSessionPoints } = useSessionPoints();
-		const sessionAwards = computed(() => {
-			const awards = new Map();
-			for (const session of sessions) {
-				const entries = characters.map((character) => ({
-					character,
-					points: getSessionPoints(character.id, session.id),
-				})).filter(({ points }) => points !== null);
-				if (entries.length) awards.set(session.id, entries);
-			}
-			return awards;
-		});
+		const sessionAwards = new Map();
+		for (const session of sessions) {
+			const entries = characters.map((character) => ({
+				character,
+				points: getSessionPoints(character, session),
+			})).filter(({ points }) => points !== undefined);
+			if (entries.length) sessionAwards.set(session.id, entries);
+		}
 		const chapterLabels = new Map(
 			timelineData.chapters.map((chapter) => [chapter.chapter, chapter.label])
 		);

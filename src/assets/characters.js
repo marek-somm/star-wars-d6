@@ -27,6 +27,7 @@ function getPowerIds(character, powerGroups) {
 function normalizeCharacter(character, path) {
 	const powerGroups = getPowerGroups(character);
 	const powerIds = getPowerIds(character, powerGroups);
+	const { sessionPointsStart } = character;
 
 	return {
 		id: character.id || getIdFromPath(path),
@@ -39,6 +40,8 @@ function normalizeCharacter(character, path) {
 			spent: 0,
 			...(character.points || {}),
 		},
+		sessionPointsStart: Number.isSafeInteger(sessionPointsStart) && sessionPointsStart >= 0 ? sessionPointsStart : null,
+		sessionPoints: character.sessionPoints || {},
 		forceStats: character.forceStats || {},
 		stats: Array.isArray(character.stats) ? character.stats : [],
 		family: Array.isArray(character.family) ? character.family : [],
