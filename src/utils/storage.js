@@ -12,12 +12,13 @@ export function readJson(key, fallback) {
 }
 
 export function writeJson(key, value) {
-	if (typeof window === "undefined") return;
+	if (typeof window === "undefined") return false;
 
 	try {
 		window.localStorage.setItem(key, JSON.stringify(value));
+		return true;
 	} catch {
-		// Ignore storage quota or private-mode errors; the in-memory state is still updated.
+		return false;
 	}
 }
 

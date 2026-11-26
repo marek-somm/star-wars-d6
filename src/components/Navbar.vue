@@ -34,6 +34,15 @@
 				<div>
 					<p><span>{{ t("ui.sheet.characterPoints") }}</span>{{ characterPoints.character }}</p>
 					<p><span>{{ t("ui.sheet.spentPoints") }}</span>{{ characterPoints.spent }}</p>
+					<button
+						class="ui-button history-button"
+						:class="{ active: data.sessionPoints }"
+						:aria-pressed="data.sessionPoints"
+						type="button"
+						@click="showSection('sessionPoints')"
+					>
+						{{ t("ui.sessionPoints.navigation") }}
+					</button>
 				</div>
 			</section>
 		</header>
@@ -42,12 +51,13 @@
 			<Background class="content-item" v-show="data.background" :family="character.family" />
 			<Powers class="content-item" v-show="data.powers" :language="powerLanguageState.language"
 				:power-labels="characterPowerLabels" :force-stats="characterForceStats" :active="data.powers" />
+			<SessionPoints v-if="data.sessionPoints" :key="character.id" :character="character" />
 		</main>
 	</div>
 </template>
 
 <script>
-import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
+import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import { characters } from "@/assets/characters";
 import Stats from "./CharacterSheet/Stats/Stats";
 import Background from "./CharacterSheet/Background";
@@ -59,8 +69,9 @@ import { readNumber, writeNumber } from "@/utils/storage";
 import { powerLanguageState } from "@/utils/powerLanguage";
 import { tUi } from "@/utils/uiText";
 
+const SessionPoints = defineAsyncComponent(() => import("./CharacterSheet/SessionPoints.vue"));
 const TEMP_FORCE_STORAGE_KEY = "star-wars-d6:temporary-force-points";
-const SHEET_SECTIONS = ["stats", "powers", "background"];
+const SHEET_SECTIONS = ["stats", "powers", "background", "sessionPoints"];
 const FORCE_SKILL_BUTTONS = [
 	{ power: "control" },
 	{ power: "sense" },
@@ -93,6 +104,7 @@ export default {
 		Stats,
 		Background,
 		Powers,
+		SessionPoints,
 	},
 	props: {
 		character: {
@@ -105,6 +117,7 @@ export default {
 			stats: true,
 			powers: false,
 			background: false,
+			sessionPoints: false,
 		});
 		const characterPoints = computed(() => props.character?.points || {});
 		const characterForceStats = computed(() => props.character?.forceStats || {});
@@ -125,6 +138,7 @@ export default {
 			data.stats = section === "stats";
 			data.powers = section === "powers";
 			data.background = section === "background";
+			data.sessionPoints = section === "sessionPoints";
 
 			if (options.updateHash !== false) {
 				setSheetHash(section);
@@ -214,6 +228,7 @@ export default {
 			showStats,
 			showPowers,
 			showBackground,
+			showSection,
 			t: tUi,
 			copyForceRoll,
 			addTemporaryForce,
@@ -338,6 +353,12 @@ export default {
 
 		.right-align {
 			align-items: flex-end !important;
+		}
+
+		.history-button {
+			margin-top: 0.25rem;
+			color: var(--color-accent);
+			font-size: 0.9rem;
 		}
 
 		.temporary-force {

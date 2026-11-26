@@ -35,7 +35,7 @@
 				<article class="session-list">
 					<div
 						v-for="session in chapter.sessions"
-						:key="session._key"
+						:key="session.id"
 						class="timeline-card session-card"
 					>
 						<div class="card-meta">
@@ -47,6 +47,12 @@
 						<ul v-if="session.highlights?.length">
 							<li v-for="highlight in session.highlights" :key="highlight">{{ highlight }}</li>
 						</ul>
+						<div v-if="sessionAwards.has(session.id)" class="session-awards">
+							<span>{{ t("ui.sessionPoints.earned") }}</span>
+							<span v-for="{ character, points } in sessionAwards.get(session.id)" :key="character.id" class="ui-pill is-cyan">
+								{{ character.name }} · {{ points > 0 ? `+${points}` : points }} {{ t("ui.sessionPoints.unit") }}
+							</span>
+						</div>
 					</div>
 					<p v-if="!chapter.sessions.length" class="empty-lane">{{ t("ui.timeline.emptyChapter") }}</p>
 				</article>
@@ -57,7 +63,10 @@
 
 <script>
 import { computed } from "vue";
+import { campaignSessions } from "@/assets/campaignSessions";
 import timelineData from "@/assets/campaignTimeline.json";
+import { characters } from "@/assets/characters";
+import { useSessionPoints } from "@/utils/sessionPoints";
 import { tUi } from "@/utils/uiText";
 
 function toRomanNumeral(value) {
@@ -100,11 +109,19 @@ function getChapterLabel(chapter, fallbackLabel) {
 export default {
 	name: "CampaignTimeline",
 	setup() {
-		const sessions = timelineData.sessions.map((session, index) => ({
-			...session,
-			numberLabel: index + 1,
-			_key: `session-${session.chapter}-${index}`
-		}));
+		const sessions = campaignSessions;
+		const { getSessionPoints } = useSessionPoints();
+		const sessionAwards = computed(() => {
+			const awards = new Map();
+			for (const session of sessions) {
+				const entries = characters.map((character) => ({
+					character,
+					points: getSessionPoints(character.id, session.id),
+				})).filter(({ points }) => points !== null);
+				if (entries.length) awards.set(session.id, entries);
+			}
+			return awards;
+		});
 		const chapterLabels = new Map(
 			timelineData.chapters.map((chapter) => [chapter.chapter, chapter.label])
 		);
@@ -125,6 +142,7 @@ export default {
 		return {
 			t: tUi,
 			sessions,
+			sessionAwards,
 			latestSessionDate,
 			chapters
 		};
@@ -398,6 +416,22 @@ export default {
 	border: 1px solid rgba(242, 193, 78, 0.28);
 	background: rgba(242, 193, 78, 0.09);
 	color: var(--color-accent);
+}
+
+.session-awards {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.4rem;
+	margin-top: 0.8rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--color-rule);
+
+	> span:first-child {
+		color: var(--color-muted);
+		font-size: 0.82rem;
+		font-weight: 800;
+	}
 }
 
 @media (max-width: 860px) {
