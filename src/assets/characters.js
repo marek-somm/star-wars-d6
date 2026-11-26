@@ -24,10 +24,22 @@ function getPowerIds(character, powerGroups) {
 	return [...new Set(powerGroups.flatMap((group) => group.powerIds || []))];
 }
 
+function isPointAmount(value) {
+	return Number.isSafeInteger(value) && value >= 0;
+}
+
 function normalizeCharacter(character, path) {
 	const powerGroups = getPowerGroups(character);
 	const powerIds = getPowerIds(character, powerGroups);
-	const { sessionPointsStart } = character;
+	const hasSessionPoints = character.sessionPointsStart !== undefined || character.sessionPoints !== undefined;
+	const startingBalance = hasSessionPoints ? character.sessionPointsStart : character.points?.character;
+	const sessionPointsStart = isPointAmount(startingBalance) ? startingBalance : null;
+	const sessionPoints = Object.fromEntries(
+		Object.entries(character.sessionPoints || {}).filter(([, points]) => isPointAmount(points))
+	);
+	const recordedSessionPoints = Object.values(sessionPoints).reduce((total, points) => total + BigInt(points), 0n);
+	const totalCharacterPoints = BigInt(sessionPointsStart ?? 0) + recordedSessionPoints;
+	const numericTotal = Number(totalCharacterPoints);
 
 	return {
 		id: character.id || getIdFromPath(path),
@@ -36,12 +48,13 @@ function normalizeCharacter(character, path) {
 			force: 0,
 			force_temp: 0,
 			darkside: 0,
-			character: 0,
 			spent: 0,
 			...(character.points || {}),
+			character: Number.isSafeInteger(numericTotal) ? numericTotal : totalCharacterPoints,
 		},
-		sessionPointsStart: Number.isSafeInteger(sessionPointsStart) && sessionPointsStart >= 0 ? sessionPointsStart : null,
-		sessionPoints: character.sessionPoints || {},
+		sessionPointsStart,
+		sessionPoints,
+		recordedSessionPoints,
 		forceStats: character.forceStats || {},
 		stats: Array.isArray(character.stats) ? character.stats : [],
 		family: Array.isArray(character.family) ? character.family : [],

@@ -9,11 +9,11 @@
 				</div>
 				<div>
 					<dt>{{ t("ui.sessionPoints.total") }}</dt>
-					<dd>{{ recordedPoints }}</dd>
+					<dd>{{ character.recordedSessionPoints }}</dd>
 				</div>
 				<div v-if="startingBalance !== null">
 					<dt>{{ t("ui.sessionPoints.overallTotal") }}</dt>
-					<dd>{{ totalPoints }}</dd>
+					<dd>{{ character.points.character }}</dd>
 				</div>
 				<div>
 					<dt>{{ t("ui.sessionPoints.trackedSessions") }}</dt>
@@ -26,7 +26,8 @@
 		<ul v-else class="history-list">
 			<li v-for="{ session, points } in history" :key="session.id" class="history-row">
 				<div class="history-session">
-					<span>{{ t("ui.timeline.sessionPrefix") }} {{ session.numberLabel }} · {{ session.date }}</span>
+					<span v-if="session.numberLabel">{{ t("ui.timeline.sessionPrefix") }} {{ session.numberLabel }} · {{ session.date }}</span>
+					<span v-else>{{ session.date }}</span>
 					<strong v-if="session.title">{{ session.title }}</strong>
 				</div>
 				<span class="history-amount ui-pill is-cyan">
@@ -42,21 +43,25 @@
 
 <script setup>
 import { computed } from "vue";
-import { campaignSessions, getSessionPoints } from "@/assets/campaignSessions";
+import { campaignSessions } from "@/assets/campaignSessions";
 import { tUi as t } from "@/utils/uiText";
 
 const props = defineProps({
 	character: { type: Object, required: true },
 });
 
-const sessions = [...campaignSessions].reverse();
-const history = computed(() => sessions
-	.map((session) => ({ session, points: getSessionPoints(props.character, session) }))
-	.filter(({ points }) => points !== undefined));
+const sessionsById = new Map(campaignSessions.map((session) => [String(session.id), session]));
+const history = computed(() => Object.entries(props.character.sessionPoints)
+	.map(([id, points]) => ({ session: sessionsById.get(id) ?? { id, date: id }, points }))
+	.sort((left, right) => dateSortKey(right.session.date).localeCompare(dateSortKey(left.session.date)) ||
+		(right.session.numberLabel ?? 0) - (left.session.numberLabel ?? 0)));
 const startingBalance = computed(() => props.character.sessionPointsStart);
-const recordedPoints = computed(() => history.value.reduce((total, { points }) => total + BigInt(points), 0n));
-const totalPoints = computed(() => BigInt(startingBalance.value ?? 0) + recordedPoints.value);
 const largestAward = computed(() => Math.max(1, ...history.value.map(({ points }) => points)));
+
+function dateSortKey(date) {
+	const [day, month, year] = date.split(".");
+	return year ? `${year}-${month}-${day}` : "";
+}
 </script>
 
 <style lang="scss" scoped>
