@@ -41,6 +41,10 @@
 			"chapter": 1,
 			"date": "11.05.2020",
 			"title": "Willkommen auf NTP-1",
+			"characterIds": [
+				"zebron-kebino", "vos-amura", "scrape-thunderdream", "du5-t1-n", "harland-david-sanders",
+				"captain-ahab", "ntp-1-wookie"
+			],
 			"summary": "Die Crew beginnt auf der Raumstation NTP-1. In der Shrimp-Bude tauchen Captain Ahab und ein randalierender Wookie auf, und der erste Abend kippt schnell von harmloser Stationsatmosphäre in echtes Chaos. Scrape steckt dabei bereits schwer ein.",
 			"highlights": [
 				"Shrimp-Bude auf NTP-1",
@@ -139,6 +143,7 @@
 			"chapter": 1,
 			"date": "14.04.2021",
 			"title": "Humpelnd zur Kiste",
+			"characterIds": ["harland-david-sanders"],
 			"summary": "Harland ist angeschlagen genug, dass er notfalls auf Autopilot zur Kiste humpeln müsste. Die Gruppe bleibt in der Nähe des zentralen Fundstücks des NTP-1-Plots, während die Lage weiter eskaliert.",
 			"highlights": [
 				"Harland ist angeschlagen",
@@ -159,6 +164,7 @@
 			"chapter": 1,
 			"date": "27.04.2021",
 			"title": "Der Plan auf NTP-1 scheitert",
+			"characterIds": ["gar-verde"],
 			"summary": "Der erste große Bogen auf der Station findet seinen Abschluss. Die Crew vereitelt den Plan des Sith-Fanatikers, der auf NTP-1 nach der Kiste gesucht hat, und lässt Gar Verde und seine Auftraggeber nicht mit dem davonkommen, was sie wollten.",
 			"highlights": [
 				"Der Sith-Fanatiker wird gestoppt",
@@ -179,6 +185,10 @@
 			"chapter": 2,
 			"date": "11.05.2021",
 			"title": "Volka'iru und Shin",
+			"characterIds": [
+				"zebron-kebino", "vos-amura", "scrape-thunderdream", "du5-t1-n", "harland-david-sanders",
+				"volkairu", "shintunka-gunda"
+			],
 			"summary": "Auf Yavin 4 wird der neue Abschnitt greifbarer. Die Gruppe stößt auf Volka'iru und Shintunka Gunda, genannt Shin, und die Reise zum Jedi-Praxeum bekommt dadurch ein persönlicheres Gesicht.",
 			"highlights": [
 				"Volka'iru",
@@ -220,6 +230,7 @@
 			"chapter": 2,
 			"date": "28.09.2021",
 			"title": "Nicht auffliegen",
+			"characterIds": ["harland-david-sanders", "shintunka-gunda"],
 			"summary": "Harland versucht, seine Tarnung zu wahren, während Shin in eine heikle Szene hineingerät. Die Situation bleibt angespannt genug, dass ein falsches Wort die Gruppe verraten könnte.",
 			"highlights": [
 				"Harlands Tarnung",
@@ -240,6 +251,7 @@
 			"chapter": 2,
 			"date": "20.10.2021",
 			"title": "Getrennte Gruppen, offene Frequenz",
+			"characterIds": ["harland-david-sanders", "vos-amura", "scrape-thunderdream", "du5-t1-n"],
 			"summary": "Die getrennten Gruppen bekommen einen gemeinsamen Commlink-Kanal. Harland, Vos, Scrape und DU5-T1-N versuchen, über die offene Frequenz in Verbindung zu bleiben, während die Wege der Crew auseinanderliegen.",
 			"highlights": [
 				"Commlink-Kanal entsteht",
@@ -257,6 +269,7 @@
 			"chapter": 2,
 			"date": "27.10.2021",
 			"title": "Cassus und Thudar Ordo",
+			"characterIds": ["scrape-thunderdream", "du5-t1-n"],
 			"summary": "Auf Ordo werden die Namen Cassus Ordo und Thudar Ordo festgehalten. Der mandalorianische Teil der Geschichte gewinnt damit klarere Gesichter.",
 			"highlights": [
 				"Cassus Ordo",
@@ -277,6 +290,7 @@
 			"chapter": 2,
 			"date": "03.11.2021",
 			"title": "Scrape vor Gericht",
+			"characterIds": ["scrape-thunderdream", "harland-david-sanders", "vos-amura"],
 			"summary": "Scrape wird nach einer Auseinandersetzung mit einem Betrunkenen angeklagt und vor Gericht geschleppt. Harland und Vos reagieren über den Commlink; Vos bietet an, Scrape zu verteidigen, doch am Ende wird Scrape freigesprochen.",
 			"highlights": [
 				"Scrape wird angeklagt",
@@ -295,6 +309,7 @@
 			"chapter": 2,
 			"date": "09.11.2021",
 			"title": "Kopfgelder in Mos Eisley",
+			"characterIds": ["zebron-kebino", "vos-amura", "harland-david-sanders"],
 			"summary": "Die Gruppe sammelt mögliche Ziele: Jatt Beastreli, Sharon Vebi, Wus Edra und Juck Korr stehen mit hohen Kopfgeldern im Raum. Mos Eisley wird als Treffpunkt mit Tars Leuten wichtig.",
 			"highlights": [
 				"Kopfgelder werden notiert",
@@ -311,6 +326,7 @@
 			"chapter": 2,
 			"date": "10.11.2021",
 			"title": "Der Kugelkiller",
+			"characterIds": ["scrape-thunderdream", "du5-t1-n"],
 			"summary": "Im Ordo-Teil taucht der Kugelkiller auf, und ein Varactyl wird festgehalten. Die Szene wirkt nach Jagd, Bewegung und mandalorianischer Wildnis.",
 			"highlights": [
 				"Der Kugelkiller",
@@ -335,6 +351,7 @@
 			"chapter": 2,
 			"date": "30.11.2021",
 			"title": "Bers und die Huntress",
+			"characterIds": ["scrape-thunderdream", "du5-t1-n", "bers", "huntress"],
 			"summary": "Bers und die Huntress treten in den Vordergrund. Der Druck auf Scrapes und DU5-T1-Ns Teil der Geschichte nimmt weiter zu.",
 			"highlights": [
 				"Bers",
@@ -355,6 +372,7 @@
 			"chapter": 2,
 			"date": "05.12.2021",
 			"title": "Ein Fremder im Schatten",
+			"characterIds": ["scrape-thunderdream", "du5-t1-n", "fremder-auf-ordo"],
 			"summary": "Ein mysteriöser Fremder taucht auf und mischt sich in den Ordo-Strang ein. Noch ist unklar, ob er Hilfe, Gefahr oder beides bedeutet.",
 			"highlights": [
 				"Mysterious Stranger",
@@ -371,6 +389,7 @@
 			"chapter": 2,
 			"date": "07.12.2021",
 			"title": "Harlands Opfer",
+			"characterIds": ["harland-david-sanders", "tar"],
 			"summary": "Der Tatooine-Strang endet tragisch. Harland stirbt, nachdem er durch die Explosion des Schiffes die Flucht ermöglicht. Tar hatte diesen Tag bereits in einer Vision gesehen und muss nun mit dem leben, was er nicht verhindert hat.",
 			"highlights": [
 				"Harland stirbt",
@@ -427,6 +446,7 @@
 			"chapter": 2,
 			"date": "28.12.2021",
 			"title": "Mayday über Ordo",
+			"characterIds": ["du5-t1-n", "scrape-thunderdream", "nartes", "kevin", "shintunka-gunda"],
 			"summary": "Dustin sendet einen Notruf aus dem Vet-Katar-Land: Er und Scrape werden von einem Lancer Class Pursuit Craft angegriffen und stürzen schwer beschädigt ab. Währenddessen fliegen Nartes, Kevin und Shin nach Scerva.",
 			"highlights": [
 				"Dustin sendet MAYDAY",
@@ -444,6 +464,7 @@
 			"chapter": 2,
 			"date": "31.12.2022",
 			"title": "Elmer Biri auf Ordo",
+			"characterIds": ["elmer-biri"],
 			"summary": "Auf Ordo taucht Elmer Biri auf, ein achtzehnjähriger Junge im Umfeld der Mandalorianer. Auch die Farmtiere der Mandos werden Teil der Szene.",
 			"highlights": [
 				"Elmer Biri",
@@ -460,6 +481,7 @@
 			"chapter": 2,
 			"date": "03.01.2023",
 			"title": "Ankunft im Vet-Katar-Land",
+			"characterIds": ["elmer-biri", "zebron-kebino", "vos-amura", "vrom-dronkic"],
 			"summary": "Die Gruppe erreicht Ordo erneut sichtbar: Das Vet-Katar-Land und Ordo selbst werden kartiert, und die Welt liegt zum ersten Mal groß vor dem Fenster des Raumschiffs. Taar und Thrix Ordo bleiben als offene Namen stehen.",
 			"highlights": [
 				"Vet-Katar-Land",
@@ -477,6 +499,7 @@
 			"chapter": 2,
 			"date": "12.07.2023",
 			"title": "Vrom und Inigo",
+			"characterIds": ["vrom-dronkic", "inigo-montoya"],
 			"summary": "Vrom Dronkic steht stark im Mittelpunkt, und Inigo Montoya betritt die Bühne. Der Ordo-Strang bekommt damit neue, sehr persönliche Figuren und einen klaren Racheton.",
 			"highlights": [
 				"Vrom Dronkic",
@@ -494,6 +517,7 @@
 			"chapter": 2,
 			"date": "21.10.2023",
 			"title": "Weska fällt",
+			"characterIds": ["vrom-dronkic", "weska", "gar-verde", "ty", "inigo-montoya", "vos-amura", "zebron-kebino"],
 			"summary": "Die Crew befreit sich aus Gar Verdes Falle. Vrom und Weska schlagen sich zu den Gefangenen durch, Gar Verde und seine Leute werden besiegt, doch Weska wird tödlich verletzt. Ty wird später von Vrom erschossen, Inigos Herkunft wird offengelegt, und Vos bricht zusammen, als er Weska tot in seinem Bett findet.",
 			"highlights": [
 				"Flucht aus Gar Verdes Falle",
@@ -538,6 +562,7 @@
 			"chapter": 2,
 			"date": "15.06.2024",
 			"title": "Aufstand unter der Festung",
+			"characterIds": ["vrom-dronkic", "scrape-thunderdream", "inigo-montoya", "vroms-vater", "iola", "zebron-kebino", "vos-amura"],
 			"summary": "Vrom und Scrape entfachen unter der Festung einen Aufstand. Während Inigo mit Vroms Vater den Fischmenschen Iola stellt, fliegen Zebron und Vos nach Yavin 4, um die Kiste aus dem Jedi-Praxeum zu holen.",
 			"highlights": [
 				"Aufstand unter der Festung",
@@ -556,6 +581,10 @@
 			"chapter": 3,
 			"date": "07.06.2026",
 			"title": "Die Maske in der Kiste",
+			"characterIds": [
+				"scrape-thunderdream", "vrom-dronkic", "inigo-montoya", "vos-amura", "zebron-kebino",
+				"grenk", "lon-mel", "venkor", "tar", "iola"
+			],
 			"summary": "Scrape, Vrom und Inigo entkommen den imperialen Besatzern, während Vos und Zebron nach Ordo zurückkehren. Inigo gewinnt Grenk als neuen Verbündeten. Vos bringt die Kiste mit Lon-Mel zu Venkor, Tar und Iola, wo Iola die Stimmen in Vos mit Darth Voh verbindet. Dann wird der Inhalt der Kiste enthüllt: die Maske von Darth Nihilus.",
 			"highlights": [
 				"Flucht vor dem Imperium",
@@ -578,6 +607,7 @@
 			"chapter": 3,
 			"date": "08.06.2026",
 			"title": "Angriff auf das Haus",
+			"characterIds": ["scrape-thunderdream", "vrom-dronkic", "inigo-montoya", "zebron-kebino", "shintunka-gunda", "grenk"],
 			"summary": "Scrape, Vrom, Inigo, Zebron, Shin und Grenk geraten unter mandalorianischen Beschuss. Vier Angreifer rücken auf das Haus vor, während ein Scharfschütze Scrape ins Visier nimmt. Inigo und Vrom stoppen den Vorstoß mit einer Granate, Scrape schaltet den Sniper aus, und Grenk wird schwer verletzt in Hibernation versetzt.",
 			"highlights": [
 				"Mandalorianischer Angriff",
@@ -597,6 +627,10 @@
 			"chapter": 3,
 			"date": "30.08.2026",
 			"title": "Kopfgeld bei Brentaal",
+			"characterIds": [
+				"scrape-thunderdream", "vrom-dronkic", "inigo-montoya", "zebron-kebino", "shintunka-gunda", "grenk",
+				"juck-korr", "vos-amura", "tar", "iola", "moff-disra"
+			],
 			"summary": "Die Gruppe kapert das Schiff eines Kopfgeldjägers und liefert Juck Korr auf dem Weg nach Coruscant bei Brentaal ab. Dafür erhält sie 125.000 Credits. Grenk ist wieder ansprechbar, und Scrape registriert das erbeutete Schiff als Big Sugar. Unterdessen übergibt Tar Vos den Empfänger für den Peilsender in Zebrons Kette. Iola zeigt Vos Bastion und stellt ihn Moff Disra vor.",
 			"highlights": [
 				"Juck Korr bringt 125.000 Credits Kopfgeld",
@@ -622,6 +656,10 @@
 			"chapter": 3,
 			"date": "26.11.2026",
 			"title": "Drei Krayt-Drachen in der Kiste",
+			"characterIds": [
+				"grenk", "zebron-kebino", "shintunka-gunda", "scrape-thunderdream", "vrom-dronkic", "inigo-montoya",
+				"kyle-dreamswimmer", "switch", "vos-amura", "iola"
+			],
 			"summary": "Auf der Sel Zon Station über Brentaal IV versuchen Grenk und Zebron ihr Glück im Kasino, während Scrape und Vrom einen Schmuggelauftrag für 40.000 Credits annehmen. Bei der Übergabe geben sich die Empfänger als Aktivisten zu erkennen, die drei Krayt-Drachen aus der Kiste befreien wollen. Scrape, Vrom und Grenk wollen die Lieferung abschließen. Zebron sieht mit der Macht einen bewaffneten Angriff auf die Übergabe voraus und warnt die Aktivisten telepathisch. Unterdessen schickt Iola Vos nach Concordia, um ein Sith-Artefakt zu bergen, das als zerstört galt.",
 			"highlights": [
 				"Kasino und Pazaak-Anmeldung auf der Sel Zon Station",
