@@ -23,6 +23,7 @@ export default {
 
 <style scoped lang="scss">
 .text-block {
+	max-width: 76ch;
 	margin: 0;
 	color: var(--color-muted);
 	font-size: 0.98rem;
@@ -32,7 +33,7 @@ export default {
 	&.is-intro {
 		color: rgba(244, 239, 229, 0.82);
 		font-size: 1.03rem;
-		font-weight: 700;
+		font-weight: 550;
 	}
 
 	&.is-story {

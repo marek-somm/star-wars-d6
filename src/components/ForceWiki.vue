@@ -1,93 +1,78 @@
 <template>
 	<section class="wiki">
-		<div class="mobile-toolbar">
-			<MobileDrawerToggle :is-open="data.mobileIndexOpen"
-				:current-title="data.currentSkill ? data.currentSkill.name : ''"
-				:fallback-title="t('ui.forceWiki.selectPower')"
-				:count-label="`${t('ui.forceWiki.browse')} ${filteredSkills.length}`" controls="wiki-index-panel" nested
-				@open="openMobileIndex" />
-		</div>
-		<MobileDrawerBackdrop v-if="data.mobileIndexOpen" :aria-label="t('ui.forceWiki.closeIndex')"
-			@close="closeMobileIndex" />
-		<header class="wiki-header ui-panel">
-			<div>
-				<p class="eyebrow">{{ t("ui.forceWiki.titleEyebrow") }}</p>
-				<h1>{{ t("ui.forceWiki.title") }}</h1>
-			</div>
-			<div class="header-meta">
-				<ForcePowerSearch v-model.trim="data.search" class="header-search" :placeholder="t('ui.forceWiki.searchPlaceholder')"
-					:aria-label="t('ui.forceWiki.searchAriaLabel')" />
-				<p class="count ui-count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
-			</div>
-		</header>
-
-		<section class="wiki-filters ui-panel" :aria-label="t('ui.forceWiki.filtersAriaLabel')">
-			<label class="filter-control">
-				<span>{{ t("ui.forceWiki.filterForceSkills") }}</span>
-				<select class="ui-control" v-model="data.powerFilter">
-					<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">
-						{{ filter.label }}
-					</option>
-				</select>
-			</label>
-			<label class="filter-control">
-				<span>{{ t("ui.forceWiki.filterProperties") }}</span>
-				<select class="ui-control" v-model="data.traitFilter">
-					<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">
-						{{ filter.label }}
-					</option>
-				</select>
-			</label>
-			<label class="filter-control">
-				<span>{{ t("ui.forceWiki.filterDifficulty") }}</span>
-				<select class="ui-control" v-model="data.difficultyFilter">
-					<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">
-						{{ filter.label }}
-					</option>
-				</select>
-			</label>
-			<button class="clear-filters ui-button" type="button" :disabled="!hasActiveFilters" @click="clearFilters">
-				{{ t("ui.forceWiki.clearFilters") }}
-			</button>
-		</section>
-
-
-		<div class="wiki-layout">
-			<aside id="wiki-index-panel" class="wiki-index ui-panel"
-				:class="{ collapsed: data.indexCollapsed, 'mobile-open': data.mobileIndexOpen }">
-				<div class="index-panel-header">
-					<div class="index-panel-title">
-						<span>{{ t("ui.forceWiki.powerIndex") }}</span>
-						<button class="index-close ui-button" type="button" @click="closeMobileIndex">{{ t("ui.forceWiki.close") }}</button>
-					</div>
-					<ForcePowerSearch v-model.trim="data.search" class="mobile-search"
-						:placeholder="t('ui.forceWiki.searchPlaceholder')" :aria-label="t('ui.forceWiki.searchAriaLabel')" />
-					<div class="mobile-filters">
-						<select class="ui-control" v-model="data.powerFilter">
-							<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">{{
-								filter.label }}</option>
-						</select>
-						<select class="ui-control" v-model="data.traitFilter">
-							<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">{{
-								filter.label }}</option>
-						</select>
-						<select class="ui-control" v-model="data.difficultyFilter">
-							<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">{{
-								filter.label }}</option>
-						</select>
-					</div>
+		<div class="ui-panel ui-page-banner">
+			<header class="wiki-header ui-reference-header">
+				<div>
+					<p class="ui-kicker">{{ t("ui.forceWiki.titleEyebrow") }}</p>
+					<h1 class="ui-page-title">{{ t("ui.forceWiki.title") }}</h1>
 				</div>
-				<div class="index-heading" :aria-hidden="data.indexCollapsed">
-					<span>{{ t("ui.forceWiki.powerIndex") }}</span>
-					<strong class="ui-count">{{ filteredSkills.length }}</strong>
+				<div class="header-meta">
+					<ForcePowerSearch v-model.trim="data.search" class="header-search" :placeholder="t('ui.forceWiki.searchPlaceholder')"
+						:aria-label="t('ui.forceWiki.searchAriaLabel')" />
+					<p class="count ui-count">{{ filteredSkills.length }} / {{ allSkills.length }}</p>
 				</div>
-				<button class="index-toggle ui-button" type="button" :aria-expanded="!data.indexCollapsed"
-					:aria-label="data.indexCollapsed ? t('ui.forceWiki.showPowers') : t('ui.forceWiki.hidePowers')"
-					:title="data.indexCollapsed ? t('ui.forceWiki.showPowers') : t('ui.forceWiki.hidePowers')"
-					@click="data.indexCollapsed = !data.indexCollapsed">
-					<span class="index-toggle-icon" aria-hidden="true"></span>
+			</header>
+
+			<section class="wiki-filters ui-reference-filters" :aria-label="t('ui.forceWiki.filtersAriaLabel')">
+				<label class="filter-control">
+					<span>{{ t("ui.forceWiki.filterForceSkills") }}</span>
+					<select class="ui-control" v-model="data.powerFilter">
+						<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">
+							{{ filter.label }}
+						</option>
+					</select>
+				</label>
+				<label class="filter-control">
+					<span>{{ t("ui.forceWiki.filterProperties") }}</span>
+					<select class="ui-control" v-model="data.traitFilter">
+						<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">
+							{{ filter.label }}
+						</option>
+					</select>
+				</label>
+				<label class="filter-control">
+					<span>{{ t("ui.forceWiki.filterDifficulty") }}</span>
+					<select class="ui-control" v-model="data.difficultyFilter">
+						<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">
+							{{ filter.label }}
+						</option>
+					</select>
+				</label>
+				<button class="clear-filters ui-button" type="button" :disabled="!hasActiveFilters" @click="clearFilters">
+					{{ t("ui.forceWiki.clearFilters") }}
 				</button>
-				<div class="index-scroll" :aria-hidden="data.indexCollapsed">
+			</section>
+		</div>
+		<ReferenceSidebarLayout
+			panel-id="wiki-index-panel"
+			v-model:collapsed="data.indexCollapsed"
+			v-model:drawer-open="data.mobileIndexOpen"
+			:heading="t('ui.forceWiki.powerIndex')"
+			:count="filteredSkills.length"
+			:selected-title="data.currentSkill?.name"
+			:fallback-title="t('ui.forceWiki.selectPower')"
+			:browse-label="`${t('ui.forceWiki.browse')} ${filteredSkills.length}`"
+			:expand-label="t('ui.forceWiki.showPowers')"
+			:collapse-label="t('ui.forceWiki.hidePowers')"
+			:close-label="t('ui.forceWiki.close')"
+		>
+			<template #drawer-filters>
+				<ForcePowerSearch v-model.trim="data.search" class="mobile-search"
+					:placeholder="t('ui.forceWiki.searchPlaceholder')" :aria-label="t('ui.forceWiki.searchAriaLabel')" />
+				<div class="mobile-filters">
+					<select class="ui-control" v-model="data.powerFilter" :aria-label="t('ui.forceWiki.filterForceSkills')">
+						<option v-for="filter in powerFilters" :key="filter.value" :value="filter.value">{{ filter.label }}</option>
+					</select>
+					<select class="ui-control" v-model="data.traitFilter" :aria-label="t('ui.forceWiki.filterProperties')">
+						<option v-for="filter in traitFilters" :key="filter.value" :value="filter.value">{{ filter.label }}</option>
+					</select>
+					<select class="ui-control" v-model="data.difficultyFilter" :aria-label="t('ui.forceWiki.filterDifficulty')">
+						<option v-for="filter in difficultyFilters" :key="filter.value" :value="filter.value">{{ filter.label }}</option>
+					</select>
+				</div>
+			</template>
+			<template #index>
+				<div class="wiki-index-items">
 					<div class="index-group" v-for="group in groupedSkills" :key="group.letter">
 						<h2>{{ group.letter }}</h2>
 						<button v-for="skill in group.skills" :key="skill.id || skill.name" class="index-item ui-button"
@@ -97,11 +82,11 @@
 					</div>
 					<p class="empty" v-if="groupedSkills.length === 0">{{ t("ui.forceWiki.noPowersFound") }}</p>
 				</div>
-			</aside>
+			</template>
 
-			<article class="wiki-entry ui-panel" v-if="data.currentSkill">
+			<article class="wiki-entry ui-panel ui-reading-panel" v-if="data.currentSkill">
 				<header class="entry-header">
-					<h2>{{ data.currentSkill.name }}</h2>
+					<h2 class="ui-entry-title">{{ data.currentSkill.name }}</h2>
 					<div class="meta">
 						<span class="pill" v-for="power in data.currentSkill.powers" :key="power">
 							{{ getPowerName(power) }}
@@ -132,7 +117,7 @@
 			<section class="wiki-entry wiki-empty-state ui-panel" v-else>
 				<p>{{ t("ui.characterPowers.noPowersMatch") }}</p>
 			</section>
-		</div>
+		</ReferenceSidebarLayout>
 	</section>
 </template>
 
@@ -141,8 +126,7 @@ import { createPowerSkills, getForcePowerLanguages } from "@/assets/data";
 import { getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import { Power } from "@/assets/powers";
 import ForcePowerSearch from "@/components/ForcePowerSearch.vue";
-import MobileDrawerBackdrop from "@/components/shared/MobileDrawerBackdrop.vue";
-import MobileDrawerToggle from "@/components/shared/MobileDrawerToggle.vue";
+import ReferenceSidebarLayout from "@/components/shared/ReferenceSidebarLayout.vue";
 import Difficulty from "./CharacterSheet/Powers/Difficulty.vue";
 import PowerContentBlocks from "@/components/PowerContentBlocks.vue";
 import { toParagraphHtml } from "@/utils/powerContent";
@@ -212,8 +196,7 @@ export default {
 	components: {
 		Difficulty,
 		ForcePowerSearch,
-		MobileDrawerBackdrop,
-		MobileDrawerToggle,
+		ReferenceSidebarLayout,
 		PowerContentBlocks,
 	},
 	data() {
@@ -244,10 +227,6 @@ export default {
 	beforeUnmount() {
 		if (typeof window !== "undefined") {
 			window.removeEventListener("hashchange", this.selectSkillFromHash);
-		}
-
-		if (typeof document !== "undefined") {
-			document.body.classList.remove("mobile-drawer-open");
 		}
 	},
 
@@ -358,17 +337,9 @@ export default {
 			return getForcePowerSkillName(this.language, power);
 		},
 
-		openMobileIndex() {
-			this.data.mobileIndexOpen = true;
-		},
-
-		closeMobileIndex() {
-			this.data.mobileIndexOpen = false;
-		},
-
 		showSkillFromIndex(skill) {
 			this.showSkill(skill);
-			if (this.data.mobileIndexOpen) this.closeMobileIndex();
+			this.data.mobileIndexOpen = false;
 		},
 
 		clearFilters() {
@@ -613,12 +584,6 @@ export default {
 			this.loadPowerSkills();
 		},
 
-		"data.mobileIndexOpen"(isOpen) {
-			if (typeof document === "undefined") return;
-
-			document.body.classList.toggle("mobile-drawer-open", isOpen);
-		},
-
 		filteredSkills(list) {
 			if (list.length === 0) {
 				this.data.currentSkill = null;
@@ -640,35 +605,7 @@ export default {
 	gap: 1rem;
 }
 
-/* mobile controls hidden by default */
-.mobile-toolbar,
-.index-panel-header {
-	display: none;
-}
-
 .wiki-header {
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 1rem;
-	padding: 1rem 1.2rem;
-	background:
-		linear-gradient(135deg, rgba(242, 193, 78, 0.08), rgba(103, 213, 200, 0.035)),
-		var(--color-panel);
-
-	.eyebrow {
-		margin: 0 0 0.35rem;
-		color: var(--color-cyan);
-		font-size: 0.72rem;
-		font-weight: 800;
-		text-transform: uppercase;
-	}
-
-	h1 {
-		margin: 0;
-		font-size: 2rem;
-	}
-
 	.header-meta {
 		display: flex;
 		align-items: center;
@@ -690,7 +627,6 @@ export default {
 	grid-template-columns: repeat(3, minmax(10rem, 1fr)) auto;
 	gap: 0.7rem;
 	align-items: end;
-	padding: 0.85rem 1rem;
 
 	.filter-control {
 		display: flex;
@@ -701,14 +637,15 @@ export default {
 		span {
 			color: var(--color-muted);
 			font-size: 0.72rem;
-			font-weight: 900;
+			font-weight: 700;
+			letter-spacing: 0.05em;
 			text-transform: uppercase;
 		}
 	}
 
 	select,
 	.clear-filters {
-		font-weight: 800;
+		font-weight: 650;
 	}
 
 	select {
@@ -731,155 +668,7 @@ export default {
 	}
 }
 
-.wiki-layout {
-	display: grid;
-	grid-template-columns: minmax(14rem, 19rem) minmax(0, 1fr);
-	gap: 1rem;
-	align-items: stretch;
-	transition: grid-template-columns 0.24s ease;
-
-	&:has(.wiki-index.collapsed) {
-		grid-template-columns: 2.75rem minmax(0, 1fr);
-	}
-}
-
-.wiki-index {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
-	padding: 0.9rem;
-	overflow: hidden;
-	transition:
-		padding 0.24s ease,
-		min-height 0.24s ease;
-
-	&.collapsed {
-		align-self: stretch;
-		min-height: 4rem;
-		padding-inline: 0.5rem;
-
-		.index-heading,
-		.index-scroll {
-			opacity: 0;
-			pointer-events: none;
-			transition:
-				opacity 0.1s ease,
-				visibility 0s linear 0.1s;
-			visibility: hidden;
-		}
-	}
-
-	.index-heading {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		min-height: 2rem;
-		padding-right: 2.65rem;
-		opacity: 1;
-		overflow: hidden;
-		visibility: visible;
-		transition:
-			opacity 0.14s ease 0.12s,
-			visibility 0s linear 0.12s;
-
-		span {
-			color: var(--color-muted);
-			font-size: 0.72rem;
-			font-weight: 900;
-			text-transform: uppercase;
-		}
-
-		strong {
-			min-width: 2.05rem;
-			min-height: 1.45rem;
-			padding: 0.1rem 0.45rem;
-			font-size: 0.78rem;
-		}
-	}
-
-	.index-toggle {
-		position: absolute;
-		top: 0.75rem;
-		right: 0.65rem;
-		z-index: 2;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 2rem;
-		height: 2rem;
-		min-height: 0;
-		padding: 0;
-		border: 1px solid rgba(242, 193, 78, 0.28);
-		background: rgba(22, 20, 17, 0.9);
-		color: var(--color-accent);
-		box-shadow: var(--shadow-control);
-		transition:
-			right 0.24s ease,
-			transform 0.24s ease,
-			background 0.18s ease,
-			border-color 0.18s ease;
-
-		&:hover {
-			border-color: rgba(242, 193, 78, 0.48);
-			background: rgba(242, 193, 78, 0.1);
-		}
-
-		.index-toggle-icon {
-			display: inline-flex;
-			width: 0.5rem;
-			height: 0.5rem;
-			border: solid currentColor;
-			border-width: 0 2px 2px 0;
-			transform: translateX(0.12rem) rotate(135deg);
-			transition: transform 0.24s ease;
-		}
-	}
-
-	&.collapsed .index-toggle {
-		right: 50%;
-		transform: translateX(50%);
-
-		.index-toggle-icon {
-			transform: translateX(-0.12rem) rotate(-45deg);
-		}
-	}
-
-	.index-scroll {
-		flex: 1 1 auto;
-		height: 0;
-		min-height: 0;
-		margin-top: 0.55rem;
-		padding: 0.15rem 2.35rem 0.4rem 0.25rem;
-		overflow: auto;
-		opacity: 1;
-		visibility: visible;
-		scrollbar-color: rgba(242, 193, 78, 0.52) rgba(244, 239, 229, 0.06);
-		scrollbar-width: thin;
-		transition:
-			opacity 0.14s ease 0.12s,
-			visibility 0s linear 0.12s;
-
-		&::-webkit-scrollbar {
-			width: 0.55rem;
-		}
-
-		&::-webkit-scrollbar-track {
-			border-radius: 999px;
-			background: rgba(244, 239, 229, 0.06);
-		}
-
-		&::-webkit-scrollbar-thumb {
-			border: 2px solid rgba(24, 22, 18, 0.95);
-			border-radius: 999px;
-			background: rgba(242, 193, 78, 0.62);
-		}
-
-		&::-webkit-scrollbar-thumb:hover {
-			background: rgba(242, 193, 78, 0.84);
-		}
-	}
-
+.wiki-index-items {
 	.index-group+.index-group {
 		margin-top: 0.9rem;
 	}
@@ -927,13 +716,9 @@ export default {
 	}
 }
 
-.wiki-entry {
-	padding: 1.2rem;
-	min-width: 0;
-	min-height: max(32rem, calc(100vh - 22rem));
-}
-
 .wiki-empty-state {
+	min-height: 10rem;
+	padding: 2rem 1rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -948,14 +733,9 @@ export default {
 }
 
 .entry-header {
-	padding-bottom: 0.9rem;
-	margin-bottom: 0.9rem;
-	border-bottom: 1px solid rgba(244, 239, 229, 0.16);
-
-	h2 {
-		margin: 0;
-		font-size: 2.05rem;
-	}
+	padding-bottom: 1rem;
+	margin-bottom: 1.15rem;
+	border-bottom: 1px solid var(--color-rule);
 
 	.meta {
 		display: flex;
@@ -986,10 +766,11 @@ export default {
 }
 
 .summary {
+	max-width: 72ch;
 	margin: 0 0 1rem;
 	font-size: 1rem;
-	line-height: 1.6;
-	font-weight: 800;
+	line-height: 1.68;
+	font-weight: 650;
 }
 
 .required {
@@ -1045,224 +826,46 @@ export default {
 	}
 }
 
-@media (max-width: 980px) {
-	.wiki-header {
-		align-items: stretch;
-		flex-direction: column;
-
-		.header-meta {
-			flex-direction: column;
-			align-items: stretch;
-		}
-
-		.header-search {
-			min-width: 0;
-			width: 100%;
-		}
-	}
-
-	.wiki-filters {
-		grid-template-columns: 1fr;
-	}
-
-	.wiki-layout {
-		grid-template-columns: 1fr;
-
-		&:has(.wiki-index.collapsed) {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	.wiki-index {
-		position: static;
-		max-height: none;
-	}
-
-	.entry-header h2 {
-		font-size: 1.8rem;
-	}
-}
-
-@media (max-width: 980px) {
+@media (width < 981px) {
 	.wiki {
-
-		/* hide header search & filter areas on small screens - keep only drawer controls */
-		.wiki-header .header-meta {
-			display: none;
-		}
-
+		.wiki-header .header-meta,
 		.wiki-filters {
 			display: none;
 		}
-
-		.mobile-toolbar {
-			display: block;
-			position: sticky;
-			top: 0.65rem;
-			z-index: 7;
-		}
 	}
 
-	.wiki-index {
-		position: fixed;
-		inset: auto 0 0;
-		z-index: 11;
-		width: 100%;
-		height: min(86svh, 46rem);
-		max-height: 86vh;
-		padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
-		border-radius: var(--radius-md) var(--radius-md) 0 0;
-		overflow: hidden;
-		transform: translateY(105%);
-		transition: transform 0.22s ease;
-
-		&.mobile-open {
-			transform: translateY(0);
-		}
-
-		&.collapsed {
-			.index-scroll {
-				opacity: 1;
-				pointer-events: auto;
-				visibility: visible;
-			}
-		}
-
-		.index-toggle {
-			display: none;
-		}
-
-		.index-scroll {
-			flex: 1 1 auto;
-			height: auto;
-			min-height: 0;
-			max-height: none;
-			padding-right: 0.25rem;
-		}
-
-		.index-heading {
-			display: none;
-		}
-	}
-
-	.index-panel-header {
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-		margin-bottom: 0.6rem;
-		flex: 0 0 auto;
-	}
-
-	.index-panel-title {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
-
-		span {
-			color: var(--color-muted);
-			font-size: 0.72rem;
-			font-weight: 900;
-			text-transform: uppercase;
-		}
-	}
-
-	.index-close {
-		min-height: 2.35rem;
-		padding: 0.35rem 0.7rem;
-		color: var(--color-muted);
-		font-size: 0.84rem;
-		font-weight: 900;
-	}
-
-	.index-panel-header .mobile-search {
+	.mobile-search,
+	.mobile-filters select {
 		width: 100%;
 		font-size: 1rem;
 	}
 
-	.index-panel-header .mobile-filters {
+	.mobile-filters {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 0.45rem;
-		overflow-x: auto;
-	}
 
-	@media (max-width: 520px) {
-		.index-panel-header .mobile-filters {
-			grid-template-columns: repeat(2, 1fr);
+		select {
+			padding: 0.35rem 0.45rem;
 		}
 	}
+}
 
-	@media (max-width: 360px) {
-		.index-panel-header .mobile-filters {
-			grid-template-columns: 1fr;
-		}
+@media (max-width: 520px) {
+	.mobile-filters {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
+}
 
-	.index-panel-header select {
-		min-height: 2.35rem;
-		padding: 0.35rem 0.45rem;
-		width: 100%;
+@media (max-width: 360px) {
+	.mobile-filters {
+		grid-template-columns: minmax(0, 1fr);
 	}
-
 }
 
 @media (max-width: 560px) {
 	.wiki {
 		gap: 0.75rem;
-	}
-
-	.wiki-header {
-		padding: 0.8rem 1rem;
-		gap: 0.6rem;
-
-		h1 {
-			font-size: 1.5rem;
-		}
-
-		.header-meta {
-			flex-direction: column;
-			align-items: stretch;
-			gap: 0.4rem;
-		}
-
-		.header-search {
-			min-width: unset;
-			width: 100%;
-		}
-
-		.count {
-			min-width: unset;
-			width: 100%;
-		}
-	}
-
-	.wiki-filters {
-		grid-template-columns: repeat(2, 1fr);
-		gap: 0.5rem;
-		padding: 0.7rem 0.8rem;
-
-		.filter-control span {
-			font-size: 0.65rem;
-		}
-
-		select,
-		.clear-filters {
-			min-height: 2.1rem;
-			font-size: 0.9rem;
-		}
-
-		.clear-filters {
-			grid-column: 1 / -1;
-		}
-	}
-
-	.wiki-layout {
-		gap: 0.8rem;
-	}
-
-	.wiki-index {
-		padding: 0.75rem 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
 	}
 
 	.wiki-entry {
@@ -1272,12 +875,6 @@ export default {
 	.entry-header {
 		padding-bottom: 0.85rem;
 		margin-bottom: 0.85rem;
-
-		h2 {
-			font-size: 1.35rem;
-			margin-bottom: 0.5rem;
-			font-weight: 900;
-		}
 
 		.required {
 			margin-top: 0.65rem;
@@ -1314,28 +911,7 @@ export default {
 }
 
 @media (max-width: 520px) {
-	.wiki .mobile-toolbar {
-		top: 0.5rem;
-	}
-
-	.wiki-index {
-		height: min(90svh, 48rem);
-		max-height: 90vh;
-
-		.index-scroll {
-			max-height: none;
-		}
-	}
-
-	.wiki-filters {
-		grid-template-columns: 1fr;
-	}
-
 	.entry-header {
-		h2 {
-			font-size: 1.25rem;
-		}
-
 		.required-pill {
 			font-size: 0.75rem;
 			padding: 0.18rem 0.42rem;

@@ -1,51 +1,52 @@
 <template>
 	<div class="navbar--container">
-		<header class="nav">
-			<section class="filler force-panel ui-panel" :aria-label="t('ui.sheet.forceSkillsAndPoints')">
+		<header class="sheet-header ui-panel ui-page-banner">
+			<div class="sheet-header-row">
+				<img v-if="portrait" :src="portrait" alt="" class="sheet-portrait" width="104" height="104" />
+				<div class="sheet-title">
+					<p class="ui-kicker">Star Wars D6</p>
+					<h1 class="ui-page-title">{{ character.name }}</h1>
+				</div>
+				<div v-if="$slots.actions" class="sheet-actions"><slot name="actions" /></div>
+			</div>
+			<nav class="nav-list" :aria-label="t('ui.sheet.characterNavigation')">
+				<button class="item ui-button" :class="{ active: data.stats }" :aria-pressed="data.stats" type="button" @click="showStats">{{ t("ui.sheet.stats") }}</button>
+				<button class="item ui-button" :class="{ active: data.powers }" :aria-pressed="data.powers" type="button" @click="showPowers">{{ t("ui.sheet.powers") }}</button>
+				<button class="item ui-button" :class="{ active: data.background }" :aria-pressed="data.background" type="button" @click="showBackground">{{ t("ui.sheet.background") }}</button>
+				<button class="item ui-button" :class="{ active: data.sessionPoints }" :aria-pressed="data.sessionPoints" type="button" @click="showSection('sessionPoints')">
+					{{ t("ui.sessionPoints.navigation") }}
+				</button>
+			</nav>
+		</header>
+		<div class="sheet-overview ui-panel">
+			<section class="force-panel" :aria-label="t('ui.sheet.forceSkillsAndPoints')">
 				<div class="force-stats">
 					<p v-for="forceSkill in forceSkillButtons" :key="forceSkill.power">
 						<span>{{ forceSkill.label }}</span>
-						<button class="force-copy hover" type="button" @click="copyForceRoll(forceSkill.power)">
+						<button class="force-copy ui-button is-cyan" type="button" @click="copyForceRoll(forceSkill.power)">
 							{{ forceSkill.dice }}
 						</button>
 					</p>
 				</div>
-				<div class="right-align points">
+				<div class="points">
 					<p><span>{{ t("ui.sheet.force") }}</span>{{ characterPoints.force }}</p>
 					<p class="temporary-force">
 						<span>{{ t("ui.sheet.temporary") }}</span>
-						<button class="number-button ui-button" type="button" @click="addTemporaryForce">+</button>
-						<button class="number-button ui-button" type="button" @click="removeTemporaryForce">-</button>
-						<strong>{{ force_temp }}</strong>
+						<span class="temporary-control">
+							<button class="number-button ui-button" type="button" @click="removeTemporaryForce">−</button>
+							<strong>{{ force_temp }}</strong>
+							<button class="number-button ui-button" type="button" @click="addTemporaryForce">+</button>
+						</span>
 					</p>
 					<p><span>{{ t("ui.sheet.darkside") }}</span>{{ characterPoints.darkside }}</p>
 				</div>
 			</section>
-			<section class="main ui-panel" :aria-label="t('ui.sheet.characterNavigation')">
-				<p class="eyebrow">Star Wars D6</p>
-				<h1>{{ character.name }}</h1>
-				<div class="nav-list">
-					<button class="item ui-button" :class="{ active: data.stats }" type="button" @click="showStats">{{ t("ui.sheet.stats") }}</button>
-					<button class="item ui-button" :class="{ active: data.powers }" type="button" @click="showPowers">{{ t("ui.sheet.powers") }}</button>
-					<button class="item ui-button" :class="{ active: data.background }" type="button" @click="showBackground">{{ t("ui.sheet.background") }}</button>
-				</div>
+			<section class="character-panel" :aria-label="t('ui.sheet.characterPointsAria')">
+				<p><span>{{ t("ui.sheet.characterPoints") }}</span>{{ characterPoints.character }}</p>
+				<p><span>{{ t("ui.sheet.spentPoints") }}</span>{{ characterPoints.spent }}</p>
 			</section>
-			<section class="filler character-panel ui-panel" :aria-label="t('ui.sheet.characterPointsAria')">
-				<div>
-					<p><span>{{ t("ui.sheet.characterPoints") }}</span>{{ characterPoints.character }}</p>
-					<p><span>{{ t("ui.sheet.spentPoints") }}</span>{{ characterPoints.spent }}</p>
-					<button
-						class="ui-button history-button"
-						:class="{ active: data.sessionPoints }"
-						:aria-pressed="data.sessionPoints"
-						type="button"
-						@click="showSection('sessionPoints')"
-					>
-						{{ t("ui.sessionPoints.navigation") }}
-					</button>
-				</div>
-			</section>
-		</header>
+		</div>
+		<slot name="tools" />
 		<main class="content-shell">
 			<Stats class="content-item" v-show="data.stats" :stats="character.stats" />
 			<Background class="content-item" v-show="data.background" :family="character.family" />
@@ -62,6 +63,7 @@ import { characters } from "@/assets/characters";
 import Stats from "./CharacterSheet/Stats/Stats";
 import Background from "./CharacterSheet/Background";
 import Powers from "./CharacterSheet/Powers/Powers";
+import zebronPortrait from "@/assets/timeline-sketches/zebron-kebino.webp";
 
 import { copyToClipboard } from "@/utils/clipboard";
 import { formatDiceParts, getRollCommandFromDice } from "@/utils/dice";
@@ -120,6 +122,7 @@ export default {
 			sessionPoints: false,
 		});
 		const characterPoints = computed(() => props.character?.points || {});
+		const portrait = computed(() => props.character?.id === "zebron-kebino" ? zebronPortrait : "");
 		const characterForceStats = computed(() => props.character?.forceStats || {});
 		const characterPowerLabels = computed(() =>
 			props.character?.createPowerProfile?.(powerLanguageState.language)?.getPowerLabels?.() || []
@@ -221,6 +224,7 @@ export default {
 		return {
 			data,
 			characterPoints,
+			portrait,
 			characterForceStats,
 			forceSkillButtons,
 			powerLanguageState,
@@ -241,274 +245,212 @@ export default {
 
 <style lang="scss" scoped>
 .navbar--container {
+	display: grid;
+	gap: 0.85rem;
+	min-width: 0;
+}
+
+.sheet-header {
+	padding: clamp(0.9rem, 2.2vw, 1.8rem);
+}
+
+.sheet-header-row {
+	display: flex;
+	align-items: center;
+	gap: clamp(0.7rem, 2vw, 1.35rem);
+	min-width: 0;
+}
+
+.sheet-title {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.sheet-portrait {
+	flex: 0 0 auto;
+	width: clamp(3.5rem, 8vw, 6.2rem);
+	height: auto;
+	aspect-ratio: 1;
+	object-fit: contain;
+	border: 1px solid var(--color-border);
+	border-radius: 0.6rem;
+	background: radial-gradient(ellipse at center, rgba(242, 193, 78, 0.12), rgba(0, 0, 0, 0.15));
+}
+
+.sheet-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	min-width: 0;
+}
+
+.nav-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem;
+	margin: 1rem 0 0;
+	padding-top: 0.8rem;
+	border-top: 1px solid var(--color-rule);
+
+	.item {
+		min-width: 0;
+		padding: 0.42rem 0.85rem;
+		border-color: transparent;
+		background: transparent;
+		color: var(--color-muted);
+
+		&:hover {
+			background: var(--surface-hover);
+			color: var(--color-text);
+		}
+
+		&.active {
+			border-color: var(--color-border);
+			background: var(--surface-accent);
+			color: var(--color-accent);
+		}
+	}
+}
+
+.sheet-overview {
+	display: grid;
+	grid-template-columns: minmax(0, 3.1fr) minmax(10rem, 1fr);
+	gap: clamp(0.65rem, 2vw, 1.35rem);
+	padding: clamp(0.65rem, 1.65vw, 1.05rem);
+}
+
+.force-panel,
+.force-stats,
+.points,
+.character-panel {
+	display: grid;
+	gap: 0.65rem;
+	min-width: 0;
+}
+
+.force-panel {
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+}
+
+.force-stats,
+.points {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.points,
+.character-panel {
+	padding-left: clamp(0.55rem, 1.8vw, 1.3rem);
+	border-left: 1px solid var(--color-rule);
+}
+
+.character-panel {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sheet-overview p {
 	display: flex;
 	flex-direction: column;
+	align-items: start;
+	justify-content: start;
+	gap: 0.34rem;
+	min-width: 0;
+	margin: 0;
+	color: var(--color-text);
+	font-size: 1.13rem;
+	font-variant-numeric: tabular-nums;
+	font-weight: 750;
+	line-height: 1.22;
+	overflow-wrap: anywhere;
+
+	> span:first-child {
+		color: var(--color-muted);
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+	}
+}
+
+.temporary-control {
+	display: inline-flex;
 	align-items: center;
-	gap: 1.25rem;
+	gap: 0.32rem;
 
-	.nav {
+	strong {
+		min-width: 0.85rem;
+		text-align: center;
+	}
+}
+
+.number-button,
+.force-copy {
+	min-height: 1.8rem;
+	min-width: 1.8rem;
+	padding: 0.15rem 0.38rem;
+	font-weight: 750;
+}
+
+.content-shell {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	min-width: 0;
+}
+
+@media (max-width: 58rem) {
+	.sheet-overview {
+		grid-template-columns: 1fr;
+	}
+
+	.character-panel {
+		padding: 0.62rem 0 0;
+		border-left: 0;
+		border-top: 1px solid var(--color-rule);
+	}
+}
+
+@media (max-width: 38rem) {
+	.sheet-header-row {
+		flex-wrap: wrap;
+	}
+
+	.sheet-title {
+		flex-basis: 7rem;
+	}
+
+	.sheet-actions {
+		width: 100%;
+		justify-content: flex-start;
+	}
+
+	.nav-list {
 		display: grid;
-		grid-template-columns: minmax(18rem, 1fr) minmax(22rem, 0.9fr) minmax(14rem, 0.72fr);
-		gap: 1rem;
-		width: 100%;
-		align-items: stretch;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		margin-top: 0.7rem;
 
-		.main {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			min-height: 12rem;
-			padding: 1.5rem;
-			border-color: var(--color-border-strong);
-			background:
-				linear-gradient(135deg, rgba(242, 193, 78, 0.14), rgba(103, 213, 200, 0.05)),
-				var(--color-panel);
-
-			.eyebrow {
-				margin: 0 0 0.5rem;
-				color: var(--color-accent);
-				font-size: 0.75rem;
-				font-weight: 800;
-				letter-spacing: 0;
-				text-transform: uppercase;
-			}
-
-			h1 {
-				margin: 0 0 1.25rem;
-				color: var(--color-text);
-				font-size: 3.2rem;
-				line-height: 1;
-				text-align: center;
-			}
-
-			.nav-list {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				gap: 0.45rem;
-				padding: 0;
-				margin: 0;
-
-				.item {
-					min-width: 0;
-					min-height: 2.4rem;
-					padding: 0.45rem 0.9rem;
-					background: var(--surface-control);
-					color: var(--color-muted);
-					font-weight: 800;
-					transition:
-						background 0.2s ease,
-						border-color 0.2s ease,
-						color 0.2s ease,
-						transform 0.2s ease;
-
-					&:hover {
-						color: var(--color-text);
-						transform: translateY(-1px);
-					}
-
-					&.active {
-						border-color: rgba(242, 193, 78, 0.78);
-						background: var(--color-accent);
-						color: var(--color-on-accent);
-					}
-				}
-			}
-		}
-
-		.filler {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-content: space-between;
-			gap: 1rem;
-			padding: 1.25rem;
-
-			div {
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				gap: 0.55rem;
-
-				p {
-					display: flex;
-					align-items: baseline;
-					gap: 0.6rem;
-					margin: 0;
-					color: var(--color-text);
-					font-size: 1.05rem;
-					font-weight: 800;
-
-					span {
-						color: var(--color-muted);
-						font-size: 0.76rem;
-						font-weight: 800;
-						letter-spacing: 0;
-						text-transform: uppercase;
-					}
-				}
-			}
-		}
-
-		.right-align {
-			align-items: flex-end !important;
-		}
-
-		.history-button {
-			margin-top: 0.25rem;
-			color: var(--color-accent);
-			font-size: 0.9rem;
-		}
-
-		.temporary-force {
-			display: grid !important;
-			grid-template-columns: auto 1.7rem 1.7rem auto;
-			align-items: center !important;
-			gap: 0.4rem !important;
-		}
-
-		.number-button {
-			width: 1.7rem;
-			height: 1.7rem;
-			min-height: 0;
-			padding: 0;
-			font-weight: 800;
-			line-height: 1;
-
-			&:hover {
-				border-color: var(--color-accent);
-				color: var(--color-accent);
-			}
-		}
-
-		button {
-			font: inherit;
-		}
-
-		.force-copy {
-			width: max-content;
-			min-height: 1.7rem;
-			border: 1px solid rgba(103, 213, 200, 0.28);
-			border-radius: var(--radius-sm);
-			background: rgba(103, 213, 200, 0.09);
-			color: var(--color-cyan);
-			font-weight: 900;
-			padding: 0.18rem 0.45rem;
-		}
-
-		.hover {
-			cursor: pointer;
-			transition:
-				color 0.2s ease,
-				border-color 0.2s ease,
-				background 0.2s ease;
-
-			&:hover {
-				border-color: var(--color-accent);
-				color: var(--color-accent);
-			}
+		.item {
+			min-height: 2.45rem;
+			padding-inline: 0.3rem;
+			font-size: 0.85rem;
 		}
 	}
 
-	.content-shell {
-		width: 100%;
-		display: flex;
-		justify-content: center;
+	.force-panel {
+		grid-template-columns: 1fr;
 	}
-}
 
-@media (max-width: 1120px) {
-	.navbar--container {
-		.nav {
-			grid-template-columns: 1fr 1fr;
-
-			.main {
-				grid-column: 1 / -1;
-				order: -1;
-			}
-		}
+	.points {
+		padding: 0.62rem 0 0;
+		border-left: 0;
+		border-top: 1px solid var(--color-rule);
 	}
-}
 
-@media (max-width: 760px) {
-	.navbar--container {
-		gap: 0.85rem;
-
-		.nav {
-			grid-template-columns: 1fr;
-			gap: 0.75rem;
-
-			.main {
-				min-height: auto;
-				padding: 1rem;
-
-				h1 {
-					font-size: 2.25rem;
-				}
-
-				.nav-list {
-					display: grid;
-					grid-template-columns: repeat(3, minmax(0, 1fr));
-					width: 100%;
-
-					.item {
-						min-height: 2.75rem;
-						margin: 0;
-						padding: 0.45rem 0.35rem;
-						font-size: 0.95rem;
-					}
-				}
-			}
-
-			.filler {
-				flex-direction: column;
-				align-items: flex-start;
-				gap: 0.75rem;
-				padding: 1rem;
-
-				.right-align {
-					align-items: flex-start !important;
-				}
-			}
-		}
-	}
-}
-
-@media (max-width: 430px) {
-	.navbar--container {
-		.nav {
-			.main {
-				h1 {
-					font-size: 1.9rem;
-				}
-			}
-
-			.filler {
-				div {
-					width: 100%;
-
-					p {
-						justify-content: space-between;
-						width: 100%;
-					}
-
-					.force-copy {
-						min-height: 2.35rem;
-					}
-				}
-			}
-
-			.temporary-force {
-				grid-template-columns: 1fr 2rem 2rem auto !important;
-				width: 100%;
-			}
-
-			.number-button {
-				width: 2rem;
-				height: 2rem;
-			}
-		}
+	.number-button,
+	.force-copy {
+		min-width: 2.1rem;
+		min-height: 2.1rem;
 	}
 }
 </style>

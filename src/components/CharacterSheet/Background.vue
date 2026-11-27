@@ -37,8 +37,8 @@ export default {
 .background--container {
 	width: 100%;
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 19.5rem), 1fr));
+	gap: 0.85rem;
 
 	.member {
 		min-width: 0;
@@ -53,8 +53,10 @@ export default {
 			.name {
 				margin-right: 0.4rem;
 				color: var(--color-text);
-				font-size: 1.8rem;
-				font-weight: 900;
+				font-size: clamp(1.28rem, 2vw, 1.66rem);
+				font-weight: 760;
+				letter-spacing: -0.025em;
+				overflow-wrap: anywhere;
 			}
 
 			.info {
@@ -68,9 +70,8 @@ export default {
 				margin-top: 0.35rem;
 				margin-right: 1rem;
 				font-weight: normal;
-				font-style: italic;
-				font-size: 0.95rem;
-				color: var(--color-subtle);
+				font-size: 0.79rem;
+				color: var(--color-muted);
 			}
 		}
 

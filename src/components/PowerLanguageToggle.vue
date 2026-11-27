@@ -69,13 +69,10 @@ export default {
 	gap: 0.45rem;
 	min-height: 2.5rem;
 	padding: 0.32rem 0.65rem;
-	border: 1px solid rgba(242, 193, 78, 0.34);
-	background:
-		linear-gradient(135deg, rgba(242, 193, 78, 0.14), rgba(103, 213, 200, 0.08)),
-		var(--color-panel-soft);
+	border: 1px solid transparent;
+	background: var(--surface-control);
 	color: var(--color-text);
-	font-weight: 900;
-	box-shadow: var(--shadow-control);
+	font-weight: 750;
 
 	&:hover {
 		border-color: rgba(242, 193, 78, 0.58);

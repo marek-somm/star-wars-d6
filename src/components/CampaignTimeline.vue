@@ -177,10 +177,7 @@ export default {
 	padding: clamp(1.15rem, 3.1vw, 2.6rem);
 	border: 1px solid var(--color-border);
 	border-radius: 0.85rem;
-	background:
-		radial-gradient(ellipse at 91% 0%, rgba(103, 213, 200, 0.08), transparent 55%),
-		linear-gradient(122deg, rgba(242, 193, 78, 0.075), transparent 52%),
-		var(--color-panel);
+	background: var(--page-heading-background);
 	box-shadow: var(--shadow-panel);
 }
 

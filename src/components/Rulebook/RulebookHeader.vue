@@ -1,8 +1,8 @@
 <template>
-	<header class="rulebook-header ui-panel">
+	<header class="rulebook-header ui-reference-header">
 		<div>
-			<p class="eyebrow">{{ t("ui.rulebook.titleEyebrow") }}</p>
-			<h1>{{ t("ui.rulebook.title") }}</h1>
+			<p class="ui-kicker">{{ t("ui.rulebook.titleEyebrow") }}</p>
+			<h1 class="ui-page-title">{{ t("ui.rulebook.title") }}</h1>
 		</div>
 		<div class="header-meta">
 			<input :value="search" class="search ui-control" type="search" :placeholder="t('ui.rulebook.searchPlaceholder')"
@@ -40,28 +40,6 @@ export default {
 
 <style scoped lang="scss">
 .rulebook-header {
-	display: flex;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 1rem;
-	padding: 1rem 1.2rem;
-	background:
-		linear-gradient(135deg, rgba(242, 193, 78, 0.08), rgba(103, 213, 200, 0.035)),
-		var(--color-panel);
-
-	.eyebrow {
-		margin: 0 0 0.35rem;
-		color: var(--color-cyan);
-		font-size: 0.72rem;
-		font-weight: 900;
-		text-transform: uppercase;
-	}
-
-	h1 {
-		margin: 0;
-		font-size: 2rem;
-	}
-
 	.header-meta {
 		display: flex;
 		align-items: center;
@@ -86,13 +64,4 @@ export default {
 	}
 }
 
-@media (max-width: 620px) {
-	.rulebook-header {
-		padding: 0.8rem 1rem;
-
-		h1 {
-			font-size: 1.5rem;
-		}
-	}
-}
 </style>

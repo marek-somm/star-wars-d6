@@ -5,6 +5,7 @@
 				<button
 					class="view-button ui-button"
 					:class="{ active: data.view === 'sheet' }"
+					:aria-current="data.view === 'sheet' ? 'page' : undefined"
 					type="button"
 					@click="setView('sheet')"
 				>
@@ -13,6 +14,7 @@
 				<button
 					class="view-button ui-button"
 					:class="{ active: data.view === 'wiki' }"
+					:aria-current="data.view === 'wiki' ? 'page' : undefined"
 					type="button"
 					@click="setView('wiki')"
 				>
@@ -21,6 +23,7 @@
 				<button
 					class="view-button ui-button"
 					:class="{ active: data.view === 'rules' }"
+					:aria-current="data.view === 'rules' ? 'page' : undefined"
 					type="button"
 					@click="setView('rules')"
 				>
@@ -30,6 +33,7 @@
 					v-if="showTimeline"
 					class="view-button ui-button"
 					:class="{ active: data.view === 'timeline' }"
+					:aria-current="data.view === 'timeline' ? 'page' : undefined"
 					type="button"
 					@click="setView('timeline')"
 				>
@@ -39,29 +43,17 @@
 			<PowerLanguageToggle class="global-language-toggle" />
 		</nav>
 
-		<template v-if="data.view === 'sheet'">
-			<Dicer />
-			<section class="character-selector ui-panel" :aria-label="t('ui.app.characterSelector.aria')">
-				<div>
-					<p class="selector-eyebrow">{{ t("ui.app.characterSelector.eyebrow") }}</p>
-					<h2>{{ selectedCharacter.name }}</h2>
-				</div>
-				<div class="character-list" role="list">
-					<button
-						class="character-button ui-button"
-						:class="{ active: character.id === data.characterId }"
-						type="button"
-						v-for="character in characters"
-						:key="character.id"
-						@click="selectCharacter(character.id)"
-					>
-						{{ character.name }}
-					</button>
-				</div>
-			</section>
-			<CharacterPdfExport :character="selectedCharacter" :character-name="selectedCharacter.name" />
-			<Navbar :character="selectedCharacter" />
-		</template>
+		<Navbar v-if="data.view === 'sheet'" :character="selectedCharacter">
+			<template #actions>
+				<select v-if="characters.length > 1" class="character-selector ui-control"
+					:aria-label="t('ui.app.characterSelector.aria')" :value="data.characterId"
+					@change="selectCharacter($event.target.value)">
+					<option v-for="character in characters" :key="character.id" :value="character.id">{{ character.name }}</option>
+				</select>
+				<CharacterPdfExport :character="selectedCharacter" :character-name="selectedCharacter.name" />
+			</template>
+			<template #tools><Dicer /></template>
+		</Navbar>
 		<ForceWiki v-else-if="data.view === 'wiki'" />
 		<Rulebook v-else-if="data.view === 'rules'" />
 		<CampaignTimeline v-else-if="showTimeline && data.view === 'timeline'" />
@@ -190,145 +182,79 @@ export default {
 
 .view-switch {
 	display: flex;
-	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	gap: 0.55rem;
-	margin-bottom: 0.95rem;
+	gap: 0.65rem;
+	margin-bottom: 1rem;
+	padding: 0.3rem;
+	border: 1px solid var(--color-border-muted);
+	border-radius: var(--radius-panel);
+	background: var(--surface-panel-raised);
 }
 
 .view-links {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.55rem;
-}
-
-.global-language-toggle {
-	flex: 0 0 auto;
+	gap: 0.22rem;
+	min-width: 0;
 }
 
 .view-button {
 	min-width: 0;
-	padding: 0.45rem 0.9rem;
-	border-color: var(--color-border-muted);
-	background: var(--surface-panel-raised);
+	min-height: 2.42rem;
+	padding: 0.5rem 0.95rem;
+	border-color: transparent;
+	background: transparent;
 	color: var(--color-muted);
-	font-weight: 900;
+	font-size: 0.89rem;
 	white-space: normal;
 
 	&:hover {
-		border-color: var(--color-border-strong);
-		color: var(--color-text);
+		border-color: transparent;
+		background: var(--surface-hover);
 	}
 
 	&.active {
-		border-color: rgba(242, 193, 78, 0.68);
+		border-color: var(--color-border);
 		background: var(--surface-accent);
 		color: var(--color-accent);
 	}
 }
 
 .character-selector {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
-	width: 100%;
-	margin: 0.75rem 0 0;
-	padding: 1rem;
-}
-
-.selector-eyebrow {
-	margin: 0 0 0.25rem;
-	color: var(--color-cyan);
-	font-size: 0.72rem;
-	font-weight: 900;
-	letter-spacing: 0;
-	text-transform: uppercase;
-}
-
-.character-selector h2 {
-	margin: 0;
-	color: var(--color-text);
-	font-size: 1.45rem;
-	line-height: 1.1;
-}
-
-.character-list {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-end;
-	gap: 0.45rem;
-	min-width: min(28rem, 100%);
-}
-
-.character-button {
 	min-width: 0;
-	padding: 0.4rem 0.85rem;
-	border-color: var(--color-border-muted);
-	background: var(--surface-control);
-	color: var(--color-muted);
-
-	&:hover {
-		border-color: var(--color-border-strong);
-		color: var(--color-text);
-	}
-
-	&.active {
-		border-color: rgba(242, 193, 78, 0.64);
-		background: var(--surface-accent);
-		color: var(--color-accent);
-	}
+	max-width: min(100%, 18rem);
+	padding: 0.45rem 0.65rem;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 35rem) {
 	.container {
 		padding: 0.75rem 0.7rem 2rem;
 	}
 
 	.view-switch {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		width: 100%;
+		align-items: start;
+		gap: 0.35rem;
 	}
 
 	.view-links {
+		flex: 1 1 auto;
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
 	.view-button {
-		width: 100%;
-		min-height: 2.65rem;
+		padding: 0.4rem 0.25rem;
+		font-size: 0.83rem;
 	}
 
 	.global-language-toggle {
-		align-self: stretch;
+		min-width: 2.65rem;
 		justify-content: center;
-		width: 4.15rem;
-		min-height: 2.65rem;
 
 		:deep(.language-label) {
 			display: none;
 		}
-	}
-
-	.character-selector {
-		align-items: stretch;
-		flex-direction: column;
-		margin-top: 0.75rem;
-	}
-
-	.character-list {
-		display: grid;
-		grid-template-columns: 1fr;
-		justify-content: stretch;
-		min-width: 0;
-	}
-
-	.character-button {
-		width: 100%;
-		min-height: 2.65rem;
 	}
 }
 </style>

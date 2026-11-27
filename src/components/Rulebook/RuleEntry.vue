@@ -1,9 +1,9 @@
 <template>
-	<article class="rule-entry ui-panel" v-if="rule">
+	<article class="rule-entry ui-panel ui-reading-panel" v-if="rule">
 		<header class="entry-header">
 			<div>
 				<p class="breadcrumb">{{ tocPath }}</p>
-				<h2>{{ rule.title }}</h2>
+				<h2 class="ui-entry-title">{{ rule.title }}</h2>
 				<p class="source-line" v-if="sourceLabel">{{ sourceLabel }}</p>
 			</div>
 			<div class="meta">
@@ -81,26 +81,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.rule-entry {
-	min-width: 0;
-	min-height: max(34rem, calc(100vh - 17rem));
-	padding: 1.35rem;
-}
-
 .entry-header {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
 	gap: 1rem;
-	padding-bottom: 0.9rem;
-	margin-bottom: 0.9rem;
-	border-bottom: 1px solid rgba(244, 239, 229, 0.16);
+	padding-bottom: 1rem;
+	margin-bottom: 1.15rem;
+	border-bottom: 1px solid var(--color-rule);
 
 	.breadcrumb {
 		margin: 0 0 0.45rem;
-		color: var(--color-subtle);
+		color: var(--color-muted);
 		font-size: 0.78rem;
-		font-weight: 800;
+		font-weight: 600;
 	}
 
 	.source-line {
@@ -108,11 +102,6 @@ export default {
 		color: var(--color-subtle);
 		font-size: 0.78rem;
 		font-weight: 700;
-	}
-
-	h2 {
-		margin: 0;
-		font-size: 2rem;
 	}
 
 	.meta {
@@ -137,10 +126,6 @@ export default {
 	.entry-header {
 		flex-direction: column;
 		gap: 0.7rem;
-
-		h2 {
-			font-size: 1.45rem;
-		}
 
 		.meta {
 			justify-content: flex-start;

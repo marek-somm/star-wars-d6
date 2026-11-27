@@ -104,8 +104,8 @@ export default {
 <style lang="scss" scoped>
 .stats--container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-	gap: 1rem;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.85rem;
 	width: 100%;
 
 	.stats {
@@ -113,7 +113,7 @@ export default {
 		flex-direction: column;
 		text-align: left;
 		min-width: 0;
-		padding: 1rem;
+		padding: clamp(0.85rem, 1.6vw, 1.25rem);
 
 		.flex-item {
 			display: flex;
@@ -132,8 +132,9 @@ export default {
 
 		.main {
 			color: var(--color-text);
-			font-size: 1.1rem;
-			font-weight: 900;
+			font-size: 1.2rem;
+			font-weight: 750;
+			letter-spacing: -0.018em;
 		}
 
 		button {
@@ -181,7 +182,11 @@ export default {
 					align-items: center;
 					gap: 0.75rem;
 					min-height: 2.1rem;
-					padding: 0.18rem 0;
+					padding: 0.22rem 0;
+
+					& + .list-item {
+						border-top: 1px solid rgba(244, 239, 229, 0.055);
+					}
 
 					.name {
 						color: var(--color-muted);
@@ -262,6 +267,12 @@ export default {
 	}
 }
 
+@media (max-width: 62rem) {
+	.stats--container {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
 @media (max-width: 560px) {
 	.stats--container {
 		grid-template-columns: 1fr;
@@ -269,12 +280,6 @@ export default {
 
 		.stats {
 			padding: 0.85rem;
-
-			.flex-item {
-				align-items: flex-start;
-				flex-direction: column;
-				gap: 0.45rem;
-			}
 
 			.copy {
 				min-height: 2.35rem;

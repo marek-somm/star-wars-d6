@@ -790,8 +790,6 @@ export default {
 .character-pdf-export {
 	display: flex;
 	justify-content: flex-end;
-	width: 100%;
-	margin: 0.55rem 0 0.75rem;
 }
 
 .export-button {

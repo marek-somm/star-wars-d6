@@ -1,5 +1,5 @@
 <template>
-	<section class="rule-filters ui-panel" :aria-label="t('ui.rulebook.filtersAriaLabel')">
+	<section class="rule-filters" :class="drawer ? 'is-drawer' : 'ui-reference-filters'" :aria-label="t('ui.rulebook.filtersAriaLabel')">
 		<label class="filter-control">
 			<span>{{ t("ui.rulebook.type") }}</span>
 			<select class="ui-control" :value="typeFilter" @change="$emit('update:typeFilter', $event.target.value)">
@@ -18,7 +18,8 @@
 				</option>
 			</select>
 		</label>
-		<button class="clear-filters ui-button" type="button" :disabled="!hasActiveFilters" @click="$emit('clear')">
+		<button v-if="!drawer || hasActiveFilters" class="clear-filters ui-button" type="button"
+			:disabled="!hasActiveFilters" @click="$emit('clear')">
 			{{ t("ui.rulebook.clearFilters") }}
 		</button>
 	</section>
@@ -30,6 +31,7 @@ import { tUi } from "@/utils/uiText";
 export default {
 	name: "RulebookFilters",
 	props: {
+		drawer: Boolean,
 		typeFilter: {
 			type: String,
 			required: true,
@@ -64,7 +66,6 @@ export default {
 	grid-template-columns: repeat(2, minmax(12rem, 1fr)) auto;
 	gap: 0.7rem;
 	align-items: end;
-	padding: 0.85rem 1rem;
 
 	.filter-control {
 		display: flex;
@@ -75,7 +76,8 @@ export default {
 		span {
 			color: var(--color-muted);
 			font-size: 0.72rem;
-			font-weight: 900;
+			font-weight: 700;
+			letter-spacing: 0.05em;
 			text-transform: uppercase;
 		}
 	}
@@ -83,7 +85,7 @@ export default {
 	select,
 	.clear-filters {
 		width: 100%;
-		font-weight: 900;
+		font-weight: 650;
 	}
 
 	select {
@@ -105,9 +107,18 @@ export default {
 	}
 }
 
-@media (max-width: 980px) {
-	.rule-filters {
+@media (width < 981px) {
+	.rule-filters:not(.is-drawer) {
 		display: none;
+	}
+
+	.rule-filters.is-drawer {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.45rem;
+
+		.clear-filters {
+			grid-column: 1 / -1;
+		}
 	}
 }
 </style>

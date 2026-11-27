@@ -112,6 +112,10 @@ export default {
 
 		.nested-blocks {
 			padding: 0 0.85rem 0.85rem;
+
+			> :deep(.text-block) {
+				max-width: none;
+			}
 		}
 	}
 

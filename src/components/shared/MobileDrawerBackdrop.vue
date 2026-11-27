@@ -20,7 +20,7 @@ export default {
 	display: none;
 }
 
-@media (max-width: 980px) {
+@media (width < 981px) {
 	.mobile-drawer-backdrop {
 		position: fixed;
 		inset: 0;

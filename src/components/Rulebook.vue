@@ -1,30 +1,46 @@
 <template>
 	<section class="rulebook">
-		<MobileDrawerToggle :is-open="data.mobileIndexOpen" :current-title="data.currentRule?.title || ''"
-			:fallback-title="t('ui.rulebook.selectRule')" :count-label="`${t('ui.rulebook.browse')} ${filteredRules.length}`" controls="rule-index-panel"
-			@open="openMobileIndex" />
-		<MobileDrawerBackdrop v-if="data.mobileIndexOpen" :aria-label="t('ui.rulebook.closeIndex')" @close="closeMobileIndex" />
+		<div class="ui-panel ui-page-banner">
+			<RulebookHeader :search="data.search" :filtered-count="filteredRules.length" :total-count="allRules.length"
+				@update:search="data.search = $event" />
 
-		<RulebookHeader :search="data.search" :filtered-count="filteredRules.length" :total-count="allRules.length"
-			@update:search="data.search = $event" />
-
-		<RulebookFilters :type-filter="data.typeFilter" :chapter-filter="data.chapterFilter"
-			:available-types="availableTypes" :available-chapters="availableChapters"
-			:has-active-filters="hasActiveFilters" @update:type-filter="data.typeFilter = $event"
-			@update:chapter-filter="data.chapterFilter = $event" @clear="clearFilters" />
-
-		<div class="rulebook-layout">
-			<RuleIndexPanel :rule-tree="ruleTree" :expanded-keys="data.expandedTreeKeys"
-				:current-rule-id="data.currentRule?.id || ''" :filtered-count="filteredRules.length"
-				:search="data.search" :type-filter="data.typeFilter" :chapter-filter="data.chapterFilter"
+			<RulebookFilters :type-filter="data.typeFilter" :chapter-filter="data.chapterFilter"
 				:available-types="availableTypes" :available-chapters="availableChapters"
-				:mobile-index-open="data.mobileIndexOpen" :collapsed="data.indexCollapsed"
-				@close="closeMobileIndex" @toggle="toggleTreeNode" @toggle-collapse="toggleIndexCollapsed"
-				@select="showRuleFromIndex" @update:search="data.search = $event"
-				@update:type-filter="data.typeFilter = $event" @update:chapter-filter="data.chapterFilter = $event" />
-
-			<RuleEntry :rule="data.currentRule" :source-document="sourceDocument" />
+				:has-active-filters="hasActiveFilters" @update:type-filter="data.typeFilter = $event"
+				@update:chapter-filter="data.chapterFilter = $event" @clear="clearFilters" />
 		</div>
+		<ReferenceSidebarLayout
+			panel-id="rule-index-panel"
+			v-model:collapsed="data.indexCollapsed"
+			v-model:drawer-open="data.mobileIndexOpen"
+			:heading="t('ui.rulebook.ruleIndex')"
+			:count="filteredRules.length"
+			:selected-title="data.currentRule?.title"
+			:fallback-title="t('ui.rulebook.selectRule')"
+			:browse-label="`${t('ui.rulebook.browse')} ${filteredRules.length}`"
+			:expand-label="t('ui.rulebook.showIndex')"
+			:collapse-label="t('ui.rulebook.hideIndex')"
+			:close-label="t('ui.rulebook.close')"
+		>
+			<template #drawer-filters>
+				<input v-model.trim="data.search" class="mobile-search ui-control" type="search"
+					:placeholder="t('ui.rulebook.searchPlaceholder')" :aria-label="t('ui.rulebook.searchAriaLabel')">
+				<RulebookFilters drawer :type-filter="data.typeFilter" :chapter-filter="data.chapterFilter"
+					:available-types="availableTypes" :available-chapters="availableChapters"
+					:has-active-filters="hasActiveFilters" @update:type-filter="data.typeFilter = $event"
+					@update:chapter-filter="data.chapterFilter = $event" @clear="clearFilters" />
+			</template>
+			<template #index>
+				<div class="rule-tree" role="tree" :aria-label="t('ui.rulebook.structureAria')">
+					<RuleTreeNode v-for="node in ruleTree" :key="node.key" :node="node"
+						:expanded-keys="data.expandedTreeKeys" :current-rule-id="data.currentRule?.id"
+						@toggle="toggleTreeNode" @select="showRuleFromIndex" />
+				</div>
+				<p v-if="ruleTree.length === 0" class="index-empty">{{ t("ui.rulebook.noRulesFound") }}</p>
+			</template>
+			<RuleEntry v-if="data.currentRule" :rule="data.currentRule" :source-document="sourceDocument" />
+			<div v-else class="rulebook-empty ui-panel ui-reading-panel">{{ t("ui.rulebook.noRulesFound") }}</div>
+		</ReferenceSidebarLayout>
 	</section>
 </template>
 
@@ -32,9 +48,8 @@
 import RuleEntry from "@/components/Rulebook/RuleEntry.vue";
 import RulebookFilters from "@/components/Rulebook/RulebookFilters.vue";
 import RulebookHeader from "@/components/Rulebook/RulebookHeader.vue";
-import RuleIndexPanel from "@/components/Rulebook/RuleIndexPanel.vue";
-import MobileDrawerBackdrop from "@/components/shared/MobileDrawerBackdrop.vue";
-import MobileDrawerToggle from "@/components/shared/MobileDrawerToggle.vue";
+import RuleTreeNode from "@/components/RuleTreeNode.vue";
+import ReferenceSidebarLayout from "@/components/shared/ReferenceSidebarLayout.vue";
 import rulebookData from "@/assets/rules/rulebook.json";
 import { getChildContentBlocks, isRulePageBlock } from "@/utils/rules";
 import { readBoolean, readJson, writeBoolean, writeJson } from "@/utils/storage";
@@ -98,9 +113,8 @@ export default {
 		RuleEntry,
 		RulebookFilters,
 		RulebookHeader,
-		RuleIndexPanel,
-		MobileDrawerBackdrop,
-		MobileDrawerToggle,
+		RuleTreeNode,
+		ReferenceSidebarLayout,
 	},
 	data() {
 		const savedFilters = loadRuleFilters();
@@ -133,10 +147,6 @@ export default {
 	beforeUnmount() {
 		if (typeof window !== "undefined") {
 			window.removeEventListener("hashchange", this.selectRuleFromHash);
-		}
-
-		if (typeof document !== "undefined") {
-			document.body.classList.remove("mobile-drawer-open");
 		}
 	},
 	computed: {
@@ -189,14 +199,6 @@ export default {
 		},
 	},
 	methods: {
-		openMobileIndex() {
-			this.data.mobileIndexOpen = true;
-		},
-
-		closeMobileIndex() {
-			this.data.mobileIndexOpen = false;
-		},
-
 		clearFilters() {
 			this.data.search = defaultRuleFilters.search;
 			this.data.typeFilter = defaultRuleFilters.typeFilter;
@@ -205,7 +207,7 @@ export default {
 
 		showRuleFromIndex(rule) {
 			this.showRule(rule);
-			if (this.data.mobileIndexOpen) this.closeMobileIndex();
+			this.data.mobileIndexOpen = false;
 		},
 
 		toggleTreeNode(key) {
@@ -213,10 +215,6 @@ export default {
 				...this.data.expandedTreeKeys,
 				[key]: !this.data.expandedTreeKeys[key],
 			};
-		},
-
-		toggleIndexCollapsed() {
-			this.data.indexCollapsed = !this.data.indexCollapsed;
 		},
 
 		showRule(rule, updateHash = true) {
@@ -419,11 +417,6 @@ export default {
 			saveRuleFilters(this.data);
 		},
 
-		"data.mobileIndexOpen"(isOpen) {
-			if (typeof document === "undefined") return;
-			document.body.classList.toggle("mobile-drawer-open", isOpen);
-		},
-
 		filteredRules(list) {
 			if (list.length === 0) {
 				this.data.currentRule = null;
@@ -445,26 +438,20 @@ export default {
 	gap: 1rem;
 }
 
-.rulebook-layout {
-	display: grid;
-	grid-template-columns: minmax(17rem, 23rem) minmax(0, 1fr);
-	gap: 1rem;
-	align-items: stretch;
-	transition: grid-template-columns 0.24s ease;
-
-	&:has(.rule-index.collapsed) {
-		grid-template-columns: 2.75rem minmax(0, 1fr);
-	}
+.mobile-search {
+	width: 100%;
+	padding: 0.55rem 0.65rem;
 }
 
+.index-empty {
+	margin: 0.2rem 0 0;
+	color: var(--color-muted);
+}
 
-@media (max-width: 980px) {
-	.rulebook-layout {
-		grid-template-columns: 1fr;
-
-		&:has(.rule-index.collapsed) {
-			grid-template-columns: 1fr;
-		}
-	}
+.rulebook-empty {
+	display: grid;
+	min-height: 10rem;
+	place-items: center;
+	color: var(--color-muted);
 }
 </style>

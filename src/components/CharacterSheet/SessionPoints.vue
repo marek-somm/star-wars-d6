@@ -1,7 +1,7 @@
 <template>
 	<section class="session-points ui-panel" aria-labelledby="session-points-title">
 		<header class="points-header">
-			<h2 id="session-points-title">{{ t("ui.sessionPoints.title") }}</h2>
+			<h2 id="session-points-title" class="ui-entry-title">{{ t("ui.sessionPoints.title") }}</h2>
 			<dl class="points-summary">
 				<div v-if="startingBalance !== null">
 					<dt>{{ t("ui.sessionPoints.startingBalance") }}</dt>
@@ -71,46 +71,42 @@ function dateSortKey(date) {
 }
 
 .points-header {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
+	display: grid;
+	gap: 1.05rem;
 	padding-bottom: 1.25rem;
 	border-bottom: 1px solid var(--color-rule);
-
-	h2 {
-		margin: 0;
-		font-size: clamp(1.45rem, 3vw, 2rem);
-	}
 }
 
 .points-summary {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.55rem;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
 	margin: 0;
+	border: 1px solid var(--color-border-muted);
+	border-radius: var(--radius-panel);
+	background: var(--surface-control);
 
 	div {
-		display: flex;
-		align-items: baseline;
-		gap: 0.55rem;
-		padding: 0.6rem 0.8rem;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-sm);
-		background: var(--surface-accent);
+		display: grid;
+		gap: 0.38rem;
+		padding: 0.75rem 0.9rem;
+		border-left: 1px solid var(--color-rule);
+	}
+
+	div:first-child {
+		border-left: 0;
 	}
 
 	dt {
 		color: var(--color-muted);
-		font-size: 0.85rem;
+		font-size: 0.76rem;
 	}
 
 	dd {
 		margin: 0;
 		color: var(--color-accent);
-		font-size: 1.2rem;
-		font-weight: 900;
+		font-size: clamp(1.25rem, 2.3vw, 1.6rem);
+		font-weight: 760;
+		overflow-wrap: anywhere;
 		font-variant-numeric: tabular-nums;
 	}
 }
@@ -126,7 +122,6 @@ function dateSortKey(date) {
 
 .history-list {
 	display: grid;
-	gap: 0.5rem;
 	margin: 1rem 0 0;
 	padding: 0;
 	list-style: none;
@@ -137,10 +132,8 @@ function dateSortKey(date) {
 	grid-template-columns: minmax(0, 1fr) minmax(5rem, 0.8fr) minmax(4.5rem, auto);
 	align-items: center;
 	gap: 0.55rem 0.75rem;
-	padding: 0.7rem 0.8rem;
-	border: 1px solid var(--color-border-muted);
-	border-radius: var(--radius-sm);
-	background: var(--surface-control);
+	padding: 0.75rem 0.25rem;
+	border-bottom: 1px solid var(--color-rule);
 }
 
 .history-session {
@@ -150,8 +143,9 @@ function dateSortKey(date) {
 	overflow-wrap: anywhere;
 
 	span {
-		color: var(--color-muted);
-		font-size: 0.8rem;
+		color: var(--color-accent);
+		font-size: 0.74rem;
+		font-variant-numeric: tabular-nums;
 	}
 }
 
@@ -177,6 +171,18 @@ function dateSortKey(date) {
 }
 
 @media (max-width: 560px) {
+	.points-summary {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+
+		div:nth-child(odd) {
+			border-left: 0;
+		}
+
+		div:nth-child(n + 3) {
+			border-top: 1px solid var(--color-rule);
+		}
+	}
+
 	.history-row {
 		grid-template-columns: minmax(0, 1fr) auto;
 	}

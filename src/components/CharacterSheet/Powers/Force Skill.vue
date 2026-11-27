@@ -3,8 +3,7 @@
 		<header class="title">
 			<div class="title-top">
 				<div>
-					<p class="eyebrow">{{ t("ui.characterPowers.selectedPower") }}</p>
-					<h1 class="text">{{ skill.name }}</h1>
+					<h2 class="ui-entry-title">{{ skill.name }}</h2>
 				</div>
 				<div class="title-actions">
 					<button class="action-button ui-button" :class="{ active: isFavorite }" type="button"
@@ -163,30 +162,13 @@ export default {
 		margin-bottom: 1.4rem;
 		text-align: left;
 		padding-bottom: 1.25rem;
-		border-bottom: 1px solid rgba(244, 239, 229, 0.16);
+		border-bottom: 1px solid var(--color-rule);
 
 		.title-top {
 			display: flex;
 			align-items: flex-start;
 			justify-content: space-between;
 			gap: 1rem;
-		}
-
-		.eyebrow {
-			margin: 0 0 0.4rem;
-			color: var(--color-cyan);
-			font-size: 0.72rem;
-			font-weight: 800;
-			letter-spacing: 0;
-			text-transform: uppercase;
-		}
-
-		.text {
-			width: 100%;
-			text-align: left;
-			margin: 0;
-			font-size: 2.65rem;
-			line-height: 1.05;
 		}
 
 		.title-actions {
@@ -311,7 +293,7 @@ export default {
 
 	.content {
 		display: grid;
-		grid-template-columns: minmax(0, 0.8fr) minmax(22rem, 1.2fr);
+		grid-template-columns: minmax(0, 1.12fr) minmax(17rem, 0.88fr);
 		gap: clamp(1rem, 3vw, 2rem);
 		width: 100%;
 		align-items: start;
@@ -323,15 +305,15 @@ export default {
 				margin: 0 0 1rem;
 				color: var(--color-text);
 				font-size: 1rem;
-				line-height: 1.6;
-				font-weight: 700;
+				line-height: 1.68;
+				font-weight: 650;
 			}
 		}
 
 		.details {
 			min-width: 0;
 			padding-left: clamp(1rem, 2vw, 1.5rem);
-			border-left: 1px solid rgba(244, 239, 229, 0.16);
+			border-left: 1px solid var(--color-rule);
 			text-align: left;
 		}
 	}
@@ -357,7 +339,7 @@ export default {
 				padding-left: 0;
 				padding-top: 1.25rem;
 				border-left: 0;
-				border-top: 1px solid rgba(244, 239, 229, 0.16);
+				border-top: 1px solid var(--color-rule);
 			}
 		}
 	}
@@ -371,20 +353,13 @@ export default {
 			margin-bottom: 0.95rem;
 			padding-bottom: 0.95rem;
 
-			.text {
-				font-size: 1.8rem;
-				font-weight: 900;
-			}
-
 			.title-actions {
-				display: grid;
-				grid-template-columns: 1fr;
+				display: flex;
 				width: 100%;
 				gap: 0.35rem;
 			}
 
 			.action-button {
-				width: 100%;
 				min-height: 2.65rem;
 				justify-content: center;
 				font-size: 0.9rem;
@@ -425,7 +400,7 @@ export default {
 				padding-left: 0;
 				padding-top: 0.95rem;
 				border-left: 0;
-				border-top: 1px solid rgba(244, 239, 229, 0.16);
+				border-top: 1px solid var(--color-rule);
 			}
 
 		}

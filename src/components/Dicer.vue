@@ -13,7 +13,7 @@
 				min="1"
 				step="1"
 				:aria-label="t('ui.dicer.diceAria')"
-			/>D+
+			/><span class="dice-notation" aria-hidden="true">D+</span>
 			<input
 				class="pips ui-control"
 				id="pips"
@@ -101,15 +101,14 @@ export default {
 	align-items: center;
 	justify-content: space-between;
 	gap: 0.8rem;
-	margin-bottom: 1.25rem;
-	padding: 0.8rem 1rem;
+	padding: 0.65rem 0.9rem;
 	background: rgba(29, 27, 24, 0.72);
 
 	.title {
 		width: auto;
-		font-weight: 900;
-		font-size: 0.9rem;
-		letter-spacing: 0;
+		font-weight: 750;
+		font-size: 0.73rem;
+		letter-spacing: 0.09em;
 		text-transform: uppercase;
 		color: var(--color-cyan);
 	}
@@ -121,6 +120,11 @@ export default {
 		justify-content: flex-end;
 		gap: 0.45rem;
 		color: var(--color-muted);
+
+		.dice-notation {
+			font-size: 0.84rem;
+			font-weight: 700;
+		}
 
 		.dice,
 		.pips {
@@ -189,17 +193,23 @@ export default {
 
 		.generator {
 			align-items: stretch;
-			grid-template-columns: 3.4rem auto 3.4rem;
+			grid-template-columns: 3.15rem max-content 3.15rem minmax(0, 1fr);
 
 			.dice,
 			.pips {
-				width: 3.4rem;
+				width: 100%;
 			}
 
-			.comment,
 			.generate {
+				grid-column: 4;
+				grid-row: 1;
+				min-width: 0;
+				padding-inline: 0.25rem;
+			}
+
+			.comment {
 				grid-column: 1 / -1;
-				width: 100%;
+				grid-row: 2;
 			}
 		}
 	}

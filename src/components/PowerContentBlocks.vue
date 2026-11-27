@@ -288,6 +288,7 @@ export default {
 
 		:deep(p) {
 			margin: 0;
+			max-width: 74ch;
 		}
 
 		:deep(p + p) {

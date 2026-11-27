@@ -1,14 +1,13 @@
 <template>
 	<button
 		class="mobile-drawer-toggle ui-button"
-		:class="{ 'is-nested': nested }"
 		type="button"
 		:aria-expanded="isOpen"
 		:aria-controls="controls"
 		@click="$emit('open')"
 	>
 		<span>{{ currentTitle || fallbackTitle }}</span>
-		<strong>{{ resolvedCountLabel }}</strong>
+		<strong>{{ countLabel }}</strong>
 	</button>
 </template>
 
@@ -28,29 +27,16 @@ export default {
 			type: String,
 			default: "",
 		},
-		count: {
-			type: [Number, String],
-			default: "",
-		},
 		countLabel: {
 			type: String,
-			default: "",
+			required: true,
 		},
 		controls: {
 			type: String,
 			required: true,
 		},
-		nested: {
-			type: Boolean,
-			default: false,
-		},
 	},
 	emits: ["open"],
-	computed: {
-		resolvedCountLabel() {
-			return this.countLabel || String(this.count);
-		},
-	},
 };
 </script>
 
@@ -59,7 +45,7 @@ export default {
 	display: none;
 }
 
-@media (max-width: 980px) {
+@media (width < 981px) {
 	.mobile-drawer-toggle {
 		display: flex;
 		position: sticky;
@@ -72,15 +58,12 @@ export default {
 		min-width: 0;
 		min-height: 3.1rem;
 		padding: 0.65rem 0.8rem;
-		border-color: var(--color-border-strong);
+		border-color: var(--color-border);
+		border-radius: var(--radius-panel);
 		background: var(--color-panel-soft);
 		color: var(--color-text);
-		font-weight: 900;
+		font-weight: 730;
 		text-align: left;
-
-		&.is-nested {
-			top: 0;
-		}
 
 		span {
 			min-width: 0;
@@ -105,10 +88,6 @@ export default {
 	.mobile-drawer-toggle {
 		top: 0.5rem;
 		min-height: 3.3rem;
-
-		&.is-nested {
-			top: 0;
-		}
 	}
 }
 </style>
