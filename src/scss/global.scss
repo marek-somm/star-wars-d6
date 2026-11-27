@@ -85,6 +85,34 @@ a {
 	outline-offset: 3px;
 }
 
+.disclosure-summary {
+	list-style: none;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+
+	> .disclosure-icon {
+		display: inline-block;
+		inline-size: 0.45rem;
+		block-size: 0.55rem;
+		// Keep the rotating corners inside the disclosure's overflow clip.
+		margin-inline: 0.2rem;
+		background: currentColor;
+		clip-path: polygon(0 0, 100% 50%, 0 100%);
+		vertical-align: 0.025em;
+		transform-origin: 40% 50%;
+	}
+}
+
+summary > .disclosure-icon {
+	transform: rotate(0deg);
+}
+
+details[open] > summary > .disclosure-icon {
+	transform: rotate(90deg);
+}
+
 th,
 td {
 	padding: 0 1rem;

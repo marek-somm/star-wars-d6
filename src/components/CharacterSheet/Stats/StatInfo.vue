@@ -43,8 +43,9 @@
 			<RuleContentBlock v-for="(block, index) in descriptionBlocks" :key="getBlockKey(block, index)" :block="block" />
 		</section>
 
-		<details class="more-rules" v-if="additionalBlocks.length">
+		<details class="more-rules" v-if="additionalBlocks.length" v-disclosure-motion>
 			<summary>
+				<span class="disclosure-icon" aria-hidden="true">&gt;</span>
 				<span>{{ t("ui.statInfo.moreRules") }}</span>
 				<strong>{{ additionalBlocks.length }}</strong>
 			</summary>
@@ -344,21 +345,20 @@ export default {
 			display: none;
 		}
 
-		&::before {
-			content: ">";
+		.disclosure-icon {
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
+			flex-shrink: 0;
 			width: 1.3rem;
 			height: 1.3rem;
 			border: 1px solid rgba(242, 193, 78, 0.34);
 			border-radius: var(--radius-sm);
-			margin-right: 0.1rem;
+			margin-inline: 0.33rem 0.1rem;
 			color: var(--color-accent);
-			transition: transform 0.2s ease;
 		}
 
-		span {
+		span:not(.disclosure-icon) {
 			margin-right: auto;
 		}
 
@@ -366,10 +366,6 @@ export default {
 			color: var(--color-cyan);
 			font-size: 0.82rem;
 		}
-	}
-
-	&[open] summary::before {
-		transform: rotate(90deg);
 	}
 
 	.extra-content {

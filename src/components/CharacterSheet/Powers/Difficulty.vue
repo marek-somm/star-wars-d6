@@ -1,6 +1,6 @@
 <template>
 	<div class="difficulty--container">
-		<details class="power" v-for="(group, index) in difficultyGroups" :key="group.key || index" open>
+		<details class="power" v-for="(group, index) in difficultyGroups" :key="group.key || index" v-disclosure-motion open>
 			<summary class="title">
 				<span class="name">{{ getGroupPowerLabel(group.powers) }}</span>
 				<span class="force-rolls" v-if="showForceRolls">
@@ -20,17 +20,11 @@
 						:key="itemIndex">
 						<template v-for="(pill, pillIndex) in getDifficultyPills(item)"
 							:key="`${itemIndex}-${pillIndex}`">
-							<span class="hover-wrap summary-pill">
+							<DetailPopover :content="pill.hover">
 								<span class="summary-badge" :class="{ optional: isOptionalDifficultyItem(item) }">
 									{{ pill.title }}
 								</span>
-								<ul class="hover-tooltip" v-if="normalizeHoverList(pill.hover).length">
-									<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)"
-										:key="hoverIndex">
-										{{ hoverItem }}
-									</li>
-								</ul>
-							</span>
+							</DetailPopover>
 							<span class="summary-plus" v-if="pillIndex < getDifficultyPills(item).length - 1">+</span>
 						</template>
 					</span>
@@ -57,17 +51,11 @@
 							<li class="level-item">
 								<div class="level-pills">
 									<template v-for="(pill, pillIndex) in getDifficultyPills(item)" :key="pillIndex">
-										<div class="level hover-wrap">
+										<DetailPopover class="level" :content="pill.hover">
 											<span class="level-badge"
 												:class="{ optional: isOptionalDifficultyItem(item) }">{{ pill.title
 												}}</span>
-											<ul class="hover-tooltip" v-if="normalizeHoverList(pill.hover).length">
-												<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)"
-													:key="hoverIndex">
-													{{ hoverItem }}
-												</li>
-											</ul>
-										</div>
+										</DetailPopover>
 										<span class="level-plus"
 											v-if="pillIndex < getDifficultyPills(item).length - 1">+</span>
 									</template>
@@ -97,18 +85,11 @@
 									<tr v-for="(row, rowIndex) in table.rows" :key="rowIndex">
 										<td v-for="(column, columnIndex) in table.columns" :key="columnIndex">
 											<template v-if="getConditionalDifficultyCell(table, row, column)">
-												<div class="conditional-difficulty hover-wrap">
+												<DetailPopover :content="getConditionalDifficultyCell(table, row, column).hover">
 													<span class="difficulty-chip">
 														{{ getConditionalDifficultyCell(table, row, column).title }}
 													</span>
-													<ul class="hover-tooltip"
-														v-if="normalizeHoverList(getConditionalDifficultyCell(table, row, column).hover).length">
-														<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(getConditionalDifficultyCell(table, row, column).hover)"
-															:key="hoverIndex">
-															{{ hoverItem }}
-														</li>
-													</ul>
-												</div>
+												</DetailPopover>
 											</template>
 											<template v-else>
 												{{ getConditionalCellValue(table, row, column) }}
@@ -127,15 +108,9 @@
 						<li class="level-item" v-for="(item, index) in group.difficulty.upkeep" :key="index">
 							<div class="level-pills">
 								<template v-for="(pill, pillIndex) in getDifficultyPills(item)" :key="pillIndex">
-									<div class="level hover-wrap">
+									<DetailPopover class="level" :content="pill.hover">
 										<span class="level-badge">{{ pill.title }}</span>
-										<ul class="hover-tooltip" v-if="normalizeHoverList(pill.hover).length">
-											<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(pill.hover)"
-												:key="hoverIndex">
-												{{ hoverItem }}
-											</li>
-										</ul>
-									</div>
+									</DetailPopover>
 									<span class="level-plus"
 										v-if="pillIndex < getDifficultyPills(item).length - 1">+</span>
 								</template>
@@ -157,15 +132,9 @@
 					<h3>{{ t("ui.difficulty.modifiers") }}</h3>
 					<ul class="modifiers--container">
 						<li class="modifiers-item" v-for="(item, index) in group.difficulty.modifiers" :key="index">
-							<div class="level hover-wrap">
+							<DetailPopover class="level" :content="item.hover">
 								<span class="level-badge modifier">{{ item.text }}</span>
-								<ul class="hover-tooltip" v-if="normalizeHoverList(item.hover).length">
-									<li v-for="(hoverItem, hoverIndex) in normalizeHoverList(item.hover)"
-										:key="hoverIndex">
-										{{ hoverItem }}
-									</li>
-								</ul>
-							</div>
+							</DetailPopover>
 						</li>
 					</ul>
 				</section>
@@ -222,11 +191,13 @@
 import { Skill } from '../../../assets/powers';
 import { characters } from "@/assets/characters";
 import { sanitizeHtml } from "@/utils/html";
+import DetailPopover from "@/components/shared/DetailPopover.vue";
 import { defaultPowerLanguage, getForcePowerSkillName, getForcePowerText } from "@/assets/power_data";
 import { copyToClipboard } from "@/utils/clipboard";
 import { formatDiceParts, getRollCommandFromDice } from "@/utils/dice";
 
 export default {
+	components: { DetailPopover },
 	props: {
 		skill: {
 			required: true,
@@ -531,15 +502,6 @@ export default {
 			});
 		},
 
-		normalizeHoverList(hover) {
-			if (Array.isArray(hover)) {
-				return hover.map((entry) => String(entry ?? ""));
-			}
-			if (hover == null) {
-				return [];
-			}
-			return [String(hover)];
-		},
 
 		getExtra() {
 			if (this.skill != null) {
@@ -855,41 +817,6 @@ export default {
 				font-weight: 900;
 			}
 
-			.summary-pill {
-				position: relative;
-				display: inline-flex;
-				align-items: center;
-				cursor: help;
-
-				.hover-tooltip {
-					position: absolute;
-					right: 0;
-					top: calc(100% + 0.3rem);
-					z-index: 6;
-					width: min(22rem, 80vw);
-					margin: 0;
-					padding: 0.5rem 0.7rem;
-					list-style: none;
-					border: 1px solid rgba(244, 239, 229, 0.14);
-					border-radius: var(--radius-sm);
-					background: #151311;
-					color: var(--color-muted);
-					font-size: 0.82rem;
-					line-height: 1.4;
-					box-shadow: var(--shadow-panel);
-					display: none;
-
-					li+li {
-						margin-top: 0.3rem;
-					}
-				}
-
-				&:hover .hover-tooltip,
-				&:focus-within .hover-tooltip {
-					display: block;
-				}
-			}
-
 			.summary-badge {
 				display: inline-flex;
 				align-items: center;
@@ -999,41 +926,6 @@ export default {
 					}
 				}
 
-				.conditional-difficulty {
-					position: relative;
-					display: inline-flex;
-					align-items: center;
-					cursor: help;
-
-					.hover-tooltip {
-						position: absolute;
-						left: 0;
-						top: calc(100% + 0.3rem);
-						z-index: 6;
-						width: min(22rem, 80vw);
-						margin: 0;
-						padding: 0.5rem 0.7rem;
-						list-style: none;
-						border: 1px solid rgba(244, 239, 229, 0.14);
-						border-radius: var(--radius-sm);
-						background: #151311;
-						color: var(--color-muted);
-						font-size: 0.82rem;
-						line-height: 1.4;
-						box-shadow: var(--shadow-panel);
-						display: none;
-
-						li+li {
-							margin-top: 0.3rem;
-						}
-					}
-
-					&:hover .hover-tooltip,
-					&:focus-within .hover-tooltip {
-						display: block;
-					}
-				}
-
 				.difficulty-chip {
 					display: inline-flex;
 					align-items: center;
@@ -1091,43 +983,6 @@ export default {
 					.level-plus {
 						color: var(--color-muted);
 						font-weight: 900;
-					}
-
-					.hover-wrap {
-						position: relative;
-						display: inline-flex;
-						flex-direction: column;
-						align-items: flex-start;
-						gap: 0.25rem;
-						cursor: help;
-
-						.hover-tooltip {
-							position: absolute;
-							left: 0;
-							top: calc(100% + 0.3rem);
-							z-index: 6;
-							width: min(22rem, 80vw);
-							margin: 0;
-							padding: 0.5rem 0.7rem;
-							list-style: none;
-							border: 1px solid rgba(244, 239, 229, 0.14);
-							border-radius: var(--radius-sm);
-							background: #151311;
-							color: var(--color-muted);
-							font-size: 0.82rem;
-							line-height: 1.4;
-							box-shadow: var(--shadow-panel);
-							display: none;
-
-							li+li {
-								margin-top: 0.3rem;
-							}
-						}
-
-						&:hover .hover-tooltip,
-						&:focus-within .hover-tooltip {
-							display: block;
-						}
 					}
 
 					.text {

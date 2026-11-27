@@ -3,10 +3,13 @@
 		<template v-for="(block, index) in blocks" :key="index">
 			<details
 				v-if="block.type === 'example'"
+				v-disclosure-motion
 				class="block example"
 				:class="{ 'with-divider': shouldRenderDivider(index) }"
 			>
-				<summary>{{ t("ui.content.example") }}</summary>
+				<summary class="disclosure-summary">
+					<span class="disclosure-icon" aria-hidden="true"></span>{{ t("ui.content.example") }}
+				</summary>
 				<div class="block-text" v-html="formatBlockHtml(block.text)"></div>
 			</details>
 			<div
@@ -55,7 +58,7 @@
 							<tr v-for="(row, rowIndex) in block.rows" :key="rowIndex">
 								<td v-for="(column, columnIndex) in block.columns" :key="columnIndex">
 									<template v-if="getTableDifficultyCell(block, row, column)">
-										<div class="table-difficulty">
+										<DetailPopover :content="getTableDifficultyCell(block, row, column).hover">
 											<span class="table-difficulty-chip">
 												{{ getTableDifficultyCell(block, row, column).title }}
 											</span>
@@ -64,18 +67,7 @@
 												class="table-difficulty-increase"
 												v-html="sanitizeHtml(getTableDifficultyCell(block, row, column).increase)"
 											></span>
-											<ul
-												class="table-tooltip"
-												v-if="normalizeHoverList(getTableDifficultyCell(block, row, column).hover).length"
-											>
-												<li
-													v-for="(hoverItem, hoverIndex) in normalizeHoverList(getTableDifficultyCell(block, row, column).hover)"
-													:key="hoverIndex"
-												>
-													{{ hoverItem }}
-												</li>
-											</ul>
-										</div>
+										</DetailPopover>
 									</template>
 									<template v-else>
 										<span v-html="sanitizeHtml(getTableCellText(row?.[column]))"></span>
@@ -101,15 +93,16 @@
 
 <script>
 import { sanitizeHtml } from "@/utils/html";
+import DetailPopover from "@/components/shared/DetailPopover.vue";
 import { defaultPowerLanguage, getForcePowerText } from "@/assets/power_data";
 import {
 	formatRichText,
 	getDifficultyMeta,
-	normalizeHoverList,
 	toParagraphHtml,
 } from "@/utils/powerContent";
 
 export default {
+	components: { DetailPopover },
 	props: {
 		blocks: {
 			type: Array,
@@ -123,7 +116,6 @@ export default {
 	methods: {
 		sanitizeHtml,
 		formatRichText,
-		normalizeHoverList,
 
 		t(id, replacements = {}) {
 			return getForcePowerText(this.language, id, replacements);
@@ -350,7 +342,6 @@ export default {
 	}
 
 	.example summary {
-		margin-bottom: 0;
 		color: var(--color-accent);
 		font-size: 0.82rem;
 		font-weight: 800;
@@ -358,8 +349,8 @@ export default {
 		cursor: pointer;
 	}
 
-	.example[open] summary {
-		margin-bottom: 0.55rem;
+	.example .block-text {
+		padding-top: 0.55rem;
 	}
 
 	.table-block {
@@ -441,18 +432,6 @@ export default {
 		color: var(--color-muted);
 	}
 
-	.table-difficulty {
-		position: relative;
-		display: inline-flex;
-		align-items: center;
-		cursor: help;
-
-		&:hover .table-tooltip,
-		&:focus-within .table-tooltip {
-			display: block;
-		}
-	}
-
 	.table-difficulty-chip {
 		display: inline-flex;
 		align-items: center;
@@ -473,29 +452,6 @@ export default {
 		color: var(--color-text);
 		font-weight: 800;
 		line-height: 1.2;
-	}
-
-	.table-tooltip {
-		position: absolute;
-		left: 0;
-		top: calc(100% + 0.3rem);
-		z-index: 6;
-		width: min(22rem, 80vw);
-		margin: 0;
-		padding: 0.5rem 0.7rem;
-		list-style: none;
-		border: 1px solid rgba(244, 239, 229, 0.14);
-		border-radius: var(--radius-sm);
-		background: var(--color-tooltip);
-		color: var(--color-muted);
-		font-size: 0.82rem;
-		line-height: 1.4;
-		box-shadow: var(--shadow-panel);
-		display: none;
-	}
-
-	.table-tooltip li + li {
-		margin-top: 0.3rem;
 	}
 }
 
